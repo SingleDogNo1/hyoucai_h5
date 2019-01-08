@@ -3,32 +3,28 @@ import { Base64 } from 'js-base64'
 import Router from '@/router'
 import Hyoucai from '@/assets/js/hyoucai'
 
-let authorization
-
 function getAuth() {
   let userInfo = Hyoucai.getItem('userInfo')
-  authorization = Hyoucai.getItem('authorization')
-  if (userInfo) {
-    let userName = userInfo.userName
-    let token = userInfo.token
-    let spile = Base64.encode(`${userName}:${token}`)
-    authorization = `DSCJ ${spile}`
-  } else {
-    authorization = null
-  }
-  Hyoucai.setItem('authorization', authorization)
+  if (!userInfo) return null
+  let userName = userInfo.userName
+  let token = userInfo.token
+  let spile = Base64.encode(`${userName}:${token}`)
+  return `DSCJ ${spile}`
 }
 
 const $axios = axios.create({
   baseURL: process.env.VUE_APP_BASE_HYC_API,
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    platform: 'h5',
+    'Content-type': 'application/x-www-form-urlencoded'
+  }
 })
 $axios.interceptors.request.use(
   function(config) {
-    getAuth()
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    config.headers['Authorization'] = authorization
-    config.headers['platform'] = 'h5'
+    if (getAuth()) {
+      config.headers['authorization'] = authorization
+    }
     return config
   },
   function(error) {

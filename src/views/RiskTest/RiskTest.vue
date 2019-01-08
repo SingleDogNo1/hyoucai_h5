@@ -349,7 +349,6 @@ export default {
     },
     getBasicInfo() {
       let data = {
-        authorization: this.authorization,
         userName: this.$route.query.u
       }
       if (this.$route.query.u) {
@@ -357,7 +356,11 @@ export default {
       } else {
         data.userName = Hyoucai.getItem('userInfo').userName
       }
-      userBasicInfo(data).then(res => {
+
+      let headers = {
+        authorization: this.authorization
+      }
+      userBasicInfo(data, headers).then(res => {
         let resp = res.data
         if (resp.resultCode === '1') {
           Hyoucai.setItem('userBasicInfo', res.data.data)
@@ -391,7 +394,20 @@ export default {
       }
     },
     getLimit() {
-      getEvaInvLimitApi().then(res => {
+      let data = {
+        userName: this.$route.query.u
+      }
+      if (this.$route.query.u) {
+        data.userName = this.$route.query.u
+      } else {
+        data.userName = Hyoucai.getItem('userInfo').userName
+      }
+
+      let headers = {
+        authorization: this.authorization
+      }
+
+      getEvaInvLimitApi(data, headers).then(res => {
         let resp = res.data
         if (resp.resultCode === '1') {
           let list = resp.data.list
@@ -504,10 +520,12 @@ export default {
     },
     saveResult() {
       let data = {
-        authorization: this.authorization,
         evaluatingResult: this.resultType
       }
-      saveEvaluatingResultApi(data).then(res => {
+      let headers = {
+        authorization: this.authorization
+      }
+      saveEvaluatingResultApi(data, headers).then(res => {
         let resp = res.data
         if (resp.resultCode === '1') {
           this.preventCircle = false // 保存结果后，置false，结束循环调用

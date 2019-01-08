@@ -1,27 +1,30 @@
 import axios from '@/assets/js/axios'
 import qs from 'qs'
 
-function getEvaInvLimitApi(data) {
+function getEvaInvLimitApi(data, headers) {
   return axios({
     url: 'evaluate/getEvaInvLimit',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: headers
   })
 }
 
-function saveEvaluatingResultApi(data) {
+function saveEvaluatingResultApi(data, headers) {
   return axios({
     url: 'user/saveEvaluatingResult',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: headers
   })
 }
 
-function userBasicInfo(data) {
+function userBasicInfo(data, headers) {
   return axios({
     url: 'UserBasicInfo',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: headers
   })
 }
 

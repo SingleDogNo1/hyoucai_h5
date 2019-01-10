@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Activity from './layout/activity.vue'
+import Layout from './layout/layout.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,17 @@ export default new Router({
           path: 'mateact',
           name: 'mateAct',
           component: () => import('@/views/activities/mateact/mateact')
+        }
+      ]
+    },
+    {
+      path: '/about-us',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'AboutUs',
+          component: () => import('@/views/AboutUs/AboutUs')
         }
       ]
     }

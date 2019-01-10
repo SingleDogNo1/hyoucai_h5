@@ -21,6 +21,11 @@ export default new Router({
       component: () => import('@/views/RiskTest/RiskTest')
     },
     {
+      path: '/act-center',
+      name: 'ActivityCenter',
+      component: () => import('@/views/ActivityCenter/ActivityCenter')
+    },
+    {
       path: '/activity',
       redirect: '/activity/mateact',
       component: Activity,

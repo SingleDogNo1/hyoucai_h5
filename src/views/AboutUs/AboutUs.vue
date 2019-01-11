@@ -384,7 +384,7 @@ export default {
         require('./zz-big08.jpg'),
         require('./zz-big09.jpg'),
         require('./zz-big10.jpg'),
-        require('./zz-big11.jpg')
+        require('./zz-big11.png')
       ]
     }
   },

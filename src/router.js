@@ -47,6 +47,28 @@ export default new Router({
           component: () => import('@/views/AboutUs/AboutUs')
         }
       ]
+    },
+    {
+      path: '/selectMeans', // 严选资产
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'selectMeans',
+          component: () => import('@/views/selectMeans/index')
+        }
+      ]
+    },
+    {
+      path: '/complianceManagement', // 合规管理
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'complianceManagement',
+          component: () => import('@/views/complianceManagement/index')
+        }
+      ]
     }
   ]
 })

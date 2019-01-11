@@ -49,7 +49,29 @@ export default new Router({
       ]
     },
     {
-      path: '/fundSafety',
+      path: '/selectMeans', // 严选资产
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'selectMeans',
+          component: () => import('@/views/selectMeans')
+        }
+      ]
+    },
+    {
+      path: '/complianceManagement', // 合规管理
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'complianceManagement',
+          component: () => import('@/views/complianceManagement/index')
+        }
+      ]
+    },
+    {
+      path: '/fundSafety', // 资产安全
       component: Layout,
       children: [
         {
@@ -60,7 +82,7 @@ export default new Router({
       ]
     },
     {
-      path: '/common_problem',
+      path: '/common_problem', // 常见问题
       component: Layout,
       children: [
         {
@@ -71,7 +93,7 @@ export default new Router({
       ]
     },
     {
-      path: '/agreement',
+      path: '/agreement', // 协议
       component: Layout,
       children: [
         {

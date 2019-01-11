@@ -292,7 +292,7 @@
           </table>
         </div>
         <div>
-          <img src="../../../../hyoucai-h5/src/views/AboutUs/zfbz.png" alt="">
+          <img src="./zfbz.png" alt="">
         </div>
         <!-- 联系我们 -->
         <div class="contact">
@@ -374,17 +374,17 @@ export default {
       ],
       showAllInfo: false, // 是否显示全部基本信息
       honorPics: [
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big01.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big02.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big03.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big04.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big05.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big06.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big07.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big08.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big09.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big10.jpg'),
-        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big11.png')
+        require('./zz-big01.jpg'),
+        require('./zz-big02.jpg'),
+        require('./zz-big03.jpg'),
+        require('./zz-big04.jpg'),
+        require('./zz-big05.jpg'),
+        require('./zz-big06.jpg'),
+        require('./zz-big07.jpg'),
+        require('./zz-big08.jpg'),
+        require('./zz-big09.jpg'),
+        require('./zz-big10.jpg'),
+        require('./zz-big11.jpg')
       ]
     }
   },

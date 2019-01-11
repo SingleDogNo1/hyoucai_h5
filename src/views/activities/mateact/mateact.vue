@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/api/ActivitiesApi/mateact'
 
 export default {
   name: 'mateact',
@@ -52,11 +52,9 @@ export default {
     }
   },
   created() {
-    axios
-      .get('https://api.idjshi.com:8443/wechat/getPageSinature', {
-        params: {
-          url: window.location.href
-        }
+    api
+      .getPageSinatureApi({
+        url: window.location.href
       })
       .then(res => {
         const data = res.data
@@ -116,28 +114,26 @@ export default {
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
-        axios({
-          methods: 'post',
-          url: 'https://api.idjshi.com:8443/activity/getShareInfo',
-          headers: {
-            'Content-Type': 'X-WWW-FORM-URLENCODED'
-          },
-          params: {
-            id: activityId
-          }
-        }).then(res => {
-          if (res.data.resultCode === '1') {
-            const params = {
-              title: res.data.title,
-              content: res.data.description,
-              url: window.location.href,
-              imgUrl: res.data.iconUrl
+        api
+          .getShareInfoApi({
+            id: activityId,
+            headers: {
+              'Content-Type': 'X-WWW-FORM-URLENCODED'
             }
-            var shareInfo = JSON.stringify(params)
-            window.DjsJsBridge.getShareKey(shareInfo)
-            clearInterval(t)
-          }
-        })
+          })
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              const params = {
+                title: res.data.title,
+                content: res.data.description,
+                url: window.location.href,
+                imgUrl: res.data.iconUrl
+              }
+              let shareInfo = JSON.stringify(params)
+              window.DjsJsBridge.getShareKey(shareInfo)
+              clearInterval(t)
+            }
+          })
       }
     }, 400)
   }

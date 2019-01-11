@@ -7,7 +7,7 @@ import Layout from './layout/layout.vue'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -55,7 +55,7 @@ export default new Router({
         {
           path: '',
           name: 'selectMeans',
-          component: () => import('@/views/selectMeans/index')
+          component: () => import('@/views/selectMeans')
         }
       ]
     },
@@ -77,7 +77,7 @@ export default new Router({
         {
           path: '',
           name: 'fundSafety',
-          component: () => import('@/views/fundSafety/index')
+          component: () => import('@/views/FundSafety')
         }
       ]
     },
@@ -88,7 +88,18 @@ export default new Router({
         {
           path: '',
           name: 'commonProblem',
-          component: () => import('@/views/commonProblem/index')
+          component: () => import('@/views/CommonProblem')
+        }
+      ]
+    },
+    {
+      path: '/agreement', // 协议
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'agreement',
+          component: () => import('@/views/Agreements')
         }
       ]
     }

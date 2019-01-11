@@ -47,6 +47,39 @@ export default new Router({
           component: () => import('@/views/AboutUs/AboutUs')
         }
       ]
+    },
+    {
+      path: '/fundSafety',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'fundSafety',
+          component: () => import('@/views/FundSafety')
+        }
+      ]
+    },
+    {
+      path: '/common_problem',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'commonProblem',
+          component: () => import('@/views/CommonProblem')
+        }
+      ]
+    },
+    {
+      path: '/agreement',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'agreement',
+          component: () => import('@/views/Agreements')
+        }
+      ]
     }
   ]
 })

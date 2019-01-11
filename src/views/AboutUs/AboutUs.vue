@@ -1,5 +1,7 @@
 <template>
   <div class="pageContainer" ref="container">
+    <header-title :title="text" :mobileValue="mobile"></header-title>
+    <b-scroll class="scroll" ref="scrollRef">
       <div class="about-us-wrapper">
         <!-- 公司介绍 -->
         <section class="intro">
@@ -31,6 +33,15 @@
             </div>
             <div class="icon"></div>
           </div>
+          <!--<div class="wrapper">-->
+          <!--<div class="icon"></div>-->
+          <!--<div class="content">-->
+          <!--<h2>罗琴</h2>-->
+          <!--<div class="position">首席营销官 CMO</div>-->
+          <!--<p class="text">2003年毕业于英国伦敦（HAMMERSMITH OF WEST LONDON COLLEGE）-->
+          <!--曾任职于建设银行、招商银行，拥有多年银行工作经验，为资深品牌营销专家，于后正式加入汇通金融，凭借着丰富的销售技巧及专业的大客户维护经验，带领销售团队屡创佳绩，在公司树立了整合营销的新标杆。</p>-->
+          <!--</div>-->
+          <!--</div>-->
           <div class="wrapper">
             <div class="icon"></div>
             <div class="content">
@@ -281,7 +292,7 @@
           </table>
         </div>
         <div>
-          <img src="./zfbz.png" alt="">
+          <img src="../../../../hyoucai-h5/src/views/AboutUs/zfbz.png" alt="">
         </div>
         <!-- 联系我们 -->
         <div class="contact">
@@ -310,6 +321,7 @@
         </div>
         <img src="@/assets/imgs/cyw-sign.png" alt="">
       </div>
+    </b-scroll>
     <div class="honor-mask" ref="originImg">
       <div class="swiper-wrapper"></div>
     </div>
@@ -317,12 +329,19 @@
 </template>
 
 <script>
+import HeaderTitle from '@/components/AppHeader'
+import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper/dist/js/swiper'
+
 import Highcharts from 'highcharts'
 import Exporting from 'highcharts/modules/exporting'
 Exporting(Highcharts)
 
 export default {
+  components: {
+    HeaderTitle,
+    BScroll
+  },
   data() {
     return {
       mobile: this.$route.query.mobile,
@@ -355,21 +374,26 @@ export default {
       ],
       showAllInfo: false, // 是否显示全部基本信息
       honorPics: [
-        require('./zz-big01.jpg'),
-        require('./zz-big02.jpg'),
-        require('./zz-big03.jpg'),
-        require('./zz-big04.jpg'),
-        require('./zz-big05.jpg'),
-        require('./zz-big06.jpg'),
-        require('./zz-big07.jpg'),
-        require('./zz-big08.jpg'),
-        require('./zz-big09.jpg'),
-        require('./zz-big10.jpg'),
-        require('./zz-big11.png')
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big01.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big02.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big03.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big04.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big05.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big06.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big07.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big08.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big09.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big10.jpg'),
+        require('../../../../hyoucai-h5/src/views/AboutUs/zz-big11.png')
       ]
     }
   },
   methods: {
+    refresh() {
+      this.$nextTick(() => {
+        this.$refs.scrollRef.refresh()
+      })
+    },
     initChart() {
       const [width, height] = [this.$refs.shareholders.clientWidth, this.$refs.shareholders.clientHeight]
       Highcharts.chart('shareholders', {
@@ -449,6 +473,7 @@ export default {
     },
     showMore() {
       this.showAllInfo = !this.showAllInfo
+      this.refresh()
     },
     fullScreen(index) {
       this.swiperP.virtual.appendSlide(
@@ -465,6 +490,7 @@ export default {
       if (!this.mobile) {
         this.$refs.container.style.top = 0.44 + 'rem'
       }
+      this.refresh()
       this.initChart()
       this.initSwiper()
 
@@ -499,260 +525,271 @@ export default {
 /deep/ .swiper-pagination-bullet-active {
   background: #2b2b2b;
 }
-.about-us-wrapper {
-  .intro {
-    @include cube(100%, 2.77rem);
-    padding: 0.24rem 0.16rem 0.13rem;
-    box-sizing: border-box;
-    margin-top: 0.08rem;
-    @include bg-image('intro');
-    background-size: contain;
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0 auto;
-      background-size: 100% 100%;
-      @include bg-image('com_infro');
-    }
-    .info {
-      margin: 0.15rem 0 0.26rem 0;
-      line-height: 0.21rem;
-      font-size: $font-size-small-s;
-      color: #fff;
-    }
-  }
-  .manager {
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
+
+.pageContainer {
+  height: 100%;
+}
+
+.scroll {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fff;
+  .about-us-wrapper {
+    .intro {
+      @include cube(100%, 2.77rem);
+      padding: 0.24rem 0.16rem 0.13rem;
+      box-sizing: border-box;
+      margin-top: 0.08rem;
+      @include bg-image('intro');
       background-size: contain;
-      @include bg-image('leaderintro');
-    }
-    .wrapper {
-      display: flex;
-      margin-bottom: 0.4rem;
-      .icon {
-        width: 1.45rem;
-        height: 1.83rem;
-        background-size: cover;
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0 auto;
+        background-size: 100% 100%;
+        @include bg-image('com_infro');
       }
-      .content {
-        flex: 1;
-        padding: 0 0.15rem;
+      .info {
+        margin: 0.15rem 0 0.26rem 0;
+        line-height: 0.21rem;
         font-size: $font-size-small-s;
-        color: $color-text;
-        h2 {
-          font-size: $font-size-medium;
-          font-weight: bold;
-        }
-        .position {
-          margin-bottom: 0.16rem;
-          color: $color-text-s;
-        }
-        .text {
-          line-height: 0.2rem;
-        }
-      }
-      $leaders: wangdongdong, linchongqin, fuweiling, chenyuewen;
-      @each $leader in $leaders {
-        $i: index($leaders, $leader);
-        &:nth-last-of-type(#{$i}) {
-          .icon {
-            @include bg-image(#{$leader});
-          }
-        }
+        color: #fff;
       }
     }
-  }
-  .shareholders {
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('holders');
-    }
-    .shareholder-item {
-      width: 100%;
-      height: 2.34rem;
-    }
-  }
-  .organization {
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('organization');
-    }
-    .big {
-      @include radiusCube(2.37rem, 0.45rem);
-      text-align: center;
-      line-height: 0.45rem;
-      border: 1px solid $color-theme;
-      margin: 0.2rem auto;
-      font-size: $font-size-small;
-      color: $color-text;
-    }
-    #struct {
-      padding-bottom: 0.24rem;
-      .swiper-slide {
-        background: #f5f5f5;
-        text-align: center;
-        h1 {
-          $height: 0.45rem;
-          background-image: linear-gradient(-180deg, #fae500 0%, #f4c700 100%);
-          border-radius: 0.08rem 0.08rem 0 0;
-          height: $height;
-          line-height: $height;
-          font-size: 0.15rem;
-          color: $color-text;
-          font-weight: bold;
-        }
-        li {
-          font-size: 0.13rem;
-          margin: 0.1rem 0;
-        }
+    .manager {
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: contain;
+        @include bg-image('leaderintro');
       }
-    }
-  }
-  .basic-info {
-    padding: 0 0.16rem;
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('basicInfo');
-    }
-    li {
-      display: flex;
-      font-size: 0.15rem;
-      color: $color-text;
-      margin: 0.06rem 0;
-      &:last-child {
-        padding-bottom: 0.24rem;
-      }
-      span {
-        flex: 1;
-        color: $color-text-s;
-        line-height: 1.65;
-      }
-    }
-    button {
-      @include cube(0.98rem, 0.34rem);
-      display: block;
-      margin: 0 auto;
-      background: transparent;
-      border: 1px solid $color-theme;
-    }
-  }
-  .great-things {
-    .title {
-      width: 1.16rem;
-      height: 0.27rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('greatThing');
-    }
-    table {
-      font-size: 0.15rem;
-      width: 92%;
-      margin: 0 auto;
-      border: 1px solid $color-background;
-      td {
-        padding: 0.15rem;
-        border: 1px solid $color-background;
-        &:first-child {
-          width: 2.9rem;
+      .wrapper {
+        display: flex;
+        margin-bottom: 0.4rem;
+        .icon {
+          width: 1.45rem;
+          height: 1.83rem;
+          background-size: cover;
         }
-        &:last-child {
-          text-align: center;
-        }
-      }
-    }
-  }
-  .honor {
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('honor');
-    }
-  }
-  .fee_wrapper {
-    padding: 0.24rem 4% 0.28rem;
-    .title {
-      width: 1.36rem;
-      height: 0.27rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('fee');
-    }
-    table {
-      width: 100%;
-      border: 1px solid $color-background;
-      tr {
-        height: 0.34rem;
-        text-align: center;
-        th {
-          font-size: $font-size-small;
-          color: $color-text;
-          border-bottom: 1px solid #eee;
-          &:nth-of-type(2n + 1) {
-            border-right: 1px solid #eee;
-          }
-        }
-        td {
+        .content {
+          flex: 1;
+          padding: 0 0.15rem;
           font-size: $font-size-small-s;
-          color: $color-text-s;
-          border-bottom: 1px solid #eee;
-          &:nth-of-type(2n + 1) {
-            border-right: 1px solid #eee;
+          color: $color-text;
+          h2 {
+            font-size: $font-size-medium;
+            font-weight: bold;
+          }
+          .position {
+            margin-bottom: 0.16rem;
+            color: $color-text-s;
+          }
+          .text {
+            line-height: 0.2rem;
           }
         }
-        &:nth-last-of-type(1) {
-          td {
-            border-bottom: none;
+        $leaders: wangdongdong, linchongqin, fuweiling, chenyuewen;
+        @each $leader in $leaders {
+          $i: index($leaders, $leader);
+          &:nth-last-of-type(#{$i}) {
+            .icon {
+              @include bg-image(#{$leader});
+            }
           }
         }
       }
     }
-  }
-  .contact {
-    padding-bottom: 0.2rem;
-    .title {
-      width: 0.8rem;
-      height: 0.28rem;
-      margin: 0.24rem auto 0.15rem;
-      background-size: 100% 100%;
-      @include bg-image('concat');
+    .shareholders {
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('holders');
+      }
+      .shareholder-item {
+        width: 100%;
+        height: 2.34rem;
+      }
     }
-    .map {
-      @include cube(100%, 1.76rem);
-      @include bg-image('map');
-      background-size: contain;
-      margin-bottom: 0.06rem;
-    }
-    div {
-      display: flex;
-      font-size: 0.15rem;
-      padding: 0 4%;
-      margin: 0.1rem 0;
-      p {
+    .organization {
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('organization');
+      }
+      .big {
+        @include radiusCube(2.37rem, 0.45rem);
+        text-align: center;
+        line-height: 0.45rem;
+        border: 1px solid $color-theme;
+        margin: 0.2rem auto;
+        font-size: $font-size-small;
         color: $color-text;
       }
-      span {
-        flex: 1;
-        color: $color-text-s;
+      #struct {
+        padding-bottom: 0.24rem;
+        .swiper-slide {
+          background: #f5f5f5;
+          text-align: center;
+          h1 {
+            $height: 0.45rem;
+            background-image: linear-gradient(-180deg, #fae500 0%, #f4c700 100%);
+            border-radius: 0.08rem 0.08rem 0 0;
+            height: $height;
+            line-height: $height;
+            font-size: 0.15rem;
+            color: $color-text;
+            font-weight: bold;
+          }
+          li {
+            font-size: 0.13rem;
+            margin: 0.1rem 0;
+          }
+        }
       }
     }
-    > p {
-      font-size: 0.13rem;
-      text-align: center;
-      color: $color-text-s;
+    .basic-info {
+      padding: 0 0.16rem;
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('basicInfo');
+      }
+      li {
+        display: flex;
+        font-size: 0.15rem;
+        color: $color-text;
+        margin: 0.06rem 0;
+        &:last-child {
+          padding-bottom: 0.24rem;
+        }
+        span {
+          flex: 1;
+          color: $color-text-s;
+          line-height: 1.65;
+        }
+      }
+      button {
+        @include cube(0.98rem, 0.34rem);
+        display: block;
+        margin: 0 auto;
+        background: transparent;
+        border: 1px solid $color-theme;
+      }
+    }
+    .great-things {
+      .title {
+        width: 1.16rem;
+        height: 0.27rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('greatThing');
+      }
+      table {
+        font-size: 0.15rem;
+        width: 92%;
+        margin: 0 auto;
+        border: 1px solid $color-background;
+        td {
+          padding: 0.15rem;
+          border: 1px solid $color-background;
+          &:first-child {
+            width: 2.9rem;
+          }
+          &:last-child {
+            text-align: center;
+          }
+        }
+      }
+    }
+    .honor {
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('honor');
+      }
+    }
+    .fee_wrapper {
+      padding: 0.24rem 4% 0.28rem;
+      .title {
+        width: 1.36rem;
+        height: 0.27rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('fee');
+      }
+      table {
+        width: 100%;
+        border: 1px solid $color-background;
+        tr {
+          height: 0.34rem;
+          text-align: center;
+          th {
+            font-size: $font-size-small;
+            color: $color-text;
+            border-bottom: 1px solid #eee;
+            &:nth-of-type(2n + 1) {
+              border-right: 1px solid #eee;
+            }
+          }
+          td {
+            font-size: $font-size-small-s;
+            color: $color-text-s;
+            border-bottom: 1px solid #eee;
+            &:nth-of-type(2n + 1) {
+              border-right: 1px solid #eee;
+            }
+          }
+          &:nth-last-of-type(1) {
+            td {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+    }
+    .contact {
+      padding-bottom: 0.2rem;
+      .title {
+        width: 0.8rem;
+        height: 0.28rem;
+        margin: 0.24rem auto 0.15rem;
+        background-size: 100% 100%;
+        @include bg-image('concat');
+      }
+      .map {
+        @include cube(100%, 1.76rem);
+        @include bg-image('map');
+        background-size: contain;
+        margin-bottom: 0.06rem;
+      }
+      div {
+        display: flex;
+        font-size: 0.15rem;
+        padding: 0 4%;
+        margin: 0.1rem 0;
+        p {
+          color: $color-text;
+        }
+        span {
+          flex: 1;
+          color: $color-text-s;
+        }
+      }
+      > p {
+        font-size: 0.13rem;
+        text-align: center;
+        color: $color-text-s;
+      }
     }
   }
 }

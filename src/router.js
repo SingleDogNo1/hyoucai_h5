@@ -69,6 +69,28 @@ export default new Router({
           component: () => import('@/views/complianceManagement/index')
         }
       ]
+    },
+    {
+      path: '/fundSafety', // 资产安全
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'fundSafety',
+          component: () => import('@/views/fundSafety/index')
+        }
+      ]
+    },
+    {
+      path: '/common_problem', // 常见问题
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'commonProblem',
+          component: () => import('@/views/commonProblem/index')
+        }
+      ]
     }
   ]
 })

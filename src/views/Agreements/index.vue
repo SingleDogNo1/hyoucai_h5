@@ -2500,7 +2500,6 @@ export default {
 @import '../../assets/css/mixins.scss';
 
 .pageContainer {
-  height: 100%;
   font-size: 0;
   .scroll {
     width: 100%;

@@ -37,9 +37,14 @@ export default {
     }
   },
   created() {
+    let headers = {}
+    if (this.$route.query.t) {
+      headers[authorization] = this.$route.query.t
+    }
     getHotApi({
       curPage: 1,
-      maxLine: 10
+      maxLine: 10,
+      headers: headers
     }).then(res => {
       this.actList = res.data.list
     })

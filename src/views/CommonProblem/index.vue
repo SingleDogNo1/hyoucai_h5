@@ -165,7 +165,6 @@ export default {
 }
 .pageContainer {
   background-color: $color-background;
-  height: 100%;
   .wrapper {
     height: 100%;
     box-sizing: border-box;

@@ -52,64 +52,64 @@ export default {
     }
   },
   created() {
-    api
-      .getPageSinatureApi({
-        url: window.location.href
-      })
-      .then(res => {
-        const data = res.data
-        wx.config({
-          debug: false,
-          appId: data.appid,
-          timestamp: data.timestamp,
-          nonceStr: data.noncestr,
-          signature: data.signature,
-          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
-        })
-        wx.ready(() => {
-          wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '元旦抢先"机" 开心迎新年',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '元旦抢先"机" 开心迎新年',
-            desc: '开心迎新年 Mate20&iPhone免费拿',
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '元旦抢先"机" 开心迎新年',
-            desc: '开心迎新年 Mate20&iPhone免费拿',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '元旦抢先"机" 开心迎新年',
-            desc: '开心迎新年 Mate20&iPhone免费拿',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '元旦抢先"机" 开心迎新年',
-            desc: '开心迎新年 Mate20&iPhone免费拿',
-            success: function() {},
-            cancel: function() {}
-          })
-        })
-      })
+    // api
+    //   .getPageSinatureApi({
+    //     url: window.location.href
+    //   })
+    //   .then(res => {
+    //     const data = res.data
+    //     wx.config({
+    //       debug: false,
+    //       appId: data.appid,
+    //       timestamp: data.timestamp,
+    //       nonceStr: data.noncestr,
+    //       signature: data.signature,
+    //       jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+    //     })
+    //     wx.ready(() => {
+    //       wx.onMenuShareTimeline({
+    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '元旦抢先"机" 开心迎新年',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareAppMessage({
+    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '元旦抢先"机" 开心迎新年',
+    //         desc: '开心迎新年 Mate20&iPhone免费拿',
+    //         type: '',
+    //         dataUrl: '',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQQ({
+    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '元旦抢先"机" 开心迎新年',
+    //         desc: '开心迎新年 Mate20&iPhone免费拿',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareWeibo({
+    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '元旦抢先"机" 开心迎新年',
+    //         desc: '开心迎新年 Mate20&iPhone免费拿',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQZone({
+    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '元旦抢先"机" 开心迎新年',
+    //         desc: '开心迎新年 Mate20&iPhone免费拿',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //     })
+    //   })
 
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {

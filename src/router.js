@@ -7,7 +7,6 @@ import Layout from './layout/layout.vue'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
@@ -16,12 +15,12 @@ export default new Router({
       component: Home
     },
     {
-      path: '/risk-test',
+      path: '/risk-test', // 风险测评
       name: 'riskTest',
       component: () => import('@/views/RiskTest/RiskTest')
     },
     {
-      path: '/act-center',
+      path: '/act-center', // 活动列表
       name: 'ActivityCenter',
       component: () => import('@/views/ActivityCenter/ActivityCenter')
     },
@@ -38,7 +37,7 @@ export default new Router({
       ]
     },
     {
-      path: '/about-us',
+      path: '/about-us', // 关于我们
       component: Layout,
       children: [
         {
@@ -100,6 +99,71 @@ export default new Router({
           path: '',
           name: 'agreement',
           component: () => import('@/views/Agreements')
+        }
+      ]
+    },
+    {
+      path: '/introduction',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'introduction',
+          component: () => import('@/views/introduction')
+        },
+        {
+          path: 'coupon',
+          name: 'introduceCoupon',
+          component: () => import('@/views/introduction/coupon')
+        },
+        {
+          path: 'netLoan',
+          name: 'introduceNetLoan',
+          component: () => import('@/views/introduction/netLoan')
+        }
+      ]
+    },
+    {
+      path: '/support_banks',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'supportBanks',
+          component: () => import('@/views/SupportBank')
+        }
+      ]
+    },
+    {
+      path: '/archival',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'ArchivalInfo',
+          component: () => import('@/views/ArchivalInfo')
+        }
+      ]
+    },
+    {
+      path: '/info_disclose',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'InfoDisclose',
+          component: () => import('@/views/InfoDisclose')
+        }
+      ]
+    },
+    {
+      path: '/newer_direction',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'NewerDirection',
+          component: () => import('@/views/NewerDirection')
         }
       ]
     }

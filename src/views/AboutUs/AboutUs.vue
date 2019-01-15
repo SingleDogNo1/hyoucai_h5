@@ -526,10 +526,6 @@ export default {
   background: #2b2b2b;
 }
 
-.pageContainer {
-  height: 100%;
-}
-
 .scroll {
   width: 100%;
   height: 100%;

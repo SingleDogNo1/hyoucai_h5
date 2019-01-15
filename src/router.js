@@ -177,6 +177,17 @@ export default new Router({
           component: () => import('@/views/Help')
         }
       ]
+    },
+    {
+      path: '/certificate',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'certificate',
+          component: () => import('@/views/certificate')
+        }
+      ]
     }
   ]
 })

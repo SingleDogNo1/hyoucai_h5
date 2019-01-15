@@ -113,10 +113,7 @@ export default {
 
     api
       .getShareInfoApi({
-        id: 2,
-        headers: {
-          'Content-Type': 'X-WWW-FORM-URLENCODED'
-        }
+        id: 2
       })
       .then(res => {
         if (res.data.resultCode === '1') {
@@ -137,10 +134,7 @@ export default {
       if (window.DjsJsBridge && activityId) {
         api
           .getShareInfoApi({
-            id: activityId,
-            headers: {
-              'Content-Type': 'X-WWW-FORM-URLENCODED'
-            }
+            id: activityId
           })
           .then(res => {
             if (res.data.resultCode === '1') {

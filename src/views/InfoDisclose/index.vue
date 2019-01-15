@@ -981,8 +981,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-@import '../../../../Hyoucai_h5/src/assets/css/const';
-@import '../../../../Hyoucai_h5/src/assets/css/mixin';
+@import '../../assets/css/mixins';
+@import '../../assets/css/theme';
 
 .pageContainer {
   .scroll {

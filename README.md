@@ -22,3 +22,4 @@
 | 运营数据 | info_disclose |
 | 关于我们 | about-us |
 | 新手出借指南 | newer_direction |
+| 帮助中心 | help |

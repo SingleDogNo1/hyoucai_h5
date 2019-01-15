@@ -108,7 +108,7 @@
                 </dl>
               </div>
               <div class="right">
-                <img class="longTap" width="100%" height="100%" src="qr_code@3x.png" alt="">
+                <img class="longTap" width="100%" height="100%" src="./qr_code@3x.png" alt="">
               </div>
             </div>
             <p>若您在使用汇有财APP的过程中有任何建议，可以关注汇有财微信公众号（微信搜索huiyoucaidyh)告知我们。汇有财团队将会不断完善产品为您带来更好的服务！</p>
@@ -124,7 +124,7 @@ import { Toast } from 'mint-ui'
 import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper/dist/js/swiper'
-import api from '@/api/help'
+import { serviceTelApi } from '@/api/help'
 
 export default {
   components: {
@@ -142,7 +142,7 @@ export default {
   watch: {},
   methods: {
     getServiceTel() {
-      api.serviceTelApi({ type: '1' }).then(res => {
+      serviceTelApi({ type: '1' }).then(res => {
         let data = res.data
         let resultCode = data.resultCode
         let resultMsg = data.resultMsg
@@ -291,6 +291,7 @@ export default {
         dt {
           width: 0.95rem;
           height: 0.95rem;
+          box-sizing: border-box;
           padding-top: 0.2rem;
           margin: 0 auto;
           border: 1px solid #f4c700;
@@ -401,7 +402,7 @@ export default {
         dl {
           display: flex;
           line-height: 0.2rem;
-          font-size: $font-size-small;
+          font-size: $font-size-small-s;
           dt {
             width: 0.76rem;
             color: $color-text;

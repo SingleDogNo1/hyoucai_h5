@@ -166,6 +166,17 @@ export default new Router({
           component: () => import('@/views/NewerDirection')
         }
       ]
+    },
+    {
+      path: '/help',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'Help',
+          component: () => import('@/views/Help')
+        }
+      ]
     }
   ]
 })

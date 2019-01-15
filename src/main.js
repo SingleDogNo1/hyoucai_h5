@@ -5,6 +5,7 @@ import store from './store'
 
 import Mint from 'mint-ui'
 import 'mint-ui/lib/style.css'
+import '@/assets/css/hyc-mint.scss'
 
 import 'swiper/dist/css/swiper.css'
 import '@/assets/css/reset.css'

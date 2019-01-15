@@ -1,30 +1,36 @@
 import axios from '@/assets/js/axios'
 import qs from 'qs'
 
-function QueryQATypeApi(data, headers) {
+function QueryQATypeApi(data) {
   return axios({
     url: 'QueryQAType',
     method: 'post',
     data: qs.stringify(data),
-    headers: headers
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
   })
 }
 
-function serviceTelApi(data, headers) {
+function serviceTelApi(data) {
   return axios({
     url: 'extendApi/queryExtend',
     method: 'post',
     data: qs.stringify(data),
-    headers: headers
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
   })
 }
 
-function QueryQuestionAnswerApi(data, headers) {
+function QueryQuestionAnswerApi(data) {
   return axios({
     url: 'QueryQuestionAnswer',
     method: 'post',
     data: qs.stringify(data),
-    headers: headers
+    headers: {
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
   })
 }
 

@@ -111,6 +111,27 @@ export default {
     //     })
     //   })
 
+    api
+      .getShareInfoApi({
+        id: 2,
+        headers: {
+          'Content-Type': 'X-WWW-FORM-URLENCODED'
+        }
+      })
+      .then(res => {
+        if (res.data.resultCode === '1') {
+          const params = {
+            title: res.data.title,
+            content: res.data.description,
+            url: window.location.href,
+            imgUrl: res.data.iconUrl
+          }
+          let shareInfo = JSON.stringify(params)
+          window.DjsJsBridge.getShareKey(shareInfo)
+          clearInterval(t)
+        }
+      })
+
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {

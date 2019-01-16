@@ -5,7 +5,10 @@ function getHotApi(data) {
   return axios({
     url: 'activity/getHot',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 

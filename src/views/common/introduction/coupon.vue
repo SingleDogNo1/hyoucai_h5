@@ -3,7 +3,7 @@
     <BScroll class="scroll" ref="scrollRef">
       <div class="main">
         <h5><span class="title-1">优惠券有哪些</span></h5>
-        <p class="tips">点金石提供了加息券、体验金、现金红包、抵扣红包、投资红包五种类型的优惠券，各自功用如下：</p>
+        <p class="tips">汇有财提供了加息券、体验金、现金红包、抵扣红包、投资红包五种类型的优惠券，各自功用如下：</p>
         <div class="coupons">
           <div class="coupon">
             <div class="couponImg img-0"></div>
@@ -41,7 +41,7 @@
           </div>
           <div class="channel">
             <h6><i class="other"></i><span>其他优惠活动</span></h6>
-            <p>点金石将不定期推出优惠活动，客户可以参加活动获取优惠券</p>
+            <p>汇有财将不定期推出优惠活动，客户可以参加活动获取优惠券</p>
           </div>
         </div>
       </div>

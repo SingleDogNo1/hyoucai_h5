@@ -178,7 +178,7 @@ export default new Router({
         }
       ]
     },
-    // 点金石
+    // 汇有财
     {
       path: '/d',
       component: Layout,

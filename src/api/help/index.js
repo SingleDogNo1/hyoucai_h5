@@ -1,4 +1,4 @@
-import axios from '@/assets/js/axios'
+import axios from '@/assets/js/requestHYC'
 import qs from 'qs'
 
 function QueryQATypeApi(data) {

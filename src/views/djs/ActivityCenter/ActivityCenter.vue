@@ -1,6 +1,9 @@
 <template>
   <div class="activity pageContainer" ref="container">
-      <div class="activity-wrapper" v-if="actList.length > 0">
+    <BScroll
+      v-if="actList.length > 0"
+    >
+      <div class="activity-wrapper">
         <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
           <img :src="item.picUrl" alt="">
           <p>
@@ -8,6 +11,8 @@
           </p>
         </section>
       </div>
+    </BScroll>
+
     <NoData
       v-else
       class="no-data"
@@ -18,12 +23,14 @@
 
 <script>
 import NoData from '@/components/NoData/NoData'
+import BScroll from '@/components/BScroll/BScroll'
 import { getHotApi } from '@/api/djs/ActCenter/ActCenter'
 
 export default {
   name: 'index',
   components: {
-    NoData
+    NoData,
+    BScroll
   },
   data() {
     return {
@@ -53,6 +60,11 @@ export default {
 
 .pageContainer {
   background: #eee;
+}
+
+.my-scroll {
+  height: 100%;
+  overflow: hidden;
 }
 
 .activity-wrapper {

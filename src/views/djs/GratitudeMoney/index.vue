@@ -62,17 +62,32 @@ export default {
   },
   methods: {
     getRecommender() {
-      api.getRecommenderApi().then(res => {
-        let data = res.data
-        let resultCode = data.resultCode
-        let resultMsg = data.resultMsg
-        if (resultCode === CODE_OK) {
-          this.referers = data.data.list
-          this.refresh()
-        } else {
-          Toast(resultMsg)
-        }
-      })
+      let headers = {
+        version: '2.0'
+      }
+      let userName = ''
+      if (this.$route.query.t) {
+        headers.authorization = decodeURIComponent(this.$route.query.t)
+        userName = this.$route.query.u
+      }
+      api
+        .getRecommenderApi(
+          {
+            userName: userName
+          },
+          headers
+        )
+        .then(res => {
+          let data = res.data
+          let resultCode = data.resultCode
+          let resultMsg = data.resultMsg
+          if (resultCode === CODE_OK) {
+            this.referers = data.data.list
+            this.refresh()
+          } else {
+            Toast(resultMsg)
+          }
+        })
     },
     refresh() {
       if (this.referers.length) {

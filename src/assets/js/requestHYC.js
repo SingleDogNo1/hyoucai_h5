@@ -16,7 +16,7 @@ const $axios = axios.create({
   baseURL: process.env.VUE_APP_BASE_HYC_API,
   timeout: 5000,
   headers: {
-    platform: 'h5',
+    platform: 'pc',
     'Content-type': 'application/x-www-form-urlencoded'
   }
 })

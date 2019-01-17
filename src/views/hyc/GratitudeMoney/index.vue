@@ -63,7 +63,7 @@ export default {
   methods: {
     getRecommender() {
       let headers = {
-        version: '2.0'
+        version: '1.0'
       }
       let userName = ''
       if (this.$route.query.t) {
@@ -73,7 +73,9 @@ export default {
       api
         .getRecommenderApi(
           {
-            userName: userName
+            userName: userName,
+            curPage: 1,
+            maxLine: 10
           },
           headers
         )

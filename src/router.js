@@ -288,6 +288,17 @@ export default new Router({
               component: () => import('@/views/hyc/GratitudeMoney')
             }
           ]
+        },
+        {
+          path: 'transfer_charge',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'HYCTransferCharge',
+              component: () => import('@/views/hyc/TransferCharge')
+            }
+          ]
         }
       ]
     }

@@ -221,7 +221,7 @@
 <script>
 import { Navbar, tabItem, Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import { QueryQATypeApi, serviceTelApi, QueryQuestionAnswerApi } from '@/api/help'
+import { QueryQATypeApi, serviceTelApi, QueryQuestionAnswerApi } from '@/api/hyc/help'
 
 const CODE_OK = '1'
 export default {
@@ -282,7 +282,7 @@ export default {
         this.$refs.questionWrapper.style.top = 0
         this.$refs.mtTabContainer.style.top = 0
       } else {
-        this.$refs.questionWrapper.style.top = 1.34 + 'rem'
+        this.$refs.questionWrapper.style.top = 1.77 + 'rem'
         this.$refs.mtTabContainer.style.top = 1.07 + 'rem'
       }
       this.getQuestions(code)
@@ -432,6 +432,7 @@ export default {
 }
 
 .pageContainer {
+  padding-top: 0.44rem;
 }
 
 .mint-navbar {
@@ -547,7 +548,6 @@ mt-tab-container-wrapper {
   background-image: url('service@3x.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
-  /*@include border-bottom-1px(#eee);*/
   .left {
     flex: 1;
     line-height: 0.2rem;
@@ -572,7 +572,7 @@ mt-tab-container-wrapper {
 
 .question_wrapper {
   position: absolute;
-  top: 1.33rem;
+  top: 1.77rem;
   bottom: 0;
   left: 0;
   right: 0;

@@ -333,7 +333,7 @@ import Highcharts from 'highcharts'
 import Exporting from 'highcharts/modules/exporting'
 Exporting(Highcharts)
 
-import { getInfoApi } from '@/api/infoDisclise'
+import { getInfoApi } from '@/api/common/infoDisclise'
 
 export default {
   components: {

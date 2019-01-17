@@ -155,17 +155,7 @@ export default new Router({
       ]
     },
     // 帮助中心(共用)
-    {
-      path: '/help',
-      component: Layout,
-      children: [
-        {
-          path: '',
-          name: 'Help',
-          component: () => import('@/views/common/Help')
-        }
-      ]
-    },
+
     // 证书(共用)
     {
       path: '/certificate',
@@ -178,7 +168,7 @@ export default new Router({
         }
       ]
     },
-    // 汇有财
+    // 点金石
     {
       path: '/d',
       component: Layout,
@@ -189,7 +179,7 @@ export default new Router({
           children: [
             {
               path: '',
-              name: 'ActivityCenter',
+              name: 'DJSActivityCenter',
               component: () => import('@/views/djs/ActivityCenter/ActivityCenter')
             }
           ]
@@ -201,7 +191,7 @@ export default new Router({
             // mate手机乐
             {
               path: 'mateact',
-              name: 'mateAct',
+              name: 'DJSmateAct',
               component: () => import('@/views/djs/activities/mateact/mateact')
             }
           ]
@@ -212,8 +202,30 @@ export default new Router({
           children: [
             {
               path: '',
-              name: 'agreement',
+              name: 'DJSagreement',
               component: () => import('@/views/djs/Agreements')
+            }
+          ]
+        },
+        {
+          path: 'help',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'DJSHelp',
+              component: () => import('@/views/djs/Help')
+            }
+          ]
+        },
+        {
+          path: 'gratitude_money',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'DJSGratitudeMoney',
+              component: () => import('@/views/djs/GratitudeMoney')
             }
           ]
         }
@@ -224,11 +236,13 @@ export default new Router({
       path: '/h',
       component: Layout,
       children: [
+        // 活动列表
         {
           path: 'act-center',
-          name: 'ActivityCenter',
+          name: 'HYCActivityCenter',
           component: () => import('@/views/hyc/ActivityCenter/ActivityCenter')
         },
+        // 活动详情
         {
           path: 'activity',
           component: Activity,
@@ -236,56 +250,46 @@ export default new Router({
             // mate手机乐
             {
               path: 'mateact',
-              name: 'mateAct',
+              name: 'HYCmateAct',
               component: () => import('@/views/hyc/activities/mateact/mateact')
             }
           ]
         },
+        // 协议
         {
           path: 'agreement',
           component: Layout,
           children: [
             {
               path: '',
-              name: 'agreement',
+              name: 'HYCagreement',
               component: () => import('@/views/hyc/Agreements')
+            }
+          ]
+        },
+        {
+          path: 'help',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'Help',
+              component: () => import('@/views/hyc/Help')
+            }
+          ]
+        },
+        {
+          path: 'gratitude_money',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'HYCGratitudeMoney',
+              component: () => import('@/views/hyc/GratitudeMoney')
             }
           ]
         }
       ]
     }
-
-    /* // 活动列表
-    {
-      path: '/act-center',
-      name: 'ActivityCenter',
-      component: () => import('@/views/ActivityCenter/ActivityCenter')
-    },
-    // 活动详情
-    {
-      path: '/activity',
-      redirect: '/activity/mateact',
-      component: Activity,
-      children: [
-        // mate手机乐
-        {
-          path: 'mateact',
-          name: 'mateAct',
-          component: () => import('@/views/activities/mateact/mateact')
-        }
-      ]
-    },
-    // 协议
-    {
-      path: '/agreement',
-      component: Layout,
-      children: [
-        {
-          path: '',
-          name: 'agreement',
-          component: () => import('@/views/Agreements')
-        }
-      ]
-    }*/
   ]
 })

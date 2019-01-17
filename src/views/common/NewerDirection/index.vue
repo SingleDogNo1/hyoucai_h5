@@ -124,7 +124,7 @@ import { Toast } from 'mint-ui'
 import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper/dist/js/swiper'
-import { serviceTelApi } from '@/api/help'
+import { serviceTelApi } from '@/api/common/help'
 
 export default {
   components: {

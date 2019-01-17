@@ -36,7 +36,7 @@
 import { Toast } from 'mint-ui'
 import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
-import { supportBankListApi } from '@/api/support_bank'
+import { supportBankListApi } from '@/api/common/support_bank'
 
 const CODE_OK = '1'
 export default {

@@ -1531,7 +1531,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import HeaderTitle from '@/components/AppHeader'
-// import { getProtocolTemplateIdApi, getTrilateralParamsApi } from '@/api/hyc/agreement'
+import { getProtocolTemplateIdApi, getTrilateralParamsApi } from '@/api/hyc/agreement'
 
 export default {
   components: {
@@ -1570,18 +1570,18 @@ export default {
   },
   methods: {},
   created() {
-    // const $this = this
-    // ;(async function init() {
-    //   await getProtocolTemplateIdApi().then(res => {
-    //     $this.protocolTemplateId = res.data.data.protocolTemplateId
-    //   })
-    //   await getTrilateralParamsApi({
-    //     trilateralProtocolType: $this.protocolTemplateId,
-    //     loanProductId: $this.productId
-    //   }).then(res => {
-    //     this.trilateralParams = res.data.data
-    //   })
-    // })()
+    const $this = this
+    ;(async function init() {
+      await getProtocolTemplateIdApi().then(res => {
+        $this.protocolTemplateId = res.data.data.protocolTemplateId
+      })
+      await getTrilateralParamsApi({
+        trilateralProtocolType: $this.protocolTemplateId,
+        loanProductId: $this.productId
+      }).then(res => {
+        this.trilateralParams = res.data.data
+      })
+    })()
   }
 }
 </script>

@@ -63,7 +63,7 @@ export default {
   methods: {
     getRecommender() {
       let headers = {
-        version: '2.0'
+        version: '1.0'
       }
       let userName = ''
       if (this.$route.query.t) {
@@ -78,14 +78,11 @@ export default {
           headers
         )
         .then(res => {
-          let data = res.data
-          let resultCode = data.resultCode
-          let resultMsg = data.resultMsg
-          if (resultCode === CODE_OK) {
-            this.referers = data.data.list
+          if (res.data.resultCode === CODE_OK) {
+            this.referers = res.data.inviteUser
             this.refresh()
           } else {
-            Toast(resultMsg)
+            Toast(res.data.resultMsg)
           }
         })
     },

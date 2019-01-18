@@ -1,0 +1,110 @@
+@import './theme.scss';
+
+$color-primary: #EA5E1B;
+.mint-header {
+  height: .44rem;
+  padding: 0 4% 0 3.3%;
+  background-color: #fff;
+  color: $color-text;
+  box-shadow: inset 0 -1px 0 0 #EEEEEE;
+  &.is-fixed {
+    z-index: 99;
+  }
+  .mintui {
+    font-size: $font-size-medium;
+  }
+  .mint-header-title {
+    font-size: $font-size-medium;
+    line-height: .2rem;
+  }
+}
+
+.mint-toast {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.mint-toast.is-placemiddle {
+  font-size: 0;
+  top: inherit;
+  bottom: 110px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.mint-indicator-wrapper {
+  z-index: 9999;
+  font-size: 0;
+}
+
+.mint-button:not(.is-disabled):active::after {
+  opacity: .2;
+}
+
+.mint-button--primary {
+  background-color: $color-primary;
+}
+
+.mint-button--primary.is-plain {
+  border: 1px solid $color-primary;
+  color: $color-text;
+}
+
+.mint-badge.is-primary {
+  background-color: $color-primary
+}
+
+.mint-switch-input:checked + .mint-switch-core {
+  border-color: $color-primary;
+  background-color: $color-primary;
+}
+
+.mint-navbar .mint-tab-item.is-selected {
+  border-bottom: 3px solid $color-primary;
+  color: $color-text;
+}
+
+.mint-tabbar > .mint-tab-item.is-selected {
+  color: $color-text;
+}
+
+.mint-searchbar-cancel {
+  color: $color-text;
+}
+
+.mint-checkbox-input:checked + .mint-checkbox-core {
+  background-color: $color-primary;
+  border-color: $color-primary;
+}
+
+.mint-radio-input:checked + .mint-radio-core {
+  background-color: $color-primary;
+  border-color: $color-primary;
+}
+
+.mt-range-progress {
+  background-color: $color-primary;
+}
+
+.mt-progress-progress {
+  background-color: #F4C700;
+}
+
+.mint-msgbox-confirm {
+  color: $color-text;
+}
+
+.mint-msgbox-confirm:active {
+  color: $color-text;
+}
+
+.mint-datetime-action {
+  color: $color-text;
+}
+
+.mint-loadmore-text {
+  font-size: $font-size-small-ss;
+}
+
+.mint-cell-allow-right::after {
+  border-color: #ccc;
+}

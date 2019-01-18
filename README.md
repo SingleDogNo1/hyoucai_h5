@@ -33,6 +33,6 @@
 
 ## 区分平台
 
-http://112.124.117.23:8091/#/d/activity/mateact?activityId=3
+http://112.124.117.23:8091/#/d/activity/mateact
 
-http://112.124.117.23:8091/#/h/activity/mateact?activityId=3
+http://112.124.117.23:8091/#/h/activity/mateact

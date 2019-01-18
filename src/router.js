@@ -166,6 +166,18 @@ export default new Router({
         }
       ]
     },
+    // 下载页
+    {
+      path: '/download',
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'AppDownload',
+          component: () => import('@/views/common/Download')
+        }
+      ]
+    },
     // 点金石
     {
       path: '/d',

@@ -8,7 +8,7 @@
       <a :href="'tel:' + serviceTel"></a>
     </div>
     <mt-header class="is-fixed" v-show="!showItem && !mobile" title="帮助中心">
-      <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+      <mt-button icon="back" slot="left" @click="goBack"></mt-button>
     </mt-header>
     <mt-header class="is-fixed" v-show="showItem" :title="itemTitle">
       <mt-button icon="back" slot="left" @click="clickArrow('帮助中心', questionType[0].dicCode)"></mt-button>
@@ -278,6 +278,13 @@ export default {
   methods: {
     callTel() {
       window.jsCall.callCs(this.serviceTel)
+    },
+    goBack() {
+      if (window.DjsJsBridge) {
+        window.DjsJsBridge.close()
+      } else {
+        this.$router.go(-1)
+      }
     },
     clickArrow(title, code) {
       this.itemTitle = title || ''

@@ -39,7 +39,7 @@ import Clipboard from 'clipboard'
 import { Toast } from 'mint-ui'
 import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
-import { serviceTelApi } from '@/api/hyc/help'
+import { serviceTelApi } from '@/api/common/help'
 
 export default {
   components: {
@@ -63,8 +63,7 @@ export default {
   methods: {
     showInfo() {
       this.$router.push({
-        name: 'HYCNoticeDetail',
-        params: { id: 2156 }
+        path: '/notice/2156'
       })
     },
     getServiceTel() {

@@ -299,6 +299,17 @@ export default new Router({
               component: () => import('@/views/hyc/TransferCharge')
             }
           ]
+        },
+        {
+          path: 'notice',
+          component: Layout,
+          children: [
+            {
+              path: ':id',
+              name: 'HYCNoticeDetail',
+              component: () => import('@/views/hyc/notice')
+            }
+          ]
         }
       ]
     }

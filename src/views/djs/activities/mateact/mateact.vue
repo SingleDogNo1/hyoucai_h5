@@ -5,19 +5,19 @@
         <div class="detail" @click="showDetail"></div>
       </div>
       <div class="btn-wrapper all" v-if="type === '0'">
-        <a class="btn" id="three-months" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">
-          <span>投资90天</span>
+        <a class="btn" id="three-months" href="https://m.idjshi.com/page/invest.html?projectNo=1811150801">
+          <span>点投资90天</span>
         </a>
-        <a class="btn" id="halfYear" href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">
-          <span>投资180天</span>
+        <a class="btn" id="halfYear" href="https://m.idjshi.com/page/invest.html?projectNo=1810310801">
+          <span>点投资180天</span>
         </a>
       </div>
       <div class="btn-wrapper half" v-else>
-        <a class="btn" v-if="type !== '2'" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">
-          投资90天
+        <a class="btn" v-if="type !== '2'" href="https://m.idjshi.com/page/invest.html?projectNo=1811150801">
+          点投资90天
         </a>
-        <a class="btn" v-if="type !== '1'"  href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">
-          投资180天
+        <a class="btn" v-if="type !== '1'"  href="https://m.idjshi.com/page/invest.html?projectNo=1810310801">
+          点投资180天
         </a>
       </div>
     </div>

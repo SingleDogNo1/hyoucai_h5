@@ -154,8 +154,6 @@ export default new Router({
         }
       ]
     },
-    // 帮助中心(共用)
-
     // 证书(共用)
     {
       path: '/certificate',

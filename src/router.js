@@ -228,6 +228,28 @@ export default new Router({
               component: () => import('@/views/djs/GratitudeMoney')
             }
           ]
+        },
+        {
+          path: 'transfer_charge',
+          component: Layout,
+          children: [
+            {
+              path: '',
+              name: 'DJSTransferCharge',
+              component: () => import('@/views/djs/TransferCharge')
+            }
+          ]
+        },
+        {
+          path: 'notice',
+          component: Layout,
+          children: [
+            {
+              path: ':id',
+              name: 'DJSNoticeDetail',
+              component: () => import('@/views/djs/notice')
+            }
+          ]
         }
       ]
     },

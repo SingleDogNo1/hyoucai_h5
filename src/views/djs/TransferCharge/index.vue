@@ -39,7 +39,7 @@ import Clipboard from 'clipboard'
 import { Toast } from 'mint-ui'
 import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
-import { serviceTelApi } from '@/api/hyc/help'
+// import { serviceTelApi } from '@/api/djs/help'
 
 export default {
   components: {
@@ -68,15 +68,15 @@ export default {
       })
     },
     getServiceTel() {
-      serviceTelApi({ type: '1' }).then(res => {
-        let resultCode = res.data.resultCode
-        let resultMsg = res.data.resultMsg
-        if (resultCode === '1') {
-          this.serviceTel = res.data.data
-        } else {
-          Toast(resultMsg)
-        }
-      })
+      // serviceTelApi({ type: '1' }).then(res => {
+      //   let resultCode = res.data.resultCode
+      //   let resultMsg = res.data.resultMsg
+      //   if (resultCode === '1') {
+      //     this.serviceTel = res.data.data
+      //   } else {
+      //     Toast(resultMsg)
+      //   }
+      // })
     },
     refresh() {
       this.$refs.scrollRef.refresh()
@@ -87,7 +87,6 @@ export default {
     clipboard.on('success', function() {
       Toast('复制成功')
     })
-    console.log(process.env.NODE_ENV)
     this.getServiceTel()
     this.$nextTick(() => {
       this.refresh()

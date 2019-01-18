@@ -26,7 +26,7 @@
 <script>
 import { Indicator, Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import { noticeDetailApi } from '@/api/hyc/notice'
+import { noticeDetailApi } from '@/api/djs/notice'
 import HeaderTitle from '@/components/AppHeader'
 
 const CODE_OK = '1'

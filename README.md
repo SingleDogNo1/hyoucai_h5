@@ -26,6 +26,7 @@
 | 运营数据 | info_disclose |
 | 新手出借指南 | newer_direction |
 | 证书 | certificate |
+| app下载 | download |
 
 ## 区分平台
 

@@ -112,6 +112,7 @@ export default {
     //   })
 
     const activityId = this.$route.query.activityId
+    alert(window.history.length)
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api

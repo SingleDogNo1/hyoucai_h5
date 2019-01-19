@@ -47,9 +47,11 @@
 | :------: | :------: |
 | 帮助中心 | help |
 | 活动列表 | act-center |
-| 活动列表 | act-center |
 | 活动详情 | activity/mateact |
 | 协议 | agreement |
 | 我的推荐人 | gratitude_money |
 | 转账充值 | transfer_charge |
 | 公告详情 | notice/:id |
+
+
+

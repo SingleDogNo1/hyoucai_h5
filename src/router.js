@@ -342,6 +342,11 @@ export default new Router({
               component: () => import('@/views/hyc/notice')
             }
           ]
+        },
+        {
+          path: 'calculator',
+          name: 'HYCCalculator',
+          component: () => import('@/views/hyc/calculator')
         }
       ]
     }

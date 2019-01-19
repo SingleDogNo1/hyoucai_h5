@@ -281,6 +281,7 @@ export default {
     },
     goBack() {
       if (window.DjsJsBridge) {
+        alert(1)
         window.DjsJsBridge.close()
       } else {
         this.$router.go(-1)

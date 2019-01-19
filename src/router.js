@@ -260,6 +260,11 @@ export default new Router({
               component: () => import('@/views/djs/notice')
             }
           ]
+        },
+        {
+          path: 'calculator',
+          name: 'DJSCalculator',
+          component: () => import('@/views/djs/calculator')
         }
       ]
     },

@@ -276,8 +276,8 @@ export default {
       window.jsCall.callCs(this.serviceTel)
     },
     goBack() {
-      if (window.jsCall) {
-        window.jsCall.close()
+      if (window.DjsJsBridge) {
+        window.DjsJsBridge.close()
       } else {
         this.$router.go(-1)
       }

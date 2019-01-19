@@ -204,8 +204,8 @@ export default {
           .question {
             position: relative;
             display: flex;
-            line-height: 0.5rem;
-            padding: 0 4%;
+            padding: 0.12rem 4%;
+            line-height: 1.75;
             font-size: $font-size-small-s;
             span {
               display: inline-block;

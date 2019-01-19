@@ -124,11 +124,12 @@ export default {
             })
             .then(res => {
               if (res.data.resultCode === '1') {
+                const data = res.data.data
                 const params = {
-                  title: res.data.title,
-                  content: res.data.description,
+                  title: data.title,
+                  content: data.description,
                   url: window.location.href,
-                  imgUrl: res.data.iconUrl
+                  imgUrl: data.iconUrl
                 }
                 let shareInfo = JSON.stringify(params)
                 window.DjsJsBridge.getShareKey(shareInfo)

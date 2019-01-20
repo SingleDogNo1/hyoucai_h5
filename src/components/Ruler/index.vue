@@ -139,7 +139,7 @@ export default {
   },
   created() {
     if (this.projectId) {
-      getProjectDetail({ projectNo: this.projectI }, decodeURIComponent(this.$route.query.t)).then(res => {
+      getProjectDetail({ projectNo: this.projectId }, decodeURIComponent(this.$route.query.t)).then(res => {
         this.setData(res)
         this.init()
         this.addSlides()

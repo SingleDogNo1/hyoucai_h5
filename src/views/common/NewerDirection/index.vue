@@ -135,7 +135,7 @@ export default {
     return {
       text: '新手指引',
       mobile: this.$route.query.mobile,
-      serviceTel: '400-000-7979',
+      serviceTel: '400-099-7979',
       preventClass: { className: /(^|\s)longTap(\s|$)/ }
     }
   },

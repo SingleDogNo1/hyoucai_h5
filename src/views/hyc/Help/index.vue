@@ -236,7 +236,7 @@ export default {
     return {
       text: '帮助中心',
       mobile: this.$route.query.mobile,
-      serviceTel: '400-000-7979',
+      serviceTel: '400-099-7979',
       selected: '1',
       showItem: false,
       itemTitle: '',

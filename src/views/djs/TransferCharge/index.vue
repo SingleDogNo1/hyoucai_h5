@@ -50,7 +50,7 @@ export default {
     return {
       text: '转账充值',
       mobile: this.$route.query.mobile,
-      serviceTel: '400-000-7979'
+      serviceTel: '400-099-7979'
     }
   },
   watch: {

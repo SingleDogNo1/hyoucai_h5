@@ -139,21 +139,21 @@ export default {
   },
   created() {
     if (this.projectId) {
-      getProjectDetail({ projectNo: this.projectId }).then(res => {
+      getProjectDetail({ projectNo: this.projectId, authorization: decodeURIComponent(this.$route.query.t) }).then(res => {
         this.setData(res)
         this.init()
         this.addSlides()
         this.changeSlide()
       })
     } else if (this.itemId) {
-      getProductDetail({ itemId: this.itemId }).then(res => {
+      getProductDetail({ itemId: this.itemId, authorization: decodeURIComponent(this.$route.query.t) }).then(res => {
         this.setData(res)
         this.init()
         this.addSlides()
         this.changeSlide()
       })
     } else if (this.productId) {
-      getProductDetail({ productId: this.productId }).then(res => {
+      getProductDetail({ productId: this.productId, authorization: decodeURIComponent(this.$route.query.t) }).then(res => {
         this.setData(res)
         this.init()
         this.addSlides()

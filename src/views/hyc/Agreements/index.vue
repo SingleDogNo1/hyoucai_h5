@@ -1582,7 +1582,7 @@ export default {
         trilateralProtocolType: $this.protocolTemplateId,
         loanProductId: $this.productId
       }).then(res => {
-        this.feeData = res.data.data
+        $this.feeData = res.data.data
       })
     })()
   }

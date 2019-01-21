@@ -380,7 +380,7 @@
             <p>（以下为签署页，无正文）</p>
             <p><span style="margin-right: 0.5rem">甲方：</span><span>乙方： 江西汇通金融信息服务有限公司</span></p>
             <p>（签字）<span class="stSign"></span><em> （签章）<span class="ndSign"></span></em></p>
-            <p>日期<span class="stSign"></span><em> 日期<span class="ndSign"></span></em></p>
+            <p>日期：<span class="stSign">年  月  日</span><em> 日期：<span class="ndSign">年 月 日</span></em></p>
           </div>
         </div>
         <div v-if="type === 'jkxy'" class="jkxy xytype" titleStr="三方协议">

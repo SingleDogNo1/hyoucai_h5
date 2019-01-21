@@ -1211,6 +1211,7 @@ table {
 .operate-report {
   background: #fff;
   padding-top: 0.08rem;
+  height: 231px;
   .title {
     width: 0.9rem;
     height: 0.3rem;
@@ -1229,6 +1230,7 @@ table {
 .review-info {
   padding-bottom: 0.16rem;
   padding-top: 0.32rem;
+  height: 448px;
   background: #fff;
   .title {
     width: 0.9rem;
@@ -1284,7 +1286,6 @@ table {
 .others {
   display: flex;
   justify-content: space-around;
-  justify-content: space-evenly;
   background: #fff;
   font-size: 0;
   padding-bottom: 0.2rem;

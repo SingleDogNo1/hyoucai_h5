@@ -129,9 +129,6 @@ export default {
         on: {
           slideChange() {
             _this.amount = this.activeIndex * _this.step
-            // if (_this.amount < _this.minInvAmount) {
-            //   this.slideTo(_this.minInvAmount / _this.step)
-            // }
           }
         }
       })
@@ -139,11 +136,19 @@ export default {
   },
   created() {
     if (this.projectId) {
-      getProjectDetail({ projectNo: this.projectId }, decodeURIComponent(this.$route.query.t)).then(res => {
+      getProjectDetail(
+        {
+          projectNo: this.projectId
+        },
+        decodeURIComponent(this.$route.query.t)
+      ).then(res => {
         this.setData(res)
         this.init()
         this.addSlides()
         this.changeSlide()
+        setTimeout(() => {
+          this.init()
+        }, 1000)
       })
     } else if (this.itemId) {
       getProductDetail({ itemId: this.itemId }, decodeURIComponent(this.$route.query.t)).then(res => {
@@ -169,9 +174,12 @@ export default {
   border-top: 0.01rem solid #eee;
   padding-top: 0.16rem;
   padding-bottom: 0.01rem;
+  height: 2.5rem;
   .title {
     text-align: center;
     font-size: 0.13rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
     color: #999999;
   }
   .amount {
@@ -180,6 +188,8 @@ export default {
     color: #ea5e1b;
     text-align: center;
     font-size: 0.18rem;
+    height: 0.36rem;
+    line-height: 0.36rem;
     input {
       width: 50%;
       font-size: 0.32rem;

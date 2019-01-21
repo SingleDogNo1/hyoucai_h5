@@ -203,6 +203,11 @@ export default new Router({
               path: 'mateact',
               name: 'DJSmateAct',
               component: () => import('@/views/djs/activities/mateact/mateact')
+            },
+            {
+              path: 'coupon',
+              name: 'DJScoupon',
+              component: () => import('@/views/djs/activities/coupon/index')
             }
           ]
         },

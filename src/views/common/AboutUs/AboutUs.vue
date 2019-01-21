@@ -532,7 +532,6 @@ export default {
   overflow: hidden;
   background: #fff;
   .about-us-wrapper {
-    height: 46.74rem;
     .intro {
       @include cube(100%, 2.77rem);
       padding: 0.24rem 0.16rem 0.13rem;

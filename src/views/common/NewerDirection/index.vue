@@ -108,7 +108,7 @@
                 </dl>
               </div>
               <div class="right">
-                <img class="longTap" width="100%" height="100%" src="qr_code@3x.png" alt="">
+                <img class="longTap" width="100%" height="100%" src="./qr_code@3x.png" alt="">
               </div>
             </div>
             <p>若您在使用汇有财APP的过程中有任何建议，可以关注汇有财微信公众号（微信搜索huiyoucaidyh)告知我们。汇有财团队将会不断完善产品为您带来更好的服务！</p>

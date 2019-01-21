@@ -30,6 +30,7 @@
 | 我的推荐人 | http://112.124.117.23:8091/#/d/gratitude_money |
 | 转账充值 | http://112.124.117.23:8091/#/d/transfer_charge |
 | 公告详情 | http://112.124.117.23:8091/#/d/notice/:id |
+| 新手指引 | http://112.124.117.23:8091/#/d/newer_direction |
 
 ## 汇有财
 
@@ -42,3 +43,4 @@
 | 我的推荐人 | http://112.124.117.23:8091/#/h/gratitude_money |
 | 转账充值 | http://112.124.117.23:8091/#/h/transfer_charge |
 | 公告详情 | http://112.124.117.23:8091/#/h/notice/:id |
+| 新手指引 | http://112.124.117.23:8091/#/h/newer_direction |

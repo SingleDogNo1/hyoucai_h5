@@ -236,7 +236,7 @@ export default {
     return {
       text: '帮助中心',
       mobile: this.$route.query.mobile,
-      serviceTel: '400-000-7979',
+      serviceTel: '400-099-7979',
       selected: '1',
       showItem: false,
       itemTitle: '',
@@ -276,8 +276,8 @@ export default {
       window.jsCall.callCs(this.serviceTel)
     },
     goBack() {
-      if (window.jsCall) {
-        window.jsCall.close()
+      if (window.DjsJsBridge) {
+        window.DjsJsBridge.close()
       } else {
         this.$router.go(-1)
       }

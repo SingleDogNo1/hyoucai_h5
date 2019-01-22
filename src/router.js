@@ -142,18 +142,6 @@ export default new Router({
         }
       ]
     },
-    // 新手指引(共用)
-    {
-      path: '/newer_direction',
-      component: Layout,
-      children: [
-        {
-          path: '',
-          name: 'NewerDirection',
-          component: () => import('@/views/common/NewerDirection')
-        }
-      ]
-    },
     // 证书(共用)
     {
       path: '/certificate',
@@ -203,6 +191,11 @@ export default new Router({
               path: 'mateact',
               name: 'DJSmateAct',
               component: () => import('@/views/djs/activities/mateact/mateact')
+            },
+            {
+              path: 'coupon',
+              name: 'DJScoupon',
+              component: () => import('@/views/djs/activities/coupon/index')
             }
           ]
         },
@@ -260,6 +253,16 @@ export default new Router({
               component: () => import('@/views/djs/notice')
             }
           ]
+        },
+        {
+          path: 'calculator',
+          name: 'DJSCalculator',
+          component: () => import('@/views/djs/calculator')
+        },
+        {
+          path: 'newer_direction',
+          name: 'DJSNewerDirection',
+          component: () => import('@/views/djs/NewerDirection')
         }
       ]
     },
@@ -342,6 +345,16 @@ export default new Router({
               component: () => import('@/views/hyc/notice')
             }
           ]
+        },
+        {
+          path: 'calculator',
+          name: 'HYCCalculator',
+          component: () => import('@/views/hyc/calculator')
+        },
+        {
+          path: 'newer_direction',
+          name: 'HYCNewerDirection',
+          component: () => import('@/views/hyc/NewerDirection')
         }
       ]
     }

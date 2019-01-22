@@ -283,7 +283,7 @@
               <div class="right">
                 <div class="top">2017年财务审计报告（1-12月份）</div>
                 <div class="btm" @click="showPDF('auditReport2017')">
-                  <img src="finance-2017.png" alt="">
+                  <img src="./finance-2017.png" alt="">
                 </div>
               </div>
             </li>
@@ -292,7 +292,7 @@
               <div class="right">
                 <div class="top">2016年财务审计报告（1-12月份）</div>
                 <div class="btm" @click="showPDF('auditReport2016')">
-                  <img src="finance-2016.png" alt="">
+                  <img src="./finance-2016.png" alt="">
                 </div>
               </div>
             </li>
@@ -306,7 +306,7 @@
             办理中…
           </li>
         </ul>
-        <img src="cyw-sign.png" alt="">
+        <img src="./cyw-sign.png" alt="">
       </div>
     </b-scroll>
 
@@ -1211,6 +1211,7 @@ table {
 .operate-report {
   background: #fff;
   padding-top: 0.08rem;
+  height: 231px;
   .title {
     width: 0.9rem;
     height: 0.3rem;
@@ -1229,6 +1230,7 @@ table {
 .review-info {
   padding-bottom: 0.16rem;
   padding-top: 0.32rem;
+  height: 448px;
   background: #fff;
   .title {
     width: 0.9rem;
@@ -1284,7 +1286,6 @@ table {
 .others {
   display: flex;
   justify-content: space-around;
-  justify-content: space-evenly;
   background: #fff;
   font-size: 0;
   padding-bottom: 0.2rem;

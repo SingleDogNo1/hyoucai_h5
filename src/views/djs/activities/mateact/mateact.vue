@@ -112,27 +112,33 @@ export default {
     //   })
 
     const activityId = this.$route.query.activityId
-    const t = setInterval(() => {
-      if (window.DjsJsBridge && activityId) {
-        api
-          .getShareInfoApi({
-            id: activityId
-          })
-          .then(res => {
-            if (res.data.resultCode === '1') {
-              const params = {
-                title: res.data.title,
-                content: res.data.description,
-                url: window.location.href,
-                imgUrl: res.data.iconUrl
+
+    // 如果是从h5活动列表进入的，用我们自己的分享逻辑
+    // 如果是直接进入活动详情，app用自己的分享功能
+    if (window.history.length > 1) {
+      const t = setInterval(() => {
+        if (window.DjsJsBridge && activityId) {
+          api
+            .getShareInfoApi({
+              id: activityId
+            })
+            .then(res => {
+              if (res.data.resultCode === '1') {
+                const data = res.data.data
+                const params = {
+                  title: data.title,
+                  content: data.description,
+                  url: window.location.href,
+                  imgUrl: data.iconUrl
+                }
+                let shareInfo = JSON.stringify(params)
+                window.DjsJsBridge.getShareKey(shareInfo)
+                clearInterval(t)
               }
-              let shareInfo = JSON.stringify(params)
-              window.DjsJsBridge.getShareKey(shareInfo)
-              clearInterval(t)
-            }
-          })
-      }
-    }, 400)
+            })
+        }
+      }, 400)
+    }
   }
 }
 </script>

@@ -1,8 +1,6 @@
 <template>
   <div class="layout">
-    <div class="container">
       <router-view></router-view>
-    </div>
   </div>
 </template>
 
@@ -20,8 +18,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
-  overflow: hidden;
+.layout {
   height: 100vh;
 }
 </style>

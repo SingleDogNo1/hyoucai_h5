@@ -291,7 +291,7 @@
             </tr>
           </table>
         </div>
-        <div>
+        <div class="zfbz">
           <img src="./zfbz.png" alt="">
         </div>
         <!-- 联系我们 -->
@@ -316,10 +316,10 @@
           </div>
           <p>
             如果您在使用汇有财的过程中有任何疑问，<br>
-            请您于汇有财客服人员联系。
+            请您与汇有财客服人员联系。
           </p>
         </div>
-        <img src="@/assets/imgs/cyw-sign.png" alt="">
+        <img src="@/assets/imgs/cyw-sign.png" alt="" width="100%" height="1.41rem">
       </div>
     </b-scroll>
     <div class="honor-mask" ref="originImg">
@@ -554,6 +554,7 @@ export default {
       }
     }
     .manager {
+      @include cube(100%, 10.63rem);
       .title {
         width: 0.8rem;
         height: 0.28rem;
@@ -713,6 +714,9 @@ export default {
         background-size: 100% 100%;
         @include bg-image('honor');
       }
+      .swiper-container {
+        height: 1.85rem;
+      }
     }
     .fee_wrapper {
       padding: 0.24rem 4% 0.28rem;
@@ -753,8 +757,13 @@ export default {
         }
       }
     }
+    .zfbz {
+      width: 100%;
+      height: 1.8rem;
+    }
     .contact {
       padding-bottom: 0.2rem;
+      height: 4.64rem;
       .title {
         width: 0.8rem;
         height: 0.28rem;

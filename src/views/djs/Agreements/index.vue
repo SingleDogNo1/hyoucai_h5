@@ -68,6 +68,9 @@
               前述风险提示不能穷尽全部风险及市场的全部情形。
             </p>
             <p style="text-indent: .28rem;">
+              出借人在确认出借前，应勾选《风险告知书》，确认已阅读并同意所告知的风险。
+            </p>
+            <p style="text-indent: .28rem;">
               本人已认真阅读并完全理解、接受本《风险告知书》的全部内容，愿意依法承担出借本服务/出借标的可能产生的财务损失及法律责任。本人知悉本服务/出借标的的风险，了解贵司作为网络借贷信息中介机构在其中的责任，本人自愿参与、出借本服务/出借标的，自行享有其出借收益并承担其全部风险损失。
             </p>
           </div>
@@ -391,10 +394,10 @@
             </p>
           </div>
           <div class="paragraph">
-            <p>（以下为签署项，无正文）</p>
+            <p>（以下为签署页，无正文）</p>
             <p><span style="margin-right: 0.5rem">甲方：</span><span>乙方： 江西汇通金融信息服务有限公司</span></p>
             <p>（签字）<span class="stSign"></span><em> （签章）<span class="ndSign"></span></em></p>
-            <p>日期<span class="stSign"></span><em> （签章）<span class="ndSign"></span></em></p>
+            <p>日期<span class="stSign"></span><em> 日期<span class="ndSign"></span></em></p>
           </div>
         </div>
         <div v-if="type === 'zqzr'" class="zqzr xytype" titleStr="债权转让协议">

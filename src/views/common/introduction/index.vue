@@ -69,7 +69,7 @@ export default {
       title: '项目介绍',
       isAppTitle: this.$route.query.mobile,
       list: [
-        '23周岁以上',
+        '25周岁以上',
         '以特定品类商品消费为融资背景或有小额资金短期周转需求',
         '信用良好',
         '拥有稳定收入来源的个人',

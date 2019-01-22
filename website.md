@@ -97,3 +97,7 @@
 | 转账充值 | https://mobile.hyoucai.com/#/h/transfer_charge |
 | 公告详情 | https://mobile.hyoucai.com/#/h/notice/:id |
 | 新手指引 | https://mobile.hyoucai.com/#/h/newer_direction |
+
+
+https://mobile.hyoucai.com/#/d/investdetail?projectNo=123
+http://112.124.117.23:8091/#/d/investdetail?projectNo=123

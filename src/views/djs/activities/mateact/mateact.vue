@@ -5,19 +5,19 @@
         <div class="detail" @click="showDetail"></div>
       </div>
       <div class="btn-wrapper all" v-if="type === '0'">
-        <a class="btn" id="three-months" href="https://m.idjshi.com/page/invest.html?projectNo=1811150801">
-          <span>点投资90天</span>
+        <a class="btn" id="three-months" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1811150801">
+          <span>投资90天</span>
         </a>
-        <a class="btn" id="halfYear" href="https://m.idjshi.com/page/invest.html?projectNo=1810310801">
-          <span>点投资180天</span>
+        <a class="btn" id="halfYear" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1810310801">
+          <span>投资180天</span>
         </a>
       </div>
       <div class="btn-wrapper half" v-else>
-        <a class="btn" v-if="type !== '2'" href="https://m.idjshi.com/page/invest.html?projectNo=1811150801">
-          点投资90天
+        <a class="btn" v-if="type !== '2'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1811150801">
+          投资90天
         </a>
-        <a class="btn" v-if="type !== '1'"  href="https://m.idjshi.com/page/invest.html?projectNo=1810310801">
-          点投资180天
+        <a class="btn" v-if="type !== '1'"  href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1810310801">
+          投资180天
         </a>
       </div>
     </div>
@@ -155,7 +155,7 @@ export default {
   position: relative;
   width: 100%;
   height: 9.04rem;
-  background: url('./mate-bg@3x.jpg');
+  background: url('./mate-bg.png');
   background-size: cover;
 }
 

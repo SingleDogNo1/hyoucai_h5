@@ -196,6 +196,11 @@ export default new Router({
               path: 'coupon',
               name: 'DJScoupon',
               component: () => import('@/views/djs/activities/coupon/index')
+            },
+            {
+              path: 'gold',
+              name: 'DJSGold',
+              component: () => import('@/views/djs/activities/goldact')
             }
           ]
         },

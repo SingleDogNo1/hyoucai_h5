@@ -2,8 +2,25 @@
   <div class="pageContainer" ref="container">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
-        <div class="detail" @click="showDetail"></div>
+        <!--<div class="detail" @click="showDetail"></div>-->
       </div>
+      <div style="background: rgb(204,52,41);height:60px;"></div>
+    <div class="btn-wrapper all" v-if="type === '0'">
+      <a class="btn" id="three-months" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
+        <span>出借黄金乐90天</span>
+      </a>
+      <a class="btn" id="halfYear" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
+        <span>出借黄金乐180天</span>
+      </a>
+    </div>
+    <div class="btn-wrapper half" v-else>
+      <a class="btn" v-if="type !== '2'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
+        出借黄金乐90天
+      </a>
+      <a class="btn" v-if="type !== '1'"  href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
+        出借黄金乐180天
+      </a>
+    </div>
     </div>
     <div class="detail-mask" v-if="detailFlag">
       <img src="./off.png" class="close" alt="" @click="closeDialog">
@@ -13,17 +30,13 @@
 </template>
 
 <script>
-// import BScroll from '@/components/BScroll/BScroll'
 import axios from 'axios'
 
 export default {
-  name: 'coupon',
-  components: {
-    // BScroll,
-  },
+  name: 'mateact',
   data() {
     return {
-      title: '春节迎财神大狂欢,加息券大派送',
+      title: '元旦抢先"机" 开心迎新年',
       type: this.$route.query.type,
       detailFlag: false
     }
@@ -58,43 +71,43 @@ export default {
         })
         wx.ready(() => {
           wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
             imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
+            title: '新年福利，免费送黄金',
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
             imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            title: '新年福利，免费送黄金',
+            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
             type: '',
             dataUrl: '',
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
             imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            title: '新年福利，免费送黄金',
+            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
             imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            title: '新年福利，免费送黄金',
+            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
             imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            title: '新年福利，免费送黄金',
+            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
             success: function() {},
             cancel: function() {}
           })
@@ -142,11 +155,10 @@ export default {
 
 .wrapper {
   position: relative;
-  margin: 0 auto;
   width: 100%;
-  height: 13.8rem;
-  background: url('./coupon-bg.png') no-repeat;
-  background-size: contain;
+  height: 14.17rem;
+  background: url('gold-bg.png');
+  background-size: cover;
 }
 
 .bg-img {
@@ -200,7 +212,7 @@ export default {
   width: 0.7rem;
   height: 0.23rem;
   position: absolute;
-  background: url('detail.png') 0 / contain;
+  background: url('./detail.png') 0 / contain;
   top: 0.15rem;
   right: 0;
 }

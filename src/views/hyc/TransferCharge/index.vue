@@ -87,7 +87,6 @@ export default {
     clipboard.on('success', function() {
       Toast('复制成功')
     })
-    console.log(process.env.NODE_ENV)
     this.getServiceTel()
     this.$nextTick(() => {
       this.refresh()

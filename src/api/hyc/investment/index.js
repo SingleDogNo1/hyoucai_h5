@@ -8,7 +8,7 @@ function getProjectDetail(data, authorization) {
     data: qs.stringify(data),
     headers: {
       'Content-type': 'application/x-www-form-urlencoded',
-      'authorization': authorization
+      authorization: authorization
     }
   })
 }
@@ -20,7 +20,7 @@ function getProductDetail(data, authorization) {
     data: qs.stringify(data),
     headers: {
       'Content-type': 'application/x-www-form-urlencoded',
-      'authorization': authorization
+      authorization: authorization
     }
   })
 }

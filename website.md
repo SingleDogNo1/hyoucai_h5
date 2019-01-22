@@ -101,3 +101,21 @@
 
 https://mobile.hyoucai.com/#/d/investdetail?projectNo=123
 http://112.124.117.23:8091/#/d/investdetail?projectNo=123
+
+点金石协议
+
+https://mobile.hyoucai.com/#/d/agreement？agreementType=fxts    风险告知书
+https://mobile.hyoucai.com/#/d/agreement？agreementType=ywsq    授权签约协议
+https://mobile.hyoucai.com/#/d/agreement？agreementType=zqzr    债权转让协议
+https://mobile.hyoucai.com/#/d/agreement？agreementType=zcxy    注册协议
+https://mobile.hyoucai.com/#/d/agreement？agreementType=zdtz    自动出借服务条款
+
+
+汇有财协议
+
+https://mobile.hyoucai.com/#/h/agreement？agreementType=fxts    风险告知书
+https://mobile.hyoucai.com/#/h/agreement？agreementType=ywsq    授权签约协议
+https://mobile.hyoucai.com/#/h/agreement？agreementType=jkxy    三方协议
+https://mobile.hyoucai.com/#/h/agreement？agreementType=zqzr    债权转让协议
+https://mobile.hyoucai.com/#/h/agreement？agreementType=zcxy    注册协议
+https://mobile.hyoucai.com/#/h/agreement？agreementType=zdtz    自动出借服务条款

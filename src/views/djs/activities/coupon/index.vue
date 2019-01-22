@@ -13,14 +13,10 @@
 </template>
 
 <script>
-// import BScroll from '@/components/BScroll/BScroll'
-import axios from 'axios'
+import api from '@/api/djs/ActivitiesApi/mateact'
 
 export default {
   name: 'coupon',
-  components: {
-    // BScroll,
-  },
   data() {
     return {
       title: '春节迎财神大狂欢,加息券大派送',
@@ -40,92 +36,85 @@ export default {
     }
   },
   created() {
-    axios
-      .get('https://api.idjshi.com:8443/wechat/getPageSinature', {
-        params: {
-          url: window.location.href
-        }
-      })
-      .then(res => {
-        const data = res.data
-        wx.config({
-          debug: false,
-          appId: data.appid,
-          timestamp: data.timestamp,
-          nonceStr: data.noncestr,
-          signature: data.signature,
-          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
-        })
-        wx.ready(() => {
-          wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
-          })
-        })
-      })
+    // api
+    //   .getPageSinatureApi({
+    //     url: window.location.href
+    //   })
+    //   .then(res => {
+    //     const data = res.data
+    //     wx.config({
+    //       debug: false,
+    //       appId: data.appid,
+    //       timestamp: data.timestamp,
+    //       nonceStr: data.noncestr,
+    //       signature: data.signature,
+    //       jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+    //     })
+    //     wx.ready(() => {
+    //       wx.onMenuShareTimeline({
+    //         link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '你有加息券可以使用，加息1%-4%',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareAppMessage({
+    //         link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '你有加息券可以使用，加息1%-4%',
+    //         desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+    //         type: '',
+    //         dataUrl: '',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQQ({
+    //         link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '你有加息券可以使用，加息1%-4%',
+    //         desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareWeibo({
+    //         link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '你有加息券可以使用，加息1%-4%',
+    //         desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQZone({
+    //         link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '你有加息券可以使用，加息1%-4%',
+    //         desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //     })
+    //   })
 
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
-        axios({
-          methods: 'post',
-          url: 'https://api.idjshi.com:8443/activity/getShareInfo',
-          headers: {
-            'Content-Type': 'X-WWW-FORM-URLENCODED'
-          },
-          params: {
+        api
+          .getShareInfoApi({
             id: activityId
-          }
-        }).then(res => {
-          if (res.data.resultCode === '1') {
-            const params = {
-              title: res.data.title,
-              content: res.data.description,
-              url: window.location.href,
-              imgUrl: res.data.iconUrl
+          })
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              const params = {
+                title: res.data.title,
+                content: res.data.description,
+                url: window.location.href,
+                imgUrl: res.data.iconUrl
+              }
+              var shareInfo = JSON.stringify(params)
+              window.DjsJsBridge.getShareKey(shareInfo)
+              clearInterval(t)
             }
-            var shareInfo = JSON.stringify(params)
-            window.DjsJsBridge.getShareKey(shareInfo)
-            clearInterval(t)
-          }
-        })
+          })
       }
     }, 400)
   }

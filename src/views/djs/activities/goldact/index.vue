@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '@/api/djs/ActivitiesApi/mateact'
 
 export default {
   name: 'mateact',
@@ -53,92 +53,85 @@ export default {
     }
   },
   created() {
-    axios
-      .get('https://api.idjshi.com:8443/wechat/getPageSinature', {
-        params: {
-          url: window.location.href
-        }
-      })
-      .then(res => {
-        const data = res.data
-        wx.config({
-          debug: false,
-          appId: data.appid,
-          timestamp: data.timestamp,
-          nonceStr: data.noncestr,
-          signature: data.signature,
-          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
-        })
-        wx.ready(() => {
-          wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '新年福利，免费送黄金',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '新年福利，免费送黄金',
-            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '新年福利，免费送黄金',
-            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '新年福利，免费送黄金',
-            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-            success: function() {},
-            cancel: function() {}
-          })
-          wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '新年福利，免费送黄金',
-            desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-            success: function() {},
-            cancel: function() {}
-          })
-        })
-      })
+    // api
+    //   .getPageSinatureApi({
+    //     url: window.location.href
+    //   })
+    //   .then(res => {
+    //     const data = res.data
+    //     wx.config({
+    //       debug: false,
+    //       appId: data.appid,
+    //       timestamp: data.timestamp,
+    //       nonceStr: data.noncestr,
+    //       signature: data.signature,
+    //       jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+    //     })
+    //     wx.ready(() => {
+    //       wx.onMenuShareTimeline({
+    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '新年福利，免费送黄金',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareAppMessage({
+    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '新年福利，免费送黄金',
+    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
+    //         type: '',
+    //         dataUrl: '',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQQ({
+    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '新年福利，免费送黄金',
+    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareWeibo({
+    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '新年福利，免费送黄金',
+    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //       wx.onMenuShareQZone({
+    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
+    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
+    //         title: '新年福利，免费送黄金',
+    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
+    //         success: function() {},
+    //         cancel: function() {}
+    //       })
+    //     })
+    //   })
 
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
-        axios({
-          methods: 'post',
-          url: 'https://api.idjshi.com:8443/activity/getShareInfo',
-          headers: {
-            'Content-Type': 'X-WWW-FORM-URLENCODED'
-          },
-          params: {
+        api
+          .getShareInfoApi({
             id: activityId
-          }
-        }).then(res => {
-          if (res.data.resultCode === '1') {
-            const params = {
-              title: res.data.title,
-              content: res.data.description,
-              url: window.location.href,
-              imgUrl: res.data.iconUrl
+          })
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              const params = {
+                title: res.data.title,
+                content: res.data.description,
+                url: window.location.href,
+                imgUrl: res.data.iconUrl
+              }
+              var shareInfo = JSON.stringify(params)
+              window.DjsJsBridge.getShareKey(shareInfo)
+              clearInterval(t)
             }
-            var shareInfo = JSON.stringify(params)
-            window.DjsJsBridge.getShareKey(shareInfo)
-            clearInterval(t)
-          }
-        })
+          })
       }
     }, 400)
   }

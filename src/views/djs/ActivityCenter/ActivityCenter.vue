@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       title: '活动推荐',
-      actList: ['', '']
+      actList: []
     }
   },
   methods: {

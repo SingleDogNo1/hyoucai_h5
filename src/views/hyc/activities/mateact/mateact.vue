@@ -155,7 +155,7 @@ export default {
   position: relative;
   width: 100%;
   height: 9.04rem;
-  background: url('./mate-bg@3x.jpg');
+  background: url('./mate-bg.png');
   background-size: cover;
 }
 

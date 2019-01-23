@@ -172,6 +172,11 @@ export default new Router({
       component: Layout,
       children: [
         {
+          path: 'investdetail',
+          name: 'DJSInvestDetail',
+          component: () => import('@/views/djs/investDetail')
+        },
+        {
           path: 'act-center',
           component: Layout,
           children: [

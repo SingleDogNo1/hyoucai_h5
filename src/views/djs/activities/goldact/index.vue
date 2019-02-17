@@ -113,6 +113,17 @@ export default {
     //   })
 
     const activityId = this.$route.query.activityId
+
+    api
+      .getShareInfoApi({
+        id: 3
+      })
+      .then(res => {
+        if (res.data.resultCode === '1') {
+          console.log(res)
+        }
+      })
+
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         debugger

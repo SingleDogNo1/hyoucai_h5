@@ -115,6 +115,7 @@ export default {
     const activityId = this.$route.query.activityId
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
+        debugger
         api
           .getShareInfoApi({
             id: activityId

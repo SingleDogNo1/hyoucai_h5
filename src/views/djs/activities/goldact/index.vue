@@ -114,19 +114,19 @@ export default {
 
     const activityId = this.$route.query.activityId
 
-    api
-      .getShareInfoApi({
-        id: 3
-      })
-      .then(res => {
-        if (res.data.resultCode === '1') {
-          console.log(res)
-        }
-      })
+    const params = {
+      title: '标题',
+      content: '内容',
+      url: window.location.href,
+      imgUrl: 'http://114.215.186.35:8089/product_pic/pic_config/20190217202259.jpg'
+    }
+    var shareInfo = JSON.stringify(params)
+    if (window.DjsJsBridge) {
+      window.DjsJsBridge.getShareKey(shareInfo)
+    }
 
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
-        debugger
         api
           .getShareInfoApi({
             id: activityId

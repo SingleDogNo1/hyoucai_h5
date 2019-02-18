@@ -144,23 +144,23 @@
           第十条 网络借贷信息中介机构不得从事或者接受委托从事下列活动
         </p>
         <footer>
-          <img src="edu-1.png" alt="">
-          <img src="edu-2.png" alt="">
-          <img src="edu-3.png" alt="">
-          <img src="edu-4.png" alt="">
-          <img src="edu-5.png" alt="">
-          <img src="edu-6.png" alt="">
-          <img src="edu-7.png" alt="">
-          <img src="edu-8.png" alt="">
-          <img src="edu-9.png" alt="">
-          <img src="edu-10.png" alt="">
-          <img src="edu-11.png" alt="">
-          <img src="edu-12.png" alt="">
+          <img src="./edu-1.png" alt="">
+          <img src="./edu-2.png" alt="">
+          <img src="./edu-3.png" alt="">
+          <img src="./edu-4.png" alt="">
+          <img src="./edu-5.png" alt="">
+          <img src="./edu-6.png" alt="">
+          <img src="./edu-7.png" alt="">
+          <img src="./edu-8.png" alt="">
+          <img src="./edu-9.png" alt="">
+          <img src="./edu-10.png" alt="">
+          <img src="./edu-11.png" alt="">
+          <img src="./edu-12.png" alt="">
         </footer>
       </div>
     </BScroll>
     <div class="legal-mask" v-if="showLegal" @click="closeLegalMask">
-        <img src="frcnh.png" alt="">
+        <img src="./frcnh.png" alt="">
       </div>
   </div>
 </template>

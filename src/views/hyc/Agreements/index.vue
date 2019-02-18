@@ -1717,6 +1717,31 @@ export default {
         $this.feeData = res.data.data
       })
     })()
+  },
+  mounted() {
+    switch (this.type) {
+      case 'fxts':
+        this.text = '风险告知书'
+        break
+      case 'ywsq':
+        this.text = '汇有财授权签约协议'
+        break
+      case 'jkxy':
+        this.text = '三方协议'
+        break
+      case 'zqzr':
+        this.text = '债权转让协议'
+        break
+      case 'zcxy':
+        this.text = '汇有财注册协议'
+        break
+      case 'sqxy':
+        this.text = '用户授权协议'
+        break
+      case 'jxsf':
+        this.text = '江西银行网络交易资金账户服务三方协议'
+        break
+    }
   }
 }
 </script>

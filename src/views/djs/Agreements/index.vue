@@ -859,6 +859,27 @@ export default {
       mobile: this.$route.query.mobile,
       type: this.$route.query.agreementType
     }
+  },
+  created() {
+    switch (this.type) {
+      case 'fxts':
+        this.text = '风险告知书'
+        break
+      case 'ywsq':
+        this.text = '汇有财授权签约协议'
+        break
+      case 'zqzr':
+        this.text = '债权转让协议'
+        break
+      case 'zcxy':
+        this.text = '汇有财注册协议'
+        break
+      case 'zdtz':
+        this.text = '自动出借服务条款'
+        break
+      default:
+        this.text = '协议'
+    }
   }
 }
 </script>

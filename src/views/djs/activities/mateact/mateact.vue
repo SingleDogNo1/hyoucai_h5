@@ -126,7 +126,7 @@ export default {
             .then(res => {
               if (res.data.resultCode === '1') {
                 const data = res.data
-                alert(res.data)
+                alert(JSON.stringify(res.data))
                 const params = {
                   title: data.title,
                   content: data.description,

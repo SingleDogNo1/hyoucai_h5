@@ -117,6 +117,7 @@ export default {
     // 如果是直接进入活动详情，app用自己的分享功能
     if (window.history.length > 1) {
       const t = setInterval(() => {
+        console.log(window.DjsJsBridge)
         if (window.DjsJsBridge && activityId) {
           api
             .getShareInfoApi({

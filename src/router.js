@@ -206,6 +206,11 @@ export default new Router({
               path: 'gold',
               name: 'DJSGold',
               component: () => import('@/views/djs/activities/goldact')
+            },
+            {
+              path: 'register',
+              name: 'DJSRegister',
+              component: () => import('@/views/djs/activities/register')
             }
           ]
         },

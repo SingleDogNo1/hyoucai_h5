@@ -116,7 +116,7 @@ export default {
       // 派发上拉加载事件
       if (this.pullup) {
         this.scroll.on('scrollEnd', () => {
-          if (this.scroll.y <= this.scroll.maxScrollY) {
+          if (this.scroll.y <= this.scroll.maxScrollY + 50) {
             // 滑动到底部了
             this.$emit('scrollToEnd')
           }

@@ -6,6 +6,7 @@
         class="scroll"
         ref="scrollRef"
         v-show="referers.length"
+        :probeType="probeType"
         :listen-scroll="listenScroll"
         :pullup="pullup"
         @scrollToEnd="scrollToEnd"
@@ -53,6 +54,7 @@ export default {
     return {
       text: '我推荐的人',
       pulldownFreshText: '下拉刷新',
+      probeType: 3,
       mobile: this.$route.query.mobile,
       authorization: Hyoucai.getItem('authorization'),
       showModel: false,

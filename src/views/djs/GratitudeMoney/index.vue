@@ -105,9 +105,7 @@ export default {
         })
     },
     refresh() {
-      if (this.referers.length) {
-        this.$refs.scrollRef.refresh()
-      }
+      this.$refs.scrollRef.refresh()
     },
     scroll(pos) {
       if (pos.y > 10) {

@@ -85,7 +85,7 @@ export default {
         )
         .then(res => {
           if (res.data.resultCode === CODE_OK) {
-            const list = res.data.data.inviteUser
+            const list = res.data.data.list
             let curPage = res.data.data.curPage
             let countPage = res.data.data.countPage
             if (!list.length) {

@@ -7,6 +7,8 @@
         ref="scrollRef"
         v-show="referers.length"
         :listen-scroll="listenScroll"
+        :pullup="pullup"
+        @scrollToEnd="scrollToEnd"
         @scroll="scroll">
         <div>
           <div class="my_recommonder">
@@ -50,6 +52,7 @@ export default {
   data() {
     return {
       text: '我推荐的人',
+      pulldownFreshText: '下拉刷新',
       mobile: this.$route.query.mobile,
       authorization: Hyoucai.getItem('authorization'),
       showModel: false,
@@ -57,7 +60,10 @@ export default {
       listenScroll: true,
       swiperHBanner: [],
       gratitudeMoney: ['12', '34', '56', '78'],
-      referers: []
+      referers: [],
+      pullup: true,
+      page: 1,
+      hasMore: true
     }
   },
   methods: {
@@ -73,13 +79,25 @@ export default {
       api
         .getRecommenderApi(
           {
-            userName: userName
+            userName: userName,
+            curPage: this.page
           },
           headers
         )
         .then(res => {
           if (res.data.resultCode === CODE_OK) {
-            this.referers = res.data.inviteUser
+            const list = res.data.inviteUser
+            let curPage = res.data.curPage
+            let countPage = res.data.countPage
+            if (!list.length) {
+              this.hasMore = false
+              Toast('暂无数据')
+            } else if (curPage >= countPage) {
+              this.hasMore = false
+            } else {
+              this.hasMore = true
+            }
+            this.referers = [...this.referers, ...list]
             this.refresh()
           } else {
             Toast(res.data.resultMsg)
@@ -97,6 +115,13 @@ export default {
       }
       if (pos.y > 30) {
         this.pulldownFreshText = '松开刷新'
+      }
+    },
+    scrollToEnd() {
+      // 上拉到底部，加载更多
+      if (this.hasMore) {
+        this.page++
+        this.getRecommender()
       }
     }
   },

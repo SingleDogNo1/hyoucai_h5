@@ -98,7 +98,9 @@ export default {
               this.hasMore = true
             }
             this.referers = [...this.referers, ...list]
-            this.refresh()
+            this.$nextTick(() => {
+              this.refresh()
+            })
           } else {
             Toast(res.data.resultMsg)
           }

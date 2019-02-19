@@ -9,6 +9,7 @@
         :listen-scroll="listenScroll"
         :pullup="pullup"
         @scrollToEnd="scrollToEnd"
+        :probeType="probeType"
         @scroll="scroll">
         <div>
           <div class="my_recommonder">
@@ -53,6 +54,7 @@ export default {
     return {
       text: '我推荐的人',
       mobile: this.$route.query.mobile,
+      probeType: 3,
       authorization: Hyoucai.getItem('authorization'),
       showModel: false,
       refererAmt: '0', // 推荐人出借总额
@@ -97,7 +99,9 @@ export default {
               this.hasMore = true
             }
             this.referers = [...this.referers, ...list]
-            this.refresh()
+            this.$nextTick(() => {
+              this.refresh()
+            })
           } else {
             Toast(res.data.resultMsg)
           }
@@ -107,6 +111,7 @@ export default {
       this.$refs.scrollRef.refresh()
     },
     scroll(pos) {
+      console.log(pos.y)
       if (pos.y > 10) {
         this.BScrollOptions.pulldownFresh = true
       }

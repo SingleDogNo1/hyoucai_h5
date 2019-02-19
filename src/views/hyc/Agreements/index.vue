@@ -1702,20 +1702,6 @@ export default {
   },
   methods: {},
   created() {
-    const $this = this
-    ;(async function init() {
-      await getProtocolTemplateIdApi().then(res => {
-        $this.protocolTemplateId = res.data.data.protocolTemplateId
-      })
-      await getTrilateralParamsApi({
-        trilateralProtocolType: $this.protocolTemplateId,
-        loanProductId: $this.productId
-      }).then(res => {
-        $this.feeData = res.data.data
-      })
-    })()
-  },
-  mounted() {
     switch (this.type) {
       case 'fxts':
         this.text = '风险告知书'
@@ -1739,7 +1725,21 @@ export default {
         this.text = '江西银行网络交易资金账户服务三方协议'
         break
     }
-  }
+
+    const $this = this
+    ;(async function init() {
+      await getProtocolTemplateIdApi().then(res => {
+        $this.protocolTemplateId = res.data.data.protocolTemplateId
+      })
+      await getTrilateralParamsApi({
+        trilateralProtocolType: $this.protocolTemplateId,
+        loanProductId: $this.productId
+      }).then(res => {
+        $this.feeData = res.data.data
+      })
+    })()
+  },
+  mounted() {}
 }
 </script>
 

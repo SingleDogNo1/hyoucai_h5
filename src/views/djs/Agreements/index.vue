@@ -860,6 +860,7 @@ export default {
       mobile: this.$route.query.mobile,
       type: this.$route.query.agreementType,
       relationId: this.$route.query.relationId,
+      token: this.$route.query.t,
       relation: {
         appNo: '',
         attornBondAmount: '',
@@ -899,10 +900,17 @@ export default {
       case 'zqzr':
         this.text = '债权转让协议'
 
-        if (this.relationId) {
-          bondProtocolApi({
-            relationId: this.relationId
-          }).then(res => {
+        if (this.relationId && this.token) {
+          let headers = {
+            authorization: decodeURIComponent(this.$route.query.t)
+          }
+
+          bondProtocolApi(
+            {
+              relationId: this.relationId
+            },
+            headers
+          ).then(res => {
             if (res.data.resultCode === '1') {
               this.relation = res.data
             }

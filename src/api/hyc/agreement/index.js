@@ -20,14 +20,12 @@ function getTrilateralParamsApi(data) {
 }
 
 // 查询债权转让协议填充数据
-function bondProtocolApi(data) {
+function bondProtocolApi(data, headers) {
   return axios({
     url: 'BondProtocol',
     method: 'post',
     data: qs.stringify(data),
-    headers: {
-      version: '2.0'
-    }
+    headers: headers
   })
 }
 

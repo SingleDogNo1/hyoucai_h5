@@ -1267,7 +1267,7 @@
                 <ul class="one">
                   <li>甲方：</li>
                   <li><em>（签字）手写电子版</em></li>
-                  <li>日期：{{relation.serviceCharge}}</li>
+                  <li>日期：{{relation.partyA}}</li>
                 </ul>
                 <ul class="two">
                   <li>乙方：</li>

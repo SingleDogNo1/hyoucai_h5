@@ -1115,19 +1115,19 @@
         <div v-if="type === 'zqzr'" class="zqzr xytype" titleStr="债权转让协议">
             <div class="paragraph">
               <p>
-                本债权转让协议（下称“本协议”）由以下各方于【 】年【 】月【 】日签订:
+                本债权转让协议（下称“本协议”）由以下各方于【 {{relation.signYear}} 】年【 {{relation.signMonth}} 】月【 {{relation.signDay}} 】日签订:
               </p>
               <p>
-                债权出让人：【 】（下称“甲方”）:
+                债权出让人：【 {{relation.partyA}} 】（下称“甲方”）:
               </p>
               <p>
-                注册号：【 】
+                注册号：【 {{relation.userNameA}} 】
               </p>
               <p>
-                债权受让人：【 】（下称“乙方”）:
+                债权受让人：【 {{relation.partyB}} 】（下称“乙方”）:
               </p>
               <p>
-                注册号：【 】
+                注册号：【 {{relation.userNameDjs}} 】
               </p>
               <p>
                 居间服务人：江西汇通金融信息服务有限公司（下称“丙方”）
@@ -1136,7 +1136,7 @@
             <div class="paragraph">
               <p style="margin-bottom: .1rem;">鉴于</p>
               <p>
-                1.甲方与借款人于【 】年【 】月【 】日签订《三方协议》，协议编号为【 】，将一定金额的款项出借给借款人，甲方有意通过丙方合法经营的汇有财网站（网址：【 https://www.hyoucai.com 】，下称“汇有财”）转让其在《三方协议》项下的全部或部分债权（下称“转让债权”）；
+                1. 甲方与借款人于【 {{relation.signLoanYear}} 】年【 {{relation.signLoanMonth}} 】月【 {{relation.signLoanDay}} 】日签订《借款协议》（下称“《借款协议》”,协议编号为【 {{relation.appNo}} 】）,），将一定金额的款项出借给借款人，甲方有意通过丙方合法经营的汇有财网站（网址：【 http://www.hyoucai.cn 】或【 http://www.hyoucai.com 】，下称“汇有财”）转让其在《借款协议》项下的全部或部分债权（下称“转让债权”）；
               </p>
               <p>
                 2.乙方愿意受让甲方拟转让的债权，同意接受《三方协议》的全部条款；
@@ -1148,13 +1148,24 @@
             <div class="paragraph">
               <p>第一条 转让债权</p>
               <p>1.1甲方拟转让《三方协议》项下债权的基本信息如下：</p>
-              <p>（1） 转让债权金额：【 】</p>
-              <p>（2） 年化利率：【 】</p>
-              <p>（3） 还款方式：【 】</p>
-              <p>（4） 借款期限：【 】</p>
-              <p>（5） 最终到期日：【 】</p>
               <p>
-                1.2乙方同意按照本协议约定的条件，以人民币 【 】元（大写：人民币【 】元，下称“转让价款”）受让甲方在《三方协议》项下人民币 【 】元 （大写：人民币【 】）的债权。</p>
+                （1） 转让债权金额：【 {{relation.attornBondAmount}} 】
+              </p>
+              <p>
+                （2） 年化利率：【 {{relation.rateYear}} 】
+              </p>
+              <p>
+                （3） 还款方式：【 {{relation.repayType}} 】
+              </p>
+              <p>
+                （4） 借款期限：【 {{relation.loanTerm}} 】
+              </p>
+              <p>
+                （5） 最终到期日：【 {{relation.lastDueDate}} 】
+              </p>
+              <p>
+                1.2 乙方同意按照本协议约定的条件，以人民币 【 {{relation.attornBondAmount}} 】元（大写：人民币【 {{relation.attornPriceCapital}} 】，下称“转让价款”）受让甲方在《借款协议》项下人民币 【 {{relation.attornBondAmount}} 】元 （大写：人民币【 {{relation.attornPriceCapital}} 】）的债权。
+              </p>
             </div>
             <div class="paragraph">
               <p>第二条 转让款支付方式</p>
@@ -1174,7 +1185,7 @@
             <div class="paragraph">
               <p>第四条 居间服务费用</p>
               <p>
-                甲乙双方同意，丙方可按照本协议第一条约定的转让价款的【 】%收取本协议项下债权转让的居间服务费用，且该居间服务费用应当由【乙】方承担，乙方应在支付债权转让款的同时向丙方支付居间费。
+                甲乙双方同意，丙方可按照本协议第一条约定的转让价款的【 {{relation.serviceCharge}} 】%收取本协议项下债权转让的居间服务费用，且该居间服务费用应当由【 乙 】方承担，乙方应在支付债权转让款的同时向丙方支付居间费。
               </p>
             </div>
             <div class="paragraph">
@@ -1256,12 +1267,12 @@
                 <ul class="one">
                   <li>甲方：</li>
                   <li><em>（签字）手写电子版</em></li>
-                  <li>日期：</li>
+                  <li>日期：{{relation.serviceCharge}}</li>
                 </ul>
                 <ul class="two">
                   <li>乙方：</li>
                   <li><em>盖章</em></li>
-                  <li>日期：</li>
+                  <li>日期：{{relation.partyB}}</li>
                 </ul>
               </div>
               <div class="file">
@@ -1663,7 +1674,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import HeaderTitle from '@/components/AppHeader'
-import { getProtocolTemplateIdApi, getTrilateralParamsApi } from '@/api/hyc/agreement'
+import { getProtocolTemplateIdApi, getTrilateralParamsApi, bondProtocolApi } from '@/api/hyc/agreement'
 
 export default {
   components: {
@@ -1678,7 +1689,6 @@ export default {
       productId: this.$route.query.productId,
       protocolTemplateId: 2,
       feeData: {
-        // TODO mock data
         // 三方协议数据
         createTime: 1532073087000,
         createUser: 'frank.yang',
@@ -1697,6 +1707,34 @@ export default {
         trilateralType: 2,
         updateTime: 1532073087000,
         updateUser: 'frank.yang'
+      },
+      relationId: this.$route.query.relationId,
+      relation: {
+        // 债权转让数据
+        appNo: '',
+        attornBondAmount: '',
+        attornPrice: '',
+        attornPriceCapital: '',
+        bondPrice: '',
+        bondPriceCapital: '',
+        lastDueDate: '',
+        loanTerm: '',
+        partyA: '',
+        partyB: '',
+        rateYear: '',
+        repayType: '',
+        residualTerm: '',
+        serviceCharge: '',
+        signBondDate: '',
+        signDay: '',
+        signLoanDay: '',
+        signLoanMonth: '',
+        signLoanYear: '',
+        signMonth: '',
+        signYear: '',
+        userNameA: '',
+        userNameDjs: '',
+        website: ''
       }
     }
   },
@@ -1714,6 +1752,16 @@ export default {
         break
       case 'zqzr':
         this.text = '债权转让协议'
+        if (this.relationId) {
+          bondProtocolApi({
+            relationId: this.relationId
+          }).then(res => {
+            if (res.data.resultCode === '1') {
+              this.relation = res.data
+            }
+          })
+        }
+
         break
       case 'zcxy':
         this.text = '汇有财注册协议'

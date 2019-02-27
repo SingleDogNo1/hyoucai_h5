@@ -902,7 +902,7 @@ export default {
 
         if (this.relationId && this.token) {
           let headers = {
-            version: '2.0',
+            version: '1.0',
             authorization: decodeURIComponent(this.$route.query.t)
           }
 

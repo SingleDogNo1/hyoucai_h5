@@ -548,12 +548,12 @@
               <ul class="one">
                 <li>甲方：{{relation.partyA}}</li>
                 <li><em>（签字）手写电子版</em></li>
-                <li>日期：</li>
+                <li>日期：{{relation.signYear}}年{{relation.signMonth}}月{{relation.signDay}}日</li>
               </ul>
               <ul class="two">
                 <li>乙方：{{relation.partyB}}</li>
                 <li><em>盖章</em></li>
-                <li>日期：</li>
+                <li>日期：{{relation.signYear}}年{{relation.signMonth}}月{{relation.signDay}}日</li>
               </ul>
             </div>
             <div class="file">

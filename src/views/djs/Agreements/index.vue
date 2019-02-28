@@ -562,6 +562,7 @@
                 <li><i>（盖章）</i></li>
                 <li>日期：</li>
               </ul>
+              <img v-if="relation.userNameA" src="./cachel.png" style="width: 1.2rem; position: absolute; bottom: 0.15rem; right: 0.2rem;" alt="" />
             </div>
           </div>
         </div>
@@ -947,6 +948,7 @@ export default {
       .xytype {
         .file {
           display: flex;
+          position: relative;
           ul {
             flex: 1;
             height: 1.6rem;

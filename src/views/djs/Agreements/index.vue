@@ -400,7 +400,7 @@
             <p>日期<span class="stSign"></span><em> 日期<span class="ndSign"></span></em></p>
           </div>
         </div>
-        <div v-if="type === 'zqzr'" class="zqzr xytype" titleStr="债权转让协议">
+        <div v-if="type === 'zqxy'" class="zqzr xytype" titleStr="债权转让协议">
           <div class="paragraph">
             <p>本债权转让协议（下称“本协议”）由以下各方于【 {{relation.signYear}} 】年【 {{relation.signMonth}} 】月【 {{relation.signDay}} 】日签订:</p>
             <p>债权出让人：【 {{relation.partyA}} 】（下称“甲方”）:</p>
@@ -897,7 +897,7 @@ export default {
       case 'ywsq':
         this.text = '汇有财授权签约协议'
         break
-      case 'zqzr':
+      case 'zqxy':
         this.text = '债权转让协议'
 
         if (this.relationId && this.token) {

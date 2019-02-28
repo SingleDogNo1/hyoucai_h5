@@ -546,21 +546,21 @@
           <div class="paragraph">
             <div class="file">
               <ul class="one">
-                <li>甲方：</li>
+                <li>甲方：{{relation.partyA}}</li>
                 <li><em>（签字）手写电子版</em></li>
-                <li>日期：{{relation.partyA}}</li>
+                <li>日期：</li>
               </ul>
               <ul class="two">
-                <li>乙方：</li>
+                <li>乙方：{{relation.partyB}}</li>
                 <li><em>盖章</em></li>
-                <li>日期：{{relation.partyB}}</li>
+                <li>日期：</li>
               </ul>
             </div>
             <div class="file">
               <ul class="three" style="width: 100%;">
                 <li>丙方：江西汇通金融信息服务有限公司</li>
                 <li><i>（盖章）</i></li>
-                <li>日期：</li>
+                <li>日期：{{relation.signYear}}年{{relation.signMonth}}月{{relation.signDay}}日</li>
               </ul>
               <img v-if="relation.userNameA" src="./cachel.png" style="width: 1.2rem; position: absolute; bottom: 0.15rem; right: 0.2rem;" alt="" />
             </div>

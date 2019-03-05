@@ -302,6 +302,11 @@ export default new Router({
               path: 'mateact',
               name: 'HYCmateAct',
               component: () => import('@/views/hyc/activities/mateact/mateact')
+            },
+            {
+              path: 'anni-cashback',
+              name: 'sixthAnniCashback',
+              component: () => import('@/views/hyc/activities/sixthAnniversary/index')
             }
           ]
         },

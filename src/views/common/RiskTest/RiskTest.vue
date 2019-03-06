@@ -991,14 +991,14 @@ export default {
     }
     .content {
       width: 92%;
-      height: 3.85rem;
       margin: -0.94rem auto 0;
       padding: 0.32rem 0.24rem 0;
       border-radius: 0.04rem;
       background-color: #fff;
+      transform: translateY(-0.08rem);
       dl {
         display: flex;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.15rem;
         dt {
           width: 0.06rem;
           height: 0.06rem;

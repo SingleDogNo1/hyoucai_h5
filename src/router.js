@@ -211,6 +211,11 @@ export default new Router({
               path: 'register',
               name: 'DJSRegister',
               component: () => import('@/views/djs/activities/register')
+            },
+            {
+              path: 'womensday',
+              name: 'womensDay',
+              component: () => import('@/views/djs/activities/womensDay/index')
             }
           ]
         },
@@ -307,11 +312,6 @@ export default new Router({
               path: 'anni-cashback',
               name: 'sixthAnniCashback',
               component: () => import('@/views/hyc/activities/sixthAnniversary/index')
-            },
-            {
-              path: 'womensday',
-              name: 'womensDay',
-              component: () => import('@/views/hyc/activities/womensDay/index')
             }
           ]
         },

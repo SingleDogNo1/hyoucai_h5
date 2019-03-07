@@ -11,7 +11,6 @@
       <div>
         <img src="./rule.png" class="rule" alt="">
         <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
-        <div>{{id}} ---- {{msg}}</div>
       </div>
     </BScroll>
   </div>
@@ -19,7 +18,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/hyc/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/mateact'
 
 export default {
   name: 'womenday',
@@ -95,8 +94,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/css/theme.scss';
-@import '../../../../assets/css/mixins.scss';
+@import '../../../../assets/css/theme';
+@import '../../../../assets/css/mixins';
 
 .inner.blur {
   filter: blur(4px);
@@ -171,7 +170,7 @@ export default {
   width: 0.7rem;
   height: 0.23rem;
   position: absolute;
-  background: url('./rule.png') 0 / contain;
+  background: url('rule.png') 0 / contain;
   top: 0.15rem;
   right: 0;
 }

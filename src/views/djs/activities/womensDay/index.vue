@@ -57,7 +57,7 @@ export default {
 
     api
       .getShareInfoApi({
-        id: activityId
+        id: 21
       })
       .then(res => {
         this.msg = JSON.stringify(res.data)

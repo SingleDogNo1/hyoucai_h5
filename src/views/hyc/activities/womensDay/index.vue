@@ -11,6 +11,7 @@
       <div>
         <img src="./rule.png" class="rule" alt="">
         <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
+        <div>{{id}} ---- {{msg}}</div>
       </div>
     </BScroll>
   </div>
@@ -26,7 +27,9 @@ export default {
     return {
       title: '汇通金融女王节活动',
       type: this.$route.query.type,
-      detailFlag: false
+      detailFlag: false,
+      id: '',
+      msg: ''
     }
   },
   components: {
@@ -51,6 +54,15 @@ export default {
   },
   mounted() {
     const activityId = this.$route.query.activityId
+    this.id = this.$route.query.activityId
+
+    api
+      .getShareInfoApi({
+        id: activityId
+      })
+      .then(res => {
+        this.msg = JSON.stringify(res.data)
+      })
 
     // 如果是从h5活动列表进入的，用我们自己的分享逻辑
     // 如果是直接进入活动详情，app用自己的分享功能

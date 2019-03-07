@@ -9,7 +9,7 @@
     </div>
     <BScroll class="detail-mask" ref="scrollRef" :beforeScroll="true" @beforeScroll="beforeScroll" v-show="detailFlag">
       <div>
-        <img src="./rule.png" alt="">
+        <img src="./rule.png" class="rule" alt="">
         <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
       </div>
     </BScroll>
@@ -152,6 +152,9 @@ export default {
   padding: 0.15rem;
   background-color: rgba(0, 0, 0, 0.6);
   overflow: auto;
+  .rule {
+    width: 100%;
+  }
   .close {
     display: block;
     @include radiusCube(0.25rem);

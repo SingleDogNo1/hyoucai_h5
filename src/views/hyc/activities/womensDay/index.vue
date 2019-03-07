@@ -7,29 +7,44 @@
         <div class="rule-icon" @click="showDetail"></div>
       </div>
     </div>
-    <div class="detail-mask" v-if="detailFlag">
-      <img src="./rule.png" alt="">
-      <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
-    </div>
+    <BScroll class="detail-mask" ref="scrollRef" :beforeScroll="true" @beforeScroll="beforeScroll" v-show="detailFlag">
+      <div>
+        <img src="./rule.png" alt="">
+        <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
+      </div>
+    </BScroll>
   </div>
 </template>
 
 <script>
+  import BScroll from '@/components/BScroll/BScroll'
 export default {
   name: 'mateact',
   data() {
     return {
-      title: '汇通金融六周年返现活动',
+      title: '汇通金融女王节活动',
       type: this.$route.query.type,
       detailFlag: false
     }
   },
+  components: {
+    BScroll
+  },
   methods: {
     showDetail() {
       this.detailFlag = true
+      this.$nextTick(() => {
+        this.refresh()
+      })
     },
     closeDialog() {
       this.detailFlag = false
+    },
+    refresh() {
+      this.$refs.scrollRef.refresh()
+    },
+    beforeScroll() {
+      this.refresh()
     }
   }
 }
@@ -136,9 +151,11 @@ export default {
   justify-content: center;
   padding: 0.15rem;
   background-color: rgba(0, 0, 0, 0.6);
+  overflow: auto;
   .close {
+    display: block;
     @include radiusCube(0.25rem);
-    margin: 0.2rem auto 0;
+    margin: 0.2rem auto;
   }
 }
 </style>

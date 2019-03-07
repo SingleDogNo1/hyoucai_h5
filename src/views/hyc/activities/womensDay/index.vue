@@ -17,9 +17,11 @@
 </template>
 
 <script>
-  import BScroll from '@/components/BScroll/BScroll'
+import BScroll from '@/components/BScroll/BScroll'
+import api from '@/api/hyc/ActivitiesApi/mateact'
+
 export default {
-  name: 'mateact',
+  name: 'womenday',
   data() {
     return {
       title: '汇通金融女王节活动',
@@ -45,6 +47,36 @@ export default {
     },
     beforeScroll() {
       this.refresh()
+    }
+  },
+  mounted() {
+    const activityId = this.$route.query.activityId
+
+    // 如果是从h5活动列表进入的，用我们自己的分享逻辑
+    // 如果是直接进入活动详情，app用自己的分享功能
+    if (window.history.length > 1) {
+      const t = setInterval(() => {
+        if (window.DjsJsBridge && activityId) {
+          api
+            .getShareInfoApi({
+              id: activityId
+            })
+            .then(res => {
+              if (res.data.resultCode === '1') {
+                const data = res.data.data
+                const params = {
+                  title: data.title,
+                  content: data.description,
+                  url: window.location.href,
+                  imgUrl: data.iconUrl
+                }
+                let shareInfo = JSON.stringify(params)
+                window.DjsJsBridge.getShareKey(shareInfo)
+                clearInterval(t)
+              }
+            })
+        }
+      }, 400)
     }
   }
 }

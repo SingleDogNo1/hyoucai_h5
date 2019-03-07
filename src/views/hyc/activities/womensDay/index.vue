@@ -149,9 +149,11 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0.15rem;
   background-color: rgba(0, 0, 0, 0.6);
   overflow: auto;
+  > div {
+    padding: 0.15rem;
+  }
   .rule {
     width: 100%;
   }

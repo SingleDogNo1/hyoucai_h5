@@ -1,29 +1,29 @@
 <template>
   <div class="home pageContainer" ref="container">
-    <AppHeader :title="title" :mobileValue="!isAppTitle" />
-    <div class="login-form">
-      <header class="logo"></header>
-      <h6 class="slogan">唯有赚钱不能停</h6>
-      <input
-        type="number"
-        maxlength="11"
-        autofocus="autofocus"
-        placeholder="请输入您的手机号"
-        v-model="mobile" />
-      <button @click="checkTelNum">下一步</button>
-    </div>
+    <!--<AppHeader :title="title" :mobileValue="!isAppTitle" />-->
+    <!--<div class="login-form">-->
+      <!--<header class="logo"></header>-->
+      <!--<h6 class="slogan">唯有赚钱不能停</h6>-->
+      <!--<input-->
+        <!--type="number"-->
+        <!--maxlength="11"-->
+        <!--autofocus="autofocus"-->
+        <!--placeholder="请输入您的手机号"-->
+        <!--v-model="mobile" />-->
+      <!--<button @click="checkTelNum">下一步</button>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
+// import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 
 export default {
   name: 'home',
   components: {
-    AppHeader
+    // AppHeader
   },
   data() {
     return {
@@ -80,7 +80,7 @@ export default {
   box-sizing: border-box;
   &.home {
     padding-top: 0.2rem;
-    background: #fff;
+    /*background: #fff;*/
     height: auto;
     .login-form {
       .logo {

@@ -25,4 +25,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .mint-header {
+  .mint-header-title {
+    font-weight: bold;
+  }
+}
 </style>

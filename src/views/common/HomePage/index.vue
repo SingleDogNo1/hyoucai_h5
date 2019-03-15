@@ -19,6 +19,8 @@
 import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
+import { isExistUser } from '@/api/common/register'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'home',
@@ -35,28 +37,25 @@ export default {
   methods: {
     checkTelNum() {
       if (!this.mobile) {
-        Toast({
-          message: '请输入手机号'
-        })
+        Toast('请输入手机号')
       } else if (!isMobile(this.mobile)) {
-        Toast({
-          message: '请输入正确的手机号'
-        })
+        Toast('请输入正确的手机号')
       } else {
         isExistUser({ mobile: this.mobile }).then(res => {
           if (res.data.data.isExistUser === '1') {
-            this.errorMsg = '该手机号已经存在!!'
+            // 该手机号已注册跳转登录
+            this.$router.push({ name: 'userLogin' })
           } else {
+            // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
-            this.$router.push({ name: 'registerForm' })
+            this.$router.push({ name: 'userRegister' })
           }
         })
       }
-
-      Toast({
-        message: '12312'
-      })
-    }
+    },
+    ...mapMutations({
+      setRegisterMobile: 'SET_REGISTER_MOBILE'
+    })
   },
   created() {
     this.$nextTick(() => {

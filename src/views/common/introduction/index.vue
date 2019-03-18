@@ -2,7 +2,7 @@
   <div class="pageContainer" ref="container">
     <AppHeader :title="title" :mobileValue="!isAppTitle" />
     <div class="wrapper">
-      <b-scroll class="scroll" ref="scrollRef">
+      <!--<b-scroll class="scroll" ref="scrollRef">-->
         <div>
           <header></header>
           <section>
@@ -49,19 +49,19 @@
           </ul>
           </section>
         </div>
-      </b-scroll>
+      <!--</b-scroll>-->
     </div>
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 import AppHeader from '@/components/AppHeader'
 
 export default {
   name: 'introduction',
   components: {
-    BScroll,
+    // BScroll,
     AppHeader
   },
   data() {

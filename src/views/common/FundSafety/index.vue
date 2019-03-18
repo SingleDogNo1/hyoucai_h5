@@ -1,7 +1,7 @@
 <template>
   <div class="fundSafety pageContainer">
     <header-title :title="text" :mobileValue="mobile"></header-title>
-    <b-scroll class="scroll" ref="scrollRef">
+    <!--<b-scroll class="scroll" ref="scrollRef">-->
       <div class="main">
         <h3>全方位风控体系建设</h3>
         <p class="content">汇有财坚持将稳健合规运营作为平台运营发展的根本原则，建立了健全而高效的八道风控工序，并利用大数据技术打造出完美的风控闭环，为用户资金提供五重安全保障。</p>
@@ -30,19 +30,19 @@
           </div>
         </div>
       </div>
-    </b-scroll>
+    <!--</b-scroll>-->
   </div>
 </template>
 
 <script>
 import HeaderTitle from '@/components/AppHeader'
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   name: 'fundSafety',
   components: {
-    HeaderTitle,
-    BScroll
+    HeaderTitle
+    // BScroll
   },
   data() {
     return {

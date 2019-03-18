@@ -1,7 +1,8 @@
 <template>
-  <div class="fundSafety pageContainer">
+  <div class="fundSafety pageContainer" ref="pageContainer">
     <header-title :title="text" :mobileValue="mobile"></header-title>
     <!--<b-scroll class="scroll" ref="scrollRef">-->
+    <section>
       <div class="main">
         <h3>全方位风控体系建设</h3>
         <p class="content">汇有财坚持将稳健合规运营作为平台运营发展的根本原则，建立了健全而高效的八道风控工序，并利用大数据技术打造出完美的风控闭环，为用户资金提供五重安全保障。</p>
@@ -30,6 +31,7 @@
           </div>
         </div>
       </div>
+    </section>
     <!--</b-scroll>-->
   </div>
 </template>
@@ -49,6 +51,11 @@ export default {
       text: '资产安全',
       mobile: this.$route.query.mobile
     }
+  },
+  mounted() {
+    if (this.mobile) {
+      this.$refs.pageContainer.style.top = 0
+    }
   }
 }
 </script>
@@ -63,6 +70,9 @@ export default {
   .my-scroll {
     height: 100%;
     overflow: hidden;
+  }
+  section {
+    background: #ffffff;
   }
   .main {
     padding: 0.2rem;

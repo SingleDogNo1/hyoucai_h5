@@ -37,6 +37,7 @@ export default {
   background-color: #fff;
   font-size: 0.13rem;
   height: 100%;
+  top: 0;
   .scroll {
     width: 100%;
     height: 100%;
@@ -76,6 +77,7 @@ export default {
   }
   .main {
     padding: 0.3rem 0.15rem 0.17rem;
+    background: #ffffff;
     .img {
       width: 100%;
       background-position: 50%;

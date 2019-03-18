@@ -66,9 +66,10 @@ export default {
 .couponPage {
   font-size: 0.13rem;
   color: #666;
-  background: #f2f2f2;
+  background: #fff;
   padding-top: 0.08rem;
   height: 100%;
+  top: 0;
   .scroll {
     height: 100%;
     overflow: hidden;

@@ -1,6 +1,6 @@
 <template>
   <div class="home pageContainer" ref="container">
-    <!--<AppHeader :title="title" :mobileValue="!isAppTitle" />-->
+    <AppHeader :title="title" :mobileValue="!isAppTitle" />
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-// import AppHeader from '@/components/AppHeader'
+import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 import { isExistUser } from '@/api/common/register'
@@ -25,7 +25,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'home',
   components: {
-    // AppHeader
+    AppHeader
   },
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
 .pageContainer {
   position: absolute;
   width: 100%;
-  top: 0;
+  top: 0.44rem;
   bottom: 0;
   box-sizing: border-box;
   &.home {

@@ -1,10 +1,10 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <AppHeader :title="title" :mobileValue="!isAppTitle" />
+  <div class="pageContainer intro" ref="container">
+    <AppHeader :title="title" :mobileValue="isAppTitle" />
     <div class="wrapper">
-      <b-scroll class="scroll" ref="scrollRef">
-        <div>
-          <header></header>
+      <!--<b-scroll class="scroll" ref="scrollRef">-->
+        <!--<div>-->
+          <!--<header></header>-->
           <section>
           <div class="top">
             <ul>
@@ -48,20 +48,20 @@
             </li>
           </ul>
           </section>
-        </div>
-      </b-scroll>
+        <!--</div>-->
+      <!--</b-scroll>-->
     </div>
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 import AppHeader from '@/components/AppHeader'
 
 export default {
   name: 'introduction',
   components: {
-    BScroll,
+    // BScroll,
     AppHeader
   },
   data() {
@@ -92,8 +92,11 @@ export default {
       })
     }
   },
-  created() {
-    this.refresh()
+  mounted() {
+    // this.refresh()
+    if (this.isAppTitle) {
+      this.$refs.container.style.top = 0
+    }
   }
 }
 </script>
@@ -103,140 +106,146 @@ export default {
 @import '../../../assets/css/mixins';
 .pageContainer {
   background-color: $color-background;
+  &.intro {
+    height: auto;
+  }
+  section {
+    background: #fff;
+  }
   .wrapper {
     height: 100%;
+    background-color: #fff;
     box-sizing: border-box;
-    .scroll {
+    /*.scroll {*/
+    /*box-sizing: border-box;*/
+    /*height: 100%;*/
+    /*background-color: #fff;*/
+    /*overflow: hidden;*/
+    /*> div {*/
+    header {
+      height: 0.08rem;
+      background: $color-background;
+    }
+    section {
+      padding: 0.15rem 4% 0;
+      /*margin-top: 0.15rem;*/
+    }
+    .top {
+      width: 98%;
+      height: 2.04rem;
+      padding: 0.15rem;
+      margin: 0 auto 0.16rem;
+      background-color: #ff5e19;
+      border-radius: 0.04rem;
       box-sizing: border-box;
-      height: 100%;
-
-      background-color: #fff;
-      overflow: hidden;
-      > div {
-        header {
-          height: 0.08rem;
-          background: $color-background;
-        }
-        section {
-          padding: 0 4%;
-          margin-top: 0.15rem;
-        }
-        .top {
-          width: 98%;
-          height: 2.04rem;
-          padding: 0.15rem;
-          margin: 0 auto 0.16rem;
-          background-color: #ff5e19;
-          border-radius: 0.04rem;
-          box-sizing: border-box;
-          ul {
-            box-sizing: border-box;
-            color: #fff;
-            li {
-              margin-bottom: 0.16rem;
-              dl {
-                dt {
-                  width: 0.35rem;
-                  height: 0.3rem;
-                  margin-bottom: 0.08rem;
-                  background-size: 100% 100%;
-                }
-                dd {
-                  font-size: 0.15rem;
-                }
-              }
-              &:nth-of-type(1) {
-                dl {
-                  dt {
-                    @include bg-image('3c');
-                  }
-                }
-              }
-              &:nth-of-type(2) {
-                margin-bottom: 0;
-                dl {
-                  dt {
-                    @include bg-image('cart');
-                  }
-                }
+      ul {
+        box-sizing: border-box;
+        color: #fff;
+        li {
+          margin-bottom: 0.16rem;
+          dl {
+            dt {
+              width: 0.35rem;
+              height: 0.3rem;
+              margin-bottom: 0.08rem;
+              background-size: 100% 100%;
+            }
+            dd {
+              font-size: 0.15rem;
+            }
+          }
+          &:nth-of-type(1) {
+            dl {
+              dt {
+                @include bg-image('3c');
               }
             }
           }
-        }
-        p {
-          color: $color-text-gray;
-          font-size: 0.13rem;
-        }
-        .title {
-          margin: 16px auto;
-          text-align: center;
-          font-size: 0.15rem;
-          color: #4a90e2;
-        }
-        .items {
-          overflow: hidden;
-          font-size: 0;
-          li {
-            display: inline-block;
-            width: 0.8rem;
-            margin-right: 0.38rem;
-            font-size: 0.15rem;
-            color: $color-text-b;
+          &:nth-of-type(2) {
+            margin-bottom: 0;
             dl {
               dt {
-                width: 0.6rem;
-                height: 0.6rem;
-                margin: 0 auto 0.08rem;
-                border-radius: 50%;
-                background-size: 100% 100%;
-              }
-              dd {
-                text-align: center;
-              }
-            }
-            &:nth-of-type(1) {
-              dl {
-                dt {
-                  @include bg-image('rating');
-                }
-              }
-            }
-            &:nth-of-type(2) {
-              dl {
-                dt {
-                  @include bg-image('person_manage');
-                }
-              }
-            }
-            &:last-child {
-              margin-right: 0;
-            }
-          }
-        }
-        .list {
-          li {
-            margin-bottom: 0.06rem;
-            dl {
-              display: flex;
-              font-size: 0;
-              dt {
-                width: 0.06rem;
-                height: 0.06rem;
-                margin-right: 0.07rem;
-                margin-top: 0.06rem;
-                border-radius: 50%;
-                @include border-1px-radius(#ff5e19);
-              }
-              dd {
-                flex: 1;
-                font-size: $font-size-small-s;
-                color: $color-text-gray;
+                @include bg-image('cart');
               }
             }
           }
         }
       }
     }
+    p {
+      color: $color-text-gray;
+      font-size: 0.13rem;
+    }
+    .title {
+      margin: 16px auto;
+      text-align: center;
+      font-size: 0.15rem;
+      color: #4a90e2;
+    }
+    .items {
+      overflow: hidden;
+      font-size: 0;
+      li {
+        display: inline-block;
+        width: 0.8rem;
+        margin-right: 0.38rem;
+        font-size: 0.15rem;
+        color: $color-text-b;
+        dl {
+          dt {
+            width: 0.6rem;
+            height: 0.6rem;
+            margin: 0 auto 0.08rem;
+            border-radius: 50%;
+            background-size: 100% 100%;
+          }
+          dd {
+            text-align: center;
+          }
+        }
+        &:nth-of-type(1) {
+          dl {
+            dt {
+              @include bg-image('rating');
+            }
+          }
+        }
+        &:nth-of-type(2) {
+          dl {
+            dt {
+              @include bg-image('person_manage');
+            }
+          }
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+    .list {
+      li {
+        margin-bottom: 0.06rem;
+        dl {
+          display: flex;
+          font-size: 0;
+          dt {
+            width: 0.06rem;
+            height: 0.06rem;
+            margin-right: 0.07rem;
+            margin-top: 0.06rem;
+            border-radius: 50%;
+            @include border-1px-radius(#ff5e19);
+          }
+          dd {
+            flex: 1;
+            font-size: $font-size-small-s;
+            color: $color-text-gray;
+          }
+        }
+      }
+    }
+    /*}*/
+    /*}*/
   }
 }
 </style>

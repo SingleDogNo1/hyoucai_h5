@@ -1,8 +1,6 @@
 module.exports = {
   baseUrl: process.env.NODE_ENV === 'production' ? './' : '/',
-  configureWebpack: {
-    devtool: 'none'
-  },
+  productionSourceMap: false,
   devServer: {
     host: '0.0.0.0',
     disableHostCheck: true,

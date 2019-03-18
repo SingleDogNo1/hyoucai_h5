@@ -1,6 +1,6 @@
 <template>
   <div class="couponPage pageContainer">
-    <BScroll class="scroll" ref="scrollRef">
+    <!--<BScroll class="scroll" ref="scrollRef">-->
       <div class="main">
         <h5><span class="title-1">优惠券有哪些</span></h5>
         <p class="tips">汇有财提供了加息券、体验金、现金红包、抵扣红包、投资红包五种类型的优惠券，各自功用如下：</p>
@@ -45,17 +45,17 @@
           </div>
         </div>
       </div>
-    </BScroll>
+    <!--</BScroll>-->
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   name: 'coupon',
   components: {
-    BScroll
+    // BScroll
   }
 }
 </script>
@@ -66,9 +66,10 @@ export default {
 .couponPage {
   font-size: 0.13rem;
   color: #666;
-  background: #f2f2f2;
+  background: #fff;
   padding-top: 0.08rem;
   height: 100%;
+  top: 0;
   .scroll {
     height: 100%;
     overflow: hidden;

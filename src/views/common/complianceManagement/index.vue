@@ -1,7 +1,8 @@
 <template>
-  <div class="complianceManagement pageContainer">
+  <div class="complianceManagement pageContainer" ref="pageContainer">
     <header-title :title="text" :mobileValue="mobile"></header-title>
-    <BScroll>
+    <!--<BScroll>-->
+    <section>
       <div class="main">
         <div class="desc"></div>
         <p class="intro">
@@ -22,24 +23,30 @@
         </h3>
         <p>汇有财平台借款人不属于在校学生、无还款来源/收入来源的人；借贷用途不涉及房地产或高风险金融产品，不存在拆分借款项目的情形。借款项目均符合《网络借贷信息中介机构业务活动管理暂行办法》的要求。</p>
       </div>
-    </BScroll>
+    </section>
+      <!--</BScroll>-->
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 import HeaderTitle from '@/components/AppHeader'
 
 export default {
   name: 'complianceManagement',
   components: {
-    BScroll,
+    // BScroll,
     HeaderTitle
   },
   data() {
     return {
       text: '合规管理',
       mobile: this.$route.query.mobile
+    }
+  },
+  mounted() {
+    if (this.mobile) {
+      this.$refs.pageContainer.style.top = 0
     }
   }
 }
@@ -54,6 +61,9 @@ export default {
   .my-scroll {
     height: 100%;
     overflow: hidden;
+  }
+  section {
+    background: #ffffff;
   }
   .main {
     padding: 0.16rem 0.15rem;

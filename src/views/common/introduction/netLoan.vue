@@ -1,6 +1,6 @@
 <template>
     <div class="netLoan pageContainer">
-        <BScroll class="scroll" ref="scrollRef">
+        <!--<BScroll class="scroll" ref="scrollRef">-->
             <div class="main">
             <h5><span>严选资产</span></h5>
             <p>汇有财严选小额分散的优质资产，通过严格的风控手段，确保资产是有具体场景支撑、有指定用途、有还款能力保障、有客群限制，坏账率低、不良率低。发布个人借款信息，匹配撮合出借人的出借信息，帮助借款人解决资金需求。</p>
@@ -27,16 +27,16 @@
             <p>借款人信用良好。如有稳定收入、高学历等</p>
             <p>逾期或违约将影响个人征信。</p>
         </div>
-        </BScroll>
+        <!--</BScroll>-->
     </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 export default {
   name: 'netLoan',
   components: {
-    BScroll
+    // BScroll
   }
 }
 </script>
@@ -46,9 +46,10 @@ export default {
 .netLoan {
   font-size: 0.13rem;
   color: #666;
-  background: #f2f2f2;
+  background: #fff;
   padding-top: 0.08rem;
   height: 100%;
+  top: 0;
   .scroll {
     height: 100%;
   }

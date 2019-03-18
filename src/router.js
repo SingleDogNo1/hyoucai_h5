@@ -15,6 +15,18 @@ export default new Router({
       name: 'home',
       component: Home
     },
+    // 登录
+    {
+      path: '/login',
+      name: 'userLogin',
+      component: () => import('@/views/common/login')
+    },
+    // 注册
+    {
+      path: '/register',
+      name: 'userRegister',
+      component: () => import('@/views/common/register')
+    },
     // 风险测评(共用)
     {
       path: '/risk-test',

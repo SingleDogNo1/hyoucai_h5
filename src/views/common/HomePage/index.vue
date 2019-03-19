@@ -1,22 +1,22 @@
 <template>
   <div class="home pageContainer" ref="container">
-    <!--<AppHeader :title="title" :mobileValue="!isAppTitle" />-->
-    <!--<div class="login-form">-->
-      <!--<header class="logo"></header>-->
-      <!--<h6 class="slogan">唯有赚钱不能停</h6>-->
-      <!--<input-->
-        <!--type="number"-->
-        <!--maxlength="11"-->
-        <!--autofocus="autofocus"-->
-        <!--placeholder="请输入您的手机号"-->
-        <!--v-model="mobile" />-->
-      <!--<button @click="checkTelNum">下一步</button>-->
-    <!--</div>-->
+    <AppHeader :title="title" :mobileValue="!isAppTitle" />
+    <div class="login-form">
+      <header class="logo"></header>
+      <h6 class="slogan">唯有赚钱不能停</h6>
+      <input
+        type="number"
+        maxlength="11"
+        autofocus="autofocus"
+        placeholder="请输入您的手机号"
+        v-model="mobile" />
+      <button @click="checkTelNum">下一步</button>
+    </div>
   </div>
 </template>
 
 <script>
-// import AppHeader from '@/components/AppHeader'
+import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 import { isExistUser } from '@/api/common/register'
@@ -25,7 +25,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'home',
   components: {
-    // AppHeader
+    AppHeader
   },
   data() {
     return {
@@ -44,6 +44,7 @@ export default {
         isExistUser({ mobile: this.mobile }).then(res => {
           if (res.data.data.isExistUser === '1') {
             // 该手机号已注册跳转登录
+            this.setRegisterMobile(this.mobile)
             this.$router.push({ name: 'userLogin' })
           } else {
             // 新手机号跳转注册
@@ -67,7 +68,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '../../../assets/css/mixins';
 @import '../../../assets/css/theme';
 
@@ -79,7 +80,7 @@ export default {
   box-sizing: border-box;
   &.home {
     padding-top: 0.2rem;
-    /*background: #fff;*/
+    background: #fff;
     height: auto;
     .login-form {
       .logo {

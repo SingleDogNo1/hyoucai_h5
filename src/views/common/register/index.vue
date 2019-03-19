@@ -102,7 +102,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user', 'registerMobile'])
+    ...mapGetters(['user', 'registerMobile', 'platform'])
   },
   methods: {
     sendSMSCode() {

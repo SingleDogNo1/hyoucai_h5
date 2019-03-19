@@ -61,7 +61,7 @@ export default {
   .smsBtn {
     width: 100%;
     font-size: $font-size-small-ss;
-    color: $color-button;
+    color: $color-main;
     line-height: 0.25rem;
     text-align: center;
   }

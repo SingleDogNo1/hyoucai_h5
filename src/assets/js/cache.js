@@ -48,6 +48,14 @@ export function setErrorNum(errorNum) {
   Cookies.set('errorNum', errorNum)
 }
 
+export function getPlatform() {
+  return Cookies.get('platform')
+}
+
+export function setPlatform(platform) {
+  Cookies.set('platform', platform)
+}
+
 export function setLoginUsername(username) {
   Cookies.set('loginUsername', username)
 }

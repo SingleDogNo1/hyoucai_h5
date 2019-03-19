@@ -87,8 +87,8 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        inviteCode: this.$route.query.inviteCode, // TODO 推荐码参数是什么
-        recommendCode: this.$route.query.inviteCode, // TODO 推荐码参数是什么
+        inviteCode: this.$route.query.mediasource,
+        recommendCode: this.$route.query.mediasource,
         registerFrom: 'H5'
       },
       cpm: false, // 钞票码显隐标识

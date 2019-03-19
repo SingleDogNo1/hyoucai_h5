@@ -31,7 +31,8 @@ export default {
     return {
       title: '汇有财',
       isAppTitle: this.$route.query.mobile,
-      mobile: ''
+      mobile: '',
+      mediasource: this.$router.query.mediasource // 推荐码参数
     }
   },
   methods: {
@@ -49,7 +50,10 @@ export default {
           } else {
             // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
-            this.$router.push({ name: 'userRegister' })
+            this.$router.push({
+              name: 'userRegister',
+              query: this.mediasource
+            })
           }
         })
       }

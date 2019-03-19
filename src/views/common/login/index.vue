@@ -1,6 +1,6 @@
 <template>
   <div class="login pageContainer">
-    <AppHeader :title="title" :mobileValue="!isAppTitle" />
+    <AppHeader :title="title" :mobileValue="isAppTitle" />
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>

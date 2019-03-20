@@ -168,7 +168,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .ruler {
   background: #fff;
   border-top: 0.01rem solid #eee;

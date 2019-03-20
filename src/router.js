@@ -228,7 +228,12 @@ export default new Router({
               path: 'womensday',
               name: 'womensDay',
               component: () => import('@/views/djs/activities/womensDay/index')
-            }
+            },
+            {
+              path: 'inviteact',
+              name: 'DJSinviteAct',
+              component: () => import('@/views/djs/activities/inviteact')
+            },
           ]
         },
         {

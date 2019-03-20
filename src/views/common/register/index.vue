@@ -1,6 +1,6 @@
 <template>
   <div class="register pageContainer">
-    <AppHeader :title="title" :mobileValue="!isAppTitle"></AppHeader>
+    <AppHeader :title="title" :mobileValue="isAppTitle"></AppHeader>
     <section>
       <div class="block sms-code">
         <input

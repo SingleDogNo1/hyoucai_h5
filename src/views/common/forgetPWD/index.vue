@@ -1,6 +1,6 @@
 <template>
   <div class="forget-pwd pageContainer">
-    <AppHeader :title="title" :mobileValue="!isAppTitle"></AppHeader>
+    <AppHeader :title="title" :mobileValue="isAppTitle"></AppHeader>
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
@@ -28,6 +28,7 @@
           autofocus="autofocus"
           placeholder="请输入密码(8位及以上数字加英文组合)"
           v-model="password" />
+        <password-strength class="password-strength" :pwd="password"></password-strength>
       </div>
 
       <button v-if="step === 0" :class="{active: smsCode !== ''}" @click="nextStep">下一步</button>
@@ -40,6 +41,7 @@
 import AppHeader from '@/components/AppHeader'
 import { mapGetters } from 'vuex'
 import SMSBtn from '@/components/smsBtn'
+import PasswordStrength from '@/components/passwordStrength'
 import { captchaId } from '@/assets/js/const'
 import { smsLogin, forgetPwdResetCode } from '@/api/common/login'
 import { forgetPwdCodeApi } from '@/api/common/forgetPWD'
@@ -49,7 +51,8 @@ export default {
   name: 'forgetPWD',
   components: {
     AppHeader,
-    SMSBtn
+    SMSBtn,
+    PasswordStrength
   },
   data() {
     return {
@@ -181,6 +184,7 @@ input {
         width: 3.45rem;
         height: 0.45rem;
         margin: 0 auto 0.34rem;
+        position: relative;
         input {
           margin: 0 auto;
           display: block;
@@ -189,6 +193,17 @@ input {
           font-size: 0.13rem;
           color: #999999;
           border-bottom: 0.01rem solid #f4f4f4;
+        }
+        .password-strength {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
+          height: 0.25rem;
+          /deep/ .part {
+            width: 0.3rem;
+          }
         }
         .sms-btn {
           width: 1rem;

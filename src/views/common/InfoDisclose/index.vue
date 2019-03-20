@@ -976,6 +976,10 @@ export default {
         }
       })
     })
+
+    setTimeout(() => {
+      this.$refs.scrollRef.disable()
+    }, 200)
   }
 }
 </script>

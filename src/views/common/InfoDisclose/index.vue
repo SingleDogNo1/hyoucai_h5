@@ -978,7 +978,7 @@ export default {
     })
 
     setTimeout(() => {
-      this.$refs.scrollRef.disable()
+      this.$refs.scrollRef.destroy()
     }, 200)
   }
 }

@@ -10,7 +10,7 @@
       <p v-if="step === 1">为您的账号重新设置一个密码</p>
       <div class="sms-code" v-if="step === 0">
         <input
-          type="number"
+          type="tel"
           maxlength="6"
           autofocus="autofocus"
           placeholder="请输入短信验证码"
@@ -125,7 +125,7 @@ export default {
   filters: {
     splitTelNum: function(value) {
       value = value.toString()
-      return `${value.slice(0, 3)} ${value.slice(3, 6)} ${value.slice(6)}`
+      return `${value.slice(0, 3)} ${value.slice(3, 7)} ${value.slice(7)}`
     }
   },
 

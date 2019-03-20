@@ -22,6 +22,7 @@
 
 <script>
 // import BScroll from '@/components/BScroll/BScroll'
+import { Toast } from 'mint-ui'
 
 export default {
   components: {
@@ -34,6 +35,20 @@ export default {
     iosClick() {
       window.location.href = 'https://itunes.apple.com/cn/app/id1289595622?mt=8'
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      switch (from.name) {
+        case 'userLogin':
+          // 从登录来的
+          // Toast('login success')
+          break
+        case 'userRegister':
+          // 从注册来的
+          Toast('恭喜您，注册成功')
+          break
+      }
+    })
   }
 }
 </script>

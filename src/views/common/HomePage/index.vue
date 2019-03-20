@@ -6,7 +6,7 @@
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
       <input
-        type="number"
+        type="tel"
         maxlength="11"
         autofocus="autofocus"
         placeholder="请输入您的手机号"
@@ -54,11 +54,12 @@ export default {
             this.setRegisterMobile(this.mobile)
             this.$router.push({ name: 'userLogin' })
           } else {
+            debugger
             // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
             this.$router.push({
               name: 'userRegister',
-              query: this.mediasource
+              query: { mediasource: this.mediasource }
             })
           }
         })
@@ -130,7 +131,7 @@ export default {
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        &[type='number'] {
+        &[type='tel'] {
           border-bottom: 0.01rem solid #f4f4f4;
         }
         &[type='button'] {

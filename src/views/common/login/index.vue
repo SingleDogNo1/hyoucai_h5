@@ -16,8 +16,8 @@
         v-model="password" />
       <div class="sms-code" v-else>
         <input
-          type="number"
-          maxlength="11"
+          type="tel"
+          maxlength="6"
           autofocus="autofocus"
           placeholder="请输入短信验证码"
           v-model="smsCode" />
@@ -77,7 +77,7 @@ export default {
   filters: {
     splitTelNum: function(value) {
       value = value.toString()
-      return `${value.slice(0, 3)} ${value.slice(3, 6)} ${value.slice(6)}`
+      return `${value.slice(0, 3)} ${value.slice(3, 7)} ${value.slice(7)}`
     }
   },
   methods: {
@@ -270,7 +270,7 @@ input {
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        &[type='number'] {
+        &[type='tel'] {
           border-bottom: 0.01rem solid #f4f4f4;
         }
         &[type='button'] {

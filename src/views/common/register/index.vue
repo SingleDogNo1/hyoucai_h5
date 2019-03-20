@@ -5,7 +5,7 @@
       <div class="block sms-code">
         <input
           ref="smsInput"
-          type="number"
+          type="tel"
           autofocus="autofocus"
           placeholder="请输入短信验证码"
           maxlength="6"
@@ -40,12 +40,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.inputInviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
       </div>
       <div class="form-item" v-if="tjm">
-        <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.inputRecommendCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
       </div>
       <input
         :class="['block', 'submit', {
@@ -70,6 +68,7 @@ import { mapGetters, mapMutations } from 'vuex'
 import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/api/common/register'
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
+import { userLogin } from '@/api/common/login'
 
 export default {
   name: 'register',
@@ -87,10 +86,8 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        inviteCode: this.$route.query.mediasource,
-        recommendCode: this.$route.query.mediasource,
-        inputInviteCode: '',
-        inputRecommendCode: '',
+        inviteCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
+        recommendCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
         registerFrom: 'H5'
       },
       cpm: false, // 钞票码显隐标识
@@ -163,7 +160,7 @@ export default {
         if (this.cpm && this.form.inviteCode) {
           await new Promise((resolve, reject) => {
             validateCPM({
-              inviteCode: this.form.inviteCode ? this.form.inviteCode : this.form.inputInviteCode
+              inviteCode: this.form.inviteCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -178,7 +175,7 @@ export default {
         if (this.tjm && this.form.recommendCode) {
           await new Promise((resolve, reject) => {
             validateTJM({
-              recommendCode: this.form.recommendCode ? this.form.recommendCode : this.form.inputRecommendCode
+              recommendCode: this.form.recommendCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -195,7 +192,7 @@ export default {
           })
         )
           .then(res => {
-            if (res.data.dresultCode === '1') {
+            if (res.data.resultCode === '1') {
               return userLogin({
                 userName: this.registerMobile,
                 passWord: btoa(this.form.passWord)

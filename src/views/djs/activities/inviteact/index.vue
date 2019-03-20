@@ -24,7 +24,7 @@ export default {
   name: 'inviteact',
   data() {
     return {
-      title: '汇通金融女王节活动',
+      title: '邀请好友返现活动',
       type: this.$route.query.type,
       detailFlag: false,
       id: '',

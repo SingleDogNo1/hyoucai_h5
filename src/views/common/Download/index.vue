@@ -1,7 +1,7 @@
 <template>
   <div class="index">
-    <BScroll>
-      <div>
+    <!--<BScroll>-->
+      <div class="wrapper">
         <header>
           <div class="logo"></div>
           <p class="text">唯有赚钱不能停</p>
@@ -16,16 +16,16 @@
           <span>Android 版下载</span>
         </button>
       </div>
-    </BScroll>
+    <!--</BScroll>-->
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   components: {
-    BScroll
+    // BScroll
   },
   methods: {
     androidClick() {
@@ -46,6 +46,9 @@ export default {
   .my-scroll {
     height: 100%;
     overflow: hidden;
+  }
+  .wrapper {
+    background: #ffffff;
   }
   header {
     width: 100%;

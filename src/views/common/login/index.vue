@@ -27,7 +27,12 @@
           @getSMSCode="sendSMSCode"
         />
       </div>
-      <button :class="{active: activeBtn()}" @click="login">登录</button>
+      <input
+        type="button"
+        value="登录"
+        :disabled="!activeBtn()"
+        @click="login"
+      >
      <div class="other">
        <span v-if="isPassword" @click="isPassword = false">使用短信验证码登录</span>
        <span v-else @click="isPassword = true">使用密码登录</span>
@@ -78,9 +83,9 @@ export default {
   methods: {
     activeBtn() {
       if (this.isPassword) {
-        return this.password !== ''
+        return this.password.length >= 8
       } else {
-        return this.smsCode !== ''
+        return this.smsCode.length >= 8
       }
     },
     login() {
@@ -250,8 +255,11 @@ input {
         font-size: 0.13rem;
         color: #666;
         line-height: 0.18rem;
+        letter-spacing: 0.1em;
         span {
+          font-weight: 600;
           color: #151515;
+          letter-spacing: 0;
         }
       }
       > input {
@@ -262,7 +270,22 @@ input {
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        border-bottom: 0.01rem solid #f4f4f4;
+        &[type='number'] {
+          border-bottom: 0.01rem solid #f4f4f4;
+        }
+        &[type='button'] {
+          margin: 0 auto;
+          display: block;
+          width: 3.45rem;
+          height: 0.45rem;
+          border-radius: 0.04rem;
+          font-size: 0.15rem;
+          color: #ffffff;
+          background: $color-main;
+          &:disabled {
+            background: #ccc;
+          }
+        }
       }
       .sms-code {
         display: flex;
@@ -289,17 +312,6 @@ input {
         }
       }
       button {
-        margin: 0 auto;
-        display: block;
-        width: 3.45rem;
-        height: 0.45rem;
-        border-radius: 0.04rem;
-        font-size: 0.15rem;
-        color: #ffffff;
-        background: #ccc;
-        &.active {
-          background: $color-main;
-        }
       }
       .other {
         display: flex;

@@ -27,7 +27,7 @@
           maxlength="20"
           @blur="passwordBlur"
         />
-        <password-strength class="password-strength" :pwd="form.password"></password-strength>
+        <password-strength class="password-strength" :pwd="form.passWord"></password-strength>
       </div>
       <div class="block repeat-pwd">
         <input
@@ -41,15 +41,15 @@
 
       <div class="block invite-code" v-if="cpm">
         <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input ref="inviteCodeInput" v-else type="text" v-model="form.inputInviteCode" placeholder="输入推荐码(选填)">
       </div>
       <div class="form-item" v-if="tjm">
         <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
+        <input ref="inviteCodeInput" v-else type="text" v-model="form.inputRecommendCode" placeholder="输入推荐码(选填)">
       </div>
       <input
         :class="['block', 'submit', {
-          active: form.identifyCode && form.passWord && form.repeatPassword
+          active: form.identifyCode && form.passWord.length >= 8 && form.repeatPassword.length >= 8
         }]"
         type="button"
         value="注册"
@@ -89,6 +89,8 @@ export default {
         repeatPassword: '',
         inviteCode: this.$route.query.mediasource,
         recommendCode: this.$route.query.mediasource,
+        inputInviteCode: '',
+        inputRecommendCode: '',
         registerFrom: 'H5'
       },
       cpm: false, // 钞票码显隐标识
@@ -127,7 +129,7 @@ export default {
         return
       }
       if (!isMobCode(this.form.identifyCode)) {
-        Toast('请输入正确的短信验证码')
+        Toast('短信验证码格式错误')
       }
       return isMobCode(this.form.identifyCode)
     },
@@ -138,7 +140,7 @@ export default {
           return
         }
         if (!isPassword(this.form.passWord)) {
-          Toast('请输入正确的密码')
+          Toast('密码格式错误')
         }
         return isPassword(this.form.passWord)
       }
@@ -151,74 +153,82 @@ export default {
         }
         if (this.form.repeatPassword !== this.form.passWord) {
           Toast('两次密码输入不一致，请重新输入')
+          return
         }
         return this.form.repeatPassword === this.form.passWord
       }
     },
     async register() {
-      if (this.cpm && this.form.inviteCode) {
-        await new Promise((resolve, reject) => {
-          validateCPM({
-            inviteCode: this.form.inviteCode
-          }).then(res => {
-            if (res.data.data) {
-              resolve()
-            } else {
-              Toast('推荐码不正确')
-              reject()
-            }
-          })
-        })
-      }
-
-      if (this.tjm && this.form.recommendCode) {
-        await new Promise((resolve, reject) => {
-          validateTJM({
-            recommendCode: this.form.recommendCode
-          }).then(res => {
-            if (res.data.data) {
-              resolve()
-            } else {
-              Toast('推荐码不正确')
-              reject()
-            }
-          })
-        })
-      }
-      userRegister(
-        Object.assign(this.form, {
-          mobile: this.registerMobile
-        })
-      )
-        .then(res => {
-          if (res.data.dresultCode === '1') {
-            return userLogin({
-              userName: this.registerMobile,
-              passWord: btoa(this.form.passWord)
+      if (this.form.repeatPassword === this.form.passWord) {
+        if (this.cpm && this.form.inviteCode) {
+          await new Promise((resolve, reject) => {
+            validateCPM({
+              inviteCode: this.form.inviteCode ? this.form.inviteCode : this.form.inputInviteCode
+            }).then(res => {
+              if (res.data.data) {
+                resolve()
+              } else {
+                Toast('推荐码不正确')
+                reject()
+              }
             })
-          } else {
-            Toast(res.data.resultMsg)
-            throw new Error()
-          }
-        })
-        .then(res => {
-          if (res.data.resultCode === '1') {
-            let user = res.data.data
-            this.setUser(user)
-            switch (this.user.platformFlag) {
-              case '1':
-                window.location.href = '/djs/#/bankAccount/openAccount'
-                break
-              case '2':
-                window.location.href = '/hyc/#/bankAccount/openAccount'
-                break
-              default:
-                this.$router.push({ name: 'account' })
+          })
+        }
+
+        if (this.tjm && this.form.recommendCode) {
+          await new Promise((resolve, reject) => {
+            validateTJM({
+              recommendCode: this.form.recommendCode ? this.form.recommendCode : this.form.inputRecommendCode
+            }).then(res => {
+              if (res.data.data) {
+                resolve()
+              } else {
+                Toast('推荐码不正确')
+                reject()
+              }
+            })
+          })
+        }
+        userRegister(
+          Object.assign(this.form, {
+            mobile: this.registerMobile
+          })
+        )
+          .then(res => {
+            if (res.data.dresultCode === '1') {
+              return userLogin({
+                userName: this.registerMobile,
+                passWord: btoa(this.form.passWord)
+              })
+            } else {
+              Toast(res.data.resultMsg)
+              throw new Error()
             }
-          } else {
-            Toast(res.data.resultMsg)
-          }
-        })
+          })
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              let user = res.data.data
+              this.setUser(user)
+              // switch (this.user.platformFlag) {
+              //   case '1':
+              //     window.location.href = '/djs/#/bankAccount/openAccount'
+              //     break
+              //   case '2':
+              //     window.location.href = '/hyc/#/bankAccount/openAccount'
+              //     break
+              //   default:
+              //     this.$router.push({ name: 'account' })
+              // }
+              this.$router.push({
+                name: 'AppDownload'
+              })
+            } else {
+              Toast(res.data.resultMsg)
+            }
+          })
+      } else {
+        Toast('两次密码输入不一致，请重新输入')
+      }
     },
     ...mapMutations({
       setUser: 'SET_USER'

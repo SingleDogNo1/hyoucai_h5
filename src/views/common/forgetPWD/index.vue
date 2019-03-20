@@ -28,11 +28,26 @@
           autofocus="autofocus"
           placeholder="请输入密码(8位及以上数字加英文组合)"
           v-model="password" />
-        <password-strength class="password-strength" :pwd="password"></password-strength>
+        <password-strength
+          class="password-strength"
+          :pwd="password"
+          v-show="password !== ''"
+        ></password-strength>
       </div>
-
-      <button v-if="step === 0" :class="{active: smsCode !== ''}" @click="nextStep">下一步</button>
-      <button v-if="step === 1" :class="{active: password !== ''}" @click="login">确认并登录</button>
+      <input
+        type="button"
+        value="下一步"
+        v-if="step === 0"
+        :disabled="smsCode === ''"
+        @click="nextStep"
+      >
+      <input
+        type="button"
+        value="确认并登录"
+        v-if="step === 1"
+        :disabled="password === ''"
+        @click="login"
+      >
     </div>
   </div>
 </template>
@@ -203,6 +218,9 @@ input {
           height: 0.25rem;
           /deep/ .part {
             width: 0.3rem;
+            p {
+              font-size: 0.1rem;
+            }
           }
         }
         .sms-btn {
@@ -214,7 +232,7 @@ input {
           }
         }
       }
-      button {
+      > input[type='button'] {
         margin: 0 auto;
         display: block;
         width: 3.45rem;
@@ -222,9 +240,13 @@ input {
         border-radius: 0.04rem;
         font-size: 0.15rem;
         color: #ffffff;
-        background: #ccc;
+        background: $color-main;
+        &:disabled {
+          background: #ccc;
+        }
+      }
+      button {
         &.active {
-          background: $color-main;
         }
       }
       .other {

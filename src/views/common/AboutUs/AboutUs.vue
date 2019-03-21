@@ -526,6 +526,14 @@ export default {
   background: #2b2b2b;
 }
 
+.pageContainer {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
 .scroll {
   width: 100%;
   height: 100%;

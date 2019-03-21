@@ -40,10 +40,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)">
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)">
       </div>
       <input
         :class="['block', 'submit', {
@@ -86,10 +86,10 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        inviteCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
-        recommendCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
         registerFrom: 'H5'
       },
+      inviteCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
+      recommendCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
       cpm: false, // 钞票码显隐标识
       tjm: false, // 推荐码显隐标识
       captchaIns: null, // 滑块验证码实例
@@ -157,10 +157,10 @@ export default {
     },
     async register() {
       if (this.form.repeatPassword === this.form.passWord) {
-        if (this.cpm && this.form.inviteCode) {
+        if (this.cpm && this.inviteCode) {
           await new Promise((resolve, reject) => {
             validateCPM({
-              inviteCode: this.form.inviteCode
+              inviteCode: this.inviteCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -172,10 +172,10 @@ export default {
           })
         }
 
-        if (this.tjm && this.form.recommendCode) {
+        if (this.tjm && this.recommendCode) {
           await new Promise((resolve, reject) => {
             validateTJM({
-              recommendCode: this.form.recommendCode
+              recommendCode: this.recommendCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -188,7 +188,9 @@ export default {
         }
         userRegister(
           Object.assign(this.form, {
-            mobile: this.registerMobile
+            mobile: this.registerMobile,
+            inviteCode: this.inviteCode ? this.inviteCode : undefined,
+            recommendCode: this.recommendCode ? this.recommendCode : undefined
           })
         )
           .then(res => {

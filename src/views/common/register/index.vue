@@ -238,6 +238,12 @@ export default {
       if (res.data.resultCode === '1') {
         this.cpm = res.data.data.cpm === 'true'
         this.tjm = res.data.data.tjm === 'true'
+        if (this.cpm) {
+          this.inviteCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
+        if (this.tjm) {
+          this.recommendCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
       }
     })
     window.initNECaptcha(

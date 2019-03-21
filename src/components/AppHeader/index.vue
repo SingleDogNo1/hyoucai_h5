@@ -1,5 +1,5 @@
 <template>
-  <mt-header v-show="mobileValue != 1" ref="mtHeader" :title="font" class="is-fixed">
+  <mt-header v-if="!isAppTitle" ref="mtHeader" :title="title" class="">
     <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
   </mt-header>
 </template>
@@ -7,16 +7,14 @@
 <script>
 export default {
   data() {
-    return {
-      font: this.title
-    }
+    return {}
   },
   props: {
     title: {
       type: String,
       default: ''
     },
-    mobileValue: {
+    isAppTitle: {
       type: [String, Boolean],
       default: ''
     }

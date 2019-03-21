@@ -1,6 +1,5 @@
 <template>
-  <div class="login pageContainer">
-    <AppHeader :title="title" :mobileValue="isAppTitle" />
+  <div class="login">
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
 import { mapGetters, mapMutations } from 'vuex'
 import { captchaId } from '@/assets/js/const'
 import { userLogin, smsLogin, userLoginVcode } from '@/api/common/login'
@@ -55,7 +53,6 @@ import SMSBtn from '@/components/smsBtn'
 export default {
   name: 'login',
   components: {
-    AppHeader,
     SMSBtn
   },
   data() {
@@ -211,118 +208,111 @@ input {
   }
 }
 
-.pageContainer {
-  position: absolute;
-  width: 100%;
-  top: 0.44rem;
-  bottom: 0;
-  box-sizing: border-box;
-  &.login {
-    height: auto;
-    padding-top: 0.2rem;
-    background: #fff;
-    .login-form {
-      .logo {
-        @include cube(1.36rem, 0.45rem);
+.login {
+  height: auto;
+  padding-top: 0.2rem;
+  background: #fff;
+  .login-form {
+    .logo {
+      @include cube(1.36rem, 0.45rem);
+      margin: 0 auto;
+      @include bg-image(Hyoucai_logo);
+      background-size: contain;
+    }
+    .slogan {
+      position: relative;
+      font-size: 0.15rem;
+      color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      margin: 0.07rem auto 0.43rem;
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        width: 0.7em;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.5);
+        top: 50%;
+        left: 50%;
+        margin-left: -0.7rem;
+      }
+      &:after {
+        margin-left: 0.6rem;
+      }
+    }
+    p {
+      width: 3.45rem;
+      margin: 0 auto 0.1rem;
+      font-size: 0.13rem;
+      color: #666;
+      line-height: 0.18rem;
+      letter-spacing: 0.1em;
+      span {
+        font-weight: 600;
+        color: #151515;
+        letter-spacing: 0;
+      }
+    }
+    > input {
+      box-sizing: border-box;
+      margin: 0 auto 0.34rem;
+      display: block;
+      width: 3.45rem;
+      height: 0.45rem;
+      font-size: 0.13rem;
+      color: #999999;
+      &[type='tel'] {
+        border-bottom: 0.01rem solid #f4f4f4;
+      }
+      &[type='button'] {
         margin: 0 auto;
-        @include bg-image(Hyoucai_logo);
-        background-size: contain;
-      }
-      .slogan {
-        position: relative;
-        font-size: 0.15rem;
-        color: rgba(0, 0, 0, 0.5);
-        text-align: center;
-        margin: 0.07rem auto 0.43rem;
-        &:before,
-        &:after {
-          content: '';
-          position: absolute;
-          width: 0.7em;
-          height: 1px;
-          background: rgba(0, 0, 0, 0.5);
-          top: 50%;
-          left: 50%;
-          margin-left: -0.7rem;
-        }
-        &:after {
-          margin-left: 0.6rem;
-        }
-      }
-      p {
+        display: block;
         width: 3.45rem;
-        margin: 0 auto 0.1rem;
-        font-size: 0.13rem;
-        color: #666;
-        line-height: 0.18rem;
-        letter-spacing: 0.1em;
-        span {
-          font-weight: 600;
-          color: #151515;
-          letter-spacing: 0;
+        height: 0.45rem;
+        border-radius: 0.04rem;
+        font-size: 0.15rem;
+        color: #ffffff;
+        background: $color-main;
+        &:disabled {
+          background: #ccc;
         }
       }
-      > input {
-        box-sizing: border-box;
-        margin: 0 auto 0.34rem;
+    }
+    .sms-code {
+      display: flex;
+      justify-content: space-between;
+      width: 3.45rem;
+      height: 0.45rem;
+      margin: 0 auto 0.34rem;
+      input {
+        margin: 0 auto;
         display: block;
         width: 3.45rem;
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        &[type='tel'] {
-          border-bottom: 0.01rem solid #f4f4f4;
-        }
-        &[type='button'] {
-          margin: 0 auto;
-          display: block;
-          width: 3.45rem;
-          height: 0.45rem;
-          border-radius: 0.04rem;
-          font-size: 0.15rem;
-          color: #ffffff;
-          background: $color-main;
-          &:disabled {
-            background: #ccc;
-          }
-        }
+        border-bottom: 0.01rem solid #f4f4f4;
       }
-      .sms-code {
-        display: flex;
-        justify-content: space-between;
-        width: 3.45rem;
-        height: 0.45rem;
-        margin: 0 auto 0.34rem;
-        input {
-          margin: 0 auto;
-          display: block;
-          width: 3.45rem;
-          height: 0.45rem;
+      .sms-btn {
+        width: 1rem;
+        border-bottom: 1px solid #f4f4f4;
+        /deep/ input {
+          line-height: 0.45rem;
           font-size: 0.13rem;
-          color: #999999;
-          border-bottom: 0.01rem solid #f4f4f4;
-        }
-        .sms-btn {
-          width: 1rem;
-          border-bottom: 1px solid #f4f4f4;
-          /deep/ input {
-            line-height: 0.45rem;
-            font-size: 0.13rem;
-          }
         }
       }
-      button {
-      }
-      .other {
-        display: flex;
-        justify-content: space-between;
-        width: 3.45rem;
-        margin: 0.16rem auto 0;
-        color: $color-main;
-        font-size: 0.15rem;
-        line-height: 0.21rem;
-        span {
-        }
+    }
+    button {
+    }
+    .other {
+      display: flex;
+      justify-content: space-between;
+      width: 3.45rem;
+      margin: 0.16rem auto 0;
+      color: $color-main;
+      font-size: 0.15rem;
+      line-height: 0.21rem;
+      span {
       }
     }
   }

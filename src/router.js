@@ -9,17 +9,33 @@ Vue.use(Router)
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
-    // 首页
     {
       path: '/',
-      name: 'home',
-      component: Home
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: Home,
+          meta: {
+            title: '首页'
+          }
+        }
+      ]
     },
-    // 登录
     {
       path: '/login',
-      name: 'userLogin',
-      component: () => import('@/views/common/login')
+      component: Layout,
+      children: [
+        {
+          path: '',
+          name: 'userLogin',
+          component: () => import('@/views/common/login'),
+          meta: {
+            title: '汇有财登录'
+          }
+        }
+      ]
     },
     // 注册
     {
@@ -234,6 +250,11 @@ export default new Router({
               path: 'womensday',
               name: 'womensDay',
               component: () => import('@/views/djs/activities/womensDay/index')
+            },
+            {
+              path: 'inviteact',
+              name: 'DJSinviteAct',
+              component: () => import('@/views/djs/activities/inviteact')
             }
           ]
         },

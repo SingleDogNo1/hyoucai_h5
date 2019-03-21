@@ -1,7 +1,5 @@
 <template>
   <div class="home pageContainer" ref="container">
-    <!-- TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，放开这个组件及其引用 -->
-    <!--<AppHeader :title="title" :mobileValue="!isAppTitle" />-->
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
@@ -22,7 +20,6 @@
 </template>
 
 <script>
-// import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 import { isExistUser } from '@/api/common/register'
@@ -30,9 +27,6 @@ import { mapMutations } from 'vuex'
 
 export default {
   name: 'home',
-  components: {
-    // AppHeader
-  },
   data() {
     return {
       title: '汇有财',
@@ -54,7 +48,6 @@ export default {
             this.setRegisterMobile(this.mobile)
             this.$router.push({ name: 'userLogin' })
           } else {
-            debugger
             // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
             this.$router.push({
@@ -84,13 +77,9 @@ export default {
 @import '../../../assets/css/theme';
 
 .pageContainer {
-  position: absolute;
   width: 100%;
-  // TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，修改 $navBarHeight: 0;
+  /* TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，修改 $navBarHeight: 0; */
   $navBarHeight: 0.44rem;
-  /* $navBarHeight: 0; */
-  top: 0.44rem - $navBarHeight;
-  bottom: 0;
   box-sizing: border-box;
   &.home {
     padding-top: 0.2rem + $navBarHeight;
@@ -148,8 +137,6 @@ export default {
             background: #ccc;
           }
         }
-      }
-      button {
       }
     }
   }

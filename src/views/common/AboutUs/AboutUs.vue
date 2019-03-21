@@ -595,7 +595,7 @@ export default {
             line-height: 0.2rem;
           }
         }
-        $leaders: wangdongdong, linchongqin, fuweiling, chenyuewen;
+        $leaders: wangdongdong, linkezheng, fuweiling, chenyuewen;
         @each $leader in $leaders {
           $i: index($leaders, $leader);
           &:nth-last-of-type(#{$i}) {

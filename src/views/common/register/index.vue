@@ -88,8 +88,8 @@ export default {
         repeatPassword: '',
         registerFrom: 'H5'
       },
-      inviteCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
-      recommendCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
+      inviteCode: undefined,
+      recommendCode: undefined,
       cpm: false, // 钞票码显隐标识
       tjm: false, // 推荐码显隐标识
       captchaIns: null, // 滑块验证码实例

@@ -1,6 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
+  <div class="about-us" ref="container">
     <b-scroll class="scroll" ref="scrollRef">
       <div class="about-us-wrapper">
         <!-- 公司介绍 -->
@@ -329,7 +328,6 @@
 </template>
 
 <script>
-import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper/dist/js/swiper'
 
@@ -339,7 +337,6 @@ Exporting(Highcharts)
 
 export default {
   components: {
-    HeaderTitle,
     BScroll
   },
   data() {
@@ -526,12 +523,8 @@ export default {
   background: #2b2b2b;
 }
 
-.pageContainer {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  box-sizing: border-box;
+.about-us {
+  height: 100%;
 }
 
 .scroll {
@@ -544,7 +537,6 @@ export default {
       @include cube(100%, 2.77rem);
       padding: 0.24rem 0.16rem 0.13rem;
       box-sizing: border-box;
-      margin-top: 0.08rem;
       @include bg-image('intro');
       background-size: contain;
       .title {

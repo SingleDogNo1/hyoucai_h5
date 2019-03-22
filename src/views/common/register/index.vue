@@ -1,6 +1,5 @@
 <template>
-  <div class="register pageContainer">
-    <AppHeader :title="title" :mobileValue="isAppTitle"></AppHeader>
+  <div class="register">
     <section>
       <div class="block sms-code">
         <input
@@ -60,7 +59,6 @@
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
 import PasswordStrength from '@/components/passwordStrength'
 import SMSBtn from '@/components/smsBtn'
 import { isMobCode, isPassword } from '@/assets/js/regular'
@@ -74,7 +72,6 @@ export default {
   name: 'register',
   mixins: [],
   components: {
-    AppHeader,
     PasswordStrength,
     SMSBtn
   },
@@ -271,97 +268,89 @@ input {
     color: #999;
   }
 }
-
-.pageContainer {
-  position: absolute;
-  top: 0.44rem;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  &.register {
-    background: #ffffff;
-    padding-top: 0.23rem;
-    .block {
-      width: 3.45rem;
-      height: 0.45rem;
-      margin: 0 auto;
-      &.sms-code {
+.register {
+  background: #ffffff;
+  padding-top: 0.23rem;
+  .block {
+    width: 3.45rem;
+    height: 0.45rem;
+    margin: 0 auto;
+    &.sms-code {
+      padding-top: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      input {
+        width: 2.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
+        }
+      }
+      .sms-btn {
+        width: 1rem;
+        border-bottom: 1px solid #f4f4f4;
+      }
+    }
+    &.pwd {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
         padding-top: 0.2rem;
-        display: flex;
-        justify-content: space-between;
-        input {
-          width: 2.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
-        .sms-btn {
-          width: 1rem;
-          border-bottom: 1px solid #f4f4f4;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.pwd {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
-        .password-strength {
-          position: absolute;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          margin: auto 0;
-          height: 0.25rem;
+      .password-strength {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 0.25rem;
+      }
+    }
+    &.repeat-pwd {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
+        padding-top: 0.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.repeat-pwd {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
+    }
+    &.invite-code {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
+        padding-top: 0.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.invite-code {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
-      }
-      &.submit {
-        display: block;
-        margin-top: 0.3rem;
-        background: #ccc;
-        border-radius: 4px;
-        font-size: 0.15rem;
-        color: #fff;
-        &.active {
-          background: $color-main;
-        }
+    }
+    &.submit {
+      display: block;
+      margin-top: 0.3rem;
+      background: #ccc;
+      border-radius: 4px;
+      font-size: 0.15rem;
+      color: #fff;
+      &.active {
+        background: $color-main;
       }
     }
   }

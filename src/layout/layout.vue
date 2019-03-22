@@ -1,13 +1,19 @@
 <template>
   <div class="layout">
-    <AppHeader :title="title" :isAppTitle="isAppTitle" />
+    <AppHeader @getMore="getMore">
+      <div>{{appTitleParams.handle}}</div>
+    </AppHeader>
     <div class="container">
-      <router-view />
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
+/*
+* 怎么控制右上角的小标题显示文字和样式（路由不变）
+* 登录从短信登录到密码登录，短信右上角忘记密码，验证码右上角啥也没有
+* */
 import AppHeader from '@/components/AppHeader'
 
 export default {
@@ -17,25 +23,16 @@ export default {
   },
   data() {
     return {
-      title: this.$route.meta.title,
-      // 首页不显示标题（首页当做是和app一样处理）
-      // TODO 目前登录注册输入手机号页当成首页在使用，后期需求会更改首页
-      isAppTitle: this.$route.name === 'home' ? true : this.$route.query.mobile
+      appTitleParams: {
+        // 标题右边的可操作的按钮标题
+        handle: this.$route.meta.handle ? this.$route.meta.handle : ''
+      }
     }
   },
-  created() {
-    console.log(this.$route.name)
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      if (to.name === 'home') {
-        vm.title = to.meta.title
-        vm.isAppTitle = true
-      } else {
-        vm.title = to.meta.title
-        vm.isAppTitle = to.query.mobile
-      }
-    })
+  methods: {
+    getMore() {
+      alert(1111)
+    }
   }
 }
 </script>

@@ -20,62 +20,54 @@ export default new Router({
           meta: {
             title: '首页'
           }
-        }
-      ]
-    },
-    {
-      path: '/login',
-      component: Layout,
-      children: [
+        },
         {
-          path: '',
+          path: 'login',
           name: 'userLogin',
-          component: () => import('@/views/common/login'),
+          component: () => import(/* webpackChunkName: "login" */ '@/views/common/login'),
           meta: {
             title: '汇有财登录'
           }
-        }
-      ]
-    },
-    // 注册
-    {
-      path: '/register',
-      name: 'userRegister',
-      component: () => import('@/views/common/register')
-    },
-    // 忘记密码
-    {
-      path: '/forgetpwd',
-      name: 'forgetPWD',
-      component: () => import('@/views/common/forgetPWD')
-    },
-    // 风险测评(共用)
-    {
-      path: '/risk-test',
-      name: 'riskTest',
-      component: () => import('@/views/common/RiskTest/RiskTest')
-    },
-    // 关于我们(共用)
-    {
-      path: '/about-us',
-      component: Layout,
-      children: [
+        },
         {
-          path: '',
+          path: 'register',
+          name: 'userRegister',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register'),
+          meta: {
+            title: '汇有财注册'
+          }
+        },
+        {
+          path: 'forgetpwd',
+          name: 'forgetPWD',
+          component: () => import(/* webpackChunkName: "forgetpwd" */ '@/views/common/forgetPWD'),
+          meta: {
+            title: '忘记密码'
+          }
+        },
+        {
+          path: 'risk-test',
+          name: 'riskTest',
+          component: () => import(/* webpackChunkName: "risk-test" */ '@/views/common/RiskTest/RiskTest'),
+          meta: {
+            title: '风险测评'
+          }
+        },
+        {
+          path: 'about-us',
           name: 'AboutUs',
-          component: () => import('@/views/common/AboutUs/AboutUs')
-        }
-      ]
-    },
-    // 严选资产(共用)
-    {
-      path: '/selectMeans',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "about-us" */ '@/views/common/AboutUs/AboutUs'),
+          meta: {
+            title: '关于汇有财'
+          }
+        },
         {
-          path: '',
+          path: 'selectMeans',
           name: 'selectMeans',
-          component: () => import('@/views/common/selectMeans')
+          component: () => import(/* webpackChunkName: "selectMeans" */ '@/views/common/selectMeans'),
+          meta: {
+            title: '严选资产'
+          }
         }
       ]
     },

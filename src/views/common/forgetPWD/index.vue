@@ -1,6 +1,5 @@
 <template>
-  <div class="forget-pwd pageContainer">
-    <AppHeader :title="title" :mobileValue="isAppTitle"></AppHeader>
+  <div class="forget-pwd">
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
@@ -53,7 +52,6 @@
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
 import { mapGetters } from 'vuex'
 import SMSBtn from '@/components/smsBtn'
 import PasswordStrength from '@/components/passwordStrength'
@@ -65,7 +63,6 @@ import { Toast } from 'mint-ui'
 export default {
   name: 'forgetPWD',
   components: {
-    AppHeader,
     SMSBtn,
     PasswordStrength
   },
@@ -145,120 +142,113 @@ input {
   }
 }
 
-.pageContainer {
-  position: absolute;
-  width: 100%;
-  top: 0.44rem;
-  bottom: 0;
-  box-sizing: border-box;
-  &.forget-pwd {
-    height: auto;
-    padding-top: 0.2rem;
-    background: #fff;
-    .login-form {
-      .logo {
-        @include cube(1.36rem, 0.45rem);
-        margin: 0 auto;
-        @include bg-image(Hyoucai_logo);
-        background-size: contain;
+.forget-pwd {
+  height: auto;
+  padding-top: 0.2rem;
+  background: #fff;
+  .login-form {
+    .logo {
+      @include cube(1.36rem, 0.45rem);
+      margin: 0 auto;
+      @include bg-image(Hyoucai_logo);
+      background-size: contain;
+    }
+    .slogan {
+      position: relative;
+      font-size: 0.15rem;
+      color: rgba(0, 0, 0, 0.5);
+      text-align: center;
+      margin: 0.07rem auto 0.43rem;
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        width: 0.7em;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.5);
+        top: 50%;
+        left: 50%;
+        margin-left: -0.7rem;
       }
-      .slogan {
-        position: relative;
-        font-size: 0.15rem;
-        color: rgba(0, 0, 0, 0.5);
-        text-align: center;
-        margin: 0.07rem auto 0.43rem;
-        &:before,
-        &:after {
-          content: '';
-          position: absolute;
-          width: 0.7em;
-          height: 1px;
-          background: rgba(0, 0, 0, 0.5);
-          top: 50%;
-          left: 50%;
-          margin-left: -0.7rem;
-        }
-        &:after {
-          margin-left: 0.6rem;
-        }
+      &:after {
+        margin-left: 0.6rem;
       }
-      p {
-        width: 3.45rem;
-        margin: 0 auto 0.1rem;
-        font-size: 0.13rem;
-        color: #666;
-        line-height: 0.18rem;
-        span {
-          color: #151515;
-        }
+    }
+    p {
+      width: 3.45rem;
+      margin: 0 auto 0.1rem;
+      font-size: 0.13rem;
+      color: #666;
+      line-height: 0.18rem;
+      span {
+        color: #151515;
       }
-      .sms-code {
-        display: flex;
-        justify-content: space-between;
-        width: 3.45rem;
-        height: 0.45rem;
-        margin: 0 auto 0.34rem;
-        position: relative;
-        input {
-          margin: 0 auto;
-          display: block;
-          width: 3.45rem;
-          height: 0.45rem;
-          font-size: 0.13rem;
-          color: #999999;
-          border-bottom: 0.01rem solid #f4f4f4;
-        }
-        .password-strength {
-          position: absolute;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          margin: auto 0;
-          height: 0.25rem;
-          /deep/ .part {
-            width: 0.3rem;
-            p {
-              font-size: 0.1rem;
-            }
-          }
-        }
-        .sms-btn {
-          width: 1rem;
-          border-bottom: 1px solid #f4f4f4;
-          /deep/ input {
-            line-height: 0.45rem;
-            font-size: 0.13rem;
-          }
-        }
-      }
-      > input[type='button'] {
+    }
+    .sms-code {
+      display: flex;
+      justify-content: space-between;
+      width: 3.45rem;
+      height: 0.45rem;
+      margin: 0 auto 0.34rem;
+      position: relative;
+      input {
         margin: 0 auto;
         display: block;
         width: 3.45rem;
         height: 0.45rem;
-        border-radius: 0.04rem;
-        font-size: 0.15rem;
-        color: #ffffff;
-        background: $color-main;
-        &:disabled {
-          background: #ccc;
+        font-size: 0.13rem;
+        color: #999999;
+        border-bottom: 0.01rem solid #f4f4f4;
+      }
+      .password-strength {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 0.25rem;
+        /deep/ .part {
+          width: 0.3rem;
+          p {
+            font-size: 0.1rem;
+          }
         }
       }
-      button {
-        &.active {
+      .sms-btn {
+        width: 1rem;
+        border-bottom: 1px solid #f4f4f4;
+        /deep/ input {
+          line-height: 0.45rem;
+          font-size: 0.13rem;
         }
       }
-      .other {
-        display: flex;
-        justify-content: space-between;
-        width: 3.45rem;
-        margin: 0.16rem auto 0;
-        color: $color-main;
-        font-size: 0.15rem;
-        line-height: 0.21rem;
-        span {
-        }
+    }
+    > input[type='button'] {
+      margin: 0 auto;
+      display: block;
+      width: 3.45rem;
+      height: 0.45rem;
+      border-radius: 0.04rem;
+      font-size: 0.15rem;
+      color: #ffffff;
+      background: $color-main;
+      &:disabled {
+        background: #ccc;
+      }
+    }
+    button {
+      &.active {
+      }
+    }
+    .other {
+      display: flex;
+      justify-content: space-between;
+      width: 3.45rem;
+      margin: 0.16rem auto 0;
+      color: $color-main;
+      font-size: 0.15rem;
+      line-height: 0.21rem;
+      span {
       }
     }
   }

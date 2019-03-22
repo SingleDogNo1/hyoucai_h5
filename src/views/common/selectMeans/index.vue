@@ -1,6 +1,6 @@
 <template>
-  <div class="selectMeans pageContainer">
-    <!--<BScroll class="scroll" ref="scrollRef">-->
+  <div class="selectMeans">
+    <BScroll class="scroll">
     <div class="main">
       <div class="img img-1"></div>
       <p
@@ -15,17 +15,17 @@
         class="content content-3"
       >小额分散的资产是一种被监管意见要求的P2P经营模式，顺应了“合规”的刚性潮流；坚持小额分散的原则，不仅是汇通金融发展的初心，也是在当下的国内互联网金融行业市场坏境和信用环境下，P2P网络借贷行业的必然选择。</p>
     </div>
-    <!--</BScroll>-->
+    </BScroll>
   </div>
 </template>
 
 <script>
-// import BScroll from '@/components/BScroll/BScroll'
+import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   name: 'index',
   components: {
-    // BScroll
+    BScroll
   }
 }
 </script>

@@ -54,7 +54,6 @@ export default {
             this.setRegisterMobile(this.mobile)
             this.$router.push({ name: 'userLogin' })
           } else {
-            debugger
             // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
             this.$router.push({

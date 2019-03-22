@@ -27,7 +27,11 @@
           maxlength="20"
           @blur="passwordBlur"
         />
-        <password-strength class="password-strength" :pwd="form.passWord"></password-strength>
+        <password-strength
+          class="password-strength"
+          :pwd="form.passWord"
+          v-show="form.passWord !== ''"
+        ></password-strength>
       </div>
       <div class="block repeat-pwd">
         <input
@@ -274,6 +278,14 @@ export default {
         this.captchaIns = instance
       }
     )
+  },
+  beforeRouteLeave(to, from, next) {
+    const toastWrapper = document.getElementsByClassName('mint-toast')
+    console.log(toastWrapper)
+    for (let i = 0; i < toastWrapper.length; i++) {
+      toastWrapper[i].style.display = 'none'
+    }
+    next()
   }
 }
 </script>

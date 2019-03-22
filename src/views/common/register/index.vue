@@ -6,7 +6,6 @@
         <input
           ref="smsInput"
           type="tel"
-          autofocus="autofocus"
           placeholder="请输入短信验证码"
           maxlength="6"
           v-model="form.identifyCode"
@@ -58,7 +57,7 @@
         :disabled="!form.identifyCode || !form.passWord || !form.repeatPassword"
         @click="register"
       />
-      <p class="agre">注册即表示同意<span @click="toAgreement">《汇有财注册协议》</span></p>
+      <p class="agre">注册即表示同意<span @mousedown.stop="toAgreement">《汇有财注册协议》</span></p>
       <div id="captcha"></div>
     </section>
   </div>
@@ -281,7 +280,6 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     const toastWrapper = document.getElementsByClassName('mint-toast')
-    console.log(toastWrapper)
     for (let i = 0; i < toastWrapper.length; i++) {
       toastWrapper[i].style.display = 'none'
     }

@@ -1796,7 +1796,14 @@ export default {
       })
     })()
   },
-  mounted() {}
+  mounted() {
+    setTimeout(() => {
+      const toastWrapper = document.getElementsByClassName('mint-toast')
+      for (let i = 0; i < toastWrapper.length; i++) {
+        document.getElementsByClassName('body')[0].removeChild(toastWrapper[i])
+      }
+    }, 50)
+  }
 }
 </script>
 

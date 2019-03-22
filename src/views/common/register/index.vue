@@ -54,6 +54,7 @@
         :disabled="!form.identifyCode || !form.passWord || !form.repeatPassword"
         @click="register"
       />
+      <p class="agre">注册即表示同意<span @click="toAgreement">《汇有财注册协议》</span></p>
       <div id="captcha"></div>
     </section>
   </div>
@@ -229,6 +230,14 @@ export default {
         Toast('两次密码输入不一致，请重新输入')
       }
     },
+    toAgreement() {
+      this.$router.push({
+        name: 'HYCagreement',
+        query: {
+          agreementType: 'zcxy'
+        }
+      })
+    },
     ...mapMutations({
       setUser: 'SET_USER'
     })
@@ -370,6 +379,15 @@ input {
         &.active {
           background: $color-main;
         }
+      }
+    }
+    .agre {
+      width: 3.45rem;
+      margin: 0.2rem auto 0;
+      font-size: 0.13rem;
+      color: #666;
+      span {
+        color: $color-main;
       }
     }
   }

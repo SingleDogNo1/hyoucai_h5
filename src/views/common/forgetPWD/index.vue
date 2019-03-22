@@ -242,12 +242,6 @@ input {
           bottom: 0;
           margin: auto 0;
           height: 0.25rem;
-          /deep/ .part {
-            width: 0.3rem;
-            p {
-              font-size: 0.1rem;
-            }
-          }
         }
         .sms-btn {
           width: 1rem;

@@ -270,7 +270,7 @@ input {
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        &[type='tel'] {
+        &[type='password'] {
           border-bottom: 0.01rem solid #f4f4f4;
         }
         &[type='button'] {

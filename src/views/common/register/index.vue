@@ -129,10 +129,7 @@ export default {
         Toast('请输入短信验证码')
         return
       }
-      if (!isMobCode(this.form.identifyCode)) {
-        Toast('短信验证码格式错误')
-      }
-      return isMobCode(this.form.identifyCode)
+      return this.form.identifyCode
     },
     passwordBlur() {
       if (this.smsCodeBlur()) {
@@ -140,10 +137,7 @@ export default {
           Toast('请输入密码')
           return
         }
-        if (!isPassword(this.form.passWord)) {
-          Toast('密码格式错误')
-        }
-        return isPassword(this.form.passWord)
+        return this.form.passWord
       }
     },
     repeatPWDInput() {
@@ -152,15 +146,17 @@ export default {
           Toast('请重新输入密码')
           return
         }
-        if (this.form.repeatPassword !== this.form.passWord) {
-          Toast('两次密码输入不一致，请重新输入')
-          return
-        }
-        return this.form.repeatPassword === this.form.passWord
+        return this.form.repeatPassword
       }
     },
     async register() {
-      if (this.form.repeatPassword === this.form.passWord) {
+      if (!isMobCode(this.form.identifyCode)) {
+        Toast('短信验证码格式错误')
+      } else if (!isPassword(this.form.passWord)) {
+        Toast('密码格式错误')
+      } else if (this.form.repeatPassword !== this.form.passWord) {
+        Toast('两次密码输入不一致，请重新输入')
+      } else {
         if (this.cpm && this.inviteCode) {
           await new Promise((resolve, reject) => {
             validateCPM({
@@ -229,8 +225,6 @@ export default {
               Toast(res.data.resultMsg)
             }
           })
-      } else {
-        Toast('两次密码输入不一致，请重新输入')
       }
     },
     toAgreement() {

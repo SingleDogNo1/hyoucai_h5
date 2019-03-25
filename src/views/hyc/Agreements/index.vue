@@ -1797,12 +1797,12 @@ export default {
     })()
   },
   mounted() {
-    setTimeout(() => {
-      const toastWrapper = document.getElementsByClassName('mint-toast')
+    const toastWrapper = document.getElementsByClassName('mint-toast')
+    if (toastWrapper.length > 0) {
       for (let i = 0; i < toastWrapper.length; i++) {
         document.getElementsByClassName('body')[0].removeChild(toastWrapper[i])
       }
-    }, 50)
+    }
   }
 }
 </script>

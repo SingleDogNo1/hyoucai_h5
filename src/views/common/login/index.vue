@@ -85,7 +85,7 @@ export default {
       if (this.isPassword) {
         return this.password.length >= 8
       } else {
-        return this.smsCode.length >= 8
+        return this.smsCode.length >= 6
       }
     },
     login() {

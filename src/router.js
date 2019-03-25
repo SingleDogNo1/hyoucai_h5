@@ -129,129 +129,107 @@ export default new Router({
         {
           path: 'support_banks',
           name: 'supportBanks',
-          component: () => import('@/views/common/SupportBank'),
+          component: () => import(/* webpackChunkName: "supportBanks" */ '@/views/common/SupportBank'),
           meta: {
             title: '可用银行列表'
           }
-        }
-      ]
-    },
-    // 资金存管(共用)
-    {
-      path: '/archival',
-      component: Layout,
-      children: [
+        },
         {
-          path: '',
+          path: 'archival',
           name: 'ArchivalInfo',
-          component: () => import('@/views/common/ArchivalInfo')
-        }
-      ]
-    },
-    // 信息披露(共用)
-    {
-      path: '/info_disclose',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "archival" */ '@/views/common/ArchivalInfo'),
+          meta: {
+            title: '资金存管'
+          }
+        },
         {
-          path: '',
+          path: 'info_disclose',
           name: 'InfoDisclose',
-          component: () => import('@/views/common/InfoDisclose')
-        }
-      ]
-    },
-    // 证书(共用)
-    {
-      path: '/certificate',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "InfoDisclose" */ '@/views/common/InfoDisclose'),
+          meta: {
+            title: '信息披露'
+          }
+        },
         {
-          path: '',
+          path: 'certificate',
           name: 'certificate',
-          component: () => import('@/views/common/certificate')
-        }
-      ]
-    },
-    // 下载页
-    {
-      path: '/download',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "certificate" */ '@/views/common/certificate'),
+          meta: {
+            title: '证书'
+          }
+        },
         {
-          path: '',
+          path: 'download',
           name: 'AppDownload',
-          component: () => import('@/views/common/Download')
+          component: () => import(/* webpackChunkName: "AppDownload" */ '@/views/common/Download'),
+          meta: {
+            // title: 'App下载'
+          }
         }
       ]
     },
     // 点金石
     {
       path: '/d',
-      component: Layout,
+      component: Activity,
       children: [
         {
           path: 'investdetail',
           name: 'DJSInvestDetail',
-          component: () => import('@/views/djs/investDetail')
+          component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
+          meta: {
+            title: '出借'
+          }
         },
         {
           path: 'act-center',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSActivityCenter',
-              component: () => import('@/views/djs/ActivityCenter/ActivityCenter')
-            }
-          ]
+          name: 'DJSActivityCenter',
+          component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),
+          meta: {
+            title: '活动中心'
+          }
         },
         {
           path: 'activity',
-          component: Activity,
+          component: Empty,
           children: [
             // mate手机乐
             {
               path: 'mateact',
               name: 'DJSmateAct',
-              component: () => import('@/views/djs/activities/mateact/mateact')
+              component: () => import(/* webpackChunkName: "DJSmateAct" */ '@/views/djs/activities/mateact/mateact')
             },
             {
               path: 'coupon',
               name: 'DJScoupon',
-              component: () => import('@/views/djs/activities/coupon/index')
+              component: () => import(/* webpackChunkName: "DJScouponAct" */ '@/views/djs/activities/coupon/index')
             },
             {
               path: 'gold',
               name: 'DJSGold',
-              component: () => import('@/views/djs/activities/goldact')
+              component: () => import(/* webpackChunkName: "DJSGoldAct" */ '@/views/djs/activities/goldact')
             },
             {
               path: 'register',
               name: 'DJSRegister',
-              component: () => import('@/views/djs/activities/register')
+              component: () => import(/* webpackChunkName: "DJSRegisterAct" */ '@/views/djs/activities/register')
             },
             {
               path: 'womensday',
               name: 'womensDay',
-              component: () => import('@/views/djs/activities/womensDay/index')
+              component: () => import(/* webpackChunkName: "womensDayAct" */ '@/views/djs/activities/womensDay/index')
             },
             {
               path: 'inviteact',
               name: 'DJSinviteAct',
-              component: () => import('@/views/djs/activities/inviteact')
+              component: () => import(/* webpackChunkName: "DJSinviteAct" */ '@/views/djs/activities/inviteact')
             }
           ]
         },
         {
           path: 'agreement',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSagreement',
-              component: () => import('@/views/djs/Agreements')
-            }
-          ]
+          name: 'DJSagreement',
+          component: () => import('@/views/djs/Agreements')
         },
         {
           path: 'help',

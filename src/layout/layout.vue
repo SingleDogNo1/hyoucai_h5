@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <AppHeader @getMore="getMore">
+    <AppHeader v-if="$route.meta.title" @getMore="getMore">
       <div>{{appTitleParams.handle}}</div>
     </AppHeader>
     <div class="container">

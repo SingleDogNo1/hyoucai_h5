@@ -1,8 +1,6 @@
 <template>
-  <div class="activity pageContainer" ref="container">
-    <BScroll
-      v-if="actList.length > 0"
-    >
+  <div class="activity">
+    <BScroll v-if="actList.length > 0">
       <div class="activity-wrapper">
         <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
           <img :src="item.picUrl" alt="">
@@ -12,7 +10,6 @@
         </section>
       </div>
     </BScroll>
-
     <NoData
       v-else
       class="no-data"
@@ -34,7 +31,6 @@ export default {
   },
   data() {
     return {
-      title: '活动推荐',
       actList: []
     }
   },
@@ -58,8 +54,9 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
-.pageContainer {
+.activity {
   background: #eee;
+  height: 100%;
 }
 
 .my-scroll {

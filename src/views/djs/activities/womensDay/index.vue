@@ -1,5 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
+  <div class="womens-day">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->

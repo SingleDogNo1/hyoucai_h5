@@ -1,6 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
+  <div class="archival" ref="container">
     <b-scroll class="scroll" ref="scrollRef">
       <div>
         <div class="risk_manage" id="risk">
@@ -166,18 +165,14 @@
 </template>
 
 <script>
-import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   components: {
-    HeaderTitle,
     BScroll
   },
   data() {
     return {
-      text: '备案信息',
-      mobile: this.$route.query.mobile,
       type: this.$route.query.type,
       showBorerEdu: false,
       showLegal: false
@@ -227,12 +222,8 @@ export default {
 @import '../../../assets/css/theme';
 @import '../../../assets/css/mixins';
 
-.pageContainer {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  box-sizing: border-box;
+.archival {
+  height: 100%;
 }
 
 .scroll {

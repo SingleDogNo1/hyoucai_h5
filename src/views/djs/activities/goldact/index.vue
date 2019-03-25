@@ -1,5 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
+  <div class="gold" ref="container">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/common'
 
 export default {
   name: 'mateact',

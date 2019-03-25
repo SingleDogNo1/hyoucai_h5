@@ -1,5 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
+  <div class="register">
     <div class="inner">
       <div class="wrapper">
       </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/common'
 
 export default {
   name: 'register',

@@ -128,8 +128,11 @@ export default {
                 const params = {
                   title: data.title,
                   content: data.description,
-                  url: window.location.href,
-                  imgUrl: data.iconUrl
+                  imgUrl: data.iconUrl,
+                  shareType: data.shareType,
+                  backPicUrl: data.backPicUrl,
+                  qrPicUrl: data.qrPicUrl,
+                  url: window.location.href
                 }
                 let shareInfo = JSON.stringify(params)
                 window.DjsJsBridge.getShareKey(shareInfo)

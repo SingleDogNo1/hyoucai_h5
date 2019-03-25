@@ -168,27 +168,12 @@ export default new Router({
         }
       ]
     },
-    // 点金石
+    /* Layout布局核心是为了better-scroll，因此限制了最外边的wrapper为overflow：hidden。而活动页没有用better-scroll，所以拆开来写。 */
+    // 点金石活动
     {
       path: '/d',
       component: Activity,
       children: [
-        {
-          path: 'investdetail',
-          name: 'DJSInvestDetail',
-          component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
-          meta: {
-            title: '出借'
-          }
-        },
-        {
-          path: 'act-center',
-          name: 'DJSActivityCenter',
-          component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),
-          meta: {
-            title: '活动中心'
-          }
-        },
         {
           path: 'activity',
           component: Empty,
@@ -225,53 +210,86 @@ export default new Router({
               component: () => import(/* webpackChunkName: "DJSinviteAct" */ '@/views/djs/activities/inviteact')
             }
           ]
-        },
-        {
-          path: 'agreement',
-          name: 'DJSagreement',
-          component: () => import('@/views/djs/Agreements')
-        },
+        }
+      ]
+    },
+    // 因为帮助中心标题的特殊性，所以也没有办法使用Layout布局。
+    {
+      path: '/d',
+      component: Empty,
+      children: [
         {
           path: 'help',
-          component: Layout,
+          component: Empty,
           children: [
             {
               path: '',
               name: 'DJSHelp',
-              component: () => import('@/views/djs/Help')
+              component: () => import(/* webpackChunkName: "DJSHelp" */ '@/views/djs/Help'),
+              meta: {
+                title: '帮助中心'
+              }
             }
           ]
+        }
+      ]
+    },
+    // 点金石
+    {
+      path: '/d',
+      component: Layout,
+      children: [
+        {
+          path: 'investdetail',
+          name: 'DJSInvestDetail',
+          component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
+          meta: {
+            title: '出借'
+          }
+        },
+        {
+          path: 'act-center',
+          name: 'DJSActivityCenter',
+          component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),
+          meta: {
+            title: '活动中心'
+          }
+        },
+        {
+          path: 'agreement',
+          name: 'DJSagreement',
+          component: () => import(/* webpackChunkName: "DJSagreement" */ '@/views/djs/Agreements'),
+          meta: {
+            title: '协议'
+          }
         },
         {
           path: 'gratitude_money',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSGratitudeMoney',
-              component: () => import('@/views/djs/GratitudeMoney')
-            }
-          ]
+          name: 'DJSGratitudeMoney',
+          component: () => import(/* webpackChunkName: "DJSGratitudeMoney" */ '@/views/djs/GratitudeMoney'),
+          meta: {
+            title: '我推荐的人'
+          }
         },
         {
           path: 'transfer_charge',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSTransferCharge',
-              component: () => import('@/views/djs/TransferCharge')
-            }
-          ]
+          name: 'DJSTransferCharge',
+          component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
+          meta: {
+            title: '转账充值'
+          }
         },
         {
           path: 'notice',
-          component: Layout,
+          component: Empty,
           children: [
             {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import('@/views/djs/notice')
+              component: () => import('@/views/djs/notice'),
+              meta: {
+                title: '公告详情'
+              }
             }
           ]
         },

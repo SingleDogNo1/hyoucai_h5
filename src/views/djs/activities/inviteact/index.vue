@@ -1,5 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
+  <div class="invite">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
@@ -18,7 +18,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/common'
 
 export default {
   name: 'inviteact',

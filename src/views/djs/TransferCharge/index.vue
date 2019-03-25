@@ -1,6 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
+  <div class="transfer-chanrge">
     <b-scroll class="scroll" ref="scrollRef">
         <div class="wrapper" :style="{paddingTop: mobile ? '0.24rem' : '0.68rem'}">
           <dl class="top">
@@ -37,19 +36,15 @@
 <script>
 import Clipboard from 'clipboard'
 import { Toast } from 'mint-ui'
-import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 // import { serviceTelApi } from '@/api/djs/help'
 
 export default {
   components: {
-    HeaderTitle,
     BScroll
   },
   data() {
     return {
-      text: '转账充值',
-      mobile: this.$route.query.mobile,
       serviceTel: '400-099-7979'
     }
   },
@@ -98,6 +93,9 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
+.transfer-chanrge {
+  height: 100%;
+}
 
 .scroll {
   width: 100%;

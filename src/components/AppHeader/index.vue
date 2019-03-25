@@ -1,6 +1,6 @@
 <template>
   <mt-header v-show="!isAppTitle" ref="mtHeader" :title="title">
-    <mt-button icon="back" slot="left" @click="$router.go(-1)"></mt-button>
+    <mt-button icon="back" slot="left" @click="goBack"></mt-button>
     <mt-button slot="right" @click="getMore">
       <slot></slot>
     </mt-button>
@@ -20,6 +20,16 @@ export default {
     }
   },
   methods: {
+    goBack() {
+      if (window.DjsJsBridge) {
+        if (this.$route.name === 'DJSHelp' || this.$route.name === 'DJSHelp') {
+          // window.DjsJsBridge.close()
+          alert(1)
+        }
+      } else {
+        // $router.go(-1)
+      }
+    },
     getMore() {
       this.$emit('getMore')
     }

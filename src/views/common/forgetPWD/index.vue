@@ -48,6 +48,7 @@
         @click="login"
       >
     </div>
+    <div id="captcha"></div>
   </div>
 </template>
 
@@ -56,7 +57,7 @@ import { mapGetters } from 'vuex'
 import SMSBtn from '@/components/smsBtn'
 import PasswordStrength from '@/components/passwordStrength'
 import { captchaId } from '@/assets/js/const'
-import { smsLogin, forgetPwdResetCode } from '@/api/common/login'
+import { forgetPwdSendVerCode, forgetPwdResetCode } from '@/api/common/login'
 import { forgetPwdCodeApi } from '@/api/common/forgetPWD'
 import { Toast } from 'mint-ui'
 
@@ -71,6 +72,8 @@ export default {
       isAppTitle: this.$route.query.mobile,
       title: '汇有财',
       smsCode: '',
+      captchaIns: null, // 滑块验证码实例
+      validate: '', // 滑块验证码二次验证信息
       step: 0, // 记录忘记密码的流程 0： 输入验证码 1： 可以重置密码
       password: ''
     }
@@ -80,10 +83,14 @@ export default {
   },
   methods: {
     sendSMSCode() {
-      smsLogin({
+      this.captchaIns && this.captchaIns.popUp()
+    },
+    getSMSCode() {
+      forgetPwdSendVerCode({
         mobile: this.registerMobile,
         captchaId,
-        validate: this.validate_sms
+        validate: this.validate,
+        uuid: 'uuid'
       }).then(res => {
         this.$refs.smsBtn.countDown()
         if (res.data.resultCode !== '1') {
@@ -125,8 +132,27 @@ export default {
       return `${value.slice(0, 3)} ${value.slice(3, 7)} ${value.slice(7)}`
     }
   },
-
-  mounted() {}
+  mounted() {
+    window.initNECaptcha(
+      {
+        // config对象，参数配置
+        captchaId: captchaId,
+        width: '320px',
+        element: '#captcha',
+        mode: 'popup',
+        onVerify: (err, data) => {
+          this.validate = data.validate
+          this.getSMSCode()
+        },
+        onClose: () => {
+          this.captchaIns.refresh()
+        }
+      },
+      instance => {
+        this.captchaIns = instance
+      }
+    )
+  }
 }
 </script>
 

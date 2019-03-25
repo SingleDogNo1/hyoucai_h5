@@ -5,7 +5,6 @@
         <input
           ref="smsInput"
           type="tel"
-          autofocus="autofocus"
           placeholder="请输入短信验证码"
           maxlength="6"
           v-model="form.identifyCode"
@@ -26,7 +25,11 @@
           maxlength="20"
           @blur="passwordBlur"
         />
-        <password-strength class="password-strength" :pwd="form.passWord"></password-strength>
+        <password-strength
+          class="password-strength"
+          :pwd="form.passWord"
+          v-show="form.passWord !== ''"
+        ></password-strength>
       </div>
       <div class="block repeat-pwd">
         <input
@@ -39,10 +42,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)">
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)">
       </div>
       <input
         :class="['block', 'submit', {
@@ -53,6 +56,7 @@
         :disabled="!form.identifyCode || !form.passWord || !form.repeatPassword"
         @click="register"
       />
+      <p class="agre">注册即表示同意<span @mousedown.stop="toAgreement">《汇有财注册协议》</span></p>
       <div id="captcha"></div>
     </section>
   </div>
@@ -83,10 +87,10 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        inviteCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
-        recommendCode: this.$route.query.mediasource ? this.$route.query.mediasource : '',
         registerFrom: 'H5'
       },
+      inviteCode: undefined,
+      recommendCode: undefined,
       cpm: false, // 钞票码显隐标识
       tjm: false, // 推荐码显隐标识
       captchaIns: null, // 滑块验证码实例
@@ -122,10 +126,7 @@ export default {
         Toast('请输入短信验证码')
         return
       }
-      if (!isMobCode(this.form.identifyCode)) {
-        Toast('短信验证码格式错误')
-      }
-      return isMobCode(this.form.identifyCode)
+      return this.form.identifyCode
     },
     passwordBlur() {
       if (this.smsCodeBlur()) {
@@ -133,10 +134,7 @@ export default {
           Toast('请输入密码')
           return
         }
-        if (!isPassword(this.form.passWord)) {
-          Toast('密码格式错误')
-        }
-        return isPassword(this.form.passWord)
+        return this.form.passWord
       }
     },
     repeatPWDInput() {
@@ -145,19 +143,21 @@ export default {
           Toast('请重新输入密码')
           return
         }
-        if (this.form.repeatPassword !== this.form.passWord) {
-          Toast('两次密码输入不一致，请重新输入')
-          return
-        }
-        return this.form.repeatPassword === this.form.passWord
+        return this.form.repeatPassword
       }
     },
     async register() {
-      if (this.form.repeatPassword === this.form.passWord) {
-        if (this.cpm && this.form.inviteCode) {
+      if (!isMobCode(this.form.identifyCode)) {
+        Toast('短信验证码格式错误')
+      } else if (!isPassword(this.form.passWord)) {
+        Toast('密码格式错误')
+      } else if (this.form.repeatPassword !== this.form.passWord) {
+        Toast('两次密码输入不一致，请重新输入')
+      } else {
+        if (this.cpm && this.inviteCode) {
           await new Promise((resolve, reject) => {
             validateCPM({
-              inviteCode: this.form.inviteCode
+              inviteCode: this.inviteCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -169,10 +169,10 @@ export default {
           })
         }
 
-        if (this.tjm && this.form.recommendCode) {
+        if (this.tjm && this.recommendCode) {
           await new Promise((resolve, reject) => {
             validateTJM({
-              recommendCode: this.form.recommendCode
+              recommendCode: this.recommendCode
             }).then(res => {
               if (res.data.data) {
                 resolve()
@@ -185,7 +185,9 @@ export default {
         }
         userRegister(
           Object.assign(this.form, {
-            mobile: this.registerMobile
+            mobile: this.registerMobile,
+            inviteCode: this.inviteCode ? this.inviteCode : undefined,
+            recommendCode: this.recommendCode ? this.recommendCode : undefined
           })
         )
           .then(res => {
@@ -220,9 +222,15 @@ export default {
               Toast(res.data.resultMsg)
             }
           })
-      } else {
-        Toast('两次密码输入不一致，请重新输入')
       }
+    },
+    toAgreement() {
+      this.$router.push({
+        name: 'HYCagreement',
+        query: {
+          agreementType: 'zcxy'
+        }
+      })
     },
     ...mapMutations({
       setUser: 'SET_USER'
@@ -233,6 +241,12 @@ export default {
       if (res.data.resultCode === '1') {
         this.cpm = res.data.data.cpm === 'true'
         this.tjm = res.data.data.tjm === 'true'
+        if (this.cpm) {
+          this.inviteCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
+        if (this.tjm) {
+          this.recommendCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
       }
     })
     window.initNECaptcha(
@@ -254,6 +268,13 @@ export default {
         this.captchaIns = instance
       }
     )
+  },
+  beforeRouteLeave(to, from, next) {
+    const toastWrapper = document.getElementsByClassName('mint-toast')
+    for (let i = 0; i < toastWrapper.length; i++) {
+      toastWrapper[i].style.display = 'none'
+    }
+    next()
   }
 }
 </script>
@@ -351,6 +372,15 @@ input {
       color: #fff;
       &.active {
         background: $color-main;
+      }
+    }
+    .agre {
+      width: 3.45rem;
+      margin: 0.2rem auto 0;
+      font-size: 0.13rem;
+      color: #666;
+      span {
+        color: $color-main;
       }
     }
   }

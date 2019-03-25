@@ -81,9 +81,9 @@ export default {
   display: flex;
 }
 .part {
-  width: 0.4rem;
+  width: 0.3rem;
   p {
-    font-size: $font-size-small-ss;
+    font-size: 0.1rem;
     text-align: center;
     color: #cdcdcd;
     line-height: 2;
@@ -102,13 +102,13 @@ export default {
     height: 4px;
     opacity: 0.24;
     &.weak {
-      background: #d81616;
+      background: #ff7474;
     }
     &.normal {
-      background: #f4bf26;
+      background: #fbda09;
     }
     &.strong {
-      background: #78d810;
+      background: #6feb2a;
     }
   }
 }

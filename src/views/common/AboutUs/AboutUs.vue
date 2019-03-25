@@ -44,10 +44,10 @@
           <div class="wrapper">
             <div class="icon"></div>
             <div class="content">
-              <h2>林崇钦</h2>
+              <h2>林可正</h2>
               <div class="position">首席风控官 CRO</div>
               <p class="text">
-                从事金融业务风险管理25年。拥有15年以上外资银行消費金融与个人零售业务风险管理经验。曾任香港上海汇丰银行（台湾）信用卡中心消费金融信用风险管处副总裁、恒昌利通出借管理有限公司（北京）风险管理中心总监、达信卓惠金融信息服务（上海）有限公司风险管理中心总监。
+                20年以上消费金融经验，是知名的风险专家。加入担任汇通特邀风控专家顾问之前，曾担任台湾汇丰银行信用风险资深副总裁，1995核准台湾汇丰银行第一张信用卡。2002年在美国加州Sunshine Investment担任underwriter，2006年主持台湾汇丰银行坏帐计算模型设计与开发，拥有美国伊利诺伊大学香槟校区财务管理硕士学位。
               </p>
             </div>
           </div>
@@ -587,7 +587,7 @@ export default {
             line-height: 0.2rem;
           }
         }
-        $leaders: wangdongdong, linchongqin, fuweiling, chenyuewen;
+        $leaders: wangdongdong, linkezheng, fuweiling, chenyuewen;
         @each $leader in $leaders {
           $i: index($leaders, $leader);
           &:nth-last-of-type(#{$i}) {

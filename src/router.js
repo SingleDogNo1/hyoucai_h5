@@ -3,12 +3,14 @@ import Router from 'vue-router'
 import Home from './views/common/HomePage'
 import Activity from './layout/activity.vue'
 import Layout from './layout/layout.vue'
+import Empty from './layout/empty.vue'
 
 Vue.use(Router)
 
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
+    // 公用
     {
       path: '/',
       component: Layout,
@@ -68,79 +70,69 @@ export default new Router({
           meta: {
             title: '严选资产'
           }
-        }
-      ]
-    },
-    // 合规管理(共用)
-    {
-      path: '/complianceManagement',
-      component: Layout,
-      children: [
+        },
         {
-          path: '',
+          path: 'complianceManagement',
           name: 'complianceManagement',
-          component: () => import('@/views/common/complianceManagement/index')
-        }
-      ]
-    },
-    // 资产安全(共用)
-    {
-      path: '/fundSafety',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "complianceManagement" */ '@/views/common/complianceManagement'),
+          meta: {
+            title: '合规管理'
+          }
+        },
         {
-          path: '',
+          path: 'fundSafety',
           name: 'fundSafety',
-          component: () => import('@/views/common/FundSafety')
-        }
-      ]
-    },
-    // 常见问题(共用)
-    {
-      path: '/common_problem',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "fundSafety" */ '@/views/common/FundSafety'),
+          meta: {
+            title: '资产安全'
+          }
+        },
         {
-          path: '',
+          path: 'common_problem',
           name: 'commonProblem',
-          component: () => import('@/views/common/CommonProblem')
-        }
-      ]
-    },
-    // 出借指南(共用)
-    {
-      path: '/introduction',
-      component: Layout,
-      children: [
-        // 出借指南-优质项目
-        {
-          path: '',
-          name: 'introduction',
-          component: () => import('@/views/common/introduction')
+          component: () => import(/* webpackChunkName: "commonProblem" */ '@/views/common/CommonProblem'),
+          meta: {
+            title: '常见问题'
+          }
         },
-        // 出借指南-汇有财优惠券
         {
-          path: 'coupon',
-          name: 'introduceCoupon',
-          component: () => import('@/views/common/introduction/coupon')
+          // 出借指南
+          path: 'introduction',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'introduction',
+              component: () => import(/* webpackChunkName: "introduction" */ '@/views/common/introduction'),
+              meta: {
+                title: '优质项目'
+              }
+            },
+            {
+              path: 'coupon',
+              name: 'introduceCoupon',
+              component: () => import(/* webpackChunkName: "introduceCoupon" */ '@/views/common/introduction/coupon'),
+              meta: {
+                title: '汇有财优惠券'
+              }
+            },
+            {
+              path: 'netLoan',
+              name: 'introduceNetLoan',
+              component: () => import(/* webpackChunkName: "introduceNetLoan" */ '@/views/common/introduction/netLoan'),
+              meta: {
+                title: '我的钱出借'
+              }
+            }
+          ]
         },
-        // 出借指南-我的钱出借
         {
-          path: 'netLoan',
-          name: 'introduceNetLoan',
-          component: () => import('@/views/common/introduction/netLoan')
-        }
-      ]
-    },
-    // 可用银行列表(共用)
-    {
-      path: '/support_banks',
-      component: Layout,
-      children: [
-        {
-          path: '',
+          path: 'support_banks',
           name: 'supportBanks',
-          component: () => import('@/views/common/SupportBank')
+          component: () => import('@/views/common/SupportBank'),
+          meta: {
+            title: '可用银行列表'
+          }
         }
       ]
     },

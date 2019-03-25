@@ -10,16 +10,6 @@ module.exports = {
         // target: 'http://opsstatic.dpandora.cn:30164', // UAT
         changeOrigin: true,
         wx: true
-      },
-      '/TouchStoneService': {
-        target: 'http://47.100.38.237:8088/d',
-        changeOrigin: true,
-        wx: true
-      },
-      '/TouchStoneServiceNew': {
-        target: 'http://47.100.38.237:8088/h',
-        changeOrigin: true,
-        wx: true
       }
     }
   }

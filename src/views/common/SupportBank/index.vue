@@ -82,6 +82,14 @@ export default {
 @import '../../../assets/css/theme';
 @import '../../../assets/css/mixins';
 
+.pageContainer {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
 .wrapper {
   height: 100%;
   .scroll {

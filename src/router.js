@@ -27,6 +27,12 @@ export default new Router({
       name: 'userRegister',
       component: () => import('@/views/common/register')
     },
+    // 忘记密码
+    {
+      path: '/forgetpwd',
+      name: 'forgetPWD',
+      component: () => import('@/views/common/forgetPWD')
+    },
     // 风险测评(共用)
     {
       path: '/risk-test',

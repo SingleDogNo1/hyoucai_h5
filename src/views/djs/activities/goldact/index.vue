@@ -133,13 +133,17 @@ export default {
           })
           .then(res => {
             if (res.data.resultCode === '1') {
+              const data = res.data
               const params = {
-                title: res.data.title,
-                content: res.data.description,
-                url: window.location.href,
-                imgUrl: res.data.iconUrl
+                title: data.title,
+                content: data.description,
+                imgUrl: data.iconUrl,
+                shareType: data.shareType,
+                backPicUrl: data.backPicUrl,
+                qrPicUrl: data.qrPicUrl,
+                url: window.location.href
               }
-              var shareInfo = JSON.stringify(params)
+              let shareInfo = JSON.stringify(params)
               window.DjsJsBridge.getShareKey(shareInfo)
               clearInterval(t)
             }

@@ -40,10 +40,13 @@ export default {
   },
   methods: {
     linkTo(url) {
-      if (this.$router.query.userName) {
-        alert('app')
-        console.log(url)
-        // window.location.href = url
+      if (this.$router.query.username) {
+        // app交互的逻辑
+        alert(1)
+        alert(url + '&username=' + this.$route.query.username)
+        // window.location.href = url + '&username=' + this.$route.query.username
+      } else {
+        // h5原生
       }
     }
   },

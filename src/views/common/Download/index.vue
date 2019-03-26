@@ -7,11 +7,11 @@
           <p class="text">唯有赚钱不能停</p>
         </header>
         <div class="tel"></div>
-        <button @click="iosClick">
+        <button v-if="isIOS" @click="iosClick">
           <img class="ios" src="./images/icon_ios.png" alt="">
           <span>iPhone 版下载</span>
         </button>
-        <button @click="androidClick">
+        <button v-if="isAndroid" @click="androidClick">
           <img class="android" src="./images/icon_android.png" alt="" />
           <span>Android 版下载</span>
         </button>
@@ -28,12 +28,31 @@ export default {
   components: {
     // BScroll
   },
+  data() {
+    return {
+      isAndroid: false,
+      isIOS: false
+    }
+  },
   methods: {
     androidClick() {
       window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.huitong.djscg'
     },
     iosClick() {
       window.location.href = 'https://itunes.apple.com/cn/app/id1289595622?mt=8'
+    }
+  },
+  created() {
+    const UA = navigator.userAgent
+    const isAndroid = UA.indexOf('Android') > -1 || UA.indexOf('Linux') > -1
+    const isIOS = !!UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+    if (isAndroid) {
+      this.isAndroid = true
+      this.isIOS = false
+    }
+    if (isIOS) {
+      this.isAndroid = false
+      this.isIOS = true
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -55,8 +74,8 @@ export default {
 
 <style lang="scss" scoped>
 .index {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: #fff;
   .my-scroll {
     height: 100%;

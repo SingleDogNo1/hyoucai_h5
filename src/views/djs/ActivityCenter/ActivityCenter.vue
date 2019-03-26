@@ -40,9 +40,9 @@ export default {
   },
   methods: {
     linkTo(url) {
-      if (this.$route.query.username) {
+      if (this.$route.query.userName) {
         // app交互的逻辑
-        window.location.href = url + '&username=' + this.$route.query.username
+        window.location.href = url + '&userName=' + this.$route.query.userName
       } else {
         // h5原生
         window.location.href = url

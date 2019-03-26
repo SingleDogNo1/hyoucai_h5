@@ -95,9 +95,7 @@ export default {
     //     })
     //   })
     const activityId = this.$route.query.activityId
-    const userName = this.$route.query.username
-    alert(activityId)
-    alert(userName)
+    const userName = this.$route.query.userName
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api
@@ -109,19 +107,12 @@ export default {
             if (res.data.resultCode === '1') {
               // const data = res.data
               const params = {
-                // title: data.title,
-                // content: data.description,
-                // imgUrl: data.iconUrl,
-                // shareType: data.shareType,
-                // backPicUrl: data.backPicUrl,
-                // qrPicUrl: data.qrPicUrl,
-                // url: window.location.href
-                title: 'biaoti',
-                content: 'data.description',
-                imgUrl: 'data.iconUrl',
-                shareType: '2',
-                backPicUrl: 'http://imgsrc.baidu.com/forum/w=580/sign=e48a37da36a85edffa8cfe2b795509d8/04ed6cd98d1001e961ba4a85ba0e7bec55e79753.jpg',
-                qrPicUrl: '1327937213',
+                title: data.title,
+                content: data.description,
+                imgUrl: data.iconUrl,
+                shareType: data.shareType,
+                backPicUrl: data.backPicUrl,
+                qrPicUrl: data.qrPicUrl,
                 url: window.location.href
               }
               let shareInfo = JSON.stringify(params)

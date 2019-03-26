@@ -95,15 +95,17 @@ export default {
     //     })
     //   })
     const activityId = this.$route.query.activityId
+    const userName = this.$route.query.userName
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api
           .getShareInfoApi({
-            id: activityId
+            id: activityId,
+            userName: userName
           })
           .then(res => {
             if (res.data.resultCode === '1') {
-              const data = res.data
+              // const data = res.data
               const params = {
                 title: data.title,
                 content: data.description,

@@ -26,12 +26,31 @@ export default {
   components: {
     BScroll
   },
+  data() {
+    return {
+      isAndroid: false,
+      isIOS: false
+    }
+  },
   methods: {
     androidClick() {
       window.location.href = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.huitong.djscg'
     },
     iosClick() {
       window.location.href = 'https://itunes.apple.com/cn/app/id1289595622?mt=8'
+    }
+  },
+  created() {
+    const UA = navigator.userAgent
+    const isAndroid = UA.indexOf('Android') > -1 || UA.indexOf('Linux') > -1
+    const isIOS = !!UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+    if (isAndroid) {
+      this.isAndroid = true
+      this.isIOS = false
+    }
+    if (isIOS) {
+      this.isAndroid = false
+      this.isIOS = true
     }
   },
   beforeRouteEnter(to, from, next) {

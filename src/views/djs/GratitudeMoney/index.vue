@@ -28,7 +28,10 @@
           </div>
         </div>
       </b-scroll>
-      <no-data v-if="!referers.length"></no-data>
+      <no-data
+        v-if="!referers.length"
+        class="no-data"
+      />
     </div>
   </transition>
 </template>
@@ -333,6 +336,13 @@ export default {
         }
       }
     }
+  }
+}
+
+.no-data {
+  background: #fff;
+  /deep/ .event {
+    color: $color-placeholder;
   }
 }
 </style>

@@ -219,6 +219,7 @@ export default new Router({
       ]
     },
     // 因为帮助中心标题的特殊性，所以也没有办法使用Layout布局。
+    // 点金石帮助中心
     {
       path: '/d',
       component: Empty,
@@ -316,6 +317,8 @@ export default new Router({
         }
       ]
     },
+    /* Layout布局核心是为了better-scroll，因此限制了最外边的wrapper为overflow：hidden。而活动页没有用better-scroll，所以拆开来写。 */
+    // 点金石活动
     {
       path: '/h',
       component: Activity,
@@ -328,12 +331,34 @@ export default new Router({
             {
               path: 'mateact',
               name: 'HYCmateAct',
-              component: () => import('@/views/hyc/activities/mateact/mateact')
+              component: () => import(/* webpackChunkName: "HYCmateAct" */ '@/views/hyc/activities/mateact/mateact')
             },
             {
               path: 'anni-cashback',
               name: 'sixthAnniCashback',
-              component: () => import('@/views/hyc/activities/sixthAnniversary/index')
+              component: () => import(/* webpackChunkName: "sixthAnniCashback" */ '@/views/hyc/activities/sixthAnniversary/index')
+            }
+          ]
+        }
+      ]
+    },
+    // 因为帮助中心标题的特殊性，所以也没有办法使用Layout布局。
+    // 汇有财帮助中心
+    {
+      path: '/h',
+      component: Empty,
+      children: [
+        {
+          path: 'help',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'HYCHelp',
+              component: () => import(/* webpackChunkName: "HYCHelp" */ '@/views/hyc/Help'),
+              meta: {
+                title: '帮助中心'
+              }
             }
           ]
         }
@@ -356,68 +381,57 @@ export default new Router({
         // 协议
         {
           path: 'agreement',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCagreement',
-              component: () => import('@/views/hyc/Agreements')
-            }
-          ]
-        },
-        {
-          path: 'help',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'Help',
-              component: () => import('@/views/hyc/Help')
-            }
-          ]
+          name: 'HYCagreement',
+          component: () => import(/* webpackChunkName: "HYCagreement" */ '@/views/hyc/Agreements'),
+          meta: {
+            title: '协议'
+          }
         },
         {
           path: 'gratitude_money',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCGratitudeMoney',
-              component: () => import('@/views/hyc/GratitudeMoney')
-            }
-          ]
+          name: 'HYCGratitudeMoney',
+          component: () => import(/* webpackChunkName: "HYCGratitudeMoney" */ '@/views/hyc/GratitudeMoney'),
+          meta: {
+            title: '我推荐的人'
+          }
         },
         {
           path: 'transfer_charge',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCTransferCharge',
-              component: () => import('@/views/hyc/TransferCharge')
-            }
-          ]
+          name: 'HYCTransferCharge',
+          component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),
+          meta: {
+            title: '转账充值'
+          }
         },
         {
           path: 'notice',
-          component: Layout,
+          component: Empty,
           children: [
             {
               path: ':id',
               name: 'HYCNoticeDetail',
-              component: () => import('@/views/hyc/notice')
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice'),
+              meta: {
+                title: '公告'
+              }
             }
           ]
         },
         {
           path: 'calculator',
           name: 'HYCCalculator',
-          component: () => import('@/views/hyc/calculator')
+          component: () => import('@/views/hyc/calculator'),
+          meta: {
+            title: '理财计算器'
+          }
         },
         {
           path: 'newer_direction',
           name: 'HYCNewerDirection',
-          component: () => import('@/views/hyc/NewerDirection')
+          component: () => import('@/views/hyc/NewerDirection'),
+          meta: {
+            title: '新手指引'
+          }
         }
       ]
     }

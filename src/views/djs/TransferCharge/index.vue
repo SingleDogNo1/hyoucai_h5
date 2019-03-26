@@ -1,7 +1,7 @@
 <template>
   <div class="transfer-chanrge">
     <b-scroll class="scroll" ref="scrollRef">
-        <div class="wrapper" :style="{paddingTop: mobile ? '0.24rem' : '0.68rem'}">
+        <div class="wrapper">
           <dl class="top">
             <dt></dt>
             <dd>您可以使用您注册汇有财时绑定的银行卡，通过线下跨行转账（柜台、网银、手机银行APP）方式将资金充值到江西银行存管账户。</dd>
@@ -95,6 +95,7 @@ export default {
 @import '../../../assets/css/mixins.scss';
 .transfer-chanrge {
   height: 100%;
+  padding-top: 0.24rem;
 }
 
 .scroll {

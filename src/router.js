@@ -208,6 +208,11 @@ export default new Router({
               path: 'inviteact',
               name: 'DJSinviteAct',
               component: () => import(/* webpackChunkName: "DJSinviteAct" */ '@/views/djs/activities/inviteact')
+            },
+            {
+              path: 'yearact',
+              name: 'DJSyearAct',
+              component: () => import(/* webpackChunkName: "DJSyearAct" */ '@/views/djs/activities/yearact')
             }
           ]
         }
@@ -286,7 +291,7 @@ export default new Router({
             {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import('@/views/djs/notice'),
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice'),
               meta: {
                 title: '公告详情'
               }
@@ -296,30 +301,28 @@ export default new Router({
         {
           path: 'calculator',
           name: 'DJSCalculator',
-          component: () => import('@/views/djs/calculator')
+          component: () => import(/* webpackChunkName: "DJSCalculator" */ '@/views/djs/calculator'),
+          meta: {
+            title: '理财计算器'
+          }
         },
         {
           path: 'newer_direction',
           name: 'DJSNewerDirection',
-          component: () => import('@/views/djs/NewerDirection')
+          component: () => import(/* webpackChunkName: "DJSNewerDirection" */ '@/views/djs/NewerDirection'),
+          meta: {
+            title: '新手指引'
+          }
         }
       ]
     },
-    // 汇有财
     {
       path: '/h',
-      component: Layout,
+      component: Activity,
       children: [
-        // 活动列表
-        {
-          path: 'act-center',
-          name: 'HYCActivityCenter',
-          component: () => import('@/views/hyc/ActivityCenter/ActivityCenter')
-        },
-        // 活动详情
         {
           path: 'activity',
-          component: Activity,
+          component: Empty,
           children: [
             // mate手机乐
             {
@@ -333,6 +336,22 @@ export default new Router({
               component: () => import('@/views/hyc/activities/sixthAnniversary/index')
             }
           ]
+        }
+      ]
+    },
+    // 汇有财
+    {
+      path: '/h',
+      component: Layout,
+      children: [
+        // 活动列表
+        {
+          path: 'act-center',
+          name: 'HYCActivityCenter',
+          component: () => import(/* webpackChunkName: "HYCActivityCenter" */ '@/views/hyc/ActivityCenter/ActivityCenter'),
+          meta: {
+            title: '活动中心'
+          }
         },
         // 协议
         {

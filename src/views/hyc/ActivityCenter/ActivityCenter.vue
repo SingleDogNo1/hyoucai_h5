@@ -1,5 +1,5 @@
 <template>
-  <div class="activity pageContainer" ref="container">
+  <div class="activity" ref="container">
       <div class="activity-wrapper" v-if="actList.length > 0">
         <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
           <img :src="item.picUrl" alt="">
@@ -57,28 +57,26 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
-.pageContainer {
-  background: #eee;
-}
-
-.activity-wrapper {
-  background: #fff;
-  padding: 0 0.16rem 0.16rem;
-  section {
-    margin-top: 0.08rem;
-    padding-top: 0.16rem;
-    p {
-      font-size: 0.13rem;
-      color: $color-text-s;
-      margin-top: 0.16rem;
+.activity {
+  height: 100%;
+  .activity-wrapper {
+    background: #fff;
+    padding: 0 0.16rem 0.16rem;
+    section {
+      margin-top: 0.08rem;
+      padding-top: 0.16rem;
+      p {
+        font-size: 0.13rem;
+        color: $color-text-s;
+        margin-top: 0.16rem;
+      }
     }
   }
-}
-
-.no-data {
-  background: #fff;
-  /deep/ .event {
-    color: $color-placeholder;
+  .no-data {
+    background: #fff;
+    /deep/ .event {
+      color: $color-placeholder;
+    }
   }
 }
 </style>

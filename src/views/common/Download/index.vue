@@ -6,11 +6,11 @@
         <p class="text">唯有赚钱不能停</p>
       </header>
       <div class="tel"></div>
-      <button @click="iosClick">
+      <button v-if="isIOS" @click="iosClick">
         <img class="ios" src="./images/icon_ios.png" alt="">
         <span>iPhone 版下载</span>
       </button>
-      <button @click="androidClick">
+      <button v-if="isAndroid" @click="androidClick">
         <img class="android" src="./images/icon_android.png" alt="" />
         <span>Android 版下载</span>
       </button>

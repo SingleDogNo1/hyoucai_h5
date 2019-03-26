@@ -40,7 +40,11 @@ export default {
   },
   methods: {
     linkTo(url) {
-      window.location.href = url
+      if (this.$router.query.userName) {
+        alert('app')
+        console.log(url)
+        // window.location.href = url
+      }
     }
   },
   created() {

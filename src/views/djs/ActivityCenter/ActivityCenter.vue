@@ -42,11 +42,10 @@ export default {
     linkTo(url) {
       if (this.$route.query.username) {
         // app交互的逻辑
-        alert(1)
-        alert(url + '&username=' + this.$route.query.username)
-        // window.location.href = url + '&username=' + this.$route.query.username
+        window.location.href = url + '&username=' + this.$route.query.username
       } else {
         // h5原生
+        window.location.href = url
       }
     }
   },

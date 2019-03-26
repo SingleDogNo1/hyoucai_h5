@@ -33,7 +33,13 @@ export default {
   },
   methods: {
     linkTo(url) {
-      window.location.href = url
+      if (this.$route.query.username) {
+        // app交互的逻辑
+        window.location.href = url + '&username=' + this.$route.query.username
+      } else {
+        // h5原生
+        window.location.href = url
+      }
     }
   },
   created() {

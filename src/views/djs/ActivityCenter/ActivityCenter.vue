@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     linkTo(url) {
-      if (this.$router.query.username) {
+      if (this.$route.query.username) {
         // app交互的逻辑
         alert(1)
         alert(url + '&username=' + this.$route.query.username)

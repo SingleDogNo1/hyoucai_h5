@@ -22,12 +22,9 @@ export default {
   methods: {
     goBack() {
       if (window.DjsJsBridge) {
-        if (this.$route.name === 'DJSHelp' || this.$route.name === 'DJSHelp') {
-          // window.DjsJsBridge.close()
-          alert(1)
-        }
+        // 可能会调用app方法
       } else {
-        // $router.go(-1)
+        $router.go(-1)
       }
     },
     getMore() {

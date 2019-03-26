@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import register from './modules/register'
 import login from './modules/login'
 import user from './modules/user'
+import platform from './modules/common'
 
 import getters from './getters'
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
   modules: {
     login,
     register,
-    user
+    user,
+    platform
   },
   getters
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="index">
-    <BScroll>
-      <div>
+    <!--<BScroll>-->
+      <div class="wrapper">
         <header>
           <div class="logo"></div>
           <p class="text">唯有赚钱不能停</p>
@@ -16,16 +16,17 @@
           <span>Android 版下载</span>
         </button>
       </div>
-    </BScroll>
+    <!--</BScroll>-->
   </div>
 </template>
 
 <script>
-import BScroll from '@/components/BScroll/BScroll'
+// import BScroll from '@/components/BScroll/BScroll'
+import { Toast } from 'mint-ui'
 
 export default {
   components: {
-    BScroll
+    // BScroll
   },
   methods: {
     androidClick() {
@@ -34,6 +35,20 @@ export default {
     iosClick() {
       window.location.href = 'https://itunes.apple.com/cn/app/id1289595622?mt=8'
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      switch (from.name) {
+        case 'userLogin':
+          // 从登录来的
+          // Toast('login success')
+          break
+        case 'userRegister':
+          // 从注册来的
+          Toast('恭喜您，注册成功')
+          break
+      }
+    })
   }
 }
 </script>
@@ -46,6 +61,9 @@ export default {
   .my-scroll {
     height: 100%;
     overflow: hidden;
+  }
+  .wrapper {
+    background: #ffffff;
   }
   header {
     width: 100%;

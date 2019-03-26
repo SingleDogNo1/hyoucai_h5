@@ -1740,8 +1740,19 @@ export default {
       }
     }
   },
-  methods: {},
+  methods: {
+    refresh() {
+      this.$refs.scrollRef.refresh()
+    }
+  },
   created() {
+    this.$nextTick(() => {
+      if (this.mobile) {
+        this.$refs.container.style.top = 0
+      }
+      this.refresh()
+    })
+
     switch (this.type) {
       case 'fxts':
         this.text = '风险告知书'
@@ -1796,7 +1807,14 @@ export default {
       })
     })()
   },
-  mounted() {}
+  mounted() {
+    const toastWrapper = document.getElementsByClassName('mint-toast')
+    if (toastWrapper.length > 0) {
+      for (let i = 0; i < toastWrapper.length; i++) {
+        document.getElementsByClassName('body')[0].removeChild(toastWrapper[i])
+      }
+    }
+  }
 }
 </script>
 
@@ -1806,6 +1824,8 @@ export default {
 
 .pageContainer {
   font-size: 0;
+  position: absolute;
+  top: 0.44rem;
   .scroll {
     width: 100%;
     height: 100%;

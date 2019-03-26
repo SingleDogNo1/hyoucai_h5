@@ -976,6 +976,10 @@ export default {
         }
       })
     })
+
+    setTimeout(() => {
+      // this.$refs.scrollRef.destroy()
+    }, 200)
   }
 }
 </script>
@@ -985,6 +989,11 @@ export default {
 @import '../../../assets/css/theme';
 
 .pageContainer {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
   .scroll {
     width: 100%;
     height: 100%;

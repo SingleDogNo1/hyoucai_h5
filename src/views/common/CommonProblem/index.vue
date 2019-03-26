@@ -182,6 +182,11 @@ export default {
 }
 .pageContainer {
   background-color: $color-background;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
   .wrapper {
     height: 100%;
     box-sizing: border-box;

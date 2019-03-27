@@ -1,6 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
+  <div class="info-disclose">
     <b-scroll
       class="scroll"
       ref="scrollRef"
@@ -324,7 +323,6 @@
 </template>
 
 <script>
-import HeaderTitle from '@/components/AppHeader'
 import { Navbar, tabItem } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper'
@@ -337,7 +335,6 @@ import { getInfoApi } from '@/api/common/infoDisclise'
 
 export default {
   components: {
-    HeaderTitle,
     // eslint-disable-next-line
     Navbar,
     // eslint-disable-next-line
@@ -984,7 +981,8 @@ export default {
 @import '../../../assets/css/mixins';
 @import '../../../assets/css/theme';
 
-.pageContainer {
+.info-disclose {
+  height: 100%;
   .scroll {
     width: 100%;
     height: 100%;

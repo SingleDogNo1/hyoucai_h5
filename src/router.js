@@ -3,184 +3,240 @@ import Router from 'vue-router'
 import Home from './views/common/HomePage'
 import Activity from './layout/activity.vue'
 import Layout from './layout/layout.vue'
+import Empty from './layout/empty.vue'
 
 Vue.use(Router)
 
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
-    // 首页
+    // 公用
     {
       path: '/',
-      name: 'home',
-      component: Home
-    },
-    // 登录
-    {
-      path: '/login',
-      name: 'userLogin',
-      component: () => import('@/views/common/login')
-    },
-    // 注册
-    {
-      path: '/register',
-      name: 'userRegister',
-      component: () => import('@/views/common/register')
-    },
-    // 忘记密码
-    {
-      path: '/forgetpwd',
-      name: 'forgetPWD',
-      component: () => import('@/views/common/forgetPWD')
-    },
-    // 风险测评(共用)
-    {
-      path: '/risk-test',
-      name: 'riskTest',
-      component: () => import('@/views/common/RiskTest/RiskTest')
-    },
-    // 关于我们(共用)
-    {
-      path: '/about-us',
       component: Layout,
       children: [
         {
           path: '',
+          name: 'home',
+          component: Home,
+          meta: {
+            title: '首页'
+          }
+        },
+        {
+          path: 'login',
+          name: 'userLogin',
+          component: () => import(/* webpackChunkName: "login" */ '@/views/common/login'),
+          meta: {
+            title: '汇有财登录'
+          }
+        },
+        {
+          path: 'register',
+          name: 'userRegister',
+          component: () => import(/* webpackChunkName: "register" */ '@/views/common/register'),
+          meta: {
+            title: '汇有财注册'
+          }
+        },
+        {
+          path: 'forgetpwd',
+          name: 'forgetPWD',
+          component: () => import(/* webpackChunkName: "forgetpwd" */ '@/views/common/forgetPWD'),
+          meta: {
+            title: '忘记密码'
+          }
+        },
+        {
+          path: 'risk-test',
+          name: 'riskTest',
+          component: () => import(/* webpackChunkName: "risk-test" */ '@/views/common/RiskTest/RiskTest'),
+          meta: {
+            title: '风险测评'
+          }
+        },
+        {
+          path: 'about-us',
           name: 'AboutUs',
-          component: () => import('@/views/common/AboutUs/AboutUs')
-        }
-      ]
-    },
-    // 严选资产(共用)
-    {
-      path: '/selectMeans',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "about-us" */ '@/views/common/AboutUs/AboutUs'),
+          meta: {
+            title: '关于汇有财'
+          }
+        },
         {
-          path: '',
+          path: 'selectMeans',
           name: 'selectMeans',
-          component: () => import('@/views/common/selectMeans')
-        }
-      ]
-    },
-    // 合规管理(共用)
-    {
-      path: '/complianceManagement',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "selectMeans" */ '@/views/common/selectMeans'),
+          meta: {
+            title: '严选资产'
+          }
+        },
         {
-          path: '',
+          path: 'complianceManagement',
           name: 'complianceManagement',
-          component: () => import('@/views/common/complianceManagement/index')
-        }
-      ]
-    },
-    // 资产安全(共用)
-    {
-      path: '/fundSafety',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "complianceManagement" */ '@/views/common/complianceManagement'),
+          meta: {
+            title: '合规管理'
+          }
+        },
         {
-          path: '',
+          path: 'fundSafety',
           name: 'fundSafety',
-          component: () => import('@/views/common/FundSafety')
-        }
-      ]
-    },
-    // 常见问题(共用)
-    {
-      path: '/common_problem',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "fundSafety" */ '@/views/common/FundSafety'),
+          meta: {
+            title: '资产安全'
+          }
+        },
         {
-          path: '',
+          path: 'common_problem',
           name: 'commonProblem',
-          component: () => import('@/views/common/CommonProblem')
-        }
-      ]
-    },
-    // 出借指南(共用)
-    {
-      path: '/introduction',
-      component: Layout,
-      children: [
-        // 出借指南-优质项目
-        {
-          path: '',
-          name: 'introduction',
-          component: () => import('@/views/common/introduction')
+          component: () => import(/* webpackChunkName: "commonProblem" */ '@/views/common/CommonProblem'),
+          meta: {
+            title: '常见问题'
+          }
         },
-        // 出借指南-汇有财优惠券
         {
-          path: 'coupon',
-          name: 'introduceCoupon',
-          component: () => import('@/views/common/introduction/coupon')
+          // 出借指南
+          path: 'introduction',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'introduction',
+              component: () => import(/* webpackChunkName: "introduction" */ '@/views/common/introduction'),
+              meta: {
+                title: '优质项目'
+              }
+            },
+            {
+              path: 'coupon',
+              name: 'introduceCoupon',
+              component: () => import(/* webpackChunkName: "introduceCoupon" */ '@/views/common/introduction/coupon'),
+              meta: {
+                title: '汇有财优惠券'
+              }
+            },
+            {
+              path: 'netLoan',
+              name: 'introduceNetLoan',
+              component: () => import(/* webpackChunkName: "introduceNetLoan" */ '@/views/common/introduction/netLoan'),
+              meta: {
+                title: '我的钱出借'
+              }
+            }
+          ]
         },
-        // 出借指南-我的钱出借
         {
-          path: 'netLoan',
-          name: 'introduceNetLoan',
-          component: () => import('@/views/common/introduction/netLoan')
-        }
-      ]
-    },
-    // 可用银行列表(共用)
-    {
-      path: '/support_banks',
-      component: Layout,
-      children: [
-        {
-          path: '',
+          path: 'support_banks',
           name: 'supportBanks',
-          component: () => import('@/views/common/SupportBank')
-        }
-      ]
-    },
-    // 资金存管(共用)
-    {
-      path: '/archival',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "supportBanks" */ '@/views/common/SupportBank'),
+          meta: {
+            title: '可用银行列表'
+          }
+        },
         {
-          path: '',
+          path: 'archival',
           name: 'ArchivalInfo',
-          component: () => import('@/views/common/ArchivalInfo')
-        }
-      ]
-    },
-    // 信息披露(共用)
-    {
-      path: '/info_disclose',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "archival" */ '@/views/common/ArchivalInfo'),
+          meta: {
+            title: '资金存管'
+          }
+        },
         {
-          path: '',
+          path: 'info_disclose',
           name: 'InfoDisclose',
-          component: () => import('@/views/common/InfoDisclose')
-        }
-      ]
-    },
-    // 证书(共用)
-    {
-      path: '/certificate',
-      component: Layout,
-      children: [
+          component: () => import(/* webpackChunkName: "InfoDisclose" */ '@/views/common/InfoDisclose'),
+          meta: {
+            title: '信息披露'
+          }
+        },
         {
-          path: '',
+          path: 'certificate',
           name: 'certificate',
-          component: () => import('@/views/common/certificate')
+          component: () => import(/* webpackChunkName: "certificate" */ '@/views/common/certificate'),
+          meta: {
+            title: '证书'
+          }
+        },
+        {
+          path: 'download',
+          name: 'AppDownload',
+          component: () => import(/* webpackChunkName: "AppDownload" */ '@/views/common/Download'),
+          meta: {
+            // title: 'App下载'
+          }
         }
       ]
     },
-    // 下载页
+    /* Layout布局核心是为了better-scroll，因此限制了最外边的wrapper为overflow：hidden。而活动页没有用better-scroll，所以拆开来写。 */
+    // 点金石活动
     {
-      path: '/download',
-      component: Layout,
+      path: '/d',
+      component: Activity,
       children: [
         {
-          path: '',
-          name: 'AppDownload',
-          component: () => import('@/views/common/Download')
+          path: 'activity',
+          component: Empty,
+          children: [
+            // mate手机乐
+            {
+              path: 'mateact',
+              name: 'DJSmateAct',
+              component: () => import(/* webpackChunkName: "DJSmateAct" */ '@/views/djs/activities/mateact/mateact')
+            },
+            {
+              path: 'coupon',
+              name: 'DJScoupon',
+              component: () => import(/* webpackChunkName: "DJScouponAct" */ '@/views/djs/activities/coupon/index')
+            },
+            {
+              path: 'gold',
+              name: 'DJSGold',
+              component: () => import(/* webpackChunkName: "DJSGoldAct" */ '@/views/djs/activities/goldact')
+            },
+            {
+              path: 'register',
+              name: 'DJSRegister',
+              component: () => import(/* webpackChunkName: "DJSRegisterAct" */ '@/views/djs/activities/register')
+            },
+            {
+              path: 'womensday',
+              name: 'womensDay',
+              component: () => import(/* webpackChunkName: "womensDayAct" */ '@/views/djs/activities/womensDay/index')
+            },
+            {
+              path: 'inviteact',
+              name: 'DJSinviteAct',
+              component: () => import(/* webpackChunkName: "DJSinviteAct" */ '@/views/djs/activities/inviteact')
+            },
+            {
+              path: 'yearact',
+              name: 'DJSyearAct',
+              component: () => import(/* webpackChunkName: "DJSyearAct" */ '@/views/djs/activities/yearact')
+            }
+          ]
+        }
+      ]
+    },
+    // 因为帮助中心标题的特殊性，所以也没有办法使用Layout布局。
+    // 点金石帮助中心
+    {
+      path: '/d',
+      component: Empty,
+      children: [
+        {
+          path: 'help',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'DJSHelp',
+              component: () => import(/* webpackChunkName: "DJSHelp" */ '@/views/djs/Help'),
+              meta: {
+                title: '帮助中心'
+              }
+            }
+          ]
         }
       ]
     },
@@ -192,115 +248,119 @@ export default new Router({
         {
           path: 'investdetail',
           name: 'DJSInvestDetail',
-          component: () => import('@/views/djs/investDetail')
+          component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
+          meta: {
+            title: '出借'
+          }
         },
         {
           path: 'act-center',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSActivityCenter',
-              component: () => import('@/views/djs/ActivityCenter/ActivityCenter')
-            }
-          ]
-        },
-        {
-          path: 'activity',
-          component: Activity,
-          children: [
-            // mate手机乐
-            {
-              path: 'mateact',
-              name: 'DJSmateAct',
-              component: () => import('@/views/djs/activities/mateact/mateact')
-            },
-            {
-              path: 'coupon',
-              name: 'DJScoupon',
-              component: () => import('@/views/djs/activities/coupon/index')
-            },
-            {
-              path: 'gold',
-              name: 'DJSGold',
-              component: () => import('@/views/djs/activities/goldact')
-            },
-            {
-              path: 'register',
-              name: 'DJSRegister',
-              component: () => import('@/views/djs/activities/register')
-            },
-            {
-              path: 'womensday',
-              name: 'womensDay',
-              component: () => import('@/views/djs/activities/womensDay/index')
-            }
-          ]
+          name: 'DJSActivityCenter',
+          component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),
+          meta: {
+            title: '活动中心'
+          }
         },
         {
           path: 'agreement',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSagreement',
-              component: () => import('@/views/djs/Agreements')
-            }
-          ]
-        },
-        {
-          path: 'help',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSHelp',
-              component: () => import('@/views/djs/Help')
-            }
-          ]
+          name: 'DJSagreement',
+          component: () => import(/* webpackChunkName: "DJSagreement" */ '@/views/djs/Agreements'),
+          meta: {
+            title: '协议'
+          }
         },
         {
           path: 'gratitude_money',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSGratitudeMoney',
-              component: () => import('@/views/djs/GratitudeMoney')
-            }
-          ]
+          name: 'DJSGratitudeMoney',
+          component: () => import(/* webpackChunkName: "DJSGratitudeMoney" */ '@/views/djs/GratitudeMoney'),
+          meta: {
+            title: '我推荐的人'
+          }
         },
         {
           path: 'transfer_charge',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'DJSTransferCharge',
-              component: () => import('@/views/djs/TransferCharge')
-            }
-          ]
+          name: 'DJSTransferCharge',
+          component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
+          meta: {
+            title: '转账充值'
+          }
         },
         {
           path: 'notice',
-          component: Layout,
+          component: Empty,
           children: [
             {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import('@/views/djs/notice')
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice'),
+              meta: {
+                title: '公告详情'
+              }
             }
           ]
         },
         {
           path: 'calculator',
           name: 'DJSCalculator',
-          component: () => import('@/views/djs/calculator')
+          component: () => import(/* webpackChunkName: "DJSCalculator" */ '@/views/djs/calculator'),
+          meta: {
+            title: '理财计算器'
+          }
         },
         {
           path: 'newer_direction',
           name: 'DJSNewerDirection',
-          component: () => import('@/views/djs/NewerDirection')
+          component: () => import(/* webpackChunkName: "DJSNewerDirection" */ '@/views/djs/NewerDirection'),
+          meta: {
+            title: '新手指引'
+          }
+        }
+      ]
+    },
+    /* Layout布局核心是为了better-scroll，因此限制了最外边的wrapper为overflow：hidden。而活动页没有用better-scroll，所以拆开来写。 */
+    // 点金石活动
+    {
+      path: '/h',
+      component: Activity,
+      children: [
+        {
+          path: 'activity',
+          component: Empty,
+          children: [
+            // mate手机乐
+            {
+              path: 'mateact',
+              name: 'HYCmateAct',
+              component: () => import(/* webpackChunkName: "HYCmateAct" */ '@/views/hyc/activities/mateact/mateact')
+            },
+            {
+              path: 'anni-cashback',
+              name: 'sixthAnniCashback',
+              component: () => import(/* webpackChunkName: "sixthAnniCashback" */ '@/views/hyc/activities/sixthAnniversary/index')
+            }
+          ]
+        }
+      ]
+    },
+    // 因为帮助中心标题的特殊性，所以也没有办法使用Layout布局。
+    // 汇有财帮助中心
+    {
+      path: '/h',
+      component: Empty,
+      children: [
+        {
+          path: 'help',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'HYCHelp',
+              component: () => import(/* webpackChunkName: "HYCHelp" */ '@/views/hyc/Help'),
+              meta: {
+                title: '帮助中心'
+              }
+            }
+          ]
         }
       ]
     },
@@ -313,91 +373,65 @@ export default new Router({
         {
           path: 'act-center',
           name: 'HYCActivityCenter',
-          component: () => import('@/views/hyc/ActivityCenter/ActivityCenter')
-        },
-        // 活动详情
-        {
-          path: 'activity',
-          component: Activity,
-          children: [
-            // mate手机乐
-            {
-              path: 'mateact',
-              name: 'HYCmateAct',
-              component: () => import('@/views/hyc/activities/mateact/mateact')
-            },
-            {
-              path: 'anni-cashback',
-              name: 'sixthAnniCashback',
-              component: () => import('@/views/hyc/activities/sixthAnniversary/index')
-            }
-          ]
+          component: () => import(/* webpackChunkName: "HYCActivityCenter" */ '@/views/hyc/ActivityCenter/ActivityCenter'),
+          meta: {
+            title: '活动中心'
+          }
         },
         // 协议
         {
           path: 'agreement',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCagreement',
-              component: () => import('@/views/hyc/Agreements')
-            }
-          ]
-        },
-        {
-          path: 'help',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'Help',
-              component: () => import('@/views/hyc/Help')
-            }
-          ]
+          name: 'HYCagreement',
+          component: () => import(/* webpackChunkName: "HYCagreement" */ '@/views/hyc/Agreements'),
+          meta: {
+            title: '协议'
+          }
         },
         {
           path: 'gratitude_money',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCGratitudeMoney',
-              component: () => import('@/views/hyc/GratitudeMoney')
-            }
-          ]
+          name: 'HYCGratitudeMoney',
+          component: () => import(/* webpackChunkName: "HYCGratitudeMoney" */ '@/views/hyc/GratitudeMoney'),
+          meta: {
+            title: '我推荐的人'
+          }
         },
         {
           path: 'transfer_charge',
-          component: Layout,
-          children: [
-            {
-              path: '',
-              name: 'HYCTransferCharge',
-              component: () => import('@/views/hyc/TransferCharge')
-            }
-          ]
+          name: 'HYCTransferCharge',
+          component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),
+          meta: {
+            title: '转账充值'
+          }
         },
         {
           path: 'notice',
-          component: Layout,
+          component: Empty,
           children: [
             {
               path: ':id',
               name: 'HYCNoticeDetail',
-              component: () => import('@/views/hyc/notice')
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice'),
+              meta: {
+                title: '公告'
+              }
             }
           ]
         },
         {
           path: 'calculator',
           name: 'HYCCalculator',
-          component: () => import('@/views/hyc/calculator')
+          component: () => import('@/views/hyc/calculator'),
+          meta: {
+            title: '理财计算器'
+          }
         },
         {
           path: 'newer_direction',
           name: 'HYCNewerDirection',
-          component: () => import('@/views/hyc/NewerDirection')
+          component: () => import('@/views/hyc/NewerDirection'),
+          meta: {
+            title: '新手指引'
+          }
         }
       ]
     }

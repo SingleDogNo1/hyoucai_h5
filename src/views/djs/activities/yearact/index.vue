@@ -1,9 +1,9 @@
 <template>
-  <div class="womens-day">
+  <div class="pageContainer" ref="container">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
-        <img src="./bg.png" alt="">
+        <img src="./year-bg.png" alt="">
         <div class="rule-icon" @click="showDetail"></div>
       </div>
     </div>
@@ -21,10 +21,10 @@ import BScroll from '@/components/BScroll/BScroll'
 import api from '@/api/djs/ActivitiesApi/mateact'
 
 export default {
-  name: 'womenday',
+  name: 'inviteact',
   data() {
     return {
-      title: '汇通金融女王节活动',
+      title: '六周年活动',
       type: this.$route.query.type,
       detailFlag: false,
       id: '',
@@ -109,7 +109,7 @@ export default {
     right: 0;
     top: 0.24rem;
     width: 0.7rem;
-    height: 0.22rem;
+    height: 0.32rem;
     background-image: url('./rule-icon.png');
     background-size: 100% 100%;
   }

@@ -1,22 +1,25 @@
 <template>
   <div class="home pageContainer" ref="container">
-    <!--<AppHeader :title="title" :mobileValue="!isAppTitle" />-->
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
       <input
-        type="number"
+        type="tel"
         maxlength="11"
         autofocus="autofocus"
         placeholder="请输入您的手机号"
         v-model="mobile" />
-      <button @click="checkTelNum">下一步</button>
+      <input
+        type="button"
+        :disabled="mobile.length < 11"
+        @click="checkTelNum"
+        value="下一步"
+      >
     </div>
   </div>
 </template>
 
 <script>
-// import AppHeader from '@/components/AppHeader'
 import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 import { isExistUser } from '@/api/common/register'
@@ -24,14 +27,12 @@ import { mapMutations } from 'vuex'
 
 export default {
   name: 'home',
-  components: {
-    // AppHeader
-  },
   data() {
     return {
       title: '汇有财',
       isAppTitle: this.$route.query.mobile,
-      mobile: ''
+      mobile: '',
+      mediasource: this.$route.query.mediasource // 推荐码参数
     }
   },
   methods: {
@@ -49,7 +50,10 @@ export default {
           } else {
             // 新手机号跳转注册
             this.setRegisterMobile(this.mobile)
-            this.$router.push({ name: 'userRegister' })
+            this.$router.push({
+              name: 'userRegister',
+              query: { mediasource: this.mediasource }
+            })
           }
         })
       }
@@ -73,13 +77,9 @@ export default {
 @import '../../../assets/css/theme';
 
 .pageContainer {
-  position: absolute;
   width: 100%;
+  /* TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，修改 $navBarHeight: 0; */
   $navBarHeight: 0.44rem;
-  /* $navBarHeight: 0; */
-  // TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，修改 $navBarHeight: 0;
-  top: 0.44rem - $navBarHeight;
-  bottom: 0;
   box-sizing: border-box;
   &.home {
     padding-top: 0.2rem + $navBarHeight;
@@ -120,18 +120,23 @@ export default {
         height: 0.45rem;
         font-size: 0.13rem;
         color: #999999;
-        border-bottom: 0.01rem solid #f4f4f4;
-      }
-      button {
-        margin: 0 auto;
-        display: block;
-        width: 3.45rem;
-        height: 0.45rem;
-        border-radius: 0.04rem;
-        background: $color-main;
-        font-size: 0.15rem;
-        color: #ffffff;
-        border-bottom: 0.01rem solid #f4f4f4;
+        &[type='tel'] {
+          border-bottom: 0.01rem solid #f4f4f4;
+        }
+        &[type='button'] {
+          margin: 0 auto;
+          display: block;
+          width: 3.45rem;
+          height: 0.45rem;
+          border-radius: 0.04rem;
+          background: $color-main;
+          font-size: 0.15rem;
+          color: #ffffff;
+          border-bottom: 0.01rem solid #f4f4f4;
+          &:disabled {
+            background: #ccc;
+          }
+        }
       }
     }
   }

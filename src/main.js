@@ -15,6 +15,22 @@ Vue.use(Mint)
 // import VConsole from 'vconsole'
 // new VConsole()
 
+// router.beforeEach((to,from,next) => {
+//   console.log(to)
+//   next(() => {
+//     console.log(to,from)
+//   })
+//   // switch (to.name) {
+//   //   // case 'home':
+//   //   //   vm.title = to.meta.title
+//   //   //   vm.isAppTitle = true
+//   //   //   break
+//   //   // default:
+//   //   //   vm.title = to.meta.title
+//   //   //   vm.isAppTitle = to.query.mobile
+//   // }
+// })
+
 new Vue({
   router,
   store,

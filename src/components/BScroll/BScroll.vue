@@ -67,7 +67,7 @@ export default {
         return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }
       }
     },
-    eventPassthrough: ''
+    eventPassthrough: 'horizontal'
   },
   watch: {
     data() {
@@ -147,6 +147,9 @@ export default {
     },
     refresh() {
       this.scroll && this.scroll.refresh()
+    },
+    destroy() {
+      this.scroll && this.scroll.destroy()
     },
     scrollTo() {
       this.scroll && this.scroll.scrollTo.apply(this.scroll, arguments)

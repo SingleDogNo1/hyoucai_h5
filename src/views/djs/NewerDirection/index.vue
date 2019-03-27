@@ -1,66 +1,59 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
-    <b-scroll
-      class="scroll"
-      ref="scrollRef"
-      :preventDefaultException="preventClass">
-      <div class="bg_white">
-        <div class="point_title">
-          <div class="text">输入手机号---设置登录密码---注册成功</div>
-        </div>
-        <div class="swiper-container swiper-container-1">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"></div>
-            <div class="swiper-slide"></div>
-          </div>
-        </div>
-        <div class="point_title">
-          <div class="text">输入个人信息---签订协议</div>
-        </div>
-        <div class="swiper-container swiper-container-2">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"></div>
-            <div class="swiper-slide"></div>
-          </div>
-        </div>
-        <div class="point_title">
-          <div class="text">点击【充值】按钮---输入充值金额及验证码---确认充值</div>
-        </div>
-        <div class="swiper-container swiper-container-3">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"></div>
-            <div class="swiper-slide"></div>
-          </div>
-        </div>
-        <div class="point_title">
-          <div class="text">选择产品---输入出借金额---立即出借</div>
-        </div>
-        <div class="swiper-container swiper-container-4">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide"></div>
-            <div class="swiper-slide"></div>
-          </div>
+  <b-scroll
+    class="scroll"
+    ref="scrollRef"
+    :preventDefaultException="preventClass">
+    <div class="bg_white">
+      <div class="point_title">
+        <div class="text">输入手机号---设置登录密码---注册成功</div>
+      </div>
+      <div class="swiper-container swiper-container-1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"></div>
+          <div class="swiper-slide"></div>
         </div>
       </div>
-    </b-scroll>
-  </div>
+      <div class="point_title">
+        <div class="text">输入个人信息---签订协议</div>
+      </div>
+      <div class="swiper-container swiper-container-2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"></div>
+          <div class="swiper-slide"></div>
+        </div>
+      </div>
+      <div class="point_title">
+        <div class="text">点击【充值】按钮---输入充值金额及验证码---确认充值</div>
+      </div>
+      <div class="swiper-container swiper-container-3">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"></div>
+          <div class="swiper-slide"></div>
+        </div>
+      </div>
+      <div class="point_title">
+        <div class="text">选择产品---输入出借金额---立即出借</div>
+        </div>
+      <div class="swiper-container swiper-container-4">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"></div>
+          <div class="swiper-slide"></div>
+        </div>
+      </div>
+    </div>
+  </b-scroll>
 </template>
 
 <script>
-import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 import Swiper from 'swiper/dist/js/swiper'
 
 export default {
   components: {
-    HeaderTitle,
     BScroll
   },
   data() {
     return {
-      text: '新手指引',
-      mobile: this.$route.query.mobile,
       serviceTel: '400-099-7979',
       preventClass: { className: /(^|\s)longTap(\s|$)/ },
       swiper1: null,

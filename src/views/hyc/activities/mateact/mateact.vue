@@ -112,6 +112,7 @@ export default {
     //   })
 
     const activityId = this.$route.query.activityId
+    const userName = this.$route.query.userName
 
     // 如果是从h5活动列表进入的，用我们自己的分享逻辑
     // 如果是直接进入活动详情，app用自己的分享功能
@@ -120,7 +121,8 @@ export default {
         if (window.DjsJsBridge && activityId) {
           api
             .getShareInfoApi({
-              id: activityId
+              id: activityId,
+              userName: userName
             })
             .then(res => {
               if (res.data.resultCode === '1') {
@@ -128,8 +130,11 @@ export default {
                 const params = {
                   title: data.title,
                   content: data.description,
-                  url: window.location.href,
-                  imgUrl: data.iconUrl
+                  imgUrl: data.iconUrl,
+                  shareType: data.shareType,
+                  backPicUrl: data.backPicUrl,
+                  qrPicUrl: data.qrPicUrl,
+                  url: window.location.href
                 }
                 let shareInfo = JSON.stringify(params)
                 window.DjsJsBridge.getShareKey(shareInfo)

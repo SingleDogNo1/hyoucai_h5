@@ -1,15 +1,11 @@
 <template>
   <div class="risk">
-    <header ref="Title">
-      <div class="head_gradient border-bottom-1px" ref="head_gradient">{{title}}</div>
-      <span @click="goback"></span>
-    </header>
     <b-scroll
         class="scroll"
         ref="scrollRef"
         :probeType="probeType"
         :listen-scroll="listenScroll"
-        @scroll="scroll">
+    >
       <div>
         <div class="top" v-if="num === 0 && !showResult">
           <div class="rectangle">
@@ -384,9 +380,9 @@ export default {
             this.showResult = true
             this.title = '风险评测结果'
             this.getLimit()
-            this.$nextTick(() => {
-              this.$refs.head_gradient.style.opacity = 1
-            })
+            // this.$nextTick(() => {
+            //   this.$refs.head_gradient.style.opacity = 1
+            // })
           } else {
             return false
           }
@@ -538,7 +534,7 @@ export default {
     startTest() {
       this.num = 1
       this.title = '风险评测'
-      this.$refs.head_gradient.style.opacity = 1
+      // this.$refs.head_gradient.style.opacity = 1
     },
     judgeJumpTo() {
       this.reTestFlag = false
@@ -832,9 +828,9 @@ export default {
         this.showResult = true
         this.title = '风险评测结果'
         this.refresh()
-        this.$nextTick(() => {
-          this.$refs.head_gradient.style.opacity = 1
-        })
+        // this.$nextTick(() => {
+        //   this.$refs.head_gradient.style.opacity = 1
+        // })
       }
     },
     matchClass(answer) {
@@ -845,24 +841,6 @@ export default {
         result = ''
       }
       return result
-    },
-    scroll(pos) {
-      // 监控上下拉
-      if (!this.showResult && !this.num) {
-        // 只在评测前起作用，做题中和显示结果,opcity = 1
-        if (pos.y >= 0) {
-          this.title = ''
-          this.$refs.head_gradient.style.opacity = 0
-        } else {
-          let posy = Math.abs(pos.y)
-          let rate = posy / 100
-          if (rate > 1) {
-            rate = 1
-          }
-          this.title = '风险评测'
-          this.$refs.head_gradient.style.opacity = rate
-        }
-      }
     },
     refresh() {
       this.$nextTick(() => {
@@ -884,10 +862,9 @@ export default {
       this.getResult()
     }
     this.$nextTick(() => {
-      if (this.mobile) {
-        this.$refs.Title.style.display = 'none'
-        this.$refs.result.style.paddingTop = 0
-      }
+      // if (this.mobile) {
+      //   this.$refs.result.style.paddingTop = 0
+      // }
       this.refresh()
     })
   },
@@ -914,13 +891,7 @@ export default {
 }
 
 .risk {
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto;
+  height: 100%;
   font-size: 0;
   background-color: #eee;
   header {

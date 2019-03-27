@@ -1,18 +1,23 @@
 <template>
-    <div class="certificate pageContainer">
-        <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-    </div>
+  <BScroll class="certificate">
+    <ul>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </BScroll>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
+
 export default {
-  name: 'certificate'
+  name: 'certificate',
+  components: {
+    BScroll
+  }
 }
 </script>
 
@@ -21,6 +26,7 @@ export default {
 
 .certificate {
   padding: 0.16rem 0.16rem 0.16rem 0.15rem;
+  height: 100%;
   ul {
     display: flex;
     flex-wrap: wrap;

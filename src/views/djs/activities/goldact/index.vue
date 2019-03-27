@@ -1,5 +1,5 @@
 <template>
-  <div class="pageContainer" ref="container">
+  <div class="gold" ref="container">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/common'
 
 export default {
   name: 'mateact',
@@ -113,33 +113,28 @@ export default {
     //   })
 
     const activityId = this.$route.query.activityId
-
-    const params = {
-      title: '标题',
-      content: '内容',
-      url: window.location.href,
-      imgUrl: 'http://114.215.186.35:8089/product_pic/pic_config/20190217202259.jpg'
-    }
-    var shareInfo = JSON.stringify(params)
-    if (window.DjsJsBridge) {
-      window.DjsJsBridge.getShareKey(shareInfo)
-    }
+    const userName = this.$route.query.userName
 
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api
           .getShareInfoApi({
-            id: activityId
+            id: activityId,
+            userName: userName
           })
           .then(res => {
             if (res.data.resultCode === '1') {
+              const data = res.data
               const params = {
-                title: res.data.title,
-                content: res.data.description,
-                url: window.location.href,
-                imgUrl: res.data.iconUrl
+                title: data.title,
+                content: data.description,
+                imgUrl: data.iconUrl,
+                shareType: data.shareType,
+                backPicUrl: data.backPicUrl,
+                qrPicUrl: data.qrPicUrl,
+                url: window.location.href
               }
-              var shareInfo = JSON.stringify(params)
+              let shareInfo = JSON.stringify(params)
               window.DjsJsBridge.getShareKey(shareInfo)
               clearInterval(t)
             }

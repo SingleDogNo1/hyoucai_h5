@@ -1,31 +1,36 @@
 <template>
-  <div class="index">
-    <BScroll>
-      <div>
-        <header>
-          <div class="logo"></div>
-          <p class="text">唯有赚钱不能停</p>
-        </header>
-        <div class="tel"></div>
-        <button @click="iosClick">
-          <img class="ios" src="./images/icon_ios.png" alt="">
-          <span>iPhone 版下载</span>
-        </button>
-        <button @click="androidClick">
-          <img class="android" src="./images/icon_android.png" alt="" />
-          <span>Android 版下载</span>
-        </button>
-      </div>
-    </BScroll>
-  </div>
+  <BScroll class="index">
+    <div class="wrapper">
+      <header>
+        <div class="logo"></div>
+        <p class="text">唯有赚钱不能停</p>
+      </header>
+      <div class="tel"></div>
+      <button v-if="isIOS" @click="iosClick">
+        <img class="ios" src="./images/icon_ios.png" alt="">
+        <span>iPhone 版下载</span>
+      </button>
+      <button v-if="isAndroid" @click="androidClick">
+        <img class="android" src="./images/icon_android.png" alt="" />
+        <span>Android 版下载</span>
+      </button>
+    </div>
+  </BScroll>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import { Toast } from 'mint-ui'
 
 export default {
   components: {
     BScroll
+  },
+  data() {
+    return {
+      isAndroid: false,
+      isIOS: false
+    }
   },
   methods: {
     androidClick() {
@@ -34,44 +39,67 @@ export default {
     iosClick() {
       window.location.href = 'https://itunes.apple.com/cn/app/id1289595622?mt=8'
     }
+  },
+  created() {
+    const UA = navigator.userAgent
+    const isAndroid = UA.indexOf('Android') > -1 || UA.indexOf('Linux') > -1
+    const isIOS = !!UA.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+    if (isAndroid) {
+      this.isAndroid = true
+      this.isIOS = false
+    }
+    if (isIOS) {
+      this.isAndroid = false
+      this.isIOS = true
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      switch (from.name) {
+        case 'userLogin':
+          // 从登录来的
+          // Toast('login success')
+          break
+        case 'userRegister':
+          // 从注册来的
+          Toast('恭喜您，注册成功')
+          break
+      }
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.index {
-  width: 100%;
+.my-scroll {
   height: 100%;
   background: #fff;
-  .my-scroll {
-    height: 100%;
-    overflow: hidden;
-  }
+  overflow: hidden;
   header {
     width: 100%;
-    height: 215px;
+    height: 2.15rem;
     background: url('./images/bg_header.png') center center no-repeat;
     background-size: cover;
-    padding-top: 53px;
+    padding-top: 0.53rem;
     .logo {
       margin: 0 auto;
-      width: 136px;
-      height: 46px;
+      width: 1.36rem;
+      height: 0.46rem;
       background: url('./images/icon_logo.png') center center no-repeat;
       background-size: cover;
     }
     .text {
-      width: 126px;
-      margin: 8px auto 0;
-      font-size: 13px;
+      width: 1.26rem;
+      margin: 0.08rem auto 0;
+      font-size: 0.13rem;
       color: #333333;
-      letter-spacing: 5px;
+      letter-spacing: 0.05rem;
     }
   }
   .tel {
-    width: 178px;
-    height: 347px;
-    margin: -100px auto 25px;
+    width: 1.78rem;
+    height: 3.47rem;
+    margin: -1rem auto 0.25rem;
     background: url('./images/bg_tel.png') center center no-repeat;
     background-size: cover;
     position: relative;
@@ -79,23 +107,23 @@ export default {
   }
   button {
     display: flex;
-    width: 220px;
-    height: 44px;
-    border: 1px solid #333333;
-    border-radius: 4px;
-    padding: 13px 48px;
-    margin: 0 auto 12px;
+    width: 2.2rem;
+    height: 0.44rem;
+    border: 0.01rem solid #333333;
+    border-radius: 0.04rem;
+    padding: 0.13rem 0.48rem;
+    margin: 0 auto 0.12rem;
     background: #fff;
     justify-content: space-between;
     .android {
       display: inline-block;
-      width: 16px;
-      height: 20px;
+      width: 0.16rem;
+      height: 0.2rem;
     }
     .ios {
       display: inline-block;
-      width: 16px;
-      height: 20px;
+      width: 0.16rem;
+      height: 0.2rem;
     }
   }
 }

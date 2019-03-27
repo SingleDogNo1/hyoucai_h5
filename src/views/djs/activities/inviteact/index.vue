@@ -1,9 +1,9 @@
 <template>
-  <div class="womens-day">
+  <div class="invite">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
-        <img src="./bg.png" alt="">
+        <img src="./invite-bg.png" alt="">
         <div class="rule-icon" @click="showDetail"></div>
       </div>
     </div>
@@ -18,13 +18,13 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/djs/ActivitiesApi/common'
 
 export default {
-  name: 'womenday',
+  name: 'inviteact',
   data() {
     return {
-      title: '汇通金融女王节活动',
+      title: '邀请好友返现活动',
       type: this.$route.query.type,
       detailFlag: false,
       id: '',
@@ -53,7 +53,15 @@ export default {
   },
   mounted() {
     const activityId = this.$route.query.activityId
-    const userName = this.$route.query.userName
+    this.id = this.$route.query.activityId
+
+    api
+      .getShareInfoApi({
+        id: 21
+      })
+      .then(res => {
+        this.msg = JSON.stringify(res.data)
+      })
 
     // 如果是从h5活动列表进入的，用我们自己的分享逻辑
     // 如果是直接进入活动详情，app用自己的分享功能
@@ -62,8 +70,7 @@ export default {
         if (window.DjsJsBridge && activityId) {
           api
             .getShareInfoApi({
-              id: activityId,
-              userName: userName
+              id: activityId
             })
             .then(res => {
               if (res.data.resultCode === '1') {
@@ -71,11 +78,8 @@ export default {
                 const params = {
                   title: data.title,
                   content: data.description,
-                  imgUrl: data.iconUrl,
-                  shareType: data.shareType,
-                  backPicUrl: data.backPicUrl,
-                  qrPicUrl: data.qrPicUrl,
-                  url: window.location.href
+                  url: window.location.href,
+                  imgUrl: data.iconUrl
                 }
                 let shareInfo = JSON.stringify(params)
                 window.DjsJsBridge.getShareKey(shareInfo)

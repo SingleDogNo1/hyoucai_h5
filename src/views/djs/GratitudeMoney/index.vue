@@ -1,7 +1,6 @@
 <template>
   <transition name="fade">
-    <div class="pageContainer" ref="container">
-      <header-title :title='text' :mobileValue='mobile'></header-title>
+    <div class="gratitude" ref="container">
       <b-scroll
         class="scroll"
         ref="scrollRef"
@@ -29,7 +28,10 @@
           </div>
         </div>
       </b-scroll>
-      <no-data v-if="!referers.length"></no-data>
+      <no-data
+        v-if="!referers.length"
+        class="no-data"
+      />
     </div>
   </transition>
 </template>
@@ -37,7 +39,6 @@
 <script>
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import HeaderTitle from '@/components/AppHeader'
 import Swiper from 'swiper/dist/js/swiper'
 import api from '@/api/djs/gratitude_money'
 import NoData from '@/components/NoData/NoData'
@@ -47,7 +48,6 @@ const CODE_OK = '1'
 export default {
   components: {
     BScroll,
-    HeaderTitle,
     NoData
   },
   data() {
@@ -138,16 +138,13 @@ export default {
       this.getRecommender()
     }
     setTimeout(() => {
-      this.swiperH = new Swiper('.swiper-container-h', {
+      new Swiper('.swiper-container-h', {
         slidesPerView: 3.5,
         spaceBetween: 8,
         freeMode: true
       })
     }, 100)
     this.$nextTick(() => {
-      if (this.mobile) {
-        this.$refs.container.style.top = 0
-      }
       this.refresh()
     })
   },
@@ -190,8 +187,8 @@ export default {
   opacity: 1;
 }
 
-.pageContainer {
-  top: 0.44rem;
+.gratitude {
+  height: 100%;
   font-size: 0;
   .scroll {
     width: 100%;
@@ -339,6 +336,13 @@ export default {
         }
       }
     }
+  }
+}
+
+.no-data {
+  background: #fff;
+  /deep/ .event {
+    color: $color-placeholder;
   }
 }
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <header-title :title="text" :mobileValue="mobile"></header-title>
+  <div class="transfer-chanrge">
     <b-scroll class="scroll" ref="scrollRef">
-        <div class="wrapper" :style="{paddingTop: mobile ? '0.24rem' : '0.68rem'}">
+        <div class="wrapper">
           <dl class="top">
             <dt></dt>
             <dd>您可以使用您注册汇有财时绑定的银行卡，通过线下跨行转账（柜台、网银、手机银行APP）方式将资金充值到江西银行存管账户。</dd>
@@ -37,19 +36,15 @@
 <script>
 import Clipboard from 'clipboard'
 import { Toast } from 'mint-ui'
-import HeaderTitle from '@/components/AppHeader'
 import BScroll from '@/components/BScroll/BScroll'
 // import { serviceTelApi } from '@/api/djs/help'
 
 export default {
   components: {
-    HeaderTitle,
     BScroll
   },
   data() {
     return {
-      text: '转账充值',
-      mobile: this.$route.query.mobile,
       serviceTel: '400-099-7979'
     }
   },
@@ -98,6 +93,10 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
+.transfer-chanrge {
+  height: 100%;
+  padding-top: 0.24rem;
+}
 
 .scroll {
   width: 100%;

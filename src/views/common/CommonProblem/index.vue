@@ -1,27 +1,25 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <div class="wrapper">
-      <b-scroll class="scroll" ref="scrollRef">
-        <div>
-          <div class="item" v-for="(item, index) in commonQuestions" :key="index">
-            <div class="inn border-bottom-1px">
-              <div class="question" @click="toggleItems(commonQuestions, index)">
-                <em>{{ item.question }}</em>
-                <transition name="rotate-min">
-                  <i v-if="item.flag_min"></i>
-                </transition>
-                <transition name="rotate-plus">
-                  <b v-if="item.flag_plus"></b>
-                </transition>
-              </div>
-              <div class="answer" v-if="item.flag_min">
-                <dl><dd v-html="item.answer"></dd></dl>
-              </div>
+  <div class="common-problem">
+    <b-scroll class="scroll" ref="scrollRef">
+      <div>
+        <div class="item" v-for="(item, index) in commonQuestions" :key="index">
+          <div class="inn border-bottom-1px">
+            <div class="question" @click="toggleItems(commonQuestions, index)">
+              <em>{{ item.question }}</em>
+              <transition name="rotate-min">
+                <i v-if="item.flag_min"></i>
+              </transition>
+              <transition name="rotate-plus">
+                <b v-if="item.flag_plus"></b>
+              </transition>
+            </div>
+            <div class="answer" v-if="item.flag_min">
+              <dl><dd v-html="item.answer"></dd></dl>
             </div>
           </div>
         </div>
-      </b-scroll>
-    </div>
+      </div>
+    </b-scroll>
   </div>
 </template>
 
@@ -180,83 +178,79 @@ export default {
 .rotate-min-leave-to {
   opacity: 0;
 }
-.pageContainer {
+.common-problem {
   background-color: $color-background;
-  .wrapper {
+  height: 100%;
+  box-sizing: border-box;
+  .scroll {
     height: 100%;
-    box-sizing: border-box;
-    background-color: #fff;
-    .scroll {
-      height: 100%;
-      overflow: hidden;
-      background: $color-background;
-      > div {
-        .item {
-          background-color: #fff;
-          margin-bottom: 0.08rem;
+    overflow: hidden;
+    > div {
+      .item {
+        background-color: #fff;
+        margin-bottom: 0.08rem;
+        .inn {
+        }
+        &:last-child {
           .inn {
+            border-bottom: none;
           }
-          &:last-child {
-            .inn {
-              border-bottom: none;
-            }
+        }
+        .question {
+          position: relative;
+          display: flex;
+          padding: 0.12rem 4%;
+          line-height: 1.75;
+          font-size: $font-size-small-s;
+          span {
+            display: inline-block;
+            width: 0.24rem;
+            color: $color-button;
           }
-          .question {
-            position: relative;
+          em {
+            flex: 1;
+            color: $color-text;
+            padding-right: 0.2rem;
+          }
+          i {
+            position: absolute;
+            display: inline-block;
+            top: 50%;
+            margin-top: -0.05rem;
+            right: 4%;
+            width: 0.15rem;
+            height: 0.1rem;
+            @include bg-image('up');
+            background-size: 100% 100%;
+            background-position: center;
+          }
+          b {
+            position: absolute;
+            display: inline-block;
+            top: 50%;
+            margin-top: -0.05rem;
+            right: 4%;
+            width: 0.15rem;
+            height: 0.1rem;
+            @include bg-image('down');
+            background-size: 100% 100%;
+            background-position: center;
+          }
+        }
+        .answer {
+          padding: 0.16rem 4%;
+          background-color: $color-background;
+          dl {
             display: flex;
-            padding: 0.12rem 4%;
-            line-height: 1.75;
             font-size: $font-size-small-s;
-            span {
+            dt {
               display: inline-block;
               width: 0.24rem;
               color: $color-button;
             }
-            em {
+            dd {
               flex: 1;
-              color: $color-text;
-              padding-right: 0.2rem;
-            }
-            i {
-              position: absolute;
-              display: inline-block;
-              top: 50%;
-              margin-top: -0.05rem;
-              right: 4%;
-              width: 0.15rem;
-              height: 0.1rem;
-              @include bg-image('up');
-              background-size: 100% 100%;
-              background-position: center;
-            }
-            b {
-              position: absolute;
-              display: inline-block;
-              top: 50%;
-              margin-top: -0.05rem;
-              right: 4%;
-              width: 0.15rem;
-              height: 0.1rem;
-              @include bg-image('down');
-              background-size: 100% 100%;
-              background-position: center;
-            }
-          }
-          .answer {
-            padding: 0.16rem 4%;
-            background-color: $color-background;
-            dl {
-              display: flex;
-              font-size: $font-size-small-s;
-              dt {
-                display: inline-block;
-                width: 0.24rem;
-                color: $color-button;
-              }
-              dd {
-                flex: 1;
-                color: $color-text-s;
-              }
+              color: $color-text-s;
             }
           }
         }

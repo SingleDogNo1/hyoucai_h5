@@ -1,12 +1,10 @@
 <template>
-  <div class="register pageContainer">
-    <AppHeader :title="title" :mobileValue="!isAppTitle"></AppHeader>
+  <div class="register">
     <section>
       <div class="block sms-code">
         <input
           ref="smsInput"
-          type="number"
-          autofocus="autofocus"
+          type="tel"
           placeholder="请输入短信验证码"
           maxlength="6"
           v-model="form.identifyCode"
@@ -27,7 +25,11 @@
           maxlength="20"
           @blur="passwordBlur"
         />
-        <password-strength class="password-strength" :pwd="form.password"></password-strength>
+        <password-strength
+          class="password-strength"
+          :pwd="form.passWord"
+          v-show="form.passWord !== ''"
+        ></password-strength>
       </div>
       <div class="block repeat-pwd">
         <input
@@ -40,29 +42,27 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)">
       </div>
       <div class="form-item" v-if="tjm">
-        <input v-if="form.inviteCode" type="text" disabled="disabled" v-model="form.inviteCode" placeholder="">
-        <input ref="inviteCodeInput" v-else type="text" v-model="form.recommendCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)">
       </div>
       <input
         :class="['block', 'submit', {
-          active: form.identifyCode && form.passWord && form.repeatPassword
+          active: form.identifyCode && form.passWord.length >= 8 && form.repeatPassword.length >= 8
         }]"
         type="button"
         value="注册"
         :disabled="!form.identifyCode || !form.passWord || !form.repeatPassword"
         @click="register"
       />
+      <p class="agre">注册即表示同意<span @mousedown.stop="toAgreement">《汇有财注册协议》</span></p>
       <div id="captcha"></div>
     </section>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader'
 import PasswordStrength from '@/components/passwordStrength'
 import SMSBtn from '@/components/smsBtn'
 import { isMobCode, isPassword } from '@/assets/js/regular'
@@ -70,12 +70,12 @@ import { mapGetters, mapMutations } from 'vuex'
 import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/api/common/register'
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
+import { userLogin } from '@/api/common/login'
 
 export default {
   name: 'register',
   mixins: [],
   components: {
-    AppHeader,
     PasswordStrength,
     SMSBtn
   },
@@ -87,10 +87,10 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        inviteCode: this.$route.query.inviteCode, // TODO 推荐码参数是什么
-        recommendCode: this.$route.query.inviteCode, // TODO 推荐码参数是什么
         registerFrom: 'H5'
       },
+      inviteCode: undefined,
+      recommendCode: undefined,
       cpm: false, // 钞票码显隐标识
       tjm: false, // 推荐码显隐标识
       captchaIns: null, // 滑块验证码实例
@@ -126,10 +126,7 @@ export default {
         Toast('请输入短信验证码')
         return
       }
-      if (!isMobCode(this.form.identifyCode)) {
-        Toast('请输入正确的短信验证码')
-      }
-      return isMobCode(this.form.identifyCode)
+      return this.form.identifyCode
     },
     passwordBlur() {
       if (this.smsCodeBlur()) {
@@ -137,10 +134,7 @@ export default {
           Toast('请输入密码')
           return
         }
-        if (!isPassword(this.form.passWord)) {
-          Toast('请输入正确的密码')
-        }
-        return isPassword(this.form.passWord)
+        return this.form.passWord
       }
     },
     repeatPWDInput() {
@@ -149,76 +143,94 @@ export default {
           Toast('请重新输入密码')
           return
         }
-        if (this.form.repeatPassword !== this.form.passWord) {
-          Toast('两次密码输入不一致，请重新输入')
-        }
-        return this.form.repeatPassword === this.form.passWord
+        return this.form.repeatPassword
       }
     },
     async register() {
-      if (this.cpm && this.form.inviteCode) {
-        await new Promise((resolve, reject) => {
-          validateCPM({
-            inviteCode: this.form.inviteCode
-          }).then(res => {
-            if (res.data.data) {
-              resolve()
-            } else {
-              Toast('推荐码不正确')
-              reject()
-            }
-          })
-        })
-      }
-
-      if (this.tjm && this.form.recommendCode) {
-        await new Promise((resolve, reject) => {
-          validateTJM({
-            recommendCode: this.form.recommendCode
-          }).then(res => {
-            if (res.data.data) {
-              resolve()
-            } else {
-              Toast('推荐码不正确')
-              reject()
-            }
-          })
-        })
-      }
-      userRegister(
-        Object.assign(this.form, {
-          mobile: this.registerMobile
-        })
-      )
-        .then(res => {
-          if (res.data.dresultCode === '1') {
-            return userLogin({
-              userName: this.registerMobile,
-              passWord: btoa(this.form.passWord)
+      if (!isMobCode(this.form.identifyCode)) {
+        Toast('短信验证码格式错误')
+      } else if (!isPassword(this.form.passWord)) {
+        Toast('密码格式错误')
+      } else if (this.form.repeatPassword !== this.form.passWord) {
+        Toast('两次密码输入不一致，请重新输入')
+      } else {
+        if (this.cpm && this.inviteCode) {
+          await new Promise((resolve, reject) => {
+            validateCPM({
+              inviteCode: this.inviteCode
+            }).then(res => {
+              if (res.data.data) {
+                resolve()
+              } else {
+                Toast('推荐码不正确')
+                reject()
+              }
             })
-          } else {
-            Toast(res.data.resultMsg)
-            throw new Error()
-          }
-        })
-        .then(res => {
-          if (res.data.resultCode === '1') {
-            let user = res.data.data
-            this.setUser(user)
-            switch (this.user.platformFlag) {
-              case '1':
-                window.location.href = '/djs/#/bankAccount/openAccount'
-                break
-              case '2':
-                window.location.href = '/hyc/#/bankAccount/openAccount'
-                break
-              default:
-                this.$router.push({ name: 'account' })
+          })
+        }
+
+        if (this.tjm && this.recommendCode) {
+          await new Promise((resolve, reject) => {
+            validateTJM({
+              recommendCode: this.recommendCode
+            }).then(res => {
+              if (res.data.data) {
+                resolve()
+              } else {
+                Toast('推荐码不正确')
+                reject()
+              }
+            })
+          })
+        }
+        userRegister(
+          Object.assign(this.form, {
+            mobile: this.registerMobile,
+            inviteCode: this.inviteCode ? this.inviteCode : undefined,
+            recommendCode: this.recommendCode ? this.recommendCode : undefined
+          })
+        )
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              return userLogin({
+                userName: this.registerMobile,
+                passWord: btoa(this.form.passWord)
+              })
+            } else {
+              Toast(res.data.resultMsg)
+              throw new Error()
             }
-          } else {
-            Toast(res.data.resultMsg)
-          }
-        })
+          })
+          .then(res => {
+            if (res.data.resultCode === '1') {
+              let user = res.data.data
+              this.setUser(user)
+              // switch (this.user.platformFlag) {
+              //   case '1':
+              //     window.location.href = '/djs/#/bankAccount/openAccount'
+              //     break
+              //   case '2':
+              //     window.location.href = '/hyc/#/bankAccount/openAccount'
+              //     break
+              //   default:
+              //     this.$router.push({ name: 'account' })
+              // }
+              this.$router.push({
+                name: 'AppDownload'
+              })
+            } else {
+              Toast(res.data.resultMsg)
+            }
+          })
+      }
+    },
+    toAgreement() {
+      this.$router.push({
+        name: 'HYCagreement',
+        query: {
+          agreementType: 'zcxy'
+        }
+      })
     },
     ...mapMutations({
       setUser: 'SET_USER'
@@ -229,6 +241,12 @@ export default {
       if (res.data.resultCode === '1') {
         this.cpm = res.data.data.cpm === 'true'
         this.tjm = res.data.data.tjm === 'true'
+        if (this.cpm) {
+          this.inviteCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
+        if (this.tjm) {
+          this.recommendCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+        }
       }
     })
     window.initNECaptcha(
@@ -250,6 +268,13 @@ export default {
         this.captchaIns = instance
       }
     )
+  },
+  beforeRouteLeave(to, from, next) {
+    const toastWrapper = document.getElementsByClassName('mint-toast')
+    for (let i = 0; i < toastWrapper.length; i++) {
+      toastWrapper[i].style.display = 'none'
+    }
+    next()
   }
 }
 </script>
@@ -264,97 +289,98 @@ input {
     color: #999;
   }
 }
-
-.pageContainer {
-  position: absolute;
-  top: 0.44rem;
-  bottom: 0;
-  width: 100%;
-  height: auto;
-  &.register {
-    background: #ffffff;
-    padding-top: 0.23rem;
-    .block {
-      width: 3.45rem;
-      height: 0.45rem;
-      margin: 0 auto;
-      &.sms-code {
+.register {
+  background: #ffffff;
+  padding-top: 0.23rem;
+  .block {
+    width: 3.45rem;
+    height: 0.45rem;
+    margin: 0 auto;
+    &.sms-code {
+      padding-top: 0.2rem;
+      display: flex;
+      justify-content: space-between;
+      input {
+        width: 2.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
+        }
+      }
+      .sms-btn {
+        width: 1rem;
+        border-bottom: 1px solid #f4f4f4;
+      }
+    }
+    &.pwd {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
         padding-top: 0.2rem;
-        display: flex;
-        justify-content: space-between;
-        input {
-          width: 2.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
-        .sms-btn {
-          width: 1rem;
-          border-bottom: 1px solid #f4f4f4;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.pwd {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
-        .password-strength {
-          position: absolute;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          margin: auto 0;
-          height: 0.25rem;
+      .password-strength {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        height: 0.25rem;
+      }
+    }
+    &.repeat-pwd {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
+        padding-top: 0.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.repeat-pwd {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
+    }
+    &.invite-code {
+      display: flex;
+      transition: 0.3s;
+      position: relative;
+      input {
+        width: 100%;
+        padding-top: 0.2rem;
+        font-size: $font-size-small-ss;
+        border-bottom: 1px solid #f4f4f4;
+        &:focus {
+          border-bottom: 1px solid red;
         }
       }
-      &.invite-code {
-        display: flex;
-        transition: 0.3s;
-        position: relative;
-        input {
-          width: 100%;
-          padding-top: 0.2rem;
-          font-size: $font-size-small-ss;
-          border-bottom: 1px solid #f4f4f4;
-          &:focus {
-            border-bottom: 1px solid red;
-          }
-        }
+    }
+    &.submit {
+      display: block;
+      margin-top: 0.3rem;
+      background: #ccc;
+      border-radius: 4px;
+      font-size: 0.15rem;
+      color: #fff;
+      &.active {
+        background: $color-main;
       }
-      &.submit {
-        display: block;
-        margin-top: 0.3rem;
-        background: #ccc;
-        border-radius: 4px;
-        font-size: 0.15rem;
-        color: #fff;
-        &.active {
-          background: $color-main;
-        }
+    }
+    .agre {
+      width: 3.45rem;
+      margin: 0.2rem auto 0;
+      font-size: 0.13rem;
+      color: #666;
+      span {
+        color: $color-main;
       }
     }
   }

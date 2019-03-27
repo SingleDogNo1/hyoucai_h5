@@ -1,24 +1,18 @@
 <template>
   <transition name="slide">
-    <div class="pageContainer" ref="container">
-      <header-title :title="text" :mobileValue="mobile"></header-title>
-      <div
-        class="scroll_wrapper"
-        ref="scrollWrapperRef"
-        :style="{top: mobile ? '0' : '0.44rem'}">
-        <b-scroll
-          :beforeScroll="true"
-          @beforeScroll="beforeScroll"
-          class="notice_scroll"
-          ref="scrollRefND">
-          <div class="wrapper">
-            <h2>{{data.title}}</h2>
-            <div>{{data.createTime}}</div>
-            <article id="content" v-html="data.content">
-            </article>
-          </div>
-        </b-scroll>
-      </div>
+    <div class="notice">
+      <b-scroll
+        :beforeScroll="true"
+        @beforeScroll="beforeScroll"
+        class="notice_scroll"
+        ref="scrollRefND">
+        <div class="wrapper">
+          <h2>{{data.title}}</h2>
+          <div>{{data.createTime}}</div>
+          <article id="content" v-html="data.content">
+          </article>
+        </div>
+      </b-scroll>
     </div>
   </transition>
 </template>
@@ -27,18 +21,14 @@
 import { Indicator, Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import { noticeDetailApi } from '@/api/hyc/notice'
-import HeaderTitle from '@/components/AppHeader'
 
 const CODE_OK = '1'
 export default {
   components: {
-    BScroll,
-    HeaderTitle
+    BScroll
   },
   data() {
     return {
-      text: '公告详情',
-      mobile: this.$route.query.mobile,
       id: this.$route.params.id,
       data: {
         title: '',
@@ -78,37 +68,29 @@ export default {
 <style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 
-.pageContainer {
-  .scroll_wrapper {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    background-color: #fff;
-    .notice_scroll {
-      position: absolute;
+.notice {
+  height: 100%;
+  .notice_scroll {
+    height: 100%;
+    .wrapper {
       width: 100%;
-      top: 0;
-      bottom: 0;
-      .wrapper {
-        width: 100%;
-        padding: 0.24rem 4% 0;
-        h2 {
-          font-size: $font-size-medium-x;
+      padding: 0.24rem 4% 0;
+      h2 {
+        font-size: $font-size-medium-x;
+        color: $color-text-b;
+      }
+      div {
+        margin: 0.08rem auto 0.27rem;
+        font-size: $font-size-small-s;
+        color: $color-text-s;
+      }
+      /deep/ article {
+        p {
+          margin-bottom: 0.16rem;
+          line-height: 0.24rem;
+          text-align: left;
+          font-size: $font-size-small !important;
           color: $color-text-b;
-        }
-        div {
-          margin: 0.08rem auto 0.27rem;
-          font-size: $font-size-small-s;
-          color: $color-text-s;
-        }
-        /deep/ article {
-          p {
-            margin-bottom: 0.16rem;
-            line-height: 0.24rem;
-            text-align: left;
-            font-size: $font-size-small !important;
-            color: $color-text-b;
-          }
         }
       }
     }

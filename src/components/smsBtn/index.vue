@@ -44,7 +44,8 @@ export default {
           time -= 1
           this.text_ = time + 's后可重发'
         } else {
-          this.text_ = this.text
+          // this.text_ = this.text
+          this.text_ = '重新发送'
           this.disable_ = false
           window.clearInterval(this.t)
         }

@@ -124,9 +124,9 @@
 - 每一页的标题放在router文件的meta中
 
 ### 说明
-+ <span id="explainA">环境变量要以VUE_APP_开头的环境变量可以在应用代码中全局访问到。访问方式：process.env.VUE_APP_VAR (参考App.vue检测UA代码)。</span>
-+ <span id="explainB">这里的资源指的是
++ <div id="explainA">环境变量要以VUE_APP_开头的环境变量可以在应用代码中全局访问到。访问方式：process.env.VUE_APP_VAR (参考App.vue检测UA代码)。</div>
++ <div id="explainB">这里的资源指的是
   - 已经在多个模块中被复用。 比如：首页、个人中心、我的投资、投资详情四个模块都会用到的图片。
   - 只在全局加载的文件。比如：全局的css文件、封装好的js请求。
   - 有极大可能将会被多个模块复用的资源。比如：新加入的模块中使用了的字体文件，90%可能也会用到其他模块中。
-</span>
+</div>

@@ -13,10 +13,7 @@ function getPageSinatureApi(data) {
   return axios({
     url: 'wechat/getPageSinature',
     method: 'post',
-    data: qs.stringify(data),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    data: qs.stringify(data)
   })
 }
 

@@ -36,6 +36,12 @@ export default {
     }
   },
   created() {
+    const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
+      '你有加息券可以使用，加息1%-4%',
+      '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+      'http://h5.dpandora.cn/images/favicon.ico',
+      'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0'
+    ]
     api
       .getPageSinatureApi({
         url: window.location.href
@@ -44,7 +50,7 @@ export default {
         const data = res.data
         console.log(res.data)
         wx.config({
-          debug: false,
+          debug: true,
           appId: data.appid,
           timestamp: data.timestamp,
           nonceStr: data.noncestr,
@@ -53,43 +59,43 @@ export default {
         })
         wx.ready(() => {
           wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc,
             type: '',
             dataUrl: '',
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc,
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc,
             success: function() {},
             cancel: function() {}
           })
           wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc,
             success: function() {},
             cancel: function() {}
           })

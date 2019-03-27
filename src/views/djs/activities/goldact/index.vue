@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/common'
+import api from '@/api/common/activities'
 
 export default {
   name: 'mateact',
@@ -67,7 +67,8 @@ export default {
         const data = res.data
         wx.config({
           debug: false,
-          appId: data.appid,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
           timestamp: data.timestamp,
           nonceStr: data.noncestr,
           signature: data.signature,

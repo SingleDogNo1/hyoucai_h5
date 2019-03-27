@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/common'
+import api from '@/api/common/activities'
 
 export default {
   name: 'coupon',

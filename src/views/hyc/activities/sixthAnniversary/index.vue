@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import api from '@/api/hyc/ActivitiesApi/mateact'
+import api from '@/api/common/activities'
 
 export default {
   name: 'mateact',
@@ -35,64 +35,60 @@ export default {
     }
   },
   created() {
-    // api
-    //   .getPageSinatureApi({
-    //     url: window.location.href
-    //   })
-    //   .then(res => {
-    //     const data = res.data
-    //     wx.config({
-    //       debug: false,
-    //       appId: data.appid,
-    //       timestamp: data.timestamp,
-    //       nonceStr: data.noncestr,
-    //       signature: data.signature,
-    //       jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
-    //     })
-    //     wx.ready(() => {
-    //       wx.onMenuShareTimeline({
-    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '元旦抢先"机" 开心迎新年',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareAppMessage({
-    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '元旦抢先"机" 开心迎新年',
-    //         desc: '开心迎新年 Mate20&iPhone免费拿',
-    //         type: '',
-    //         dataUrl: '',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareQQ({
-    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '元旦抢先"机" 开心迎新年',
-    //         desc: '开心迎新年 Mate20&iPhone免费拿',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareWeibo({
-    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '元旦抢先"机" 开心迎新年',
-    //         desc: '开心迎新年 Mate20&iPhone免费拿',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareQZone({
-    //         link: 'https://m.idjshi.com/website/activity.html#/mateact?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '元旦抢先"机" 开心迎新年',
-    //         desc: '开心迎新年 Mate20&iPhone免费拿',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //     })
-    //   })
+    const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
+      'shareTitle',
+      'shareDesc',
+      window.location.href,
+      'http://h5.dpandora.cn/images/favicon.ico'
+    ]
+
+    api
+      .getPageSinatureApi({
+        url: window.location.href
+      })
+      .then(res => {
+        const data = res.data
+        wx.config({
+          debug: false,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
+          timestamp: data.timestamp,
+          nonceStr: data.noncestr,
+          signature: data.signature,
+          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+        })
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
+          })
+          wx.onMenuShareAppMessage({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQQ({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareWeibo({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQZone({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+        })
+      })
 
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName

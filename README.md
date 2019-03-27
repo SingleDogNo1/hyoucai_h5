@@ -124,6 +124,6 @@
 - 每一页的标题放在router文件的meta中
 
 ## 说明
-<h6 id="explain-a">环境变量要以VUE_APP_开头的环境变量可以在应用代码中全局访问到。访问方式：process.env.VUE_APP_VAR (参考App.vue检测UA代码)。</h6>
+<h6 id="explain-a"> 环境变量要以VUE_APP_开头的环境变量可以在应用代码中全局访问到。访问方式：process.env.VUE_APP_VAR (参考App.vue检测UA代码)。 </h6>
 
 </div>

@@ -16,10 +16,15 @@ export default {
     return {}
   },
   created() {
-    const [shareTitle, shareDesc, shareLink, shareImgUrl] = ['活动标题', '活动描述', window.location.href, 'http://h5.dpandora.cn/images/favicon.ico']
+    const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
+      '春天千万别开“花”，约TA一起拿红包',
+      '单笔出借满一万，立得现金无上限',
+      window.location.href,
+      'http://h5.dpandora.cn/images/favicon.ico'
+    ]
     api
       .getPageSinatureApi({
-        url: window.location.href
+        url: window.location.origin
       })
       .then(res => {
         const data = res.data
@@ -37,9 +42,7 @@ export default {
           wx.onMenuShareTimeline({
             link: shareLink,
             imgUrl: shareImgUrl,
-            title: shareTitle,
-            success: function() {},
-            cancel: function() {}
+            title: shareTitle
           })
           wx.onMenuShareAppMessage({
             link: shareLink,
@@ -122,7 +125,6 @@ export default {
 }
 .wrapper {
   position: relative;
-  background: url('./bg.jpg') 0 / contain;
   div {
     width: 100%;
     background-size: cover;

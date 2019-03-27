@@ -11,7 +11,7 @@
 - VUE_APP_PROJECT_ADDRESS_H5: H5对应环境的地址
   VUE_APP_PROJECT_ADDRESS_PC: PC对应环境的地址
   
-**注意： [环境变量要以VUE_APP_开头。](#explainA)**
+**注意： [环境变量要以VUE_APP_开头。](#explainA "1231")**
   
 ## 项目结构
 
@@ -123,7 +123,7 @@
 
 - 每一页的标题放在router文件的meta中
 
-### 说明
+<h3 id="explainA">说明：</h3>
 + <div id="explainA">环境变量要以VUE_APP_开头的环境变量可以在应用代码中全局访问到。访问方式：process.env.VUE_APP_VAR (参考App.vue检测UA代码)。</div>
 + <div id="explainB">这里的资源指的是
   - 已经在多个模块中被复用。 比如：首页、个人中心、我的投资、投资详情四个模块都会用到的图片。

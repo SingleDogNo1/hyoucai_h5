@@ -1,7 +1,9 @@
 <template>
   <div class="act-3000">
     <div class="wrapper">
-      <div></div>
+      <div>
+        <p id="date">活动时间：3月28日-4月28日</p>
+      </div>
       <div></div>
     </div>
   </div>
@@ -22,13 +24,13 @@ export default {
       window.location.href,
       'http://h5.dpandora.cn/images/3000-act.png'
     ]
+
     api
       .getPageSinatureApi({
         url: window.location.href
       })
       .then(res => {
         const data = res.data
-        console.log(res.data)
         wx.config({
           debug: false,
           // appId: data.appid,
@@ -48,35 +50,25 @@ export default {
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareQQ({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareWeibo({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareQZone({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
         })
       })
@@ -129,8 +121,17 @@ export default {
     width: 100%;
     background-size: cover;
     &:first-child {
+      position: relative;
       height: 7.76rem;
       background-image: url('./01.jpg');
+      p {
+        width: 100%;
+        font-size: 0.12rem;
+        color: #0067b1;
+        position: absolute;
+        text-align: center;
+        top: 1.8rem;
+      }
     }
     &:last-child {
       height: 7.765rem;

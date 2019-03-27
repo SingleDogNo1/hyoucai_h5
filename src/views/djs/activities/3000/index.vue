@@ -122,8 +122,8 @@ export default {
     background-size: cover;
     &:first-child {
       position: relative;
-      height: 7.76rem;
-      background-image: url('./01.jpg');
+      height: 7.765rem;
+      background-image: url('./01.png');
       p {
         width: 100%;
         font-size: 0.12rem;
@@ -134,8 +134,8 @@ export default {
       }
     }
     &:last-child {
-      height: 7.765rem;
-      background-image: url('./02.jpg');
+      height: 7.76rem;
+      background-image: url('./02.png');
     }
   }
 }

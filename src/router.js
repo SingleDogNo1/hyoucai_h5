@@ -239,6 +239,11 @@ export default new Router({
               path: 'inviteact',
               name: 'DJSinviteAct',
               component: () => import('@/views/djs/activities/inviteact')
+            },
+            {
+              path: 'yearact',
+              name: 'DJSyearAct',
+              component: () => import('@/views/djs/activities/yearact')
             }
           ]
         },

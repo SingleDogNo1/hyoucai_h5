@@ -20,7 +20,7 @@ export default {
       '春天千万别开“花”，约TA一起拿红包',
       '单笔出借满一万，立得现金无上限',
       window.location.href,
-      'http://h5.dpandora.cn/images/favicon.ico'
+      'http://h5.dpandora.cn/images/3000-act.png'
     ]
     api
       .getPageSinatureApi({

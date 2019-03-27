@@ -19,8 +19,6 @@ export default {
   name: 'coupon',
   data() {
     return {
-      title: '春节迎财神大狂欢,加息券大派送',
-      type: this.$route.query.type,
       detailFlag: false
     }
   },
@@ -48,10 +46,10 @@ export default {
       })
       .then(res => {
         const data = res.data
-        console.log(res.data)
         wx.config({
           debug: true,
-          appId: data.appid,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
           timestamp: data.timestamp,
           nonceStr: data.noncestr,
           signature: data.signature,
@@ -61,48 +59,38 @@ export default {
           wx.onMenuShareTimeline({
             link: shareLink,
             imgUrl: shareImgUrl,
-            title: shareTitle,
-            success: function() {},
-            cancel: function() {}
+            title: shareTitle
           })
           wx.onMenuShareAppMessage({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareQQ({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareWeibo({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
           wx.onMenuShareQZone({
             link: shareLink,
             imgUrl: shareImgUrl,
             title: shareTitle,
-            desc: shareDesc,
-            success: function() {},
-            cancel: function() {}
+            desc: shareDesc
           })
         })
       })
+
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName
+
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api
@@ -112,7 +100,7 @@ export default {
           })
           .then(res => {
             if (res.data.resultCode === '1') {
-              // const data = res.data
+              const data = res.data
               const params = {
                 title: data.title,
                 content: data.description,

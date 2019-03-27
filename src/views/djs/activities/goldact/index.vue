@@ -36,7 +36,6 @@ export default {
   name: 'mateact',
   data() {
     return {
-      title: '元旦抢先"机" 开心迎新年',
       type: this.$route.query.type,
       detailFlag: false
     }
@@ -53,64 +52,59 @@ export default {
     }
   },
   created() {
-    // api
-    //   .getPageSinatureApi({
-    //     url: window.location.href
-    //   })
-    //   .then(res => {
-    //     const data = res.data
-    //     wx.config({
-    //       debug: false,
-    //       appId: data.appid,
-    //       timestamp: data.timestamp,
-    //       nonceStr: data.noncestr,
-    //       signature: data.signature,
-    //       jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
-    //     })
-    //     wx.ready(() => {
-    //       wx.onMenuShareTimeline({
-    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '新年福利，免费送黄金',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareAppMessage({
-    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '新年福利，免费送黄金',
-    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-    //         type: '',
-    //         dataUrl: '',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareQQ({
-    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '新年福利，免费送黄金',
-    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareWeibo({
-    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '新年福利，免费送黄金',
-    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //       wx.onMenuShareQZone({
-    //         link: 'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0',
-    //         imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-    //         title: '新年福利，免费送黄金',
-    //         desc: '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
-    //         success: function() {},
-    //         cancel: function() {}
-    //       })
-    //     })
-    //   })
+    const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
+      '新年福利，免费送黄金',
+      '只要5.98万，免费送黄金，最高享6%年化利息，黄金也能保值',
+      'http://h5.dpandora.cn/images/favicon.ico',
+      'https://m.idjshi.com/website/activity.html#/gold?mobile=1&type=0'
+    ]
+
+    api
+      .getPageSinatureApi({
+        url: window.location.href
+      })
+      .then(res => {
+        const data = res.data
+        wx.config({
+          debug: false,
+          appId: data.appid,
+          timestamp: data.timestamp,
+          nonceStr: data.noncestr,
+          signature: data.signature,
+          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+        })
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
+          })
+          wx.onMenuShareAppMessage({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQQ({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareWeibo({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQZone({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+        })
+      })
 
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName

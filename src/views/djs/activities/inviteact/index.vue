@@ -2,7 +2,6 @@
   <div class="invite">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
-        <!--<div class="detail" @click="showDetail"></div>-->
         <img src="./invite-bg.png" alt="">
         <div class="rule-icon" @click="showDetail"></div>
       </div>
@@ -24,8 +23,6 @@ export default {
   name: 'inviteact',
   data() {
     return {
-      title: '邀请好友返现活动',
-      type: this.$route.query.type,
       detailFlag: false,
       id: '',
       msg: ''

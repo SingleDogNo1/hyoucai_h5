@@ -2,6 +2,8 @@
   <div class="activity pageContainer" ref="container">
     <BScroll
       ref="scrollRef"
+      :beforScroll="true"
+      @beforeScroll="beforeScroll"
       v-if="actList.length > 0"
     >
       <div class="activity-wrapper">
@@ -42,6 +44,9 @@ export default {
   methods: {
     linkTo(url) {
       window.location.href = url
+    },
+    beforeScroll() {
+      this.refresh()
     },
     refresh() {
       this.$refs.scrollRef.refresh()

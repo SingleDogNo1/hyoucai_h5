@@ -4,23 +4,25 @@
       ref="scrollRef"
       :beforScroll="true"
       @beforeScroll="beforeScroll"
-      v-if="actList.length > 0"
     >
       <div class="activity-wrapper">
-        <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
-          <img :src="item.picUrl" alt="">
-          <p>
-            活动日期：{{item.startTime}}至{{item.endTime}}
-          </p>
-        </section>
+        <template   v-if="actList.length > 0">
+          <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
+            <img :src="item.picUrl" alt="">
+            <p>
+              活动日期：{{item.startTime}}至{{item.endTime}}
+            </p>
+          </section>
+        </template>
+        <NoData
+          v-else
+          class="no-data"
+          type="event"
+        />
       </div>
+
     </BScroll>
 
-    <NoData
-      v-else
-      class="no-data"
-      type="event"
-    />
   </div>
 </template>
 
@@ -49,6 +51,7 @@ export default {
       this.refresh()
     },
     refresh() {
+      console.log(this.$refs.scrollRef)
       this.$refs.scrollRef.refresh()
     }
   },
@@ -58,6 +61,7 @@ export default {
       maxLine: 10
     }).then(res => {
       this.actList = res.data.list
+      // this.actList = []
       this.refresh()
     })
   }
@@ -84,6 +88,7 @@ export default {
 .activity-wrapper {
   background: #fff;
   padding: 0 0.16rem 0.16rem;
+  min-height: 100%;
   section {
     margin-top: 0.08rem;
     padding-top: 0.16rem;

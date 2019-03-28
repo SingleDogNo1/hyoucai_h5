@@ -60,6 +60,10 @@ export default {
 
 .pageContainer {
   background: #eee;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .my-scroll {

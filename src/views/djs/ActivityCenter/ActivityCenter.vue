@@ -1,6 +1,7 @@
 <template>
   <div class="activity pageContainer" ref="container">
     <BScroll
+      ref="scrollRef"
       v-if="actList.length > 0"
     >
       <div class="activity-wrapper">
@@ -41,6 +42,9 @@ export default {
   methods: {
     linkTo(url) {
       window.location.href = url
+    },
+    refresh() {
+      this.$refs.scrollRef.refresh()
     }
   },
   created() {
@@ -49,6 +53,7 @@ export default {
       maxLine: 10
     }).then(res => {
       this.actList = res.data.list
+      this.refresh()
     })
   }
 }

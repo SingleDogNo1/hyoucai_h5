@@ -1,15 +1,10 @@
 <template>
-  <div class="pageContainer" ref="container">
-    <div class="inner" :class="{blur: detailFlag}">
-      <div class="wrapper">
-        <!--<div class="detail" @click="showDetail"></div>-->
-        <img src="./bg.png" alt="">
-        <div class="rule-icon" @click="showDetail"></div>
+  <div class="act-3000">
+    <div class="wrapper">
+      <div>
+        <p id="date">活动时间：3月28日-4月28日</p>
       </div>
-    </div>
-    <div class="detail-mask" v-if="detailFlag">
-      <img src="./rule.png" alt="">
-      <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
+      <div></div>
     </div>
   </div>
 </template>
@@ -18,28 +13,16 @@
 import api from '@/api/common/activities'
 
 export default {
-  name: 'mateact',
+  name: 'register',
   data() {
-    return {
-      title: '汇通金融六周年返现活动',
-      type: this.$route.query.type,
-      detailFlag: false
-    }
-  },
-  methods: {
-    showDetail() {
-      this.detailFlag = true
-    },
-    closeDialog() {
-      this.detailFlag = false
-    }
+    return {}
   },
   created() {
     const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
-      'shareTitle',
-      'shareDesc',
+      '春天千万别开“花”，约TA一起拿红包',
+      '单笔出借满一万，立得现金无上限',
       window.location.href,
-      'http://h5.dpandora.cn/images/favicon.ico'
+      'http://h5.dpandora.cn/images/3000-act.png'
     ]
 
     api
@@ -105,7 +88,7 @@ export default {
             })
             .then(res => {
               if (res.data.resultCode === '1') {
-                const data = res.data.data
+                const data = res.data
                 const params = {
                   title: data.title,
                   content: data.description,
@@ -128,109 +111,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../assets/css/theme.scss';
-@import '../../../../assets/css/mixins.scss';
-
-.inner.blur {
-  filter: blur(4px);
+.act-3000 {
+  height: 100%;
 }
-
 .wrapper {
   position: relative;
-  width: 100%;
-  img {
+  div {
     width: 100%;
-  }
-  .rule-icon {
-    position: fixed;
-    z-index: 999999;
-    right: 0;
-    top: 0.24rem;
-    width: 0.7rem;
-    height: 0.22rem;
-    background-image: url('./rule-icon.png');
-    background-size: 100% 100%;
-  }
-}
-
-.bg-img {
-  opacity: 0;
-  display: block;
-  width: 100%;
-}
-
-.btn-wrapper {
-  position: fixed;
-  width: 100%;
-  height: 0.6rem;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  background: rgb(204, 52, 41);
-  &.all {
-    .btn {
-      font-weight: bold;
-      transform: scale(0.85) translateY(0.05rem);
-      height: 0.5rem;
-      line-height: 0.5rem;
-      border-radius: 0.3rem;
-      background: linear-gradient(#fefe64, #fec530);
-      box-shadow: 0 4px 4px #ff911e;
-      font-size: 0.2rem;
-      &:first-child {
-        @include border-right-1px(#ef263d);
-      }
-      span {
-        font-size: 0.22rem;
-        font-weight: bold;
+    background-size: cover;
+    &:first-child {
+      position: relative;
+      height: 7.765rem;
+      background-image: url('./01.png');
+      p {
+        width: 100%;
+        font-size: 0.12rem;
+        color: #0067b1;
+        position: absolute;
+        text-align: center;
+        top: 1.8rem;
       }
     }
-  }
-  &.half {
-    .btn {
-      font-weight: 700;
-      transform: scale(0.85) translateY(0.05rem);
-      height: 0.5rem;
-      line-height: 0.5rem;
-      border-radius: 0.3rem;
-      background: linear-gradient(#fefe64, #fec530);
-      box-shadow: 0 4px 4px #ff911e;
-      font-size: 0.2rem;
+    &:last-child {
+      height: 7.76rem;
+      background-image: url('./02.png');
     }
-  }
-}
-
-.detail {
-  width: 0.7rem;
-  height: 0.23rem;
-  position: absolute;
-  background: url('./rule.png') 0 / contain;
-  top: 0.15rem;
-  right: 0;
-}
-.btn {
-  flex: 1;
-  font-size: 0.16rem;
-  text-align: center;
-  line-height: 0.55rem;
-  color: #ef263d;
-}
-
-.detail-mask {
-  position: fixed;
-  z-index: 9999999;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.15rem;
-  background-color: rgba(0, 0, 0, 0.6);
-  .close {
-    @include radiusCube(0.25rem);
-    margin: 0.2rem auto 0;
   }
 }
 </style>

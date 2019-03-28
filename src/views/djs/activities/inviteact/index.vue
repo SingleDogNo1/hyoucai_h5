@@ -2,7 +2,6 @@
   <div class="invite">
     <div class="inner" :class="{blur: detailFlag}">
       <div class="wrapper">
-        <!--<div class="detail" @click="showDetail"></div>-->
         <img src="./invite-bg.png" alt="">
         <div class="rule-icon" @click="showDetail"></div>
       </div>
@@ -18,17 +17,13 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/djs/ActivitiesApi/common'
+import api from '@/api/common/activities'
 
 export default {
   name: 'inviteact',
   data() {
     return {
-      title: '邀请好友返现活动',
-      type: this.$route.query.type,
-      detailFlag: false,
-      id: '',
-      msg: ''
+      detailFlag: false
     }
   },
   components: {
@@ -51,17 +46,63 @@ export default {
       this.refresh()
     }
   },
-  mounted() {
-    const activityId = this.$route.query.activityId
-    this.id = this.$route.query.activityId
-
+  created() {
+    const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
+      'shareTitle',
+      'shareDesc',
+      'http://h5.dpandora.cn/images/favicon.ico',
+      window.location.href
+    ]
     api
-      .getShareInfoApi({
-        id: 21
+      .getPageSinatureApi({
+        url: window.location.href
       })
       .then(res => {
-        this.msg = JSON.stringify(res.data)
+        const data = res.data
+        wx.config({
+          debug: true,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
+          timestamp: data.timestamp,
+          nonceStr: data.noncestr,
+          signature: data.signature,
+          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+        })
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
+          })
+          wx.onMenuShareAppMessage({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQQ({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareWeibo({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQZone({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+        })
       })
+
+    const activityId = this.$route.query.activityId
+    const userName = this.$route.query.userName
 
     // 如果是从h5活动列表进入的，用我们自己的分享逻辑
     // 如果是直接进入活动详情，app用自己的分享功能
@@ -70,7 +111,8 @@ export default {
         if (window.DjsJsBridge && activityId) {
           api
             .getShareInfoApi({
-              id: activityId
+              id: activityId,
+              userName: userName
             })
             .then(res => {
               if (res.data.resultCode === '1') {
@@ -78,8 +120,11 @@ export default {
                 const params = {
                   title: data.title,
                   content: data.description,
-                  url: window.location.href,
-                  imgUrl: data.iconUrl
+                  imgUrl: data.iconUrl,
+                  shareType: data.shareType,
+                  backPicUrl: data.backPicUrl,
+                  qrPicUrl: data.qrPicUrl,
+                  url: window.location.href
                 }
                 let shareInfo = JSON.stringify(params)
                 window.DjsJsBridge.getShareKey(shareInfo)

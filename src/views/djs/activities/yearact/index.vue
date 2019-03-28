@@ -18,7 +18,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/djs/ActivitiesApi/mateact'
+import api from '@/api/common/activities'
 
 export default {
   name: 'inviteact',
@@ -52,6 +52,61 @@ export default {
     }
   },
   mounted() {
+    const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
+      'shareTitle',
+      'shareDesc',
+      window.location.href,
+      'http://h5.dpandora.cn/images/favicon.ico'
+    ]
+
+    api
+      .getPageSinatureApi({
+        url: window.location.href
+      })
+      .then(res => {
+        const data = res.data
+        wx.config({
+          debug: false,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
+          timestamp: data.timestamp,
+          nonceStr: data.noncestr,
+          signature: data.signature,
+          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+        })
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
+          })
+          wx.onMenuShareAppMessage({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQQ({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareWeibo({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQZone({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+        })
+      })
+
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName
 

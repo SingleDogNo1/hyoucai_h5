@@ -13,14 +13,12 @@
 </template>
 
 <script>
-import api from '@/api/djs/ActivitiesApi/common'
+import api from '@/api/common/activities'
 
 export default {
   name: 'coupon',
   data() {
     return {
-      title: '春节迎财神大狂欢,加息券大派送',
-      type: this.$route.query.type,
       detailFlag: false
     }
   },
@@ -36,16 +34,22 @@ export default {
     }
   },
   created() {
+    const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
+      '你有加息券可以使用，加息1%-4%',
+      '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
+      'http://h5.dpandora.cn/images/favicon.ico',
+      'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0'
+    ]
     api
       .getPageSinatureApi({
         url: window.location.href
       })
       .then(res => {
         const data = res.data
-        console.log(res.data)
         wx.config({
-          debug: false,
-          appId: data.appid,
+          debug: true,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
           timestamp: data.timestamp,
           nonceStr: data.noncestr,
           signature: data.signature,
@@ -53,50 +57,40 @@ export default {
         })
         wx.ready(() => {
           wx.onMenuShareTimeline({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            success: function() {},
-            cancel: function() {}
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
           })
           wx.onMenuShareAppMessage({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            type: '',
-            dataUrl: '',
-            success: function() {},
-            cancel: function() {}
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
           })
           wx.onMenuShareQQ({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
           })
           wx.onMenuShareWeibo({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
           })
           wx.onMenuShareQZone({
-            link: 'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0',
-            imgUrl: 'http://h5.dpandora.cn/images/favicon.ico',
-            title: '你有加息券可以使用，加息1%-4%',
-            desc: '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-            success: function() {},
-            cancel: function() {}
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
           })
         })
       })
+
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName
+
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api
@@ -106,7 +100,7 @@ export default {
           })
           .then(res => {
             if (res.data.resultCode === '1') {
-              // const data = res.data
+              const data = res.data
               const params = {
                 title: data.title,
                 content: data.description,

@@ -122,7 +122,7 @@ export default {
     background-size: cover;
     &:first-child {
       position: relative;
-      height: 7.765rem;
+      height: 8.1rem;
       background-image: url('./01.png');
       p {
         width: 100%;
@@ -134,7 +134,7 @@ export default {
       }
     }
     &:last-child {
-      height: 7.76rem;
+      height: 7.785rem;
       background-image: url('./02.png');
     }
   }

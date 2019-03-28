@@ -178,7 +178,6 @@ export default new Router({
           path: 'activity',
           component: Empty,
           children: [
-            // mate手机乐
             {
               path: 'mateact',
               name: 'DJSmateAct',
@@ -218,6 +217,11 @@ export default new Router({
               path: '3000',
               name: 'DJS3000Act',
               component: () => import(/* webpackChunkName: "DJS3000Act" */ '@/views/djs/activities/3000')
+            },
+            {
+              path: 'spell-group',
+              name: 'DJSSpellGroupAct',
+              component: () => import(/* webpackChunkName: "DJSSpellGroupAct" */ '@/views/djs/activities/spellGroup')
             }
           ]
         }
@@ -425,7 +429,7 @@ export default new Router({
         {
           path: 'calculator',
           name: 'HYCCalculator',
-          component: () => import('@/views/hyc/calculator'),
+          component: () => import(/* webpackChunkName: "HYCCalculator" */ '@/views/hyc/calculator'),
           meta: {
             title: '理财计算器'
           }
@@ -433,7 +437,7 @@ export default new Router({
         {
           path: 'newer_direction',
           name: 'HYCNewerDirection',
-          component: () => import('@/views/hyc/NewerDirection'),
+          component: () => import(/* webpackChunkName: "HYCNewerDirection" */ '@/views/hyc/NewerDirection'),
           meta: {
             title: '新手指引'
           }

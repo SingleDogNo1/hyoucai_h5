@@ -91,6 +91,11 @@ export default {
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName
 
+    console.log('网页地址============' + window.location.href)
+    console.log('activityId==============' + activityId)
+    console.log('userName===================' + userName)
+    console.log('是不是在APP环境中===========' + window.DjsJsBridge ? '是' : '不是')
+
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
         api

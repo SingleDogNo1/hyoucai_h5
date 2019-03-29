@@ -39,6 +39,7 @@ export default {
       if (this.$route.query.userName) {
         // app交互的逻辑
         window.location.href = url + '&userName=' + this.$route.query.userName
+        alert(url + '&userName=' + this.$route.query.userName)
       } else {
         // h5原生
         window.location.href = url

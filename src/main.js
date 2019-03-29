@@ -12,24 +12,12 @@ import '@/assets/css/reset.css'
 Vue.config.productionTip = false
 Vue.use(Mint)
 
-// import VConsole from 'vconsole'
-// new VConsole()
+import VConsole from 'vconsole'
 
-// router.beforeEach((to,from,next) => {
-//   console.log(to)
-//   next(() => {
-//     console.log(to,from)
-//   })
-//   // switch (to.name) {
-//   //   // case 'home':
-//   //   //   vm.title = to.meta.title
-//   //   //   vm.isAppTitle = true
-//   //   //   break
-//   //   // default:
-//   //   //   vm.title = to.meta.title
-//   //   //   vm.isAppTitle = to.query.mobile
-//   // }
-// })
+console.log(process.env)
+if (process.env.VUE_APP_RUNTIME_ENV === 'development') {
+  new VConsole()
+}
 
 new Vue({
   router,

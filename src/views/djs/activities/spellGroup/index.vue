@@ -208,6 +208,7 @@ export default {
           if (res.data.resultCode === '1') {
             this.isJoin = true
             this.showMask = false
+            this.errMsg = ''
             Toast('参与活动成功')
           } else {
             this.errMsg = res.data.resultMsg
@@ -239,6 +240,7 @@ export default {
     },
     closeMask() {
       this.showMask = false
+      this.errMsg = ''
     }
   },
   computed: {

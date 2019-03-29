@@ -110,6 +110,10 @@ export default {
     const activityId = this.$route.query.activityId
     const userName = this.$route.query.userName
 
+    console.log('activityId==============' + activityId)
+    console.log('userName===================' + userName)
+    console.log('是不是在APP环境中===========' + window.DjsJsBridge ? '是' : '不是')
+
     // 如果是从h5活动列表进入的，用我们自己的分享逻辑
     // 如果是直接进入活动详情，app用自己的分享功能
     if (window.history.length > 1) {

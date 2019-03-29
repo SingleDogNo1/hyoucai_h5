@@ -118,9 +118,9 @@
           <p>
             6、为方便您获得现金红包及加息券，参与拼团即同意平台为您开通汇有财先息后本账号。账号可在汇有财APP通过短信验证码登录。
           </p>
-         <p>
-           7、参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。
-         </p>
+          <p>
+            7、参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。
+          </p>
         </div>
       </div>
     </div>
@@ -136,7 +136,7 @@
         </section>
         <section>
           <span>验证码</span>
-          <input type="tel" maxlength="6" placeholder="请输入验证码">
+          <input type="tel" maxlength="6" v-model="smsCode" placeholder="请输入验证码">
           <SMSBtn
             text="获取验证码"
             class="sms-btn"
@@ -158,6 +158,7 @@ import { queryProgressApi, joinActivityApi, getSMSCodeApi } from '@/api/djs/Acti
 import { timeCountDown, uuid } from '@/assets/js/utils'
 import SMSBtn from '@/components/smsBtn'
 import { captchaId } from '@/assets/js/const'
+import { Toast } from 'mint-ui'
 
 export default {
   name: 'spellGroup',
@@ -189,22 +190,28 @@ export default {
       this.showMask = true
     },
     joinActivity() {
-      if (!this.name) {
+      if (!this.userName) {
         this.errMsg = '请输入姓名'
       } else if (!this.mobile) {
         this.errMsg = '请输入手机号'
       } else if (!this.smsCode) {
         this.errMsg = '请输入验证码'
       } else {
+        this.errMsg = ''
         joinActivityApi({
           leaderInviteCode: this.leaderInviteCode,
-          name: this.name,
+          name: this.userName,
           mobile: this.mobile,
           groupId: this.groupId,
-          identifyCode: this.validate
+          identifyCode: this.smsCode
         }).then(res => {
-          console.log(res.data)
-          // TODO 判断是否参加过该活动
+          if (res.data.resultCode === '1') {
+            this.isJoin = true
+            this.showMask = false
+            Toast('参与活动成功')
+          } else {
+            this.errMsg = res.data.resultMsg
+          }
         })
       }
     },
@@ -355,8 +362,8 @@ export default {
 
 .spell-group {
   &.hidden {
-    height: 100vh;
-    overflow: hidden;
+    /*height: 100vh;*/
+    /*overflow: hidden;*/
   }
   .banner {
     width: 100%;
@@ -628,7 +635,7 @@ export default {
           position: absolute;
           right: 0;
           bottom: 0;
-          box-shadow: 0 0 0 0.2rem #fff;
+          box-shadow: -0.05rem -0.05rem 0 0.1rem #fff;
           @include cube(0.9rem, 0.28rem);
           border-radius: 0.04rem;
           border: 1px solid #fe6108;
@@ -649,10 +656,10 @@ export default {
       > p {
         font-size: 0.11rem;
         color: #ff5140;
-        margin-top: 0.02rem;
+        margin-top: 0.04rem;
       }
       > input {
-        margin: 0.28rem auto 0;
+        margin: 0.25rem auto 0;
         display: block;
         @include radiusCube(2.55rem, 0.42rem);
         background-image: repeating-linear-gradient(39deg, #ff5140, #fc7221);

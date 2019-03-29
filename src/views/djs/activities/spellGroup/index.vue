@@ -33,9 +33,9 @@
           </div>
           <ul class="num">
             <li><span>1人</span></li>
-            <li><span>2人</span></li>
-            <li><span>3人</span></li>
-            <li><span></span></li>
+            <li><span>10人</span></li>
+            <li><span>20人</span></li>
+            <li><span>30人</span></li>
             <li><span></span></li>
             <li><span></span></li>
           </ul>
@@ -54,7 +54,7 @@
             <h6>恭喜您参与拼团成功！</h6>
             <p>现在完成账户设置，即可领取10元现金红包啦，快快下载APP提现吧！</p>
             <section>
-              <button>下载APP</button>
+              <button @click="download">下载APP</button>
               <button>分享拼团</button>
             </section>
           </div>
@@ -69,23 +69,26 @@
         </div>
         <div class="rules">
           <div class="title"></div>
-          <p>1.假设您出借<span style="color: #ff7a13;">1万元</span>，你将获得：</p>
+          <p>
+            1、参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。<br>
+            假设您出借<span style="color: #ff7a13;">1万元</span>，你将获得：
+          </p>
           <table cellspacing="0">
             <thead>
             <tr>
               <th>出借品类</th>
               <th>年化收益率</th>
               <th>加息3%后</th>
-              <th>总收益（元）</th>
+              <th>总收益(元)</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>汇选1个月</td>
-              <td>8%</td>
-              <td>11%</td>
-              <td>66.67<span>+25</span></td>
-            </tr>
+            <!--<tr>-->
+              <!--<td>汇选1个月</td>-->
+              <!--<td>8%</td>-->
+              <!--<td>11%</td>-->
+              <!--<td>66.67<span>+25</span></td>-->
+            <!--</tr>-->
             <tr>
               <td>汇选3个月</td>
               <td>10%</td>
@@ -101,26 +104,23 @@
             </tbody>
           </table>
           <p>
-            2. 加息券及1%返现奖励仅适用于新手客户首次出借奖励，且首次出借金额不低于2000元，呼朋唤友来参与拼团吧。
+            2、加息券适用于出借指定产品“汇选3个月（10%）”、“汇选6个月（11%）”，于拼团活动结束后1~3工作日发放至客户汇有财账户，加息券有效期为发放后的7天。
           </p>
           <p>
-            3.为方便您获得现金红包及加息券，参与拼团即同意平台为您开通汇有财账号。账号可在汇有财APP通过短信验证码登录。
+            3、参与拼团用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
           </p>
           <p>
-            4.参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。
+            4、1%返现奖励最高300元，于4月23日-4月29日发放。
           </p>
           <p>
-            5.参与拼团用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
+            5、加息券及1%返现奖励仅适用于客户首次出借奖励，且首次出借金额不低于2000元，呼朋唤友来参与拼团吧。
           </p>
           <p>
-            6.参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。
+            6、为方便您获得现金红包及加息券，参与拼团即同意平台为您开通汇有财先息后本账号。账号可在汇有财APP通过短信验证码登录。
           </p>
          <p>
-           7.加息券适用于现汇有财所有投资品类（除新手标外），于拼团活动结束后一个工作日内发放至客户汇有财账户，加息券有效期为发放后的7天。
+           7、参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。
          </p>
-          <p>
-            8. 1%返现奖励最高300元，于4月23日-4月29日发放。
-          </p>
         </div>
       </div>
     </div>
@@ -148,14 +148,16 @@
         <input type="button" value="参加拼团" @click="joinActivity">
       </div>
     </div>
+    <div id="captcha"></div>
   </div>
 </template>
 
 <script>
-// import { getShareInfoApi, getPageSinatureApi } from '@/api/common/activities'
-// import { queryProgressApi, joinActivityApi } from '@/api/djs/ActivitiesApi/spellGroup'
+import api from '@/api/common/activities'
+import { queryProgressApi, joinActivityApi, getSMSCodeApi } from '@/api/djs/ActivitiesApi/spellGroup'
 import { timeCountDown, uuid } from '@/assets/js/utils'
 import SMSBtn from '@/components/smsBtn'
+import { captchaId } from '@/assets/js/const'
 
 export default {
   name: 'spellGroup',
@@ -164,11 +166,12 @@ export default {
   },
   data() {
     return {
-      inviteCode: this.$route.query.mediasource, // 推荐码
-      currPeopleNum: '39', // 当前参与人数
+      leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      groupId: this.$route.query.groupId, // 拼团活动Id
+      currPeopleNum: '88', // 当前参与人数
       couponRate: '4', // 当前可加息利率
-      remainingTime: '86410', // 参团倒计时
-      isJoin: true, // 该用户是否参与过活动
+      remainingTime: '66666', // 参团倒计时
+      isJoin: false, // 该用户是否参与过活动
       hours: 0, // 倒计时小时
       minute: 0, // 倒计时分钟
       second: 0, // 倒计时秒
@@ -176,7 +179,9 @@ export default {
       userName: '', // 姓名
       mobile: '', // 手机号
       smsCode: '', // 短信验证码
-      errMsg: ''
+      errMsg: '',
+      captchaIns: null, // 滑块验证码实例
+      validate: '' // 滑块验证码二次验证信息
     }
   },
   methods: {
@@ -184,33 +189,153 @@ export default {
       this.showMask = true
     },
     joinActivity() {
-      alert('发送平团请求')
+      if (!this.name) {
+        this.errMsg = '请输入姓名'
+      } else if (!this.mobile) {
+        this.errMsg = '请输入手机号'
+      } else if (!this.smsCode) {
+        this.errMsg = '请输入验证码'
+      } else {
+        joinActivityApi({
+          leaderInviteCode: this.leaderInviteCode,
+          name: this.name,
+          mobile: this.mobile,
+          groupId: this.groupId,
+          identifyCode: this.validate
+        }).then(res => {
+          console.log(res.data)
+          // TODO 判断是否参加过该活动
+        })
+      }
     },
-    sendSMSCode() {},
+    download() {
+      this.$router.push({
+        name: 'AppDownload'
+      })
+    },
+    sendSMSCode() {
+      this.captchaIns && this.captchaIns.popUp()
+    },
+    getSmsCode() {
+      getSMSCodeApi({
+        mobile: this.mobile,
+        captchaId,
+        validate: this.validate
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.$refs.smsBtn.countDown()
+          this.errMsg = ''
+        } else {
+          this.errMsg = res.data.resultMsg
+        }
+      })
+    },
     closeMask() {
       this.showMask = false
     }
   },
   computed: {
     percent() {
-      const percent = parseInt(this.currPeopleNum / 10) * 10
+      const ori_percent = parseInt(this.currPeopleNum / 10) * 10
+      const percent = ori_percent >= 100 ? 100 : ori_percent
       return percent + '%'
     }
   },
   created() {
-    // queryProgressApi({
-    //   leaderInviteCode: this.inviteCode
-    // }).then(res => {
-    //   const data = res.data
-    //   this.info = data
-    // })
-    timeCountDown(this.remainingTime, 1, data => {
-      ;[this.hours, this.minute, this.second] = data.split(':')
+    // 初始化滑块弹出层
+    window.initNECaptcha(
+      {
+        captchaId: captchaId,
+        width: '320px',
+        element: '#captcha',
+        mode: 'popup',
+        onVerify: (err, data) => {
+          this.validate = data.validate
+          this.getSmsCode()
+        },
+        onClose: () => {
+          this.captchaIns.refresh()
+        }
+      },
+      instance => {
+        this.captchaIns = instance
+      }
+    )
+
+    // 拼团活动进度查询接口
+    // http://opsstatic.dpandora.cn:30184/#/d/activity/spell-group?leaderInviteCode=d372144&groupId=1
+    queryProgressApi({
+      leaderInviteCode: this.leaderInviteCode,
+      uuid: uuid(),
+      groupId: this.groupId
+    }).then(res => {
+      const data = res.data
+      this.currPeopleNum = data.currPeopleNum
+      this.couponRate = data.couponRate
+      this.remainingTime = data.remainingTime
     })
 
-    setInterval(() => {
-      console.log(uuid())
-    }, 1000)
+    const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
+      '六周年庆，你的收益由你定',
+      '单笔出借满一万，立得现金无上限',
+      window.location.href,
+      'http://h5.dpandora.cn/images/3000-act.png'
+    ]
+
+    api
+      .getPageSinatureApi({
+        url: window.location.href
+      })
+      .then(res => {
+        const data = res.data
+        wx.config({
+          debug: false,
+          // appId: data.appid,
+          appId: 'wx45d16cf33a73b663',
+          timestamp: data.timestamp,
+          nonceStr: data.noncestr,
+          signature: data.signature,
+          jsApiList: ['checkJsApi', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo']
+        })
+        wx.ready(() => {
+          wx.onMenuShareTimeline({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle
+          })
+          wx.onMenuShareAppMessage({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQQ({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareWeibo({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+          wx.onMenuShareQZone({
+            link: shareLink,
+            imgUrl: shareImgUrl,
+            title: shareTitle,
+            desc: shareDesc
+          })
+        })
+      })
+  },
+  mounted() {
+    this.$nextTick(() => {
+      timeCountDown(this.remainingTime, 1, data => {
+        ;[this.hours, this.minute, this.second] = data.split(':')
+      })
+    })
   }
 }
 </script>
@@ -218,6 +343,15 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/theme';
 @import '../../../../assets/css/mixins';
+
+@keyframes flow {
+  0% {
+    background-position: left top;
+  }
+  100% {
+    background-position: right top;
+  }
+}
 
 .spell-group {
   &.hidden {
@@ -317,10 +451,10 @@ export default {
             flex: 1;
             font-size: 0.11rem;
             line-height: 0.18rem;
-            text-align: right;
+            text-align: left;
             span {
               display: inline-block;
-              transform: translateX(50%);
+              transform: translateX(-50%);
             }
           }
         }
@@ -353,6 +487,7 @@ export default {
           color: #fff;
           font-size: 0.18rem;
           background-image: repeating-linear-gradient(39deg, #ff5140, #fc7221);
+          animation: flow 1s ease infinite;
         }
         .join {
           .check {
@@ -503,6 +638,11 @@ export default {
             display: block;
             width: 100%;
             height: 100%;
+          }
+          &.disable {
+            /deep/ input {
+              color: #fe6108;
+            }
           }
         }
       }

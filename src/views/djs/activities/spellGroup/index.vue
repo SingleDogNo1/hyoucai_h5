@@ -348,7 +348,7 @@ export default {
     ]
     api
       .getPageSinatureApi({
-        url: window.location.href
+        url: window.location.origin
       })
       .then(res => {
         const data = res.data

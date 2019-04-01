@@ -1,10 +1,3 @@
-<!--
-  1、分享拼团的方式？？？微信分享？？
-  2、已参与的状态？？一进来判断不了？？
-  3、这个活动什么时候开，会有出现天的情况吗，怎么处理
-  4、是否需要验证码
-  5/下载app的样式？？
- -->
 <template>
   <div :class="['spell-group', {hidden: showMask}]">
     <div class="banner"></div>
@@ -13,6 +6,8 @@
       <div class="wrapper">
         <div class="count-down">
           <span class="title">参团倒计时：</span>
+          <span class="time" v-if="day > 0">{{day}}</span>
+          <span class="split" v-if="day > 0">天</span>
           <span class="time">{{hours}}</span>
           <span class="split">:</span>
           <span class="time">{{minute}}</span>
@@ -173,6 +168,7 @@ export default {
       couponRate: '4', // 当前可加息利率
       remainingTime: '66666', // 参团倒计时
       isJoin: false, // 该用户是否参与过活动
+      day: 0, // 倒计时天
       hours: 0, // 倒计时小时
       minute: 0, // 倒计时分钟
       second: 0, // 倒计时秒
@@ -272,7 +268,7 @@ export default {
     )
 
     // 拼团活动进度查询接口
-    // http://opsstatic.dpandora.cn:30184/#/d/activity/spell-group?leaderInviteCode=d372144&groupId=1
+    // http://localhost:8080/#/d/activity/spell-group?leaderInviteCode=d372144&groupId=1
     queryProgressApi({
       leaderInviteCode: this.leaderInviteCode,
       uuid: uuid(),
@@ -282,13 +278,22 @@ export default {
       this.currPeopleNum = data.currPeopleNum
       this.couponRate = data.couponRate
       this.remainingTime = data.remainingTime
+
+      timeCountDown(this.remainingTime, 1, data => {
+        if (data.includes('天')) {
+          const [days, day] = data.split('天')
+          ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
+        } else {
+          ;[this.hours, this.minute, this.second] = data.split(':')
+        }
+      })
     })
 
     const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
       '六周年庆，你的收益由你定',
       '单笔出借满一万，立得现金无上限',
       window.location.href,
-      'http://h5.dpandora.cn/images/3000-act.png'
+      'http://h5.dpandora.cn/images/spell-group.png'
     ]
 
     api
@@ -338,13 +343,6 @@ export default {
           })
         })
       })
-  },
-  mounted() {
-    this.$nextTick(() => {
-      timeCountDown(this.remainingTime, 1, data => {
-        ;[this.hours, this.minute, this.second] = data.split(':')
-      })
-    })
   }
 }
 </script>
@@ -394,7 +392,7 @@ export default {
       padding: 0.43rem 0.15rem 0.15rem;
       .count-down {
         $height: 0.48rem;
-        @include cube(2.48rem, $height);
+        @include cube(2.87rem, $height);
         position: absolute;
         left: 0;
         right: 0;
@@ -421,7 +419,7 @@ export default {
         .split {
           margin: 0 0.05rem;
           font-size: 0.16rem;
-          color: #f95f27;
+          color: #333;
           transform: translateY(-0.02rem);
         }
       }
@@ -570,6 +568,8 @@ export default {
           font-size: 0.13rem;
           color: #5b5b5b;
           line-height: 1.75;
+          word-break: break-all;
+          word-wrap: break-word;
         }
         table {
           width: 100%;

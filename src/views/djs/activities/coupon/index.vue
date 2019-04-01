@@ -47,7 +47,7 @@ export default {
       .then(res => {
         const data = res.data
         wx.config({
-          debug: true,
+          debug: false,
           // appId: data.appid,
           appId: 'wx45d16cf33a73b663',
           timestamp: data.timestamp,
@@ -94,7 +94,7 @@ export default {
     console.log('网页地址============' + window.location.href)
     console.log('activityId==============' + activityId)
     console.log('userName===================' + userName)
-    console.log('是不是在APP环境中===========' + window.DjsJsBridge ? '是' : '不是')
+    console.log(`是不是在APP环境中===========' + window.DjsJsBridge ? '是' : '不是'`)
 
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {

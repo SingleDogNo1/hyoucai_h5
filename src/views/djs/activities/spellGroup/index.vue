@@ -271,10 +271,10 @@ export default {
     }
   },
   created() {
-    // if (!this.leaderInviteCode) {
-    //   Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
-    //   return
-    // }
+    if (!this.leaderInviteCode) {
+      Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
+      return
+    }
 
     // 设置 uuid 同一天内不变
     const key = `key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`

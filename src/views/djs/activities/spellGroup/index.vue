@@ -293,7 +293,7 @@ export default {
       '六周年庆，你的收益由你定',
       '单笔出借满一万，立得现金无上限',
       window.location.href,
-      'http://h5.dpandora.cn/images/3000-act.png'
+      'http://h5.dpandora.cn/images/spell-group.png'
     ]
 
     api

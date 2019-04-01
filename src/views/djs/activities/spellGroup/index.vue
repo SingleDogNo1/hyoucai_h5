@@ -237,12 +237,17 @@ export default {
     closeMask() {
       this.showMask = false
       this.errMsg = ''
+      this.userName = ''
+      this.mobile = ''
+      this.smsCode = ''
     }
   },
   computed: {
     percent() {
-      const ori_percent = parseInt(this.currPeopleNum / 10) * 10
-      const percent = ori_percent >= 100 ? 100 : ori_percent
+      const max_percent = 90
+
+      const ori_percent = this.currPeopleNum * 1.7
+      const percent = ori_percent >= max_percent ? max_percent : ori_percent
       return percent + '%'
     }
   },
@@ -283,7 +288,7 @@ export default {
           const [days, day] = data.split('天')
           ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
         } else {
-          // 08:03:31
+          // 21天08:03:31
           ;[this.hours, this.minute, this.second] = data.split(':')
         }
       })

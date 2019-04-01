@@ -1,5 +1,6 @@
 <template>
   <div :class="['spell-group', {hidden: showMask}]">
+    <button ></button>
     <div class="banner"></div>
     <div class="inner">
       <div class="desc"></div>
@@ -50,7 +51,7 @@
             <p>现在完成账户设置，即可领取10元现金红包啦，快快下载APP提现吧！</p>
             <section>
               <button @click="download">下载APP</button>
-              <button>分享拼团</button>
+              <button @click="shareActivity" class="clip-board"  :data-clipboard-text="clipBoardPath">分享拼团</button>
             </section>
           </div>
         </div>
@@ -58,8 +59,8 @@
         <div class="no-act" v-else>
          <div></div>
           <section>
-            <button>下载APP</button>
-            <button>分享拼团</button>
+            <button @click="download">下载APP</button>
+            <button class="clip-board"  :data-clipboard-text="clipBoardPath" @click="shareActivity">分享拼团</button>
           </section>
         </div>
         <div class="rules">
@@ -78,12 +79,6 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr>-->
-              <!--<td>汇选1个月</td>-->
-              <!--<td>8%</td>-->
-              <!--<td>11%</td>-->
-              <!--<td>66.67<span>+25</span></td>-->
-            <!--</tr>-->
             <tr>
               <td>汇选3个月</td>
               <td>10%</td>
@@ -144,6 +139,11 @@
       </div>
     </div>
     <div id="captcha"></div>
+    <div class="share-mask" v-if="showShare">
+      <img src="./images/dir_share.png" alt="">
+      <p>1.点击右上角的...按钮；</p>
+      <p>2.选择“发送给朋友”或“分享到朋友圈”！</p>
+    </div>
   </div>
 </template>
 
@@ -155,6 +155,7 @@ import SMSBtn from '@/components/smsBtn'
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
 import Cookies from 'js-cookie'
+import Clipboard from 'clipboard'
 
 export default {
   name: 'spellGroup',
@@ -163,17 +164,19 @@ export default {
   },
   data() {
     return {
+      clipBoardPath: window.location.href,
       leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
       groupId: this.$route.query.groupId, // 拼团活动Id
-      currPeopleNum: '88', // 当前参与人数
-      couponRate: '4', // 当前可加息利率
-      remainingTime: '66666', // 参团倒计时
+      currPeopleNum: '0', // 当前参与人数
+      couponRate: '0', // 当前可加息利率
+      remainingTime: '0', // 参团倒计时
       isJoin: false, // 该用户是否参与过活动
       day: 0, // 倒计时天
       hours: 0, // 倒计时小时
       minute: 0, // 倒计时分钟
       second: 0, // 倒计时秒
       showMask: false, // 是否显示输入框
+      showShare: true, // 是否显示微信分享引导图
       userName: '', // 姓名
       mobile: '', // 手机号
       smsCode: '', // 短信验证码
@@ -218,6 +221,21 @@ export default {
         name: 'AppDownload'
       })
     },
+    shareActivity() {
+      function isWeixin() {
+        const UA = window.navigator.userAgent.toLowerCase()
+        return UA.match(/MicroMessenger/i) == 'micromessenger'
+      }
+
+      if (!isWeixin()) {
+        let clipboard = new Clipboard('.clip-board')
+        clipboard.on('success', () => {
+          Toast('已复制分享链接，快去粘贴邀请好友吧！')
+        })
+      } else {
+        this.showShare = true
+      }
+    },
     sendSMSCode() {
       this.captchaIns && this.captchaIns.popUp()
     },
@@ -245,7 +263,7 @@ export default {
   },
   computed: {
     percent() {
-      const max_percent = 90
+      const max_percent = 90 // 进度条最大值
 
       const ori_percent = this.currPeopleNum * 1.7
       const percent = ori_percent >= max_percent ? max_percent : ori_percent
@@ -253,6 +271,12 @@ export default {
     }
   },
   created() {
+    // if (!this.leaderInviteCode) {
+    //   Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
+    //   return
+    // }
+
+    // 设置 uuid 同一天内不变
     const key = `key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
     if (!Cookies.get(key)) {
       let uuid_value = uuid()
@@ -261,6 +285,7 @@ export default {
     } else {
       this.uuid = Cookies.get(key)
     }
+
     // 初始化滑块弹出层
     window.initNECaptcha(
       {
@@ -302,6 +327,7 @@ export default {
         }
       })
     })
+
     // 微信分享
     const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
       '六周年庆，你的收益由你定',
@@ -309,7 +335,6 @@ export default {
       window.location.href,
       'http://h5.dpandora.cn/images/spell-group.png'
     ]
-
     api
       .getPageSinatureApi({
         url: window.location.href
@@ -681,6 +706,28 @@ export default {
         font-size: 0.18rem;
         color: #ffffff;
       }
+    }
+  }
+  .share-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    @include cube();
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    img {
+      width: 1rem;
+      margin-right: 0.3rem;
+      margin-top: 0.3rem;
+      align-self: flex-end;
+    }
+    p {
+      color: #fff;
+      font-size: 0.16rem;
+      margin-top: 0.05rem;
+      line-height: 2;
     }
   }
 }

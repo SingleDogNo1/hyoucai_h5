@@ -139,7 +139,7 @@
       </div>
     </div>
     <div id="captcha"></div>
-    <div class="share-mask" v-if="showShare">
+    <div class="share-mask" v-if="showShare" @click.self="closeShare">
       <img src="./images/dir_share.png" alt="">
       <p>1.点击右上角的...按钮；</p>
       <p>2.选择“发送给朋友”或“分享到朋友圈”！</p>
@@ -176,7 +176,7 @@ export default {
       minute: 0, // 倒计时分钟
       second: 0, // 倒计时秒
       showMask: false, // 是否显示输入框
-      showShare: true, // 是否显示微信分享引导图
+      showShare: false, // 是否显示微信分享引导图
       userName: '', // 姓名
       mobile: '', // 手机号
       smsCode: '', // 短信验证码
@@ -255,6 +255,13 @@ export default {
     },
     closeMask() {
       this.showMask = false
+      this.errMsg = ''
+      this.userName = ''
+      this.mobile = ''
+      this.smsCode = ''
+    },
+    closeShare() {
+      this.showShare = false
       this.errMsg = ''
       this.userName = ''
       this.mobile = ''

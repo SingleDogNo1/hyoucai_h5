@@ -246,6 +246,11 @@ export default new Router({
               component: () => import('@/views/djs/activities/yearact')
             },
             {
+              path: 'yearact_2',
+              name: 'DJSyearAct_2',
+              component: () => import('@/views/djs/activities/yearact_2')
+            },
+            {
               path: '3000',
               name: 'DJS3000Act',
               component: () => import('@/views/djs/activities/3000')

@@ -9,7 +9,7 @@
         <img src="./2.png" alt="">
       </div>
       <div>
-        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: groupId })"></div>
+        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: 1 })"></div>
         <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
         <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
       </div>
@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
-      groupId: this.$route.query.groupId // 拼团活动Id
+      groupId: 1 // 拼团活动Id
     }
   },
   methods: {

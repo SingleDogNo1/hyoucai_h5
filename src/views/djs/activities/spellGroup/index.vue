@@ -154,6 +154,7 @@ import { timeCountDown, uuid } from '@/assets/js/utils'
 import SMSBtn from '@/components/smsBtn'
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
+import Cookies from 'js-cookie'
 
 export default {
   name: 'spellGroup',
@@ -252,6 +253,14 @@ export default {
     }
   },
   created() {
+    const key = `key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+    if (!Cookies.get(key)) {
+      let uuid_value = uuid()
+      this.uuid = uuid_value
+      Cookies.set(key, uuid_value, { expires: 1 })
+    } else {
+      this.uuid = Cookies.get(key)
+    }
     // 初始化滑块弹出层
     window.initNECaptcha(
       {
@@ -274,7 +283,7 @@ export default {
     // 拼团活动进度查询接口
     queryProgressApi({
       leaderInviteCode: this.leaderInviteCode,
-      uuid: uuid(),
+      uuid: this.uuid,
       groupId: this.groupId
     }).then(res => {
       const data = res.data

@@ -1,3 +1,7 @@
+<!--
+  http://localhost:8080/#/d/activity/yearact_2?leaderInviteCode=d372144&groupId=1
+-->
+
 <template>
     <div class="wrapper">
       <div>
@@ -5,7 +9,7 @@
         <img src="./2.png" alt="">
       </div>
       <div>
-        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', {  })"></div>
+        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: groupId })"></div>
         <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
         <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
       </div>
@@ -15,6 +19,12 @@
 <script>
 export default {
   name: 'index',
+  data() {
+    return {
+      leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      groupId: this.$route.query.groupId // 拼团活动Id
+    }
+  },
   methods: {
     toActivityPage(router_name, router_query) {
       this.$router.push({

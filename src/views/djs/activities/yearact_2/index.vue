@@ -50,7 +50,8 @@ export default {
     height: 50px;
     margin: 0 auto;
     top: 0;
-    left: calc(50% - 46%);
+    left: 0;
+    right: 0;
     border-radius: 8%;
     &.area1 {
       top: 43%;

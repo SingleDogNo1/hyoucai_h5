@@ -278,11 +278,6 @@ export default {
     }
   },
   created() {
-    if (!this.leaderInviteCode) {
-      Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
-      return
-    }
-
     // 设置 uuid 同一天内不变
     const key = `key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
     if (!Cookies.get(key)) {
@@ -318,21 +313,25 @@ export default {
       uuid: this.uuid,
       groupId: this.groupId
     }).then(res => {
-      const data = res.data
-      this.currPeopleNum = data.currPeopleNum
-      this.couponRate = data.couponRate
-      this.remainingTime = data.remainingTime
+      if (res.data.resultCode === '1') {
+        const data = res.data
+        this.currPeopleNum = data.currPeopleNum
+        this.couponRate = data.couponRate
+        this.remainingTime = data.remainingTime
 
-      timeCountDown(this.remainingTime, 1, data => {
-        if (data.includes('天')) {
-          // 21天08:03:31
-          const [days, day] = data.split('天')
-          ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
-        } else {
-          // 21天08:03:31
-          ;[this.hours, this.minute, this.second] = data.split(':')
-        }
-      })
+        timeCountDown(this.remainingTime, 1, data => {
+          if (data.includes('天')) {
+            // 21天08:03:31
+            const [days, day] = data.split('天')
+            ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
+          } else {
+            // 21天08:03:31
+            ;[this.hours, this.minute, this.second] = data.split(':')
+          }
+        })
+      } else if (res.data.reslutCode === '37314' || res.data.resultCode === '202') {
+        Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
+      }
     })
 
     // 微信分享

@@ -99,7 +99,7 @@
             </tbody>
           </table>
           <p>
-            2、加息券适用于出借指定产品“汇选3个月（10%）”、“汇选6个月（11%）”，于拼团活动结束后1~3工作日发放至客户汇有财账户，加息券有效期为发放后的7天。
+            2、加息券于拼团活动结束后1~3个工作日内发放至客户汇有财账户，仅适用于“汇选3个月（10%）”及“汇选6个月（11%）”的出借品类，有效期为发放后的7天。
           </p>
           <p>
             3、参与拼团用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
@@ -237,12 +237,17 @@ export default {
     closeMask() {
       this.showMask = false
       this.errMsg = ''
+      this.userName = ''
+      this.mobile = ''
+      this.smsCode = ''
     }
   },
   computed: {
     percent() {
-      const ori_percent = parseInt(this.currPeopleNum / 10) * 10
-      const percent = ori_percent >= 100 ? 100 : ori_percent
+      const max_percent = 90
+
+      const ori_percent = this.currPeopleNum * 1.7
+      const percent = ori_percent >= max_percent ? max_percent : ori_percent
       return percent + '%'
     }
   },
@@ -266,9 +271,7 @@ export default {
         this.captchaIns = instance
       }
     )
-
     // 拼团活动进度查询接口
-    // http://localhost:8080/#/d/activity/spell-group?leaderInviteCode=d372144&groupId=1
     queryProgressApi({
       leaderInviteCode: this.leaderInviteCode,
       uuid: uuid(),
@@ -281,14 +284,16 @@ export default {
 
       timeCountDown(this.remainingTime, 1, data => {
         if (data.includes('天')) {
+          // 21天08:03:31
           const [days, day] = data.split('天')
           ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
         } else {
+          // 21天08:03:31
           ;[this.hours, this.minute, this.second] = data.split(':')
         }
       })
     })
-
+    // 微信分享
     const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
       '六周年庆，你的收益由你定',
       '单笔出借满一万，立得现金无上限',
@@ -623,10 +628,9 @@ export default {
         border-bottom: 1px solid #d4d4d4;
         position: relative;
         span {
-          width: 0.6rem;
+          width: 0.5rem;
           color: #333;
           font-size: 0.15rem;
-          text-align: center;
           line-height: 0.3rem;
         }
         > input {

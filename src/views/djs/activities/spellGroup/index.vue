@@ -41,7 +41,7 @@
           <div class="rate">加息：<span>{{couponRate}}%</span></div>
         </div>
         <!-- 活动进行中 -->
-        <div class="act-wrapper" v-if="remainingTime > 0">
+        <div class="act-wrapper" v-if="!isOverdue">
           <!-- 未参加 -->
           <button class="without-join" v-if="!isJoin" @click="showJoinMask">立即参团</button>
           <!-- 已参加 -->
@@ -170,6 +170,7 @@ export default {
       currPeopleNum: '0', // 当前参与人数
       couponRate: '0', // 当前可加息利率
       remainingTime: '0', // 参团倒计时
+      isOverdue: false,
       isJoin: false, // 该用户是否参与过活动
       day: 0, // 倒计时天
       hours: 0, // 倒计时小时
@@ -324,9 +325,12 @@ export default {
             // 21天08:03:31
             const [days, day] = data.split('天')
             ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
-          } else {
+          } else if (data !== '00:00:00') {
             // 21天08:03:31
             ;[this.hours, this.minute, this.second] = data.split(':')
+          } else if (data === '00:00:00') {
+            this.isOverdue = true
+            this.second = '00'
           }
         })
       } else if (res.data.reslutCode === '37314' || res.data.resultCode === '202') {

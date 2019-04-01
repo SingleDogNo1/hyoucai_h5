@@ -5,16 +5,24 @@
         <img src="./2.png" alt="">
       </div>
       <div>
-        <div class="area area1" ></div>
-        <div class="area area2" ></div>
-        <div class="area area3" ></div>
+        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', {  })"></div>
+        <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
+        <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
       </div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'index'
+  name: 'index',
+  methods: {
+    toActivityPage(router_name, router_query) {
+      this.$router.push({
+        name: router_name,
+        query: router_query
+      })
+    }
+  }
 }
 </script>
 

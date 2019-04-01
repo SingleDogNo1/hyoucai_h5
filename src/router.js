@@ -216,7 +216,7 @@ export default new Router({
             {
               path: 'yearact_2',
               name: 'DJSyearAct_2',
-              component: () => import('@/views/djs/activities/yearact_2')
+              component: () => import(/* webpackChunkName: "DJSyearAct_2" */ '@/views/djs/activities/yearact_2')
             },
             {
               path: '3000',

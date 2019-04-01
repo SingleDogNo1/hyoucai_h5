@@ -342,7 +342,7 @@ export default {
     // 微信分享
     const [shareTitle, shareDesc, shareLink, shareImgUrl] = [
       '六周年庆，你的收益由你定',
-      '单笔出借满一万，立得现金无上限',
+      '注册即送10元现金红包，拼团立抢3%加息大放送，投资更享1%现金返利！',
       window.location.href,
       'http://h5.dpandora.cn/images/spell-group.png'
     ]

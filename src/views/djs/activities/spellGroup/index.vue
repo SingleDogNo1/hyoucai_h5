@@ -331,6 +331,8 @@ export default {
         })
       } else if (res.data.reslutCode === '37314' || res.data.resultCode === '202') {
         Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
+      } else {
+        Toast(res.data.resultMsg)
       }
     })
 

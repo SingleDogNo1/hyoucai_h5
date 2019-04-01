@@ -314,26 +314,25 @@ export default {
       uuid: this.uuid,
       groupId: this.groupId
     }).then(res => {
-      if (res.data.resultCode === '1') {
-        const data = res.data
-        this.currPeopleNum = data.currPeopleNum
-        this.couponRate = data.couponRate
-        this.remainingTime = data.remainingTime
+      const data = res.data
+      this.currPeopleNum = data.currPeopleNum
+      this.couponRate = data.couponRate
+      this.remainingTime = data.remainingTime
 
-        timeCountDown(this.remainingTime, 1, data => {
-          if (data.includes('天')) {
-            // 21天08:03:31
-            const [days, day] = data.split('天')
-            ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
-          } else if (data !== '00:00:00') {
-            // 21天08:03:31
-            ;[this.hours, this.minute, this.second] = data.split(':')
-          } else if (data === '00:00:00') {
-            this.isOverdue = true
-            this.second = '00'
-          }
-        })
-      } else if (res.data.reslutCode === '37314' || res.data.resultCode === '202') {
+      timeCountDown(this.remainingTime, 1, data => {
+        if (data.includes('天')) {
+          // 21天08:03:31
+          const [days, day] = data.split('天')
+          ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
+        } else if (data !== '00:00:00') {
+          // 21天08:03:31
+          ;[this.hours, this.minute, this.second] = data.split(':')
+        } else if (data === '00:00:00') {
+          this.isOverdue = true
+          this.second = '00'
+        }
+      })
+      if (res.data.reslutCode === '37314' || res.data.resultCode === '202') {
         Toast('您的推荐人邀请码为空或者不完整，请获取完整拼团链接')
       } else {
         Toast(res.data.resultMsg)

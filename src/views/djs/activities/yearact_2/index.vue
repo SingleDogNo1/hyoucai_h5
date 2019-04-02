@@ -39,7 +39,7 @@ export default {
     const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
       '6周年系列庆典，等你来嗨！',
       '以我6年坚守，换您6年同行。6周年感恩超大礼包，重磅来袭',
-      'http://h5.dpandora.cn/images/favicon.ico',
+      'http://h5.dpandora.cn/images/yearact-2.png',
       window.location.href
     ]
     api

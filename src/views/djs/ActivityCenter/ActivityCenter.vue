@@ -71,6 +71,7 @@ export default {
     })
   },
   mounted() {
+    alert(1)
     console.log('地址============' + window.location.href)
   }
 }

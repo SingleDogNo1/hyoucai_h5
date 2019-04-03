@@ -24,6 +24,14 @@ export default new Router({
           }
         },
         {
+          path: 'login-register',
+          name: 'loginRegister',
+          component: () => import(/* webpackChunkName: "login" */ '@/views/common/loginRegister'),
+          meta: {
+            title: '登录'
+          }
+        },
+        {
           path: 'login',
           name: 'userLogin',
           component: () => import(/* webpackChunkName: "login" */ '@/views/common/login'),

@@ -39,6 +39,7 @@
      </div>
     </div>
     <div id="captcha_pwd"></div>
+    <button @click="todownload">312123123</button>
   </div>
 </template>
 
@@ -184,6 +185,20 @@ export default {
         this.$refs.smsBtn.countDown()
         if (res.data.resultCode !== '1') {
           Toast('验证码发送失败')
+        }
+      })
+    },
+    todownload() {
+      this.$router.push({
+        name: 'AppDownload',
+        query: {
+          a: 1
+        },
+        params: {
+          b: 2
+        },
+        meta: {
+          c: 3
         }
       })
     },

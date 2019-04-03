@@ -24,7 +24,7 @@ export default {
       if (window.DjsJsBridge) {
         // 可能会调用app方法
       } else {
-        $router.go(-1)
+        this.$router.go(-1)
       }
     },
     getMore() {

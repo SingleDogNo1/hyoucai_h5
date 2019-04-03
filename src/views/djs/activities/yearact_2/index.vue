@@ -23,7 +23,8 @@ export default {
   name: 'index',
   data() {
     return {
-      leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      // leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      leaderInviteCode: 'd610012', // 丹姐邀请码
       groupId: 1 // 拼团活动Id
     }
   },

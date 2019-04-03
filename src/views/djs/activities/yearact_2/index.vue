@@ -1,44 +1,47 @@
+<!--
+  http://localhost:8080/#/d/activity/yearact_2?leaderInviteCode=d372144&groupId=1
+-->
+
 <template>
-  <div class="coupon">
-    <div class="inner" :class="{blur: detailFlag}">
-      <div class="wrapper">
-        <div class="detail" @click="showDetail"></div>
+    <div class="wrapper">
+      <div>
+        <img src="./1.png" alt="">
+        <img src="./2.png" alt="">
+      </div>
+      <div>
+        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: 1 })"></div>
+        <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
+        <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
       </div>
     </div>
-    <div class="detail-mask" v-if="detailFlag">
-      <img src="./off.png" class="close" alt="" @click="closeDialog">
-      <img src="./dialog.png" alt="">
-    </div>
-  </div>
 </template>
 
 <script>
 import api from '@/api/common/activities'
 
 export default {
-  name: 'coupon',
+  name: 'index',
   data() {
     return {
-      detailFlag: false
+      // leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      leaderInviteCode: 'd610012', // 丹姐邀请码
+      groupId: 1 // 拼团活动Id
     }
   },
   methods: {
-    beforeScroll() {
-      this.$refs.scrollRef.refresh()
-    },
-    showDetail() {
-      this.detailFlag = true
-    },
-    closeDialog() {
-      this.detailFlag = false
+    toActivityPage(router_name, router_query) {
+      this.$router.push({
+        name: router_name,
+        query: router_query
+      })
     }
   },
-  created() {
+  created: function() {
     const [shareTitle, shareDesc, shareImgUrl, shareLink] = [
-      '你有加息券可以使用，加息1%-4%',
-      '只要您用，我们就送，加息多少自己说了算，收益拿到手软',
-      'http://h5.dpandora.cn/images/favicon.ico',
-      'https://m.idjshi.com/website/activity.html#/coupon?mobile=1&type=0'
+      '6周年系列庆典，等你来嗨！',
+      '以我6年坚守，换您6年同行。6周年感恩超大礼包，重磅来袭',
+      'http://h5.dpandora.cn/images/yearact-2.png',
+      window.location.href
     ]
     api
       .getPageSinatureApi({
@@ -94,7 +97,7 @@ export default {
     console.log('网页地址============' + window.location.href)
     console.log('activityId==============' + activityId)
     console.log('userName===================' + userName)
-    console.log(`是不是在APP环境中===========' + window.DjsJsBridge ? '是' : '不是'`)
+    console.log(`是不是在APP环境中===========${window.DjsJsBridge ? '是' : '不是'}`)
 
     const t = setInterval(() => {
       if (window.DjsJsBridge && activityId) {
@@ -126,102 +129,35 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '../../../../assets/css/theme.scss';
-@import '../../../../assets/css/mixins.scss';
-
-.inner.blur {
-  filter: blur(4px);
-}
-
+<style scoped lang="scss">
 .wrapper {
   position: relative;
-  margin: 0 auto;
-  width: 100%;
-  height: 13.8rem;
-  background: url('./coupon-bg.png') no-repeat;
-  background-size: contain;
-}
-
-.bg-img {
-  opacity: 0;
-  display: block;
-  width: 100%;
-}
-
-.btn-wrapper {
-  position: fixed;
-  width: 100%;
-  height: 0.6rem;
-  bottom: 0;
-  left: 0;
-  display: flex;
-  background: rgb(204, 52, 41);
-  &.all {
-    .btn {
-      font-weight: bold;
-      transform: scale(0.85) translateY(0.05rem);
-      height: 0.5rem;
-      line-height: 0.5rem;
-      border-radius: 0.3rem;
-      background: linear-gradient(#fefe64, #fec530);
-      box-shadow: 0 4px 4px #ff911e;
-      font-size: 0.2rem;
-      &:first-child {
-        @include border-right-1px(#ef263d);
-      }
-      span {
-        font-size: 0.22rem;
-        font-weight: bold;
-      }
-    }
+  img {
+    width: 100%;
   }
-  &.half {
-    .btn {
-      font-weight: 700;
-      transform: scale(0.85) translateY(0.05rem);
-      height: 0.5rem;
-      line-height: 0.5rem;
-      border-radius: 0.3rem;
-      background: linear-gradient(#fefe64, #fec530);
-      box-shadow: 0 4px 4px #ff911e;
-      font-size: 0.2rem;
+  .area {
+    position: absolute;
+    background: #000;
+    opacity: 0;
+    width: 92%;
+    height: 50px;
+    margin: 0 auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 8%;
+    &.area1 {
+      top: 43%;
+      height: 10.3%;
     }
-  }
-}
-
-.detail {
-  width: 0.7rem;
-  height: 0.23rem;
-  position: absolute;
-  background: url('detail.png') 0 / contain;
-  top: 0.15rem;
-  right: 0;
-}
-.btn {
-  flex: 1;
-  font-size: 0.16rem;
-  text-align: center;
-  line-height: 0.55rem;
-  color: #ef263d;
-}
-
-.detail-mask {
-  position: fixed;
-  z-index: 9999999;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.15rem;
-  background: rgba(0, 0, 0, 0.4);
-  .close {
-    @include radiusCube(0.23rem);
-    align-self: flex-end;
-    margin-bottom: 0.15rem;
+    &.area2 {
+      top: 59.5%;
+      height: 13%;
+    }
+    &.area3 {
+      top: 77.3%;
+      height: 18%;
+    }
   }
 }
 </style>

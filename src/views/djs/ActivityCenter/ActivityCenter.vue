@@ -1,20 +1,28 @@
 <template>
-  <div class="activity">
-    <BScroll v-if="actList.length > 0">
+  <div class="activity pageContainer" ref="container">
+    <BScroll
+      ref="scrollRef"
+      :beforScroll="true"
+      @beforeScroll="beforeScroll"
+    >
       <div class="activity-wrapper">
-        <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
-          <img :src="item.picUrl" alt="">
-          <p>
-            活动日期：{{item.startTime}}至{{item.endTime}}
-          </p>
-        </section>
+        <template   v-if="actList.length > 0">
+          <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
+            <img :src="item.picUrl" alt="">
+            <p>
+              活动日期：{{item.startTime}}至{{item.endTime}}
+            </p>
+          </section>
+        </template>
+        <NoData
+          v-else
+          class="no-data"
+          type="event"
+        />
       </div>
+
     </BScroll>
-    <NoData
-      v-else
-      class="no-data"
-      type="event"
-    />
+
   </div>
 </template>
 
@@ -31,18 +39,20 @@ export default {
   },
   data() {
     return {
+      title: '活动推荐',
       actList: []
     }
   },
   methods: {
     linkTo(url) {
-      if (this.$route.query.userName) {
-        // app交互的逻辑
-        window.location.href = url + '&userName=' + this.$route.query.userName
-      } else {
-        // h5原生
-        window.location.href = url
-      }
+      window.location.href = url
+    },
+    beforeScroll() {
+      this.refresh()
+    },
+    refresh() {
+      console.log(this.$refs.scrollRef)
+      this.$refs.scrollRef.refresh()
     }
   },
   created() {
@@ -51,6 +61,8 @@ export default {
       maxLine: 10
     }).then(res => {
       this.actList = res.data.list
+      // this.actList = []
+      this.refresh()
     })
   }
 }
@@ -60,9 +72,12 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
-.activity {
+.pageContainer {
   background: #eee;
-  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
 }
 
 .my-scroll {
@@ -73,6 +88,7 @@ export default {
 .activity-wrapper {
   background: #fff;
   padding: 0 0.16rem 0.16rem;
+  min-height: 100%;
   section {
     margin-top: 0.08rem;
     padding-top: 0.16rem;

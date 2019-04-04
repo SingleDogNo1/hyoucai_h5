@@ -23,6 +23,10 @@
         <span>活动推荐</span>
       </li>
     </ul>
+    <div class="notice-board">
+      <div class="title"></div>
+      <div class="notice"></div>
+    </div>
   </div>
 </template>
 
@@ -92,6 +96,7 @@ export default {
   .tabs {
     display: flex;
     justify-content: space-around;
+    margin-bottom: 0.25rem;
     li {
       display: flex;
       flex-direction: column;
@@ -106,6 +111,34 @@ export default {
         font-size: 0.14rem;
         color: $color-text-b;
       }
+    }
+  }
+  .notice-board {
+    @include cube(3.45rem, 0.4rem);
+    margin: 0 auto;
+    background: #f6f6f6;
+    border-radius: 0.04rem;
+    display: flex;
+    .title {
+      width: 0.6rem;
+      position: relative;
+      background: url('./notice-title.png') center no-repeat;
+      background-size: 0.28rem auto;
+      &:after {
+        content: '';
+        position: absolute;
+        width: 0.01rem;
+        height: 0.1rem;
+        background: #e8e8e8;
+        top: 0;
+        bottom: 0;
+        margin: auto 0;
+        right: 0;
+      }
+    }
+    .notice {
+      flex: 1;
+      background: #000;
     }
   }
 }

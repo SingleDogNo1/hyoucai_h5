@@ -378,6 +378,14 @@ export default new Router({
           meta: {
             title: '历史卡券'
           }
+        },
+        {
+          path: 'couponList',
+          name: 'CouponList',
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/voucherBag/CouponList'),
+          meta: {
+            title: '券包'
+          }
         }
       ]
     },

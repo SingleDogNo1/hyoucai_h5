@@ -1,28 +1,62 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/common/HomePage'
 import Activity from './layout/activity.vue'
 import Layout from './layout/layout.vue'
 import Empty from './layout/empty.vue'
+import TabBar from './layout/tabBar.vue'
 
 Vue.use(Router)
 
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/d',
+      component: TabBar,
+      children: [
+        {
+          path: '',
+          name: 'DJSHomePage',
+          component: () => import(/* webpackChunkName: "DJSHomePage" */ '@/views/djs/homePage')
+        },
+        {
+          path: 'invest',
+          name: 'DJSInvestList',
+          component: () => import(/* webpackChunkName: "DJSInvestList" */ '@/views/djs/investList')
+        },
+        {
+          path: 'mine',
+          name: 'DJSUserCenter',
+          component: () => import(/* webpackChunkName: "DJSUserCenter" */ '@/views/djs/mine')
+        }
+      ]
+    },
+    {
+      path: '/h',
+      component: TabBar,
+      children: [
+        {
+          path: '',
+          name: 'HYCHomePage',
+          component: () => import(/* webpackChunkName: "HYCHomePage" */ '@/views/hyc/homePage')
+        },
+        {
+          path: 'invest',
+          name: 'HYCInvestList',
+          component: () => import(/* webpackChunkName: "HYCInvestList" */ '@/views/hyc/investList')
+        },
+        {
+          path: 'mine',
+          name: 'HYCUserCenter',
+          component: () => import(/* webpackChunkName: "HYCUserCenter" */ '@/views/hyc/mine')
+        }
+      ]
+    },
     // 公用
     {
       path: '/',
       component: Layout,
       children: [
-        {
-          path: '',
-          name: 'home',
-          component: Home,
-          meta: {
-            title: '首页'
-          }
-        },
         {
           path: 'login-register',
           name: 'loginRegister',
@@ -335,6 +369,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSNewerDirection" */ '@/views/djs/NewerDirection'),
           meta: {
             title: '新手指引'
+          }
+        },
+        {
+          path: 'historyCard',
+          name: 'HistoryCard',
+          component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/voucherBag/HistoryCard'),
+          meta: {
+            title: '历史卡券'
           }
         }
       ]

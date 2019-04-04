@@ -25,13 +25,21 @@
     </ul>
     <div class="notice-board">
       <div class="title"></div>
-      <div class="notice"></div>
+      <div class="notice swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">Slide 1</div>
+          <div class="swiper-slide">Slide 2</div>
+          <div class="swiper-slide">Slide 3</div>
+        </div>
+      </div>
     </div>
+    <div class="newbie"></div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import Swiper from 'swiper'
 
 export default {
   name: 'index',
@@ -54,10 +62,13 @@ export default {
       })
     }
   },
-
-  created() {},
-  mounted() {},
-  destroyed() {}
+  mounted() {
+    this.$nextTick(() => {
+      new Swiper('.notice', {
+        direction: 'vertical'
+      })
+    })
+  }
 }
 </script>
 
@@ -115,7 +126,7 @@ export default {
   }
   .notice-board {
     @include cube(3.45rem, 0.4rem);
-    margin: 0 auto;
+    margin: 0 auto 0.3rem;
     background: #f6f6f6;
     border-radius: 0.04rem;
     display: flex;
@@ -138,8 +149,17 @@ export default {
     }
     .notice {
       flex: 1;
-      background: #000;
+      .swiper-slide {
+        padding-left: 0.1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-size: 0.13rem;
+        color: $color-text-b;
+      }
     }
+  }
+  .newbie {
   }
 }
 </style>

@@ -8,14 +8,14 @@
               <span class="over_amount">38.71万</span>
             </div>
          </div>
-         <div class="pro-inf-middle">
+         <div class="pro-info-middle">
          	  <center>
          	  	 <span>历史平均年化收益率</span><br>
          	  	 <strong>11.0</strong><span class="per">%</span>
          	  	 <p><i>近期表现 8.00% ～ 8.00%</i><img src="./images/quest.png"/> </p>
          	  </center>
          </div>
-         <div class="pro-inf-bottom">
+         <div class="pro-info-bottom">
          	  <p><span>锁定期</span><b>90天</b></p>
          	  <p><b>1000元</b><span class="start_amout">起投</span></p>
          </div>
@@ -101,7 +101,7 @@ export default {
 			}
 			
 	}
-	.pro-inf-middle{
+	.pro-info-middle{
 		height: 101px;
 		span{
 			font-size: 12px;
@@ -136,7 +136,7 @@ export default {
 		}
 		
 	}
-	.pro-inf-bottom{
+	.pro-info-bottom{
 		height: 80px;
 		line-height: 80px;
 		p{

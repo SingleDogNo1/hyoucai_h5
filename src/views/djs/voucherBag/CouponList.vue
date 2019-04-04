@@ -15,7 +15,10 @@
         <div class="coupon_right">
           <p class="right_p1">起投金额：100.00元</p>
           <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
-          <p class="right_p2">有效期至：2018-10-11</p>
+          <p class="right_p2 right_p3">有效期至：2018-10-11</p>
+          <div class="coupon_right_btn">
+            <img src="./images/btn.png" alt="" />
+          </div>
         </div>
       </div>
       <div class="coupon">
@@ -63,7 +66,6 @@ export default {
   position: relative;
   font-family: PingFangSC-Regular;
   background: #f6f6f6;
-  overflow: hidden;
   .coupon {
     margin-top: 0.1rem;
     height: 1.02rem;
@@ -76,13 +78,12 @@ export default {
         text-align: center;
         letter-spacing: 0.26px;
         line-height: 0.33rem;
+        color: #ec5e52;
         .number {
           font-size: 0.24rem;
-          color: #999999;
         }
         .txt {
           font-size: 0.11rem;
-          color: #3f3f3f;
         }
       }
       .coupon_left_txt {
@@ -95,17 +96,34 @@ export default {
     .coupon_right {
       padding-left: 0.13rem;
       padding-right: 0.14rem;
+      color: #333;
+      position: relative;
       .right_p1 {
         margin-top: 0.1rem;
         font-size: 0.13rem;
-        color: #999999;
         letter-spacing: 0.14px;
       }
       .right_p2 {
         margin-top: 0.08rem;
         font-size: 0.11rem;
-        color: #999999;
         letter-spacing: 0.12px;
+      }
+      .right_p3 {
+        color: #999;
+      }
+      .coupon_right_btn {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 0.75rem;
+        height: 0.24rem;
+        img {
+          width: 100%;
+        }
+        // line-height: .24rem;
+        // background-color: #ec5e52;
+        // color: #fff;
+        // border-radius: .24rem 0 0 0;
       }
     }
   }

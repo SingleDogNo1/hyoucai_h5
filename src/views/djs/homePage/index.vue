@@ -6,15 +6,29 @@
       <button :class="{new: newNotice}"></button>
     </header>
     <ul class="tabs">
-      <li>信息披露</li>
-      <li>资金存管</li>
-      <li>运营数据</li>
-      <li>活动推荐</li>
+      <li @click="showTabs('AboutUs')">
+        <img src="./xxpl.png" alt="">
+        <span>信息披露</span>
+      </li>
+      <li @click="showTabs('ArchivalInfo')">
+        <img src="./zjcg.png" alt="">
+        <span>资金存管</span>
+      </li>
+      <li @click="showTabs('InfoDisclose')">
+        <img src="./yysj.png" alt="">
+        <span>运营数据</span>
+      </li>
+      <li @click="showTabs('DJSActivityCenter')">
+        <img src="./hdtj.png" alt="">
+        <span>活动推荐</span>
+      </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'index',
   mixins: [],
@@ -24,10 +38,19 @@ export default {
       newNotice: true // 是否有新公告
     }
   },
+  computed: {
+    ...mapGetters(['platform'])
+  },
   props: {},
   watch: {},
-  methods: {},
-  computed: {},
+  methods: {
+    showTabs(router_name) {
+      this.$router.push({
+        name: router_name
+      })
+    }
+  },
+
   created() {},
   mounted() {},
   destroyed() {}
@@ -69,6 +92,21 @@ export default {
   .tabs {
     display: flex;
     justify-content: space-around;
+    li {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      img {
+        @include square(0.38rem);
+      }
+      span {
+        margin-top: 0.04rem;
+        text-align: center;
+        font-size: 0.14rem;
+        color: $color-text-b;
+      }
+    }
   }
 }
 </style>

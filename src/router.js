@@ -370,6 +370,14 @@ export default new Router({
           meta: {
             title: '新手指引'
           }
+        },
+        {
+          path: 'historyCard',
+          name: 'HistoryCard',
+          component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/voucherBag/HistoryCard'),
+          meta: {
+            title: '历史卡券'
+          }
         }
       ]
     },

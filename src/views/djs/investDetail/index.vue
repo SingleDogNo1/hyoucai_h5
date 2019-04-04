@@ -179,6 +179,7 @@ export default {
 				font-size: 13px;
 				color: #FFFFFF;
 				background-image: linear-gradient(90deg, #EEEEEE 0%, #AAAAAA 100%);
+				padding-left: 4px;
 			}
 		}
 		li.li-one{
@@ -204,7 +205,10 @@ export default {
       display: inline-block;
       padding: 4px;
 		}
-		
+		img{
+			height: 15px;
+			float: right;
+		}
 	}
 		
 }

@@ -74,10 +74,7 @@ export default {
   height: 100%;
   overflow: hidden;
   .notice_scroll {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    bottom: 0;
+    height: 100%;
     .wrapper {
       width: 100%;
       padding: 0.24rem 4% 0;

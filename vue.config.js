@@ -14,7 +14,7 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.VUE_APP_RUNTIME_ENV === 'production') {
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }
   }

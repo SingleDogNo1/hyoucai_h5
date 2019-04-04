@@ -45,7 +45,13 @@ export default {
   },
   methods: {
     linkTo(url) {
-      window.location.href = url
+      if (this.$route.query.userName) {
+        // app交互的逻辑
+        window.location.href = url + '&userName=' + this.$route.query.userName
+      } else {
+        // h5原生
+        window.location.href = url
+      }
     },
     beforeScroll() {
       this.refresh()
@@ -61,9 +67,11 @@ export default {
       maxLine: 10
     }).then(res => {
       this.actList = res.data.list
-      // this.actList = []
       this.refresh()
     })
+  },
+  mounted() {
+    console.log('地址============' + window.location.href)
   }
 }
 </script>

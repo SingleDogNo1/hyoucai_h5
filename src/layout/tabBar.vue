@@ -98,12 +98,12 @@ export default {
       @each $key, $value in $navOptions {
         &.#{$key} {
           .logo {
-            background-image: url('./images/#{map_get($value, common)}.jpg');
+            background-image: url('./images/#{map_get($value, common)}.png');
           }
         }
         &.router-link-exact-active.#{$key} {
           .logo {
-            background-image: url('./images/#{map_get($value, active)}.jpg');
+            background-image: url('./images/#{map_get($value, active)}.png');
           }
         }
       }

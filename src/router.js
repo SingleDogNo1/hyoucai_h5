@@ -11,6 +11,17 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      component: Empty,
+      children: [
+        {
+          path: '',
+          name: 'differPlatform',
+          component: () => import(/* webpackChunkName: "differPlatform" */ '@/views/common/differPlatform')
+        }
+      ]
+    },
+    {
       path: '/d',
       component: TabBar,
       children: [

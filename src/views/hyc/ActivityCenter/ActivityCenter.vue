@@ -49,6 +49,9 @@ export default {
     }).then(res => {
       this.actList = res.data.list
     })
+  },
+  mounted() {
+    console.log('地址=====================' + window.location.href)
   }
 }
 </script>

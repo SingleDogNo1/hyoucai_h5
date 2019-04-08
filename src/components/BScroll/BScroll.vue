@@ -67,7 +67,10 @@ export default {
         return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }
       }
     },
-    eventPassthrough: 'horizontal'
+    eventPassthrough: {
+      type: String,
+      default: 'horizontal'
+    }
   },
   watch: {
     data() {

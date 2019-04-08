@@ -71,36 +71,29 @@ export default {
 @import '../../../assets/css/theme.scss';
 
 .notice {
-  .scroll_wrapper {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    background-color: #fff;
-    .notice_scroll {
-      position: absolute;
+  height: 100%;
+  .notice_scroll {
+    height: 100%;
+    .wrapper {
       width: 100%;
-      top: 0;
-      bottom: 0;
-      .wrapper {
-        width: 100%;
-        padding: 0.24rem 4% 0;
-        h2 {
-          font-size: $font-size-medium-x;
+      padding: 0.24rem 4% 0;
+      h2 {
+        font-size: $font-size-medium-x;
+        color: $color-text-b;
+        word-break: break-all;
+      }
+      div {
+        margin: 0.08rem auto 0.27rem;
+        font-size: $font-size-small-s;
+        color: $color-text-s;
+      }
+      /deep/ article {
+        p {
+          margin-bottom: 0.16rem;
+          line-height: 0.24rem;
+          text-align: left;
+          font-size: $font-size-small !important;
           color: $color-text-b;
-        }
-        div {
-          margin: 0.08rem auto 0.27rem;
-          font-size: $font-size-small-s;
-          color: $color-text-s;
-        }
-        /deep/ article {
-          p {
-            margin-bottom: 0.16rem;
-            line-height: 0.24rem;
-            text-align: left;
-            font-size: $font-size-small !important;
-            color: $color-text-b;
-          }
         }
       }
     }

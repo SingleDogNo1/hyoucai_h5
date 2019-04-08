@@ -43,6 +43,7 @@ export default {
   .container {
     flex: 1;
     background: #eee;
+    overflow: hidden;
   }
   .tabs {
     display: flex;

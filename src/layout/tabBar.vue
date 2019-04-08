@@ -25,25 +25,15 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'tabBar',
-  mixins: [],
-  components: {},
-  data() {
-    return {}
-  },
-  props: {},
   computed: {
     ...mapGetters(['platform'])
-  },
-  watch: {},
-  methods: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../assets/css/mixins';
+@import '../assets/css/theme';
 
 .tab-bar {
   height: 100vh;
@@ -69,18 +59,19 @@ export default {
       p {
         font-size: 0.1rem;
         color: #2b2b2b;
-        margin-top: 0.05rem;
       }
       .logo {
-        /* TODO 尺寸看UI */
-        @include square(20px);
-        background-size: contain;
+        @include square(0.24rem);
+        background-size: 0.23rem auto;
+        background-repeat: no-repeat;
+        background-position: center center;
       }
       &.router-link-exact-active {
         p {
-          color: red;
+          color: $color-main;
         }
       }
+
       $navOptions: (
         index: (
           common: index,
@@ -98,12 +89,12 @@ export default {
       @each $key, $value in $navOptions {
         &.#{$key} {
           .logo {
-            background-image: url('./images/#{map_get($value, common)}.jpg');
+            background-image: url('./images/#{map_get($value, common)}.png');
           }
         }
         &.router-link-exact-active.#{$key} {
           .logo {
-            background-image: url('./images/#{map_get($value, active)}.jpg');
+            background-image: url('./images/#{map_get($value, active)}.png');
           }
         }
       }

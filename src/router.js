@@ -11,6 +11,17 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      component: Empty,
+      children: [
+        {
+          path: '',
+          name: 'differPlatform',
+          component: () => import(/* webpackChunkName: "differPlatform" */ '@/views/common/differPlatform')
+        }
+      ]
+    },
+    {
       path: '/d',
       component: TabBar,
       children: [
@@ -377,6 +388,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'
+          }
+        },
+        {
+          path: 'couponList',
+          name: 'CouponList',
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/voucherBag/CouponList'),
+          meta: {
+            title: '券包'
           }
         }
       ]

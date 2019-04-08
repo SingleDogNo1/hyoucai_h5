@@ -218,6 +218,14 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
+        },
+        {
+          path: 'notice',
+          name: 'Notice',
+          component: () => import(/* webpackChunkName: "Notice" */ '@/views/common/Notice'),
+          meta: {
+            title: '网站公告'
+          }
         }
       ]
     },
@@ -385,7 +393,7 @@ export default new Router({
         {
           path: 'historyCard',
           name: 'HistoryCard',
-          component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/voucherBag/HistoryCard'),
+          component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'
           }
@@ -393,9 +401,17 @@ export default new Router({
         {
           path: 'couponList',
           name: 'CouponList',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/voucherBag/CouponList'),
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/voucherBag/CouponList'),
           meta: {
             title: '券包'
+          }
+        },
+        {
+          path: 'transactionRecord',
+          name: 'TransactionRecord',
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/TransactionRecord'),
+          meta: {
+            title: '交易记录'
           }
         }
       ]
@@ -514,6 +530,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCNewerDirection" */ '@/views/hyc/NewerDirection'),
           meta: {
             title: '新手指引'
+          }
+        },
+        {
+          path: 'transactionRecord',
+          name: 'TransactionRecord',
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
+          meta: {
+            title: '交易记录'
           }
         }
       ]

@@ -89,6 +89,19 @@
           </div>
         </section>
       </div>
+      <footer>
+        <p>
+          <img src="./homepage-footer.png" alt="">
+          <span>账户资金安全由江西银行和人寿财险共同保障</span>
+        </p>
+        <div>网贷有风险，出借需谨慎</div>
+        <template v-for="(item, index) in reportTel">
+          <div :key="index" v-if="item.status === '1'">
+            <span>{{item.companyName}}</span>
+            <span>{{item.telephone}}</span>
+          </div>
+        </template>
+      </footer>
     </div>
   </BScroll>
 
@@ -100,6 +113,7 @@ import Swiper from 'swiper'
 import { getList, getQualityList } from '@/api/djs/homepage'
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
+import { reportTelephoneApi } from '@/api/common/common'
 
 export default {
   name: 'index',
@@ -112,7 +126,8 @@ export default {
       newNotice: true, // 是否有新公告
       noticeList: [], // 公告列表
       noviceProjectList: null, // 新手专享产品列表
-      popularProjectList: null // 热门推荐产品列表
+      popularProjectList: null, // 热门推荐产品列表
+      reportTel: null // 举报电话
     }
   },
   computed: {
@@ -123,13 +138,16 @@ export default {
   methods: {
     toMsgDetail() {
       if (!this.user) {
-        this.$router.push({})
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        // TODO 消息中心未完成
+        console.log(`to-msg-detail`)
+        // this.$router.push({
+        //   name: ''
+        // })
       }
-      // TODO 消息中心未完成
-      console.log(`to-msg-detail`)
-      // this.$router.push({
-      //   name: ''
-      // })
     },
     showTabs(router_name) {
       this.$router.push({
@@ -137,10 +155,16 @@ export default {
       })
     },
     toNoticeDetail(notice_id) {
-      this.$router.push({
-        name: 'DJSNoticeDetail',
-        params: { id: notice_id }
-      })
+      if (!this.user) {
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        this.$router.push({
+          name: 'DJSNoticeDetail',
+          params: { id: notice_id }
+        })
+      }
     },
     handleInvest(projectNo) {
       if (this.user && this.user.userName) {
@@ -187,6 +211,7 @@ export default {
         const data = res.data
         $this.noviceProjectList = data.noviceProjectList
 
+        // todo mock-data
         $this.noviceProjectList = [
           {
             accumulativeInvAmt: '150000.00',
@@ -241,6 +266,14 @@ export default {
         ]
 
         $this.popularProjectList = data.popularProjectList
+      })
+      await reportTelephoneApi().then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          $this.reportTel = data
+        } else {
+          Toast(res.data.resultMsg)
+        }
       })
       await $this.$nextTick(() => {
         $this.$refs.HomePageScroll.refresh()
@@ -497,11 +530,15 @@ export default {
         display: flex;
         justify-content: space-between;
         .left {
+          padding-top: 0.05rem;
           flex: 1;
           display: flex;
           justify-content: space-between;
           .rate {
             flex: 1;
+            li {
+              color: #ec5e52;
+            }
             p {
               font-size: 0.13rem;
               color: #999;
@@ -522,7 +559,7 @@ export default {
               color: #333333;
               text-align: left;
               &:first-child {
-                line-height: 0.4rem;
+                line-height: 0.37rem;
               }
             }
             p {
@@ -548,6 +585,26 @@ export default {
           }
         }
       }
+    }
+  }
+  footer {
+    padding: 0.17rem 0;
+    p {
+      text-align: center;
+      margin-bottom: 0.14rem;
+      img {
+        width: 0.14rem;
+        margin-right: 0.05rem;
+      }
+      span {
+        line-height: 1;
+      }
+    }
+    div {
+      font-size: 0.13rem;
+      color: #999999;
+      text-align: center;
+      line-height: 0.24rem;
     }
   }
 }

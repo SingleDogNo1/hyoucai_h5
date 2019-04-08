@@ -78,6 +78,7 @@ export default {
       h2 {
         font-size: $font-size-medium-x;
         color: $color-text-b;
+        word-break: break-all;
       }
       div {
         margin: 0.08rem auto 0.27rem;

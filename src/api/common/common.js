@@ -7,3 +7,11 @@ export function showFlag() {
     method: 'POST'
   })
 }
+
+// 举报电话查询接口
+export function reportTelephoneApi() {
+  return request({
+    url: 'reportTelephone/query',
+    method: 'POST'
+  })
+}

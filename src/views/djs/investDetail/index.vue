@@ -1,5 +1,5 @@
 <template>
-  <div class="invest-detail">
+  <BScroll class="invest-detail">
      <section class="pro-info">
          <div class="pro-info-head">
             <div class="item-l"><span>汇选投(30天)</span></div>
@@ -35,17 +35,112 @@
      	  	<a href="javascript:;">0费用</a>
      	  	<img src="./images/more.png" />
      	  </div>
+     	  <div class="countdown">
+     	  	<span class="title">募集倒计时</span>
+          <span class="large">9天 10:45:44</span>
+     	  </div>
+     	  <div class="activity">
+     	  	<span class="title">活动</span>
+          <span class="desc">投资6,95万，免费送华为mate手机</span>
+          <img src="./images/more.png" />
+     	  </div>
      </section>
-  </div>
+     <section class="user-numbers">
+     	 <div class="number">
+     	 	 <img src="./images/users_img.png" />
+     	 	 <span>··· 已有<b>158537</b>位用户投标成功</span>
+     	 </div>
+     </section>
+     <section class="serve-detail">
+     	  <p class="tip">服务介绍</p>
+     	  <p class="content">随着房产市场竞争的日益激烈， 企业越早获得准确的房屋信息就能越早和业主建立直接的联系， 从而成功把握更多的商机。我们在在北京的信息员均有着多年的房产信息收集经验， 能够通过各种媒体渠道、</p>
+     	  <dl>
+     	  	<dt><img src="./images/icon_01.png" /></dt>
+     	  	<dd><span>自动投标</span><br><i>系统自动根据用户确认的投标条件完成分散投标以降低风险</i></dd>
+     	  </dl>
+     	  <dl>
+     	  	<dt><img src="./images/icon_02.png" /></dt>
+     	  	<dd><span>自动投标</span><br><i>系统自动根据用户确认的投标条件完成分散投标以降低风险</i></dd>
+     	  </dl>
+     	  <div class="risk_assess common">
+     	  	<p class="risk_title">项目风险评估及可能产生的风险结果</p>
+     	  	<p class="risk_content">根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。</p>
+     	  </div>
+     	  <div class="lend_tip common">
+     	  	<p class="lend_title">出借人适当性管理提示</p>
+     	  	<p class="lend_content">1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；<br>
+2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。</p>
+     	  </div>
+     </section>
+     <section class="claims">
+     	  <div class="claims_list">
+     	  	<h2>债权列表</h2>
+     	  	<p>全部<img src="./images/more.png" /></p>
+     	  </div>
+     	  <table>
+     	  	<tr>
+     	  		<td class="claims_users">孟**</td>
+     	  		<td class="claims_money">3,000.00</td>
+     	  		<td class="claims_detail">详情</td>
+     	  	</tr>
+     	  	<tr>
+     	  		<td class="claims_users">孟**</td>
+     	  		<td class="claims_money">3,000.00</td>
+     	  		<td class="claims_detail">详情</td>
+     	  	</tr>
+     	  	<tr>
+     	  		<td class="claims_users">孟**</td>
+     	  		<td class="claims_money">3,000.00</td>
+     	  		<td class="claims_detail">详情</td>
+     	  	</tr>
+     	  </table>
+     </section>
+     <section class="serve-info-risk">
+     	 <p class="tip">服务介绍</p>
+     	 <div class="manage">
+     	 	  <ul>
+     	 	  	<li><img src="./images/icon_03.png" /></li>
+     	 	  	<li>合规管理</li>
+     	 	  </ul>
+     	 	  <ul>
+     	 	  	<li><img src="./images/icon_04.png" /></li>
+     	 	  	<li>严选资产</li>
+     	 	  </ul>
+     	 	  <ul>
+     	 	  	<li><img src="./images/icon_05.png" /></li>
+     	 	  	<li>资金安全</li>
+     	 	  </ul>
+     	 </div>
+     </section>
+     <section class="risk_tips">
+     	 	 <h2>风险告知书</h2>
+     	   <img src="./images/more.png" />
+     </section>
+     <section class="questions">
+     	  <h2>常见问题</h2>
+     	  <img src="./images/more.png" />
+     </section>
+     <section class="company_info">
+     	  <p></p>
+     </section>
+     <section class="lend_btns">
+     	
+     </section>
+  </BScroll>
 </template>
 
+
 <script>
+import BScroll from '@/components/BScroll/BScroll'
 export default {
   name: 'index',
   mixins: [],
-  components: {},
+  components: {
+    BScroll
+  },
   data() {
     return {}
+    
   },
   props: {},
   watch: {},
@@ -57,152 +152,411 @@ export default {
 }
 </script>
 
+
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
-
-.pro-info {
-  height: 246px;
-  background-image: url('./images/info_bg.png');
-  background-size: 100%;
-  .pro-info-head {
-    height: 65px;
-    .item-l {
-      float: left;
-      margin-top: 11px;
-      span {
-        width: 94px;
-        height: 22px;
-        line-height: 22px;
-        font-size: 16px;
-        color: #333333;
-        margin-left: 14px;
-      }
-    }
-    .item-r {
-      float: right;
-      span {
-        width: 94px;
-        height: 24px;
-        color: #333333;
-        margin-right: 40px;
-        line-height: 24px;
-      }
-      span.overplus {
-        font-size: 13px;
-        color: #999999;
-      }
-      span.over_amount {
-        font-size: 15px;
-        color: #333333;
-      }
-    }
-  }
-  .pro-info-middle {
-    height: 101px;
-    span {
-      font-size: 12px;
+.invest-detail{
+	background: #EEEEEE;
+	overflow-y:auto;
+	height:100%;
+	.pro-info {
+	  height: 246px;
+	  background-image: url('./images/info_bg.png');
+	  background-size: 100%;
+	  .pro-info-head {
+	    height: 65px;
+	    .item-l {
+	      float: left;
+	      margin-top: 11px;
+	      span {
+	        width: 94px;
+	        height: 22px;
+	        line-height: 22px;
+	        font-size: 16px;
+	        color: #333333;
+	        margin-left: 14px;
+	      }
+	    }
+	    .item-r {
+	      float: right;
+	      span {
+	        width: 94px;
+	        height: 24px;
+	        color: #333333;
+	        margin-right: 40px;
+	        line-height: 24px;
+	      }
+	      span.overplus {
+	        font-size: 13px;
+	        color: #999999;
+	      }
+	      span.over_amount {
+	        font-size: 15px;
+	        color: #333333;
+	      }
+	    }
+	  }
+	  .pro-info-middle {
+	    height: 101px;
+	    span {
+	      font-size: 12px;
+	      color: #999999;
+	    }
+	    span.per {
+	      color: #ec5e52;
+	      font-size: 13px;
+	    }
+	    strong {
+	      font-size: 46px;
+	      color: #ec5e52;
+	    }
+	    p {
+	      width: 170px;
+	      height: 24px;
+	      background: #efefef;
+	      border-radius: 12px;
+	      display: flex;
+	      align-items: center;
+	      i {
+	        font-style: normal;
+	        font-size: 11px;
+	        color: #666666;
+	        line-height: 24px;
+	      }
+	      img {
+	        display: inline-block;
+	        vertical-align: middle;
+	        height: 12px;
+	        width: 12px;
+	        margin-left: 4px;
+	      }
+	    }
+	  }
+	  .pro-info-bottom {
+	    height: 80px;
+	    line-height: 80px;
+	    p {
+	      display: inline-block;
+	      width: 50%;
+	      text-align: center;
+	      span {
+	        font-size: 12px;
+	        color: #999999;
+	        margin-right: 6px;
+	      }
+	      span.start_amout {
+	        margin-left: 6px;
+	      }
+	      b {
+	        font-size: 16px;
+	        color: #333333;
+	      }
+	    }
+	  }
+	}
+	
+	.pro-serve {
+	  height: 217px;
+	  background: #fff;
+	  ul {
+	    height: 56px;
+	    li {
+	      display: inline-block;
+	      width: 93px;
+	      margin-top: 16px;
+	      span {
+	        font-size: 13px;
+	        color: #666666;
+	        padding-bottom: 4px;
+	      }
+	      i {
+	        display: block;
+	        height: 18px;
+	        font-size: 13px;
+	        color: #ffffff;
+	        background-image: linear-gradient(90deg, #eeeeee 0%, #aaaaaa 100%);
+	        padding-left: 4px;
+	      }
+	    }
+	    li.li-one {
+	      width: 67px;
+	      margin-left: 15px;
+	    }
+	  }
+	  .serve-info {
+	    padding: 16px 15px;
+	    display: flex;
+	    align-items: center;
+	    border-bottom: 1px solid #EEEEEE;
+	    span {
+	      font-size: 15px;
+	      color: #999999;
+	    }
+	    a {
+	      height: 9px;
+	      line-height: 9px;
+	      font-size: 11px;
+	      color: #ec5e52;
+	      letter-spacing: 0.13px;
+	      border: 1px solid #ec5e52;
+	      border-radius: 2px;
+	      margin-left: 8px;
+	      display: inline-block;
+	      padding: 4px;
+	    }
+	    img {
+	      height: 10px;
+	      width: 10px;
+	      margin-left: 95px;
+	    }
+	  }
+	  .countdown{
+	  	height: 53px;
+	  	border-bottom: 1px solid #EEEEEE;
+	  	padding: 16px 15px;
+	  	font-size: 15px;
+			color: #999999;
+	  	.title{
+				letter-spacing: 0.18px;
+	  	}
+	  	.large{
+	  		float: right;
+	  	}
+	  }
+	  .activity{
+	  	height: 53px;
+	  	padding: 16px 15px;
+	  	font-size: 15px;
+	  	display: flex;
+	    align-items: center;
+	  	.desc{
+	  		color: #EC5E52;
+	  		margin-left: 16px;
+	  	}
+	  	 img {
+	      height: 10px;
+	      width: 10px;
+	      margin-left: 57px;
+	    }
+	  }
+	}
+	.user-numbers{
+		height: 50px;
+		padding: 8px 0 8px;
+		background: #EEEEEE;
+		display: flex;
+	  align-items: center;
+		.number{
+			height: 50px;
+		  width: 375px;
+			background: #fff;
+			font-size: 15px;
+	    color: #999999;
+	    img{
+				height: 20px;
+				width: 52px;
+				margin: 15px 8px 15px 51px;
+			}
+		  span{
+		  	padding: 15px 0px;
+	      display: inline-block;
+		  }
+	    b{
+	    	color: #151515;
+	    	font-weight: normal;
+	    }
+		}
+		
+	}
+	.serve-detail{
+		height: 526px;
+		background: #fff;
+		margin-bottom: 8px;
+		p.tip{
+			height: 21px;
+			width: 61px;
+			font-size: 15px;
       color: #999999;
-    }
-    span.per {
-      color: #ec5e52;
-      font-size: 13px;
-    }
-    strong {
-      font-size: 46px;
-      color: #ec5e52;
-    }
-    p {
-      width: 170px;
-      height: 24px;
-      background: #efefef;
-      border-radius: 12px;
-      i {
-        font-style: normal;
-        font-size: 11px;
-        color: #666666;
-        line-height: 24px;
-      }
-      img {
-        display: inline-block;
-        vertical-align: middle;
-        height: 12px;
-        width: 12px;
-        margin-left: 4px;
-      }
-    }
-  }
-  .pro-info-bottom {
-    height: 80px;
-    line-height: 80px;
-    p {
-      display: inline-block;
-      width: 50%;
-      text-align: center;
-      span {
-        font-size: 12px;
-        color: #999999;
-        margin-right: 6px;
-      }
-      span.start_amout {
-        margin-left: 6px;
-      }
-      b {
-        font-size: 16px;
-        color: #333333;
-      }
-    }
-  }
+      letter-spacing: 0.18px;
+      padding: 16px 0 8px 15px;
+		}
+		p.content{
+			width: 345px;
+			height: 89px;
+			font-size: 13px;
+			color: #333333;
+			letter-spacing: 0.16px;
+			line-height: 22px;
+			padding-left: 15px;
+			margin-bottom: 16px;
+		}
+		dl{
+			height: 47px;
+			margin-bottom: 16px;
+			dt{
+				float: left;
+				img{
+					height: 36px;
+					width: 36px;
+					padding-left: 15px;
+				}
+			}
+			dd{
+				float: right;
+				margin-right: 15px;
+				span{
+					font-size: 15px;
+					color: #333333;
+					letter-spacing: 0.18px;
+					padding-bottom: 3px;
+				}
+				i{
+					display: block;
+					font-size: 13px;
+					color: #999999;
+					letter-spacing: 0.16px;
+					width: 293px;
+			   	height: 36px;
+				}
+			}
+		}
+		.risk_assess{
+			margin-top: 8px;
+			margin-bottom: 16px;
+		}
+		.common p:nth-child(1){
+			font-size: 15px;
+			color: #333333;
+			letter-spacing: 0.18px;
+			margin-bottom: 8px;
+			padding-left: 15px;
+		}
+		.common p:nth-child(2){
+			font-size: 13px;
+			color: #999999;
+			letter-spacing: 0.16px;
+			padding-left: 15px;
+			width: 345px;
+		}
+	}
+	.claims{
+		height: 203px;
+		margin-bottom: 8px;
+		background: #fff;
+		.claims_list{
+			height: 53px;
+			border-bottom: 1px solid #EEEEEE;
+			h2{
+				font-size: 15px;
+				color: #333333;
+				letter-spacing: 0.18px;
+				float: left;
+				padding: 16px 0 16px 15px;
+			}
+			p{
+				font-size: 13px;
+				color: #999999;
+				letter-spacing: 0.16px;
+				float: right;
+				display: flex;
+				align-items: center;
+				padding: 15px;
+				img{
+					height: 10px;
+	        width: 10px;
+	        display: inline-block;
+	        margin-left: 6px;
+				}
+			}
+		}
+		table{
+			border-collapse: collapse;
+			border-spacing: 0;
+			table-layout: fixed;
+			width: 100%;
+			tr{
+				height: 49px;
+					td{
+						width: auto;
+						font-size: 13px;
+						color: #333333;
+						letter-spacing: 0.16px;
+						border-bottom: 1px solid #EEEEEE;
+					}
+				td.claims_users{
+					padding: 16px 0 15px 15px;
+				}	
+				td.claims_money{
+					text-align: center;
+				}
+				td.claims_detail{
+						font-size: 13px;
+						color: #EC5E52;
+						letter-spacing: 0.16px;
+						text-align: right;
+						padding-right: 15px;
+					}
+			}
+		}
+	}
+	.serve-info-risk{
+		height: 192px;
+		background: #fff;
+		margin-bottom: 8px;
+		.manage{
+			ul{
+				display: inline-block;
+				li{
+					img{
+						height: 26px;
+						width: 24px;
+					}
+				}
+			}
+		}
+	}
+	.risk_tips{
+		height: 50px;
+		background: #fff;
+		margin-bottom: 8px;
+		display: flex;
+	  align-items: center;
+		h2{
+			font-size: 15px;
+			color: #333333;
+			letter-spacing: 0.18px;
+			float: left;
+			padding: 16px 0 16px 15px;
+			
+		}
+		img{
+			height: 10px;
+    width: 10px;
+    float: right;
+		}
+	}
+	.questions{
+		height: 50px;
+		background: #fff;
+		margin-bottom: 8px;
+		display: flex;
+	  align-items: center;
+		h2{
+			font-size: 15px;
+			color: #333333;
+			letter-spacing: 0.18px;
+			float: left;
+			padding: 16px 0 16px 15px;
+		}
+		img{
+			height: 10px;
+      width: 10px;
+      float: right;
+		}
+	}
+	.company_info{
+		
+	}
 }
 
-.pro-serve {
-  height: 217px;
-  ul {
-    height: 56px;
-    li {
-      display: inline-block;
-      width: 93px;
-      margin-top: 16px;
-      span {
-        font-size: 13px;
-        color: #666666;
-        padding-bottom: 4px;
-      }
-      i {
-        display: block;
-        height: 18px;
-        font-size: 13px;
-        color: #ffffff;
-        background-image: linear-gradient(90deg, #eeeeee 0%, #aaaaaa 100%);
-        padding-left: 4px;
-      }
-    }
-    li.li-one {
-      width: 67px;
-      margin-left: 15px;
-    }
-  }
-  .serve-info {
-    padding: 16px 15px;
-    span {
-      font-size: 15px;
-      color: #999999;
-    }
-    a {
-      height: 9px;
-      line-height: 9px;
-      font-size: 11px;
-      color: #ec5e52;
-      letter-spacing: 0.13px;
-      border: 1px solid #ec5e52;
-      border-radius: 2px;
-      margin-left: 8px;
-      display: inline-block;
-      padding: 4px;
-    }
-    img {
-      height: 15px;
-      float: right;
-    }
-  }
-}
 </style>

@@ -140,7 +140,6 @@ export default {
   },
   data() {
     return {}
-    
   },
   props: {},
   watch: {},
@@ -155,408 +154,404 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme';
-.invest-detail{
-	background: #EEEEEE;
-	overflow-y:auto;
-	height:100%;
-	.pro-info {
-	  height: 246px;
-	  background-image: url('./images/info_bg.png');
-	  background-size: 100%;
-	  .pro-info-head {
-	    height: 65px;
-	    .item-l {
-	      float: left;
-	      margin-top: 11px;
-	      span {
-	        width: 94px;
-	        height: 22px;
-	        line-height: 22px;
-	        font-size: 16px;
-	        color: #333333;
-	        margin-left: 14px;
-	      }
-	    }
-	    .item-r {
-	      float: right;
-	      span {
-	        width: 94px;
-	        height: 24px;
-	        color: #333333;
-	        margin-right: 40px;
-	        line-height: 24px;
-	      }
-	      span.overplus {
-	        font-size: 13px;
-	        color: #999999;
-	      }
-	      span.over_amount {
-	        font-size: 15px;
-	        color: #333333;
-	      }
-	    }
-	  }
-	  .pro-info-middle {
-	    height: 101px;
-	    span {
-	      font-size: 12px;
-	      color: #999999;
-	    }
-	    span.per {
-	      color: #ec5e52;
-	      font-size: 13px;
-	    }
-	    strong {
-	      font-size: 46px;
-	      color: #ec5e52;
-	    }
-	    p {
-	      width: 170px;
-	      height: 24px;
-	      background: #efefef;
-	      border-radius: 12px;
-	      display: flex;
-	      align-items: center;
-	      i {
-	        font-style: normal;
-	        font-size: 11px;
-	        color: #666666;
-	        line-height: 24px;
-	      }
-	      img {
-	        display: inline-block;
-	        vertical-align: middle;
-	        height: 12px;
-	        width: 12px;
-	        margin-left: 4px;
-	      }
-	    }
-	  }
-	  .pro-info-bottom {
-	    height: 80px;
-	    line-height: 80px;
-	    p {
-	      display: inline-block;
-	      width: 50%;
-	      text-align: center;
-	      span {
-	        font-size: 12px;
-	        color: #999999;
-	        margin-right: 6px;
-	      }
-	      span.start_amout {
-	        margin-left: 6px;
-	      }
-	      b {
-	        font-size: 16px;
-	        color: #333333;
-	      }
-	    }
-	  }
-	}
-	
-	.pro-serve {
-	  height: 217px;
-	  background: #fff;
-	  ul {
-	    height: 56px;
-	    li {
-	      display: inline-block;
-	      width: 93px;
-	      margin-top: 16px;
-	      span {
-	        font-size: 13px;
-	        color: #666666;
-	        padding-bottom: 4px;
-	      }
-	      i {
-	        display: block;
-	        height: 18px;
-	        font-size: 13px;
-	        color: #ffffff;
-	        background-image: linear-gradient(90deg, #eeeeee 0%, #aaaaaa 100%);
-	        padding-left: 4px;
-	      }
-	    }
-	    li.li-one {
-	      width: 67px;
-	      margin-left: 15px;
-	    }
-	  }
-	  .serve-info {
-	    padding: 16px 15px;
-	    display: flex;
-	    align-items: center;
-	    border-bottom: 1px solid #EEEEEE;
-	    span {
-	      font-size: 15px;
-	      color: #999999;
-	    }
-	    a {
-	      height: 9px;
-	      line-height: 9px;
-	      font-size: 11px;
-	      color: #ec5e52;
-	      letter-spacing: 0.13px;
-	      border: 1px solid #ec5e52;
-	      border-radius: 2px;
-	      margin-left: 8px;
-	      display: inline-block;
-	      padding: 4px;
-	    }
-	    img {
-	      height: 10px;
-	      width: 10px;
-	      margin-left: 95px;
-	    }
-	  }
-	  .countdown{
-	  	height: 53px;
-	  	border-bottom: 1px solid #EEEEEE;
-	  	padding: 16px 15px;
-	  	font-size: 15px;
-			color: #999999;
-	  	.title{
-				letter-spacing: 0.18px;
-	  	}
-	  	.large{
-	  		float: right;
-	  	}
-	  }
-	  .activity{
-	  	height: 53px;
-	  	padding: 16px 15px;
-	  	font-size: 15px;
-	  	display: flex;
-	    align-items: center;
-	  	.desc{
-	  		color: #EC5E52;
-	  		margin-left: 16px;
-	  	}
-	  	 img {
-	      height: 10px;
-	      width: 10px;
-	      margin-left: 57px;
-	    }
-	  }
-	}
-	.user-numbers{
-		height: 50px;
-		padding: 8px 0 8px;
-		background: #EEEEEE;
-		display: flex;
-	  align-items: center;
-		.number{
-			height: 50px;
-		  width: 375px;
-			background: #fff;
-			font-size: 15px;
-	    color: #999999;
-	    img{
-				height: 20px;
-				width: 52px;
-				margin: 15px 8px 15px 51px;
-			}
-		  span{
-		  	padding: 15px 0px;
-	      display: inline-block;
-		  }
-	    b{
-	    	color: #151515;
-	    	font-weight: normal;
-	    }
-		}
-		
-	}
-	.serve-detail{
-		height: 526px;
-		background: #fff;
-		margin-bottom: 8px;
-		p.tip{
-			height: 21px;
-			width: 61px;
-			font-size: 15px;
+.invest-detail {
+  background: #eeeeee;
+  overflow-y: auto;
+  height: 100%;
+  .pro-info {
+    height: 246px;
+    background-image: url('./images/info_bg.png');
+    background-size: 100%;
+    .pro-info-head {
+      height: 65px;
+      .item-l {
+        float: left;
+        margin-top: 11px;
+        span {
+          width: 94px;
+          height: 22px;
+          line-height: 22px;
+          font-size: 16px;
+          color: #333333;
+          margin-left: 14px;
+        }
+      }
+      .item-r {
+        float: right;
+        span {
+          width: 94px;
+          height: 24px;
+          color: #333333;
+          margin-right: 40px;
+          line-height: 24px;
+        }
+        span.overplus {
+          font-size: 13px;
+          color: #999999;
+        }
+        span.over_amount {
+          font-size: 15px;
+          color: #333333;
+        }
+      }
+    }
+    .pro-info-middle {
+      height: 101px;
+      span {
+        font-size: 12px;
+        color: #999999;
+      }
+      span.per {
+        color: #ec5e52;
+        font-size: 13px;
+      }
+      strong {
+        font-size: 46px;
+        color: #ec5e52;
+      }
+      p {
+        width: 170px;
+        height: 24px;
+        background: #efefef;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        i {
+          font-style: normal;
+          font-size: 11px;
+          color: #666666;
+          line-height: 24px;
+        }
+        img {
+          display: inline-block;
+          vertical-align: middle;
+          height: 12px;
+          width: 12px;
+          margin-left: 4px;
+        }
+      }
+    }
+    .pro-info-bottom {
+      height: 80px;
+      line-height: 80px;
+      p {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        span {
+          font-size: 12px;
+          color: #999999;
+          margin-right: 6px;
+        }
+        span.start_amout {
+          margin-left: 6px;
+        }
+        b {
+          font-size: 16px;
+          color: #333333;
+        }
+      }
+    }
+  }
+
+  .pro-serve {
+    height: 217px;
+    background: #fff;
+    ul {
+      height: 56px;
+      li {
+        display: inline-block;
+        width: 93px;
+        margin-top: 16px;
+        span {
+          font-size: 13px;
+          color: #666666;
+          padding-bottom: 4px;
+        }
+        i {
+          display: block;
+          height: 18px;
+          font-size: 13px;
+          color: #ffffff;
+          background-image: linear-gradient(90deg, #eeeeee 0%, #aaaaaa 100%);
+          padding-left: 4px;
+        }
+      }
+      li.li-one {
+        width: 67px;
+        margin-left: 15px;
+      }
+    }
+    .serve-info {
+      padding: 16px 15px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eeeeee;
+      span {
+        font-size: 15px;
+        color: #999999;
+      }
+      a {
+        height: 9px;
+        line-height: 9px;
+        font-size: 11px;
+        color: #ec5e52;
+        letter-spacing: 0.13px;
+        border: 1px solid #ec5e52;
+        border-radius: 2px;
+        margin-left: 8px;
+        display: inline-block;
+        padding: 4px;
+      }
+      img {
+        height: 10px;
+        width: 10px;
+        margin-left: 95px;
+      }
+    }
+    .countdown {
+      height: 53px;
+      border-bottom: 1px solid #eeeeee;
+      padding: 16px 15px;
+      font-size: 15px;
+      color: #999999;
+      .title {
+        letter-spacing: 0.18px;
+      }
+      .large {
+        float: right;
+      }
+    }
+    .activity {
+      height: 53px;
+      padding: 16px 15px;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      .desc {
+        color: #ec5e52;
+        margin-left: 16px;
+      }
+      img {
+        height: 10px;
+        width: 10px;
+        margin-left: 57px;
+      }
+    }
+  }
+  .user-numbers {
+    height: 50px;
+    padding: 8px 0 8px;
+    background: #eeeeee;
+    display: flex;
+    align-items: center;
+    .number {
+      height: 50px;
+      width: 375px;
+      background: #fff;
+      font-size: 15px;
+      color: #999999;
+      img {
+        height: 20px;
+        width: 52px;
+        margin: 15px 8px 15px 51px;
+      }
+      span {
+        padding: 15px 0px;
+        display: inline-block;
+      }
+      b {
+        color: #151515;
+        font-weight: normal;
+      }
+    }
+  }
+  .serve-detail {
+    height: 526px;
+    background: #fff;
+    margin-bottom: 8px;
+    p.tip {
+      height: 21px;
+      width: 61px;
+      font-size: 15px;
       color: #999999;
       letter-spacing: 0.18px;
       padding: 16px 0 8px 15px;
-		}
-		p.content{
-			width: 345px;
-			height: 89px;
-			font-size: 13px;
-			color: #333333;
-			letter-spacing: 0.16px;
-			line-height: 22px;
-			padding-left: 15px;
-			margin-bottom: 16px;
-		}
-		dl{
-			height: 47px;
-			margin-bottom: 16px;
-			dt{
-				float: left;
-				img{
-					height: 36px;
-					width: 36px;
-					padding-left: 15px;
-				}
-			}
-			dd{
-				float: right;
-				margin-right: 15px;
-				span{
-					font-size: 15px;
-					color: #333333;
-					letter-spacing: 0.18px;
-					padding-bottom: 3px;
-				}
-				i{
-					display: block;
-					font-size: 13px;
-					color: #999999;
-					letter-spacing: 0.16px;
-					width: 293px;
-			   	height: 36px;
-				}
-			}
-		}
-		.risk_assess{
-			margin-top: 8px;
-			margin-bottom: 16px;
-		}
-		.common p:nth-child(1){
-			font-size: 15px;
-			color: #333333;
-			letter-spacing: 0.18px;
-			margin-bottom: 8px;
-			padding-left: 15px;
-		}
-		.common p:nth-child(2){
-			font-size: 13px;
-			color: #999999;
-			letter-spacing: 0.16px;
-			padding-left: 15px;
-			width: 345px;
-		}
-	}
-	.claims{
-		height: 203px;
-		margin-bottom: 8px;
-		background: #fff;
-		.claims_list{
-			height: 53px;
-			border-bottom: 1px solid #EEEEEE;
-			h2{
-				font-size: 15px;
-				color: #333333;
-				letter-spacing: 0.18px;
-				float: left;
-				padding: 16px 0 16px 15px;
-			}
-			p{
-				font-size: 13px;
-				color: #999999;
-				letter-spacing: 0.16px;
-				float: right;
-				display: flex;
-				align-items: center;
-				padding: 15px;
-				img{
-					height: 10px;
-	        width: 10px;
-	        display: inline-block;
-	        margin-left: 6px;
-				}
-			}
-		}
-		table{
-			border-collapse: collapse;
-			border-spacing: 0;
-			table-layout: fixed;
-			width: 100%;
-			tr{
-				height: 49px;
-					td{
-						width: auto;
-						font-size: 13px;
-						color: #333333;
-						letter-spacing: 0.16px;
-						border-bottom: 1px solid #EEEEEE;
-					}
-				td.claims_users{
-					padding: 16px 0 15px 15px;
-				}	
-				td.claims_money{
-					text-align: center;
-				}
-				td.claims_detail{
-						font-size: 13px;
-						color: #EC5E52;
-						letter-spacing: 0.16px;
-						text-align: right;
-						padding-right: 15px;
-					}
-			}
-		}
-	}
-	.serve-info-risk{
-		height: 192px;
-		background: #fff;
-		margin-bottom: 8px;
-		.manage{
-			ul{
-				display: inline-block;
-				li{
-					img{
-						height: 26px;
-						width: 24px;
-					}
-				}
-			}
-		}
-	}
-	.risk_tips{
-		height: 50px;
-		background: #fff;
-		margin-bottom: 8px;
-		display: flex;
-	  align-items: center;
-		h2{
-			font-size: 15px;
-			color: #333333;
-			letter-spacing: 0.18px;
-			float: left;
-			padding: 16px 0 16px 15px;
-			
-		}
-		img{
-			height: 10px;
-    width: 10px;
-    float: right;
-		}
-	}
-	.questions{
-		height: 50px;
-		background: #fff;
-		margin-bottom: 8px;
-		display: flex;
-	  align-items: center;
-		h2{
-			font-size: 15px;
-			color: #333333;
-			letter-spacing: 0.18px;
-			float: left;
-			padding: 16px 0 16px 15px;
-		}
-		img{
-			height: 10px;
+    }
+    p.content {
+      width: 345px;
+      height: 89px;
+      font-size: 13px;
+      color: #333333;
+      letter-spacing: 0.16px;
+      line-height: 22px;
+      padding-left: 15px;
+      margin-bottom: 16px;
+    }
+    dl {
+      height: 47px;
+      margin-bottom: 16px;
+      dt {
+        float: left;
+        img {
+          height: 36px;
+          width: 36px;
+          padding-left: 15px;
+        }
+      }
+      dd {
+        float: right;
+        margin-right: 15px;
+        span {
+          font-size: 15px;
+          color: #333333;
+          letter-spacing: 0.18px;
+          padding-bottom: 3px;
+        }
+        i {
+          display: block;
+          font-size: 13px;
+          color: #999999;
+          letter-spacing: 0.16px;
+          width: 293px;
+          height: 36px;
+        }
+      }
+    }
+    .risk_assess {
+      margin-top: 8px;
+      margin-bottom: 16px;
+    }
+    .common p:nth-child(1) {
+      font-size: 15px;
+      color: #333333;
+      letter-spacing: 0.18px;
+      margin-bottom: 8px;
+      padding-left: 15px;
+    }
+    .common p:nth-child(2) {
+      font-size: 13px;
+      color: #999999;
+      letter-spacing: 0.16px;
+      padding-left: 15px;
+      width: 345px;
+    }
+  }
+  .claims {
+    height: 203px;
+    margin-bottom: 8px;
+    background: #fff;
+    .claims_list {
+      height: 53px;
+      border-bottom: 1px solid #eeeeee;
+      h2 {
+        font-size: 15px;
+        color: #333333;
+        letter-spacing: 0.18px;
+        float: left;
+        padding: 16px 0 16px 15px;
+      }
+      p {
+        font-size: 13px;
+        color: #999999;
+        letter-spacing: 0.16px;
+        float: right;
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        img {
+          height: 10px;
+          width: 10px;
+          display: inline-block;
+          margin-left: 6px;
+        }
+      }
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      table-layout: fixed;
+      width: 100%;
+      tr {
+        height: 49px;
+        td {
+          width: auto;
+          font-size: 13px;
+          color: #333333;
+          letter-spacing: 0.16px;
+          border-bottom: 1px solid #eeeeee;
+        }
+        td.claims_users {
+          padding: 16px 0 15px 15px;
+        }
+        td.claims_money {
+          text-align: center;
+        }
+        td.claims_detail {
+          font-size: 13px;
+          color: #ec5e52;
+          letter-spacing: 0.16px;
+          text-align: right;
+          padding-right: 15px;
+        }
+      }
+    }
+  }
+  .serve-info-risk {
+    height: 192px;
+    background: #fff;
+    margin-bottom: 8px;
+    .manage {
+      ul {
+        display: inline-block;
+        li {
+          img {
+            height: 26px;
+            width: 24px;
+          }
+        }
+      }
+    }
+  }
+  .risk_tips {
+    height: 50px;
+    background: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    h2 {
+      font-size: 15px;
+      color: #333333;
+      letter-spacing: 0.18px;
+      float: left;
+      padding: 16px 0 16px 15px;
+    }
+    img {
+      height: 10px;
       width: 10px;
       float: right;
-		}
-	}
-	.company_info{
-		
-	}
+    }
+  }
+  .questions {
+    height: 50px;
+    background: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    h2 {
+      font-size: 15px;
+      color: #333333;
+      letter-spacing: 0.18px;
+      float: left;
+      padding: 16px 0 16px 15px;
+    }
+    img {
+      height: 10px;
+      width: 10px;
+      float: right;
+    }
+  }
+  .company_info {
+  }
 }
-
 </style>

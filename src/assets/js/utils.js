@@ -1,4 +1,5 @@
 import { Base64 } from 'js-base64'
+import { getUser } from './cache'
 
 export const Base64Utils = {
   objectToBase64(obj) {
@@ -7,6 +8,15 @@ export const Base64Utils = {
   base64ToObject(str) {
     return str ? JSON.parse(Base64.decode(str)) : null
   }
+}
+
+export function getAuth() {
+  const user = getUser()
+  if (!user) return null
+  let userName = user.userName
+  let token = user.token
+  let spile = Base64.encode(`${userName}:${token}`)
+  return `DSCJ ${spile}`
 }
 
 export function uuid() {

@@ -1,110 +1,112 @@
 <template>
-  <BScroll ref="HomePageScroll" class="index">
-    <div class="wrapper">
-      <header>
-        <h6>汇有财</h6>
-        <p>唯有赚钱不能停</p>
-        <button :class="{new: newNotice}" @click="toMsgDetail"></button>
-      </header>
-      <ul class="tabs">
-        <li @click="showTabs('AboutUs')">
-          <img src="./xxpl.png" alt="">
-          <span>信息披露</span>
-        </li>
-        <li @click="showTabs('ArchivalInfo')">
-          <img src="./zjcg.png" alt="">
-          <span>资金存管</span>
-        </li>
-        <li @click="showTabs('InfoDisclose')">
-          <img src="./yysj.png" alt="">
-          <span>运营数据</span>
-        </li>
-        <li @click="showTabs('DJSActivityCenter')">
-          <img src="./hdtj.png" alt="">
-          <span>活动推荐</span>
-        </li>
-      </ul>
-      <div class="notice-board">
-        <div class="title"></div>
-        <div class="notice swiper-container">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(item, index) in noticeList"
-              :key="index"
-              @click="toNoticeDetail(item.id)"
-            ><span>{{item.title}}</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="newbie" v-for="(item, index) in noviceProjectList" :key="index">
-        <h6>新手专享</h6>
-        <button>新手专享</button>
-        <div class="rate">
-          <span>{{item.investRate}}</span>
-          <span>%</span>
-        </div>
-        <p>历史年化收益率</p>
-        <ul class="tags" v-if="item.tags">
-          <li v-for="(tagItem, tagIndex) in item.tags" :key="tagIndex" :style="{background: tagItem.tagColor ? tagItem.tagColor : '#fff'}">{{tagItem.tagName}}</li>
+  <div class="index">
+    <BScroll ref="HomePageScroll" class="index-scroll">
+      <div class="wrapper">
+        <header>
+          <h6>汇有财</h6>
+          <p>唯有赚钱不能停</p>
+          <button :class="{new: newNotice}" @click="toMsgDetail"></button>
+        </header>
+        <ul class="tabs">
+          <li @click="showTabs('AboutUs')">
+            <img src="./xxpl.png" alt="">
+            <span>信息披露</span>
+          </li>
+          <li @click="showTabs('ArchivalInfo')">
+            <img src="./zjcg.png" alt="">
+            <span>资金存管</span>
+          </li>
+          <li @click="showTabs('InfoDisclose')">
+            <img src="./yysj.png" alt="">
+            <span>运营数据</span>
+          </li>
+          <li @click="showTabs('DJSActivityCenter')">
+            <img src="./hdtj.png" alt="">
+            <button>hot</button>
+            <span>活动推荐</span>
+          </li>
         </ul>
-        <input type="button" :value="user ? '立即赚钱': '注册 / 登录'" @click="handleInvest(item.projectNo)">
-        <div class="tips">{{item.projectTips}}</div>
-      </div>
-      <div class="hot-wrapper">
-        <div class="title">
-          <p>热门推荐</p>
-          <button @click="toInvestList">全部 <i class="iconfont icon-rightpage"></i></button>
+        <div class="notice-board">
+          <div class="title"></div>
+          <div class="notice swiper-container">
+            <div class="swiper-wrapper">
+              <div
+                class="swiper-slide"
+                v-for="(item, index) in noticeList"
+                :key="index"
+                @click="toNoticeDetail(item.id)"
+              ><span>{{item.title}}</span></div>
+            </div>
+          </div>
         </div>
-        <section v-for="(item, index) in popularProjectList" :key="index">
-          <div class="item-title">
-            <p>{{item.projectName}}</p>
-            <div v-if="item.tags">
-              <template v-for="(tagItem, tagIndex) in item.tags">
-                <!-- 显示图标 -->
-                <img :key="tagIndex" v-if="tagItem.tagType === 1" :src="tagItem.icon" alt="">
-                <!-- 显示文字 -->
-                <p :key="tagIndex" v-else-if="tagItem.tagType === 0">{{tagItem.tagName}}</p>
-              </template>
-            </div>
+        <div class="newbie" v-for="(item, index) in noviceProjectList" :key="index">
+          <h6>新手专享</h6>
+          <button>新手专享</button>
+          <div class="rate">
+            <span>{{item.investRate}}</span>
+            <span>%</span>
           </div>
-          <div class="item-inner">
-            <div class="left">
-              <ul class="rate">
-                <li>
-                  <span>{{item.investRate}}</span>
-                  <span>%</span>
-                </li>
-                <li><p>历史年化收益率</p></li>
-              </ul>
-              <ul class="day">
-                <li>{{item.investMent}}</li>
-                <li><p>锁定期</p></li>
-              </ul>
-            </div>
-            <div class="right">
-              <button v-if="item.status === '1'" @click="handleInvest(item.projectNo)">授权出借</button>
-              <button class="disabled" v-else>授权出借</button>
-            </div>
+          <p>历史年化收益率</p>
+          <ul class="tags" v-if="item.tags">
+            <li v-for="(tagItem, tagIndex) in item.tags" :key="tagIndex" :style="{background: tagItem.tagColor ? tagItem.tagColor : '#fff'}">{{tagItem.tagName}}</li>
+          </ul>
+          <input type="button" :value="user ? '立即赚钱': '注册 / 登录'" @click="handleInvest(item.projectNo)">
+          <div class="tips">{{item.projectTips}}</div>
+        </div>
+        <div class="hot-wrapper" v-if="popularProjectList">
+          <div class="title">
+            <p>热门推荐</p>
+            <button @click="toInvestList">全部 <i class="iconfont icon-rightpage"></i></button>
           </div>
-        </section>
+          <section v-for="(item, index) in popularProjectList" :key="index">
+            <div class="item-title">
+              <p>{{item.projectName}}</p>
+              <div v-if="item.tags">
+                <template v-for="(tagItem, tagIndex) in item.tags">
+                  <!-- 显示图标 -->
+                  <img :key="tagIndex" v-if="tagItem.tagType === 1" :src="tagItem.icon" alt="">
+                  <!-- 显示文字 -->
+                  <p :key="tagIndex" v-else-if="tagItem.tagType === 0">{{tagItem.tagName}}</p>
+                </template>
+              </div>
+            </div>
+            <div class="item-inner">
+              <div class="left">
+                <ul class="rate">
+                  <li>
+                    <span>{{item.investRate}}</span>
+                    <span>%</span>
+                  </li>
+                  <li><p>历史年化收益率</p></li>
+                </ul>
+                <ul class="day">
+                  <li>{{item.investMent}}</li>
+                  <li><p>锁定期</p></li>
+                </ul>
+              </div>
+              <div class="right">
+                <button v-if="item.status === '1'" @click="handleInvest(item.projectNo)">授权出借</button>
+                <button class="disabled" v-else>暂未开启</button>
+              </div>
+            </div>
+          </section>
+        </div>
+        <footer>
+          <p>
+            <img src="./homepage-footer.png" alt="">
+            <span>账户资金安全由江西银行和人寿财险共同保障</span>
+          </p>
+          <div>网贷有风险，出借需谨慎</div>
+          <template v-for="(item, index) in reportTel">
+            <div :key="index" v-if="item.status === '1'">
+              <span>{{item.companyName}}</span>
+              <span>{{item.telephone}}</span>
+            </div>
+          </template>
+        </footer>
       </div>
-      <footer>
-        <p>
-          <img src="./homepage-footer.png" alt="">
-          <span>账户资金安全由江西银行和人寿财险共同保障</span>
-        </p>
-        <div>网贷有风险，出借需谨慎</div>
-        <template v-for="(item, index) in reportTel">
-          <div :key="index" v-if="item.status === '1'">
-            <span>{{item.companyName}}</span>
-            <span>{{item.telephone}}</span>
-          </div>
-        </template>
-      </footer>
-    </div>
-  </BScroll>
-
+    </BScroll>
+  </div>
 </template>
 
 <script>
@@ -112,8 +114,8 @@ import { mapGetters } from 'vuex'
 import Swiper from 'swiper'
 import { getList, getQualityList } from '@/api/djs/homepage'
 import { Toast } from 'mint-ui'
+import { reportTelephoneApi, getUnreadMsgApi } from '@/api/common/common'
 import BScroll from '@/components/BScroll/BScroll'
-import { reportTelephoneApi } from '@/api/common/common'
 
 export default {
   name: 'index',
@@ -123,10 +125,10 @@ export default {
   },
   data() {
     return {
-      newNotice: true, // 是否有新公告
+      newNotice: false, // 是否有新公告
       noticeList: [], // 公告列表
-      noviceProjectList: null, // 新手专享产品列表
-      popularProjectList: null, // 热门推荐产品列表
+      noviceProjectList: [], // 新手专享产品列表
+      popularProjectList: [], // 热门推荐产品列表
       reportTel: null // 举报电话
     }
   },
@@ -206,65 +208,9 @@ export default {
       })
       await getQualityList({
         userName: $this.user ? $this.user.userName : null
-        // userName: 'djs836690ad'
       }).then(res => {
         const data = res.data
         $this.noviceProjectList = data.noviceProjectList
-
-        // todo mock-data
-        $this.noviceProjectList = [
-          {
-            accumulativeInvAmt: '150000.00',
-            accumulativeProfitAmt: '0.00',
-            activityTagEntity: null,
-            appDesc: '1',
-            enablAmt: '0.00',
-            enableAmtShowMax: '',
-            head: null,
-            iconUrl: null,
-            interestSumMode: 'REDY',
-            investMent: '15天',
-            investPropleCount: '12',
-            investRate: '8.0',
-            investStatus: null,
-            investTimes: '',
-            investType: null,
-            isShowEnableAmt: null,
-            last: null,
-            maxInvAmount: '50000.00',
-            maxInvTotalAmt: '150000.00',
-            minInvAmt: '2000.00',
-            priority: 209,
-            projectName: '新手标三期',
-            projectNo: '20181125003',
-            projectServiceEntity: null,
-            projectTips: ' 2000元起购 您还剩余50000.00元新手额度',
-            promptDes: '',
-            safeguardLevel: '1',
-            showInterestRates: '8.0%',
-            showInvestPercent: '100.00%',
-            status: '1',
-            tags: [
-              {
-                tagCode: 1,
-                tagName: '找陈敏',
-                tagColor: '#ace'
-              },
-              {
-                tagCode: 12,
-                tagName: '何杉'
-              },
-              {
-                tagCode: 123,
-                tagName: '汪洪强',
-                tagColor: '#ace'
-              }
-            ],
-            type: '01',
-            url: null
-          }
-        ]
-
         $this.popularProjectList = data.popularProjectList
       })
       await reportTelephoneApi().then(res => {
@@ -280,7 +226,15 @@ export default {
       })
     })()
   },
-  mounted() {}
+  mounted() {
+    if (this.user) {
+      getUnreadMsgApi().then(res => {
+        console.log(res.data)
+        const data = res.data.data
+        this.newNotice = data.haveUnreadMessage
+      })
+    }
+  }
 }
 </script>
 
@@ -290,9 +244,9 @@ export default {
 
 .index {
   height: 100%;
-  .wrapper {
-    /*height: 100%;*/
-    /*overflow: hidden;*/
+  .index-scroll {
+    height: 100%;
+    background: #fff;
   }
   header {
     position: relative;
@@ -326,12 +280,25 @@ export default {
     justify-content: space-around;
     margin-bottom: 0.25rem;
     li {
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       img {
         @include square(0.38rem);
+      }
+      button {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        transform: translateY(-95%);
+        font-size: 0.13rem;
+        color: #fff;
+        @include cube(0.3rem, 0.2rem);
+        background: #ec5e52;
+        box-shadow: 0 0.02rem 0.04rem 0 rgba(236, 94, 82, 0.3);
+        border-radius: 0.1rem 0.1rem 0.1rem 0;
       }
       span {
         margin-top: 0.04rem;
@@ -475,7 +442,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 0.01rem solid #e8e8e8;
+      @include border-bottom-1px(#e8e8e8);
       p {
         position: relative;
         font-size: 0.17rem;
@@ -505,6 +472,7 @@ export default {
     section {
       box-sizing: border-box;
       @include cube(100%, 1.22rem);
+      @include border-bottom-1px(#e8e8e8);
       padding: 0.15rem;
       display: flex;
       flex-direction: column;

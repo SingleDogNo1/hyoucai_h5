@@ -39,7 +39,7 @@ export function uuid() {
  * @param callback {function} 成功回调
  * @callback data
  */
-export function timeCountDown(t, status = 0, callback) {
+export function timeCountDown(t, status = 0, callback = () => {}) {
   let d = (t - (t % 86400)) / 86400
   let h = ((t - (t % 3600)) / 3600) % 24
   let i = ((t - (t % 60)) / 60) % 60
@@ -53,14 +53,16 @@ export function timeCountDown(t, status = 0, callback) {
   stime += s < 10 ? '0' + s : s
   callback(stime)
   if (status === 0) return
+  let timeOut = null
   t--
   if (t >= 0) {
-    setTimeout(function() {
+    timeOut = setTimeout(() => {
       timeCountDown(t, status, callback)
     }, 1000)
   } else {
-    setTimeout(function() {
-      timeCountDown(0, status, callback)
-    }, 1000)
+    clearTimeout(timeOut)
+    // setTimeout(function() {
+    //   timeCountDown(0, status, callback)
+    // }, 1000)
   }
 }

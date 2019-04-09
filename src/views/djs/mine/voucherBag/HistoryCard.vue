@@ -46,10 +46,21 @@
 </template>
 
 <script>
+import { couponPacketHistory } from '@/api/djs/coupon'
 export default {
   data() {
     return {
       haveCard: true
+    }
+  },
+  created() {
+    // this.couponPacketHistory()
+  },
+  methods: {
+    couponPacketHistory() {
+      couponPacketHistory().then(res => {
+        console.log(res)
+      })
     }
   }
 }
@@ -63,7 +74,7 @@ export default {
   position: relative;
   font-family: PingFangSC-Regular;
   background: #f6f6f6;
-  overflow: hidden;
+  overflow: auto;
   .coupon {
     margin-top: 0.1rem;
     height: 1.02rem;

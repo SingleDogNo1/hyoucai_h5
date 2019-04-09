@@ -32,8 +32,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'DJSInvestList',
-          component: () => import(/* webpackChunkName: "DJSInvestList" */ '@/views/djs/investList')
+          name: 'DJSInvestment',
+          component: () => import(/* webpackChunkName: "DJSInvestment" */ '@/views/djs/investment')
         },
         {
           path: 'mine',
@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'HYCInvestList',
-          component: () => import(/* webpackChunkName: "HYCInvestList" */ '@/views/hyc/investList')
+          name: 'HYCInvestment',
+          component: () => import(/* webpackChunkName: "HYCInvestment" */ '@/views/hyc/investment')
         },
         {
           path: 'mine',

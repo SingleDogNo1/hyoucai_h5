@@ -25,7 +25,8 @@
                   <dd>2000元起投</dd>
                 </dl>
               </div>
-              <button>注册 / 登录</button>
+              <button v-if="user"> 立即赚钱 </button>
+              <button v-else>注册 / 登录</button>
               <span>您还剩余 50000.00元 新手额度</span>
             </div>
           </div>
@@ -40,6 +41,10 @@
               <!--<div v-if="item.status === 3" class="full"></div>-->
             </li>
           </ul>
+          <dl class="tips">
+            <dt><img src="./image/cunguan.png" alt=""></dt>
+            <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
+          </dl>
         </div>
         <!--<no-data v-if="!yZhiJiHuaData.length"></no-data>-->
       </b-scroll>
@@ -54,8 +59,9 @@
   import InvestmentItem from "@/components/InvestmentItem/InvestmentItem";
   import Hyoucai from "@/assets/js/hyoucai";
   // import apiIndex from '@/api/invest/index'
-  import api from "@/api/djs/investList/index";
+  import api from "@/api/djs/investment/index";
   import NoData from "@/components/NoData/NoData";
+  import { mapGetters } from 'vuex'
 
   const CODE_OK = "1";
 
@@ -151,7 +157,9 @@
         }, 20);
       }
     },
-    computed: {},
+    computed: {
+      ...mapGetters(['user'])
+    },
     methods: {
       goBack () {
         switch (this.type) {
@@ -279,7 +287,7 @@
       },
       // 优质计划
       selectYZhiJiHuaItem (item) {
-        if (item.status !== 3) {
+        if ((item.status === '1' && item.enablAmt !== '0.00') || (item.status === '0' && item.enablAmt > 0)) {
           if (this.type && this.showFiltered) {
             this.$router.push({
               path: `/investment/planDetail/${item.productId}/item/${item.itemId}`,
@@ -311,13 +319,12 @@
         }
         Indicator.open("正在加载");
         api.collectionApi(data).then(res => {
-          debugger;
           Indicator.close();
           let resp = res.data;
           if (resp.resultCode === CODE_OK) {
-            let list = resp.data.list;
-            let curPage = resp.data.curPage;
-            let countPage = resp.data.countPage;
+            let list = resp.investsList;
+            let curPage = resp.curPage;
+            let countPage = resp.countPage;
             this.yZhiJiHuaData = [];
             if (!list.length) {
               this.hasMore1 = false;
@@ -344,30 +351,30 @@
           data.extendType = this.type;
           data.extendId = this.id;
         }
-        // Indicator.open("正在加载");
-        // api.collectionApi(data).then(res => {
-        //   Indicator.close();
-        //   let resp = res.data;
-        //   if (resp.resultCode === CODE_OK) {
-        //     let list = resp.data.list;
-        //     let curPage = resp.data.curPage;
-        //     let countPage = resp.data.countPage;
-        //     if (!list.length) {
-        //       this.hasMore1 = false;
-        //       Toast("无记录");
-        //       return;
-        //     } else if (curPage >= countPage) {
-        //       this.hasMore1 = false;
-        //     } else {
-        //       this.hasMore1 = true;
-        //     }
-        //     this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list];
-        //     this.countDown("yZhiJiHua", this.yZhiJiHuaData, this.yZhiJiHuaDataCompute);
-        //     this.$refs.scrollRef1.refresh();
-        //   } else {
-        //     Toast(resp.resultMsg);
-        //   }
-        // });
+        Indicator.open("正在加载");
+        api.collectionApi(data).then(res => {
+          Indicator.close();
+          let resp = res.data;
+          if (resp.resultCode === CODE_OK) {
+            let list = resp.investsList;
+            let curPage = resp.curPage;
+            let countPage = resp.countPage;
+            if (!list.length) {
+              this.hasMore1 = false;
+              Toast("无记录");
+              return;
+            } else if (curPage >= countPage) {
+              this.hasMore1 = false;
+            } else {
+              this.hasMore1 = true;
+            }
+            this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list];
+            this.countDown("yZhiJiHua", this.yZhiJiHuaData, this.yZhiJiHuaDataCompute);
+            this.$refs.scrollRef1.refresh();
+          } else {
+            Toast(resp.resultMsg);
+          }
+        });
       },
       scrollToEnd1 () {
         // 上拉到底部，加载更多
@@ -500,6 +507,7 @@
       }
       this.yZhiJiHuaDataCompute = [];
       this.sanBiaoDataCompute = [];
+      this.clickGetYZhiJiHuaData()
       // this.setNavShow()
       this.$nextTick(() => {
         if (this.type) {
@@ -629,44 +637,32 @@
       ul {
         li {
           position: relative;
-          /*min-height: 1.19rem;*/
-          /*margin-bottom: 0.08rem;*/
           background-color: #fff;
-          .progress_wrapper {
-            margin-top: 0.1rem;
-            font-size: $font-size-small-s;
-            /deep/ .mt-progress-content {
-              margin-right: 0.215rem;
-              .mt-progress-runway,
-              .mt-progress-progress {
-                border-radius: 10000px;
+          &:first-child {
+           /deep/ .prod_item {
+              .cata_title {
+                margin-top: 0;
               }
             }
-            /deep/ .text_dis {
-              color: $color-text-s;
-            }
           }
-          .set_countdown {
-            margin-top: 0.16rem;
-            font-size: $font-size-small-s;
-            span {
-              display: inline-block;
-              margin-right: 0.02rem;
-              color: $color-text;
-            }
-            em {
-              color: $color-text-s;
-            }
-          }
-          .full {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 1.03rem;
-            height: 0.85rem;
-            /*@include bg-image('full');*/
-            background-size: 100% 100%;
-          }
+        }
+      }
+      .tips {
+        text-align: center;
+        font-size: 0;
+        padding: 0.09rem 0;
+        dt, dd {
+          display: inline-block;
+          vertical-align: top;
+        }
+        dt {
+          width: 0.13rem;
+          margin-right: 0.05rem;
+          margin-top: 0.02rem;
+        }
+        dd {
+          font-size: $font-size-small-s;
+          color: #999;
         }
       }
       .all_prods {

@@ -42,7 +42,8 @@ export default {
   justify-content: space-between;
   .container {
     flex: 1;
-    background: #fff;
+    background: #eee;
+    overflow: hidden;
   }
   .tabs {
     display: flex;

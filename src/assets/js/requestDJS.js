@@ -1,16 +1,7 @@
 import axios from 'axios'
-import { Base64 } from 'js-base64'
 import Router from '@/router'
 import Hyoucai from '@/assets/js/hyoucai'
-
-function getAuth() {
-  let userInfo = Hyoucai.getItem('userInfo')
-  if (!userInfo) return null
-  let userName = userInfo.userName
-  let token = userInfo.token
-  let spile = Base64.encode(`${userName}:${token}`)
-  return `DSCJ ${spile}`
-}
+import { getAuth } from './utils'
 
 const $axios = axios.create({
   baseURL: process.env.VUE_APP_BASE_DJS_API,
@@ -23,7 +14,7 @@ const $axios = axios.create({
 $axios.interceptors.request.use(
   function(config) {
     if (getAuth()) {
-      config.headers['authorization'] = authorization
+      config.headers['authorization'] = getAuth()
     }
     return config
   },
@@ -38,7 +29,7 @@ $axios.interceptors.response.use(
       setTimeout(() => {
         Hyoucai.removeAll()
         Router.push({
-          name: 'login'
+          name: 'loginRegister'
         })
       }, 2000)
     }
@@ -49,7 +40,7 @@ $axios.interceptors.response.use(
       switch (error.response.status) {
         case 401: // 返回 401 跳转到登录页面
           Router.push({
-            path: 'login'
+            name: 'loginRegister'
           })
           break
       }

@@ -1,10 +1,10 @@
-!(function(a) {
+!(function(c) {
   var e,
     n =
-      '<svg><symbol id="icon-rightpage" viewBox="0 0 1024 1024"><path d="M702.144 501.33333334L289.536 118.16533334a44.8 44.8 0 0 1 60.928-65.664l448 416a44.8 44.8 0 0 1 0 65.664l-448 416a44.8 44.8 0 1 1-60.928-65.664L702.08 501.33333334z" fill="#6A6A6A" ></path></symbol></svg>',
+      '<svg><symbol id="icon-guanbi" viewBox="0 0 1024 1024"><path d="M512 450.2016L294.7584 232.96a25.6 25.6 0 0 0-36.1984 36.1984L475.8016 486.4 258.56 703.6416a25.6 25.6 0 1 0 36.1984 36.1984L512 522.5984l217.2416 217.2416a25.6 25.6 0 1 0 36.1984-36.1984L548.1984 486.4l217.2416-217.2416a25.6 25.6 0 0 0-36.1984-36.1984L512 450.2016z" fill="#707070" ></path></symbol><symbol id="icon-rightpage" viewBox="0 0 1024 1024"><path d="M702.144 501.33333334L289.536 118.16533334a44.8 44.8 0 0 1 60.928-65.664l448 416a44.8 44.8 0 0 1 0 65.664l-448 416a44.8 44.8 0 1 1-60.928-65.664L702.08 501.33333334z" fill="#6A6A6A" ></path></symbol></svg>',
     t = (e = document.getElementsByTagName('script'))[e.length - 1].getAttribute('data-injectcss')
-  if (t && !a.__iconfont__svg__cssinject__) {
-    a.__iconfont__svg__cssinject__ = !0
+  if (t && !c.__iconfont__svg__cssinject__) {
+    c.__iconfont__svg__cssinject__ = !0
     try {
       document.write(
         '<style>.svgfont {display: inline-block;width: 1em;height: 1em;fill: currentColor;vertical-align: -0.1em;font-size:16px;}</style>'
@@ -25,23 +25,23 @@
     else
       document.attachEvent &&
         ((n = e),
-        (o = a.document),
+        (o = c.document),
         (i = !1),
-        (c = function() {
+        (a = function() {
           i || ((i = !0), n())
         }),
-        (d = function() {
+        (l = function() {
           try {
             o.documentElement.doScroll('left')
           } catch (e) {
-            return void setTimeout(d, 50)
+            return void setTimeout(l, 50)
           }
-          c()
+          a()
         })(),
         (o.onreadystatechange = function() {
-          'complete' == o.readyState && ((o.onreadystatechange = null), c())
+          'complete' == o.readyState && ((o.onreadystatechange = null), a())
         }))
-    var n, o, i, c, d
+    var n, o, i, a, l
   })(function() {
     var e, t
     ;((e = document.createElement('div')).innerHTML = n),

@@ -353,6 +353,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'DJSInviteFriends',
+          component: () => import(/* webpackChunkName: "DJSinviteFriends" */ '@/views/djs/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'DJSRecommender',
+          component: () => import(/* webpackChunkName: "DJSRecommender" */ '@/views/djs/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'DJSTransferCharge',
           component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
@@ -409,7 +425,7 @@ export default new Router({
         {
           path: 'transactionRecord',
           name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/TransactionRecord'),
+          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }

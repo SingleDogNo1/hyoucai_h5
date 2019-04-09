@@ -329,6 +329,22 @@ export default new Router({
           }
         },
         {
+          path: 'claimlist',
+          name: 'DJSClaimList',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'DJSClaimDetail',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimDetail'),
+          meta: {
+            title: '债权列表详情'
+          }
+        },
+        {
           path: 'act-center',
           name: 'DJSActivityCenter',
           component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),

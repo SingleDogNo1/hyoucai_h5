@@ -124,7 +124,7 @@ export default {
           console.log(res.data)
           let user = res.data.data
           this.setUser(user)
-          setLoginUsername(this.userName)
+          setLoginUsername(this.registerMobile)
           this.setErrorNum(0)
           this.loginSuccess()
         } else {

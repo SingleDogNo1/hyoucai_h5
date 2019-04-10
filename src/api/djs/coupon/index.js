@@ -9,3 +9,12 @@ export function couponPacketHistory(data) {
     data: qs.stringify(data)
   })
 }
+
+//券包列表接口
+export function CouponPacketList(data) {
+  return request({
+    url: 'CouponPacketList',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

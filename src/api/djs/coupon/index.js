@@ -18,3 +18,21 @@ export function CouponPacketList(data) {
     data: qs.stringify(data)
   })
 }
+
+//领取红包
+export function ReceiveRedPacket(data) {
+  return request({
+    url: 'ReceiveRedPacket',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+//领取加息券
+export function ReceiveCoupon(data) {
+  return request({
+    url: 'ReceiveCoupon',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

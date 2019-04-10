@@ -17,13 +17,13 @@
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
           <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
-          <div class="coupon_right_btn">
+          <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
             <img src="./images/btn.png" alt />
           </div>
         </div>
       </div>
       <!-- 已领取券包 -->
-      <div class="coupon" v-for="(item, index) in haveReceived" :key="index + 'b'">
+      <div class="coupon" v-for="(item, index) in haveReceived" :key="index + 'b'" @click="touse()">
         <div class="coupon_left">
           <p class="coupon_left_p">
             <span class="number">{{ item.voucherFaceValue }}</span>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { CouponPacketList } from '@/api/djs/coupon'
+import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
 export default {
   data() {
     return {
@@ -82,6 +82,28 @@ export default {
             this.unclaimed.push(item)
           }
         })
+      })
+    },
+    // 领取加息券
+    receiveCoupon: function(id) {
+      this.isShow1 = true
+      let obj = {}
+      obj.userName = '小狗'
+      obj.couponId = id
+      ReceiveCoupon(obj)
+    },
+    // 领取红包
+    receiveRedPacket: function(id) {
+      this.isShow2 = true
+      let obj = {}
+      obj.userName = '小狗'
+      obj.redPacketId = id
+      ReceiveRedPacket(obj)
+    },
+    //去使用
+    touse() {
+      this.$router.push({
+        name: 'DJSInvestment'
       })
     }
   }

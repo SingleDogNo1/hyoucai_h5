@@ -1,5 +1,8 @@
 import { Base64 } from 'js-base64'
 import { getUser } from './cache'
+import requestHYC from './requestHYC'
+import qs from 'qs'
+import { Toast } from 'mint-ui'
 
 export const Base64Utils = {
   objectToBase64(obj) {
@@ -65,4 +68,50 @@ export function timeCountDown(t, status = 0, callback = () => {}) {
     //   timeCountDown(0, status, callback)
     // }, 1000)
   }
+}
+
+function postcall(url, params, target) {
+  let tempform = document.createElement('form')
+  tempform.setAttribute('name', 'form')
+  tempform.action = url
+  tempform.method = 'post'
+  tempform.style.display = 'none'
+  if (target) {
+    tempform.target = target
+  }
+
+  for (let x in params) {
+    let opt = document.createElement('input')
+    opt.name = x
+    opt.value = params[x]
+    tempform.appendChild(opt)
+  }
+
+  let opt = document.createElement('input')
+  opt.type = 'submit'
+  opt.setAttribute('id', '_submit')
+  tempform.appendChild(opt)
+  document.body.appendChild(tempform)
+  tempform.submit()
+  document.body.removeChild(tempform)
+}
+
+/**
+ * 接口跳转到江西银行
+ * @param url String 请求的chunk地址
+ * @param data Object 请求的参数
+ */
+export function JumpJX(url, data) {
+  requestHYC({
+    url: url,
+    method: 'post',
+    data: qs.stringify(data)
+  }).then(res => {
+    if (res.data.resultCode === '1') {
+      const infoDict = res.data.data
+      postcall(infoDict.redirectUrl, infoDict.paramReq)
+    } else {
+      Toast(res.data.resultMsg)
+    }
+  })
 }

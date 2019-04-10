@@ -8,7 +8,7 @@
         <div class="logo"></div>
         <p>首页</p>
       </router-link>
-      <router-link class="invest" tag="li" :to="{name: platform === 'djs' ? 'DJSInvestList' : 'HYCInvestList'}">
+      <router-link class="invest" tag="li" :to="{name: platform === 'djs' ? 'DJSInvestment' : 'HYCInvestment'}">
         <div class="logo"></div>
         <p>出借</p>
       </router-link>

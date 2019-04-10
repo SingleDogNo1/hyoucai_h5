@@ -1,17 +1,14 @@
 import axios from '@/assets/js/requestDJS'
 import Qs from 'qs'
 
-function collectionApi(params) {
-  // 出借列表
-  return new Promise((resolve, reject) => {
-    axios.get('/InvestCountMsg', params).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+function collectionApi(params) { // 出借列表
+  return axios({
+    url: '/InvestCountMsg',
+    method: 'get',
+    params: params,
+    headers: {
+      version: '2.0'
+    }
   })
 }
 

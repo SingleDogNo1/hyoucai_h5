@@ -48,7 +48,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .content {
   font-family: PingFang-SC-Medium;
@@ -88,7 +87,7 @@ export default {
     margin-top: 0.1rem;
     .body-box {
       height: 0.7rem;
-      border-bottom: 1px solid #e8e8e8;
+      border-bottom: 0.01rem solid #e8e8e8;
       display: flex;
       align-items: center;
       justify-content: space-between;

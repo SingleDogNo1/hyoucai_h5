@@ -1,9 +1,21 @@
 import axios from '@/assets/js/requestHYC'
 import Qs from 'qs'
 
-function collectionApi(data) { // 出借列表
+function collectionApi(data) {
+  // 出借列表
   return axios({
     url: '/collection/investList',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+function pageConfig(data) {
+  return axios({
+    url: '/pageConfig/getPageConfig',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
@@ -77,6 +89,10 @@ function getProductDetail(data, authorization) {
 
 export {
   collectionApi, // 优质计划
+  projectApi, // 散标
+  pageConfig, // 获取分类
+  getLoanDetail,
+  getBorrowerDetail,
   getProjectDetail, // 散标项目详情
   getProductDetail // 优质计划产品详情
 }

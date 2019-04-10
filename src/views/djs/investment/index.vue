@@ -33,13 +33,8 @@
           <ul>
             <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item)">
               <investment-item :itemData="item"></investment-item>
-              <!--<div class="set_countdown"-->
-                   <!--v-if="item.status === 1 && item.remainingSeconds && item.remainingSeconds > 0">-->
-                <!--<span>距离开售：</span>-->
-                <!--<em>{{item.djs}}</em>-->
-              <!--</div>-->
-              <!--<div v-if="item.status === 3" class="full"></div>-->
             </li>
+            <no-data v-if="!yZhiJiHuaData.length"></no-data>
           </ul>
           <dl class="tips">
             <dt><img src="./image/cunguan.png" alt=""></dt>
@@ -55,42 +50,30 @@
 <script>
 import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-// import Loading from '@/components/Loading/Loading'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
-// import apiIndex from '@/api/invest/index'
 import api from '@/api/djs/investment/index'
-// import NoData from '@/components/NoData/NoData'
+import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
 
 const CODE_OK = '1'
 
-function InitTime(endtime) {
-  let dd = ''
-  let hh = ''
-  let mm = ''
-  let ss = ''
-  let time = endtime
-  if (time <= 0) {
-    return 0
-  } else {
-    let d
-    d = (time - (time % 86400)) / 86400
-    if (dd > 0 && dd < 10) {
-      dd = '0' + d + ':'
-    }
-    if (dd >= 10) {
-      dd = d + ':'
-    }
-    hh = ((time - (time % 3600)) / 3600) % 24
-    mm = ((time - (time % 60)) / 60) % 60
-    ss = time % 60
-    hh = hh < 10 ? '0' + hh : hh
-    mm = mm < 10 ? '0' + mm : mm
-    ss = ss < 10 ? '0' + ss : ss
-    let str = dd + hh + ':' + mm + ':' + ss
-    return str
+function initTime(t = 0) {
+  if (t <= 0) {
+    return '00:00:00'
   }
+  let d = (t - (t % 86400)) / 86400
+  let h = ((t - (t % 3600)) / 3600) % 24
+  let i = ((t - (t % 60)) / 60) % 60
+  let s = t % 60
+  let result = ''
+  if (d > 0) {
+    result += d + '天'
+  }
+  result += h.toString().padStart(2, 0) + ':'
+  result += i.toString().padStart(2, 0) + ':'
+  result += s.toString().padStart(2, 0)
+  return result
 }
 
 let Timer1 = null // 优质计划计时器
@@ -98,9 +81,8 @@ let Timer2 = null // 散标计时器
 export default {
   components: {
     BScroll,
-    // Loading,
-    InvestmentItem
-    // NoData
+    InvestmentItem,
+    NoData
   },
   data() {
     return {
@@ -110,185 +92,19 @@ export default {
       pullup: true, // 开启上拉加载
       touchend: true, // 开启监听松开手指事件
       listenScroll: true, //  开启监听scroll滚动位置
-      selected: '1',
       perpage: 15,
       page1: 1,
-      page2: 1,
-      page3: 1,
       hasMore1: true,
-      hasMore2: true,
-      hasMore3: true,
       authorization: Hyoucai.getItem('g_authorization'),
-      yZhiJiHuaData: [
-        {
-          status: '1'
-        },
-        {
-          status: '2',
-          last: 1
-        },
-        {
-          status: '3'
-        },
-        {
-          status: '4'
-        },
-        {
-          status: '5'
-        },
-        {
-          status: '6'
-        },
-        {
-          status: '7'
-        }
-      ],
-      sanBiaoData: [],
-      zQuanZhuanRang: [],
-      showYZhiJiHua: false,
-      showSanBiao: false,
-      showZQuanZhuanRang: false,
-      type: '',
+      yZhiJiHuaData: [],
       id: '',
       showFiltered: false
-    }
-  },
-  props: ['redPacketId', 'couponId'],
-  watch: {
-    selected() {
-      setTimeout(() => {
-        this.refresh()
-      }, 20)
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
-    goBack() {
-      switch (this.type) {
-        case 'C':
-          this.$router.push({ name: 'coupons' })
-          break
-        case 'R':
-          this.$router.push({ name: 'red_packets' })
-          break
-      }
-    },
-    allProds() {
-      this.showFiltered = false
-      this.$refs.tabContainer.style.top = 0.44 + 'rem'
-      if (this.selected === '1') {
-        this.clickGetYZhiJiHuaData()
-      }
-      if (this.selected === '2') {
-        this.clickGetSanBiaoData()
-      }
-      this.refresh()
-    },
-    setNavShow() {
-      apiIndex.getPageConfigApi().then(res => {
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          this.showYZhiJiHua = resp.data.TZ_YZJH === CODE_OK
-          this.showSanBiao = resp.data.TZ_SB === CODE_OK
-          this.showZQuanZhuanRang = resp.data.TZ_ZQZR === CODE_OK
-          this.refresh()
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
-    },
-    // 散标
-    selectSanBiaoItem(item) {
-      if (item.status !== 2 && item.status !== 3) {
-        if (this.type && this.showFiltered) {
-          this.$router.push({
-            path: `/investment/investDetail/${item.projectNo}`,
-            query: { redPacketId: this.redPacketId, couponId: this.couponId }
-          })
-        } else {
-          this.$router.push({
-            path: `/investment/investDetail/${item.projectNo}`
-          })
-        }
-      }
-    },
-    clickGetSanBiaoData(maxLine, curPage) {
-      let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
-      }
-      Indicator.open('正在加载')
-      api.projectApi(data).then(res => {
-        Indicator.close()
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          this.sanBiaoData = []
-          let list = resp.data.list
-          let curPage = resp.data.curPage
-          let countPage = resp.data.countPage
-          if (!list.length) {
-            this.hasMore2 = false
-            Toast('无记录')
-            return false
-          } else if (curPage >= countPage) {
-            this.hasMore2 = false
-          } else {
-            this.hasMore2 = true
-          }
-          this.sanBiaoDataCompute = [...list]
-          this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
-    },
-    scrollGetSanBiaoData(maxLine, curPage) {
-      let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
-      }
-      Indicator.open('正在加载')
-      api.projectApi(data).then(res => {
-        Indicator.close()
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          let list = resp.data.list
-          let curPage = resp.data.curPage
-          let countPage = resp.data.countPage
-          if (!list.length) {
-            this.hasMore2 = false
-            Toast('没有更多')
-            return
-          } else if (curPage >= countPage) {
-            this.hasMore2 = false
-          } else {
-            this.hasMore2 = true
-          }
-          this.sanBiaoDataCompute = [...this.sanBiaoData, ...list]
-          this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
-    },
-    scrollToEnd2() {
-      if (!this.hasMore2) {
-        Toast('没有更多')
-        return
-      }
-      this.page2++
-      this.scrollGetSanBiaoData(this.perpage, this.page2)
-    },
     // 优质计划
     selectYZhiJiHuaItem(item) {
       if ((item.status === '1' && item.enablAmt !== '0.00') || (item.status === '0' && item.enablAmt > 0)) {
@@ -312,14 +128,10 @@ export default {
         }
       }
     },
-    clickGetYZhiJiHuaData(maxLine, curPage) {
+    getList(maxLine, curPage) {
       let data = {
         maxLine: maxLine,
         curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
       }
       Indicator.open('正在加载')
       api.collectionApi(data).then(res => {
@@ -330,55 +142,26 @@ export default {
           let curPage = resp.curPage
           let countPage = resp.countPage
           this.yZhiJiHuaData = []
+          this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaDataCompute, ...list]
+          this.countDown(this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
           if (!list.length) {
             this.hasMore1 = false
             Toast('无记录')
-            return
           } else if (curPage >= countPage) {
             this.hasMore1 = false
           } else {
             this.hasMore1 = true
           }
-          this.yZhiJiHuaDataCompute = [...list]
-          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
         } else {
           Toast(resp.resultMsg)
         }
       })
     },
+    clickGetYZhiJiHuaData(maxLine, curPage) {
+      this.getList(maxLine, curPage)
+    },
     scrollGetYZhiJiHuaData(maxLine, curPage) {
-      let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
-      }
-      Indicator.open('正在加载')
-      api.collectionApi(data).then(res => {
-        Indicator.close()
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          let list = resp.investsList
-          let curPage = resp.curPage
-          let countPage = resp.countPage
-          if (!list.length) {
-            this.hasMore1 = false
-            Toast('无记录')
-            return
-          } else if (curPage >= countPage) {
-            this.hasMore1 = false
-          } else {
-            this.hasMore1 = true
-          }
-          this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list]
-          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
-          this.$refs.scrollRef1.refresh()
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
+      this.getList(maxLine, curPage)
     },
     scrollToEnd1() {
       // 上拉到底部，加载更多
@@ -410,115 +193,43 @@ export default {
       }
     },
     refresh() {
-      if (this.selected === '1') {
-        if (this.showYZhiJiHua) {
-          if (!this.yZhiJiHuaData.length) {
-            this.clickGetYZhiJiHuaData(this.perpage, 1)
-          }
-          this.$refs.scrollRef1.refresh()
-        }
-      }
-      if (this.selected === '2') {
-        if (this.showSanBiao) {
-          if (!this.sanBiaoData.length) {
-            this.clickGetSanBiaoData(this.perpage, 1)
-          }
-          this.$refs.scrollRef2.refresh()
-        }
-      }
-      if (this.selected === '3') {
-        this.$refs.scrollRef3.refresh()
-      }
+      this.$refs.scrollRef1.refresh()
     },
-    countDown(type, data, list) {
+    countDown(data, list) {
       let listRes = list
       listRes.map(obj => {
         if (obj.remainingSeconds && obj.remainingSeconds > 0) {
-          this.$set(obj, 'djs', InitTime(obj.remainingSeconds))
+          this.$set(obj, 'djs', initTime(obj.remainingSeconds))
         }
       })
       data = JSON.parse(JSON.stringify(listRes))
-      if (type === 'yZhiJiHua') {
-        clearInterval(Timer1)
-        this.yZhiJiHuaData = []
-        this.yZhiJiHuaData = JSON.parse(JSON.stringify(listRes))
-        Timer1 = setInterval(() => {
-          for (let key = 0; key < data.length; key++) {
-            if (data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 0) {
-              let t = data[key]['remainingSeconds']
-              if (t <= 0) {
-                data[key]['status'] = 1
-                data[key]['remainingSeconds'] = 0
-              }
-              data[key]['remainingSeconds']--
-              let d = (t - (t % 86400)) / 86400
-              let h = ((t - (t % 3600)) / 3600) % 24
-              let i = ((t - (t % 60)) / 60) % 60
-              let s = t % 60
-              let result = ''
-              if (d > 0) {
-                result += d + '天'
-              }
-              result += h < 10 ? '0' + h + ':' : h + ':'
-              result += i < 10 ? '0' + i + ':' : i + ':'
-              result += s < 10 ? '0' + s : s
-              data[key]['djs'] = result
+      clearInterval(Timer1)
+      this.yZhiJiHuaData = []
+      this.yZhiJiHuaData = JSON.parse(JSON.stringify(listRes))
+      Timer1 = setInterval(() => {
+        if (data.some(item => (item.remainingSeconds && item.remainingSeconds > 0) || item.status === 1)) {
+          data.map(item => {
+            let t = item['remainingSeconds']
+            if (t < 1) {
+              item['status'] = 2
+              item['remainingSeconds'] = 0
+              item['investEndTimestamp'] = 55555
+              item['investPercent'] = 99.99
+            } else {
+              item['remainingSeconds']--
+              item['djs'] = initTime(t)
             }
-          }
-          this.yZhiJiHuaData = data
-        }, 1000)
-      }
-      if (type === 'sanBiao') {
-        clearInterval(Timer2)
-        this.sanBiaoData = []
-        this.sanBiaoData = JSON.parse(JSON.stringify(listRes))
-        Timer2 = setInterval(() => {
-          for (let key = 0; key < data.length; key++) {
-            if (data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 0) {
-              let t = data[key]['remainingSeconds']
-              if (t <= 0) {
-                data[key]['status'] = 1
-                data[key]['remainingSeconds'] = 0
-              }
-              data[key]['remainingSeconds']--
-              let d = (t - (t % 86400)) / 86400
-              let h = ((t - (t % 3600)) / 3600) % 24
-              let i = ((t - (t % 60)) / 60) % 60
-              let s = t % 60
-              let result = ''
-              if (d > 0) {
-                result += d + '天'
-              }
-              result += h < 10 ? '0' + h + ':' : h + ':'
-              result += i < 10 ? '0' + i + ':' : i + ':'
-              result += s < 10 ? '0' + s : s
-              data[key]['djs'] = result
-            }
-          }
-          this.sanBiaoData = data
-        }, 1000)
-      }
+          })
+        } else {
+          clearInterval(Timer1)
+        }
+        this.yZhiJiHuaData = data
+      }, 1000)
     }
   },
   created() {
-    if (this.redPacketId) {
-      this.type = 'R'
-      this.id = this.redPacketId
-    }
-    if (this.couponId) {
-      this.type = 'C'
-      this.id = this.couponId
-    }
     this.yZhiJiHuaDataCompute = []
-    this.sanBiaoDataCompute = []
     this.clickGetYZhiJiHuaData()
-    // this.setNavShow()
-    this.$nextTick(() => {
-      if (this.type) {
-        this.showFiltered = true
-        this.$refs.tabContainer.style.top = 0.88 + 'rem'
-      }
-    })
   },
   mounted() {},
   destroyed() {

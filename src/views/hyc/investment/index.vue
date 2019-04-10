@@ -1,9 +1,9 @@
 <template>
   <div class="investment" ref="investment">
     <mt-navbar v-model="selected" v-if="user">
-      <mt-tab-item v-if="showYZhiJiHua" class='tab_item' id="1">轻松投</mt-tab-item>
-      <mt-tab-item v-if="showSanBiao" class='tab_item' id="2">自选投</mt-tab-item>
-      <mt-tab-item v-if="showZQuanZhuanRang" class='tab_item' id="3">债权转让</mt-tab-item>
+      <template v-for="(item, index) in cataList">
+        <mt-tab-item v-if="item.isDisplay === '1'" class='tab_item' :id="item.id" :key="index"> {{item.modelName}} </mt-tab-item>
+      </template>
     </mt-navbar>
     <div class="tab-container-wrapper" ref="tabContainer">
       <mt-tab-container v-model="selected">
@@ -24,6 +24,10 @@
                   <investment-item :itemData="item"></investment-item>
                 </li>
               </ul>
+              <dl class="tips">
+                <dt><img src="./image/cunguan.png" alt=""></dt>
+                <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
+              </dl>
             </div>
             <no-data v-if="!yZhiJiHuaData.length"></no-data>
           </b-scroll>
@@ -43,22 +47,12 @@
               <ul>
                 <li v-for="(item, index) in sanBiaoData" :key="index" @click="selectSanBiaoItem(item)">
                   <investment-item :itemData="item"></investment-item>
-                  <div class="progress_wrapper" v-if="item.status !== 0">
-                    <mt-progress :value="item.investPercent">
-                      <div slot="end" :class="{text_dis:item.status !== 0}">已投{{item.showInvestPercent}}</div>
-                    </mt-progress>
-                  </div>
-                  <div class="set_countdown" v-if="item.status === 0">
-                    <div class="set_countdown"
-                         v-if="item.status === 0 && item.remainingSeconds && item.remainingSeconds > 0">
-                      <span>距离开售：</span>
-                      <em>{{item.djs}}</em>
-                    </div>
-                  </div>
-                  <div v-if="item.status === 2" class="full"></div>
                 </li>
               </ul>
-              <button v-if="showFiltered" class="all_prods" @click="allProds">查看全部产品</button>
+              <dl class="tips">
+                <dt><img src="./image/cunguan.png" alt=""></dt>
+                <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
+              </dl>
             </div>
             <no-data v-if="!sanBiaoData.length"></no-data>
           </b-scroll>
@@ -77,58 +71,41 @@
 </template>
 
 <script>
-import {
-  Toast,
-  // Progress,
-  Indicator
-} from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
-// import apiIndex from '@/api/index'
-import { collectionApi } from '@/api/hyc/investment/index'
-// import NoData from '@/components/NoData/NoData'
+import { collectionApi, pageConfig, projectApi } from '@/api/hyc/investment/index'
+import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
-import { timeCountDown } from '@/assets/js/utils'
 
 const CODE_OK = '1'
 
-function InitTime(endtime) {
-  let dd = ''
-  let hh = ''
-  let mm = ''
-  let ss = ''
-  let time = endtime
-  if (time <= 0) {
-    return 0
-  } else {
-    let d
-    d = (time - (time % 86400)) / 86400
-    if (dd > 0 && dd < 10) {
-      dd = '0' + d + ':'
-    }
-    if (dd >= 10) {
-      dd = d + ':'
-    }
-    hh = ((time - (time % 3600)) / 3600) % 24
-    mm = ((time - (time % 60)) / 60) % 60
-    ss = time % 60
-    hh = hh < 10 ? '0' + hh : hh
-    mm = mm < 10 ? '0' + mm : mm
-    ss = ss < 10 ? '0' + ss : ss
-    let str = dd + hh + ':' + mm + ':' + ss
-    return str
+function initTime(t = 0) {
+  if (t <= 0) {
+    return '00:00:00'
   }
+  let d = (t - (t % 86400)) / 86400
+  let h = ((t - (t % 3600)) / 3600) % 24
+  let i = ((t - (t % 60)) / 60) % 60
+  let s = t % 60
+  let result = ''
+  if (d > 0) {
+    result += d + '天'
+  }
+  result += h.toString().padStart(2, 0) + ':'
+  result += i.toString().padStart(2, 0) + ':'
+  result += s.toString().padStart(2, 0)
+  return result
 }
 
 let Timer1 = null // 优质计划计时器
 let Timer2 = null // 散标计时器
 export default {
   components: {
-    // Progress,
     BScroll,
-    InvestmentItem
-    // NoData
+    InvestmentItem,
+    NoData
   },
   data() {
     return {
@@ -155,46 +132,46 @@ export default {
       showZQuanZhuanRang: false,
       type: '',
       id: '',
-      showFiltered: false
+      showFiltered: false,
+      cataList: []
     }
   },
   props: ['redPacketId', 'couponId'],
   watch: {
-    selected() {
-      setTimeout(() => {
+    selected(val) {
+      if (val === '1' && !this.yZhiJiHuaData.length) {
+        this.getYZhiJiHuaList()
         this.refresh()
-      }, 20)
+      }
+      if (val === '2' && !this.sanBiaoData.length) {
+        this.getSanBiaoList()
+        this.refresh()
+      }
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
-    goBack() {
-      switch (this.type) {
-        case 'C':
-          this.$router.push({ name: 'coupons' })
-          break
-        case 'R':
-          this.$router.push({ name: 'red_packets' })
-          break
-      }
-    },
-    allProds() {
-      this.showFiltered = false
-      this.$refs.tabContainer.style.top = 0.44 + 'rem'
-      if (this.selected === '1') {
-        this.clickGetYZhiJiHuaData()
-      }
-      if (this.selected === '2') {
-        this.clickGetSanBiaoData()
-      }
-      this.refresh()
-    },
     setNavShow() {
-      apiIndex.getPageConfigApi().then(res => {
+      pageConfig().then(res => {
         let resp = res.data
         if (resp.resultCode === CODE_OK) {
+          let list = resp.data.list
+          list.map(item => {
+            if (item.modelCode === 'TZ_YZJH') {
+              item['id'] = '1'
+              this.cataList.push(item)
+            }
+            if (item.modelCode === 'TZ_SB') {
+              item['id'] = '2'
+              this.cataList.push(item)
+            }
+            if (item.modelCode === 'TZ_ZQZR') {
+              item['id'] = '3'
+              this.cataList.push(item)
+            }
+          })
           this.showYZhiJiHua = resp.data.TZ_YZJH === CODE_OK
           this.showSanBiao = resp.data.TZ_SB === CODE_OK
           this.showZQuanZhuanRang = resp.data.TZ_ZQZR === CODE_OK
@@ -219,68 +196,30 @@ export default {
         }
       }
     },
-    clickGetSanBiaoData(maxLine, curPage) {
+    getSanBiaoList() {
       let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
+        maxLine: this.perpage,
+        curPage: this.page2
       }
       Indicator.open('正在加载')
-      // api.projectApi(data).then(res => {
-      //   Indicator.close()
-      //   let resp = res.data
-      //   if (resp.resultCode === CODE_OK) {
-      //     this.sanBiaoData = []
-      //     let list = resp.data.list
-      //     let curPage = resp.data.curPage
-      //     let countPage = resp.data.countPage
-      //     if (!list.length) {
-      //       this.hasMore2 = false
-      //       Toast('无记录')
-      //       return false
-      //     } else if (curPage >= countPage) {
-      //       this.hasMore2 = false
-      //     } else {
-      //       this.hasMore2 = true
-      //     }
-      //     this.sanBiaoDataCompute = [...list]
-      //     this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
-      //   } else {
-      //     Toast(resp.resultMsg)
-      //   }
-      // })
-    },
-    scrollGetSanBiaoData(maxLine, curPage) {
-      let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
-      }
-      Indicator.open('正在加载')
-      api.projectApi(data).then(res => {
+      projectApi(data).then(res => {
         Indicator.close()
         let resp = res.data
         if (resp.resultCode === CODE_OK) {
+          this.sanBiaoData = []
           let list = resp.data.list
           let curPage = resp.data.curPage
           let countPage = resp.data.countPage
+          this.sanBiaoDataCompute = [...this.sanBiaoDataCompute, ...list]
+          this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
           if (!list.length) {
             this.hasMore2 = false
-            Toast('没有更多')
-            return
+            Toast('无记录')
           } else if (curPage >= countPage) {
             this.hasMore2 = false
           } else {
             this.hasMore2 = true
           }
-          this.sanBiaoDataCompute = [...this.sanBiaoData, ...list]
-          this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
         } else {
           Toast(resp.resultMsg)
         }
@@ -292,7 +231,7 @@ export default {
         return
       }
       this.page2++
-      this.scrollGetSanBiaoData(this.perpage, this.page2)
+      this.getSanBiaoList()
     },
     // 优质计划
     selectYZhiJiHuaItem(item) {
@@ -317,46 +256,10 @@ export default {
         }
       }
     },
-    clickGetYZhiJiHuaData(maxLine, curPage) {
+    getYZhiJiHuaList() {
       let data = {
-        maxLine: maxLine,
-        curPage: curPage
-      }
-      if (this.type && this.showFiltered) {
-        data.extendType = this.type
-        data.extendId = this.id
-      }
-      Indicator.open('正在加载')
-      collectionApi(data).then(res => {
-        Indicator.close()
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          let list = resp.data.list
-          list[0].status = 1
-          list[0].remainingSeconds = 27836
-          let curPage = resp.data.curPage
-          let countPage = resp.data.countPage
-          this.yZhiJiHuaData = []
-          if (!list.length) {
-            this.hasMore1 = false
-            Toast('无记录')
-            return
-          } else if (curPage >= countPage) {
-            this.hasMore1 = false
-          } else {
-            this.hasMore1 = true
-          }
-          this.yZhiJiHuaDataCompute = [...list]
-          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
-    },
-    scrollGetYZhiJiHuaData(maxLine, curPage) {
-      let data = {
-        maxLine: maxLine,
-        curPage: curPage
+        maxLine: this.perpage,
+        curPage: this.page1
       }
       if (this.type && this.showFiltered) {
         data.extendType = this.type
@@ -370,18 +273,21 @@ export default {
           let list = resp.data.list
           let curPage = resp.data.curPage
           let countPage = resp.data.countPage
+          list[0]['status'] = 1
+          list[0]['remainingSeconds'] = 5555
+          list[0]['investEndTimestamp'] = 55555
+          list[0]['investPercent'] = 3
+          this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaDataCompute, ...list]
+          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
+          this.refresh()
           if (!list.length) {
             this.hasMore1 = false
             Toast('无记录')
-            return
           } else if (curPage >= countPage) {
             this.hasMore1 = false
           } else {
             this.hasMore1 = true
           }
-          this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list]
-          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
-          this.$refs.scrollRef1.refresh()
         } else {
           Toast(resp.resultMsg)
         }
@@ -394,7 +300,7 @@ export default {
         return
       }
       this.page1++
-      this.scrollGetYZhiJiHuaData(this.perpage, this.page1)
+      this.getYZhiJiHuaList()
     },
     scroll(pos) {
       // 监控上下拉
@@ -418,20 +324,10 @@ export default {
     },
     refresh() {
       if (this.selected === '1') {
-        if (this.showYZhiJiHua) {
-          if (!this.yZhiJiHuaData.length) {
-            this.clickGetYZhiJiHuaData(this.perpage, 1)
-          }
-          this.$refs.scrollRef1.refresh()
-        }
+        this.$refs.scrollRef1.refresh()
       }
       if (this.selected === '2') {
-        if (this.showSanBiao) {
-          if (!this.sanBiaoData.length) {
-            this.clickGetSanBiaoData(this.perpage, 1)
-          }
-          this.$refs.scrollRef2.refresh()
-        }
+        this.$refs.scrollRef2.refresh()
       }
       if (this.selected === '3') {
         this.$refs.scrollRef3.refresh()
@@ -441,79 +337,58 @@ export default {
       let listRes = list
       listRes.map(obj => {
         if (obj.remainingSeconds && obj.remainingSeconds > 0) {
-          this.$set(obj, 'djs', InitTime(obj.remainingSeconds))
+          this.$set(obj, 'djs', initTime(obj.remainingSeconds))
         }
       })
-      data = JSON.parse(JSON.stringify(listRes))
+      data = listRes
       if (type === 'yZhiJiHua') {
-        clearInterval(Timer1)
+        if (Timer1) {
+          clearInterval(Timer1)
+        }
         this.yZhiJiHuaData = []
-        this.yZhiJiHuaData = JSON.parse(JSON.stringify(listRes))
-        // for (let key = 0; key < data.length; key++) {
-        //   if (data[key]['remainingSeconds'] && data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 1) {
-        //     let t = data[key]['remainingSeconds']
-        //     console.log(t)
-        //     var that = this
-        //     data[key]['djs'] = timeCountDown(t, 1, () => {
-        //       this.yZhiJiHuaData = data
-        //       console.log(this.yZhiJiHuaData[0]['djs'])
-        //     })
-        //   }
-        // }
-
+        this.yZhiJiHuaData = listRes
         Timer1 = setInterval(() => {
-          for (let key = 0; key < data.length; key++) {
-            if (data[key]['remainingSeconds'] && data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 1) {
-              let t = data[key]['remainingSeconds']
-              timeCountDown(t, 1)
-              if (t <= 0) {
-                data[key]['status'] = 1
-                data[key]['remainingSeconds'] = 0
+          if (data.some(item => (item.remainingSeconds && item.remainingSeconds > 0) || item.status === 1)) {
+            data.map(el => {
+              let t = el['remainingSeconds']
+              if (t < 1) {
+                el['status'] = 2
+                el['remainingSeconds'] = 0
+                el['investEndTimestamp'] = 55555
+                el['investPercent'] = 99.99
+              } else {
+                el['remainingSeconds']--
+                el['djs'] = initTime(t)
               }
-              data[key]['remainingSeconds']--
-              let d = (t - (t % 86400)) / 86400
-              let h = ((t - (t % 3600)) / 3600) % 24
-              let i = ((t - (t % 60)) / 60) % 60
-              let s = t % 60
-              let result = ''
-              if (d > 0) {
-                result += d + '天'
-              }
-              result += h < 10 ? '0' + h + ':' : h + ':'
-              result += i < 10 ? '0' + i + ':' : i + ':'
-              result += s < 10 ? '0' + s : s
-              data[key]['djs'] = result
-            }
+            })
+          } else {
+            clearInterval(Timer1)
           }
           this.yZhiJiHuaData = data
         }, 1000)
       }
       if (type === 'sanBiao') {
-        clearInterval(Timer2)
+        if (Timer2) {
+          clearInterval(Timer2)
+        }
         this.sanBiaoData = []
-        this.sanBiaoData = JSON.parse(JSON.stringify(listRes))
+        this.sanBiaoData = listRes
         Timer2 = setInterval(() => {
-          for (let key = 0; key < data.length; key++) {
-            if (data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 0) {
-              let t = data[key]['remainingSeconds']
-              if (t <= 0) {
-                data[key]['status'] = 1
-                data[key]['remainingSeconds'] = 0
+          if (data.some(item => (item.remainingSeconds && item.remainingSeconds > 0) || item.status === 1)) {
+            data.map(el => {
+              let t = el['remainingSeconds']
+              if (t < 1) {
+                el['status'] = 2
+                el['remainingSeconds'] = 0
+                el['investEndTimestamp'] = 55555
+                el['investPercent'] = 99.99
+              } else {
+                el['remainingSeconds']--
+                el['djs'] = initTime(t)
               }
-              data[key]['remainingSeconds']--
-              let d = (t - (t % 86400)) / 86400
-              let h = ((t - (t % 3600)) / 3600) % 24
-              let i = ((t - (t % 60)) / 60) % 60
-              let s = t % 60
-              let result = ''
-              if (d > 0) {
-                result += d + '天'
-              }
-              result += h < 10 ? '0' + h + ':' : h + ':'
-              result += i < 10 ? '0' + i + ':' : i + ':'
-              result += s < 10 ? '0' + s : s
-              data[key]['djs'] = result
-            }
+            })
+          } else {
+            clearInterval(Timer2)
           }
           this.sanBiaoData = data
         }, 1000)
@@ -521,25 +396,14 @@ export default {
     }
   },
   created() {
-    if (this.redPacketId) {
-      this.type = 'R'
-      this.id = this.redPacketId
-    }
-    if (this.couponId) {
-      this.type = 'C'
-      this.id = this.couponId
-    }
     this.yZhiJiHuaDataCompute = []
     this.sanBiaoDataCompute = []
-    this.clickGetYZhiJiHuaData()
-    // this.setNavShow()
+    this.getYZhiJiHuaList()
     this.$nextTick(() => {
-      if (this.type) {
-        this.showFiltered = true
-        this.$refs.tabContainer.style.top = 0.88 + 'rem'
-      }
       if (!this.user) {
         this.$refs.tabContainer.style.top = 0 + 'rem'
+      } else {
+        this.setNavShow()
       }
     })
   },
@@ -562,6 +426,7 @@ export default {
   .tab_item.mint-tab-item {
     font-size: $font-size-small-s;
     position: relative;
+    color: #a1a1a1;
     /deep/ .mint-tab-item-label {
       font-size: $font-size-small-s;
     }
@@ -628,18 +493,34 @@ export default {
       li {
         position: relative;
         background-color: #fff;
+        &:first-child {
+          /deep/ .prod_item {
+            padding-top: 0.1rem;
+            .cata_title {
+              margin-top: 0;
+            }
+          }
+        }
       }
     }
-    .all_prods {
-      display: block;
-      width: 92%;
-      height: 0.44rem;
-      margin: 0.32rem auto 0;
-      border-radius: 0.04rem;
-      background-color: $color-button;
-      font-size: $font-size-small;
-      color: #fff;
+    .tips {
       text-align: center;
+      font-size: 0;
+      padding: 0.09rem 0;
+      dt,
+      dd {
+        display: inline-block;
+        vertical-align: top;
+      }
+      dt {
+        width: 0.13rem;
+        margin-right: 0.05rem;
+        margin-top: 0.02rem;
+      }
+      dd {
+        font-size: $font-size-small-s;
+        color: #999;
+      }
     }
   }
 }

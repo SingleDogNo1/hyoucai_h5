@@ -232,9 +232,9 @@ export default {
   components: {
     BScroll,
     // eslint-disable-next-line
-      Navbar,
+    Navbar,
     // eslint-disable-next-line
-      tabItem
+    tabItem
   },
   data() {
     return {

@@ -1,12 +1,12 @@
 @import './theme.scss';
 
-$color-primary: #EA5E1B;
+$color-primary: #ea5e1b;
 .mint-header {
-  height: .44rem;
+  height: 0.44rem;
   padding: 0 4% 0 3.3%;
   background-color: #fff;
   color: $color-text;
-  box-shadow: inset 0 -1px 0 0 #EEEEEE;
+  box-shadow: inset 0 -1px 0 0 #eeeeee;
   font-weight: bold;
   &.is-fixed {
     z-index: 99;
@@ -16,7 +16,7 @@ $color-primary: #EA5E1B;
   }
   .mint-header-title {
     font-size: $font-size-medium;
-    line-height: .2rem;
+    line-height: 0.2rem;
   }
 }
 
@@ -38,7 +38,7 @@ $color-primary: #EA5E1B;
 }
 
 .mint-button:not(.is-disabled):active::after {
-  opacity: .2;
+  opacity: 0.2;
 }
 
 .mint-button--primary {
@@ -51,7 +51,7 @@ $color-primary: #EA5E1B;
 }
 
 .mint-badge.is-primary {
-  background-color: $color-primary
+  background-color: $color-primary;
 }
 
 .mint-switch-input:checked + .mint-switch-core {
@@ -87,7 +87,7 @@ $color-primary: #EA5E1B;
 }
 
 .mt-progress-progress {
-  background-color: #F4C700;
+  background-color: #f4c700;
 }
 
 .mint-msgbox-confirm {

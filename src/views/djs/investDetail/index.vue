@@ -33,7 +33,7 @@
      	  	<a href="javascript:;">不可提前退出</a>
      	  	<a href="javascript:;">等额本息</a>
      	  	<a href="javascript:;">0费用</a>
-     	  	<img src="./images/more.png" />
+     	  	<p @click="judge()"><img src="./images/more.png" /></p>
      	  </div>
      	  <div class="countdown">
      	  	<span class="title">募集倒计时</span>
@@ -42,7 +42,7 @@
      	  <div class="activity">
      	  	<span class="title">活动</span>
           <span class="desc">投资6,95万，免费送华为mate手机</span>
-          <img src="./images/more.png" />
+          <p><img src="./images/more.png" /></p>
      	  </div>
      </section>
      <section class="user-numbers">
@@ -96,7 +96,7 @@
      	  </table>
      </section>
      <section class="manage-info">
-     	 <p class="tip">服务介绍</p>
+     	 <p class="tip" >服务介绍</p>
      	 <div class="manage">
      	 	  <ul>
      	 	  	<li><img src="./images/icon_03.png" /></li>
@@ -130,20 +130,40 @@
      	  	<span>剩余可投57.29万</span>
      	  </div>
      </section>
+    <!-- 服务弹窗 -->
+    <Dialog
+      class="system-maintenance-dialog"
+      title="服务"
+      confirmText="我知道了"
+      :show.sync="systemDialogOptions.show"
+      :singleButton="systemDialogOptions.singleButton"
+    >
+      <div>
+        <p>{{systemDialogOptions.msg}}</p>
+      </div>
+    </Dialog>
   </BScroll>
 </template>
 
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import Dialog from '@/components/Dialog/Alert'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    BScroll
+    BScroll,
+    Dialog
   },
   data() {
-    return {}
+    return {
+    	systemDialogOptions: {
+	        show: false,
+	        singleButton: false,
+	        msg: ''
+	      }
+    }
     
   },
   props: {},
@@ -154,6 +174,10 @@ export default {
         name: router_name
       })
     },
+    judge(){
+    	 this.systemDialogOptions.show = true
+       this.systemDialogOptions.msg = "aaaaa"
+    }
   },
   computed: {},
   created() {},
@@ -232,13 +256,14 @@ export default {
 	        font-size: 11px;
 	        color: #666666;
 	        line-height: 24px;
+	        padding-left: 11px;
 	      }
 	      img {
 	        display: inline-block;
 	        vertical-align: middle;
 	        height: 12px;
 	        width: 12px;
-	        margin-left: 4px;
+	        padding-left: 4px;
 	      }
 	    }
 	  }
@@ -295,8 +320,6 @@ export default {
 	  }
 	  .serve-info {
 	    padding: 16px 15px;
-	    display: flex;
-	    align-items: center;
 	    border-bottom: 1px solid #EEEEEE;
 	    span {
 	      font-size: 15px;
@@ -314,11 +337,16 @@ export default {
 	      display: inline-block;
 	      padding: 4px;
 	    }
-	    img {
-	      height: 10px;
-	      width: 10px;
-	      margin-left: 95px;
+	    p{
+	    	float: right;
+	      align-items: center;
+	       img {
+		      height: 10px;
+		      width: 10px;
+		      margin: 6px auto;
+		    }
 	    }
+	   
 	  }
 	  .countdown{
 	  	height: 53px;
@@ -337,16 +365,18 @@ export default {
 	  	height: 53px;
 	  	padding: 16px 15px;
 	  	font-size: 15px;
-	  	display: flex;
-	    align-items: center;
 	  	.desc{
 	  		color: #EC5E52;
 	  		margin-left: 16px;
 	  	}
-	  	 img {
-	      height: 10px;
-	      width: 10px;
-	      margin-left: 57px;
+	  	p{
+	    	float: right;
+	      align-items: center;
+	       img {
+		      height: 10px;
+		      width: 10px;
+		      margin: 6px auto;
+		    }
 	    }
 	  }
 	}

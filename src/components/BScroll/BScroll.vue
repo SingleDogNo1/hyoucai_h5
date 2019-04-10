@@ -64,7 +64,7 @@ export default {
     preventDefaultException: {
       type: Object,
       default: function() {
-        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }
+        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN)$/ }
       }
     },
     eventPassthrough: {

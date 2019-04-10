@@ -1,7 +1,8 @@
 import axios from '@/assets/js/requestDJS'
 import Qs from 'qs'
 
-function collectionApi(params) { // 出借列表
+function collectionApi(params) {
+  // 出借列表
   return axios({
     url: '/InvestCountMsg',
     method: 'get',

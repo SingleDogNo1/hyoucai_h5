@@ -27,6 +27,9 @@ export default {
         this.$router.go(-1)
       }
     },
+    setTitle() {
+      this.$emit('setTitle')
+    },
     getMore() {
       this.$emit('getMore')
     }

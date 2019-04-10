@@ -121,8 +121,15 @@ export default {
         passWord: btoa(this.password)
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data)
+          console.log(res.data.data)
           let user = res.data.data
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              break
+            case '2':
+              this.setPlatform('hyc')
+          }
           this.setUser(user)
           setLoginUsername(this.registerMobile)
           this.setErrorNum(0)
@@ -141,6 +148,13 @@ export default {
       userLoginVcode(postData).then(res => {
         if (res.data.resultCode === '1') {
           let user = res.data.data
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              break
+            case '2':
+              this.setPlatform('hyc')
+          }
           this.setUser(user)
           setLoginUsername(this.userName)
           this.setErrorNum(0)
@@ -172,7 +186,7 @@ export default {
     },
     loginSuccess() {
       this.$router.push({
-        name: 'AppDownload'
+        name: 'openAccount'
       })
     },
     sendSMSCode() {
@@ -189,7 +203,8 @@ export default {
     },
     ...mapMutations({
       setUser: 'SET_USER',
-      setErrorNum: 'SET_ERROR_NUM'
+      setErrorNum: 'SET_ERROR_NUM',
+      setPlatform: 'SET_PLATFORM'
     })
   },
   created() {}

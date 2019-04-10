@@ -93,6 +93,29 @@ export default new Router({
           }
         },
         {
+          path: 'remind-open-account',
+          name: 'remindOpenAccount',
+          component: () => import(/* webpackChunkName: "remindOpenAccount" */ '@/views/common/openAccount/RemindOpenAccount'),
+          meta: {
+            title: '提醒开户'
+          }
+        },
+        {
+          path: 'open-account',
+          name: 'openAccountProgress',
+          component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/Progress'),
+          children: [
+            {
+              path: 'open',
+              name: 'openAccount',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
+              meta: {
+                title: '开通存管账户'
+              }
+            }
+          ]
+        },
+        {
           path: 'forgetpwd',
           name: 'forgetPWD',
           component: () => import(/* webpackChunkName: "forgetpwd" */ '@/views/common/forgetPWD'),
@@ -326,6 +349,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
           meta: {
             title: '出借'
+          }
+        },
+        {
+          path: 'claimlist',
+          name: 'DJSClaimList',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'DJSClaimDetail',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimDetail'),
+          meta: {
+            title: '债权列表详情'
           }
         },
         {

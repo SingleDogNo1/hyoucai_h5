@@ -33,7 +33,7 @@
      	  	<a href="javascript:;">不可提前退出</a>
      	  	<a href="javascript:;">等额本息</a>
      	  	<a href="javascript:;">0费用</a>
-     	  	<img src="./images/more.png" />
+     	  	<p @click="judge()"><img src="./images/more.png" /></p>
      	  </div>
      	  <div class="countdown">
      	  	<span class="title">募集倒计时</span>
@@ -42,7 +42,7 @@
      	  <div class="activity">
      	  	<span class="title">活动</span>
           <span class="desc">投资6,95万，免费送华为mate手机</span>
-          <img src="./images/more.png" />
+          <p><img src="./images/more.png" /></p>
      	  </div>
      </section>
      <section class="user-numbers">
@@ -75,75 +75,100 @@
      <section class="claims">
      	  <div class="claims_list">
      	  	<h2>债权列表</h2>
-     	  	<p>全部<img src="./images/more.png" /></p>
+     	  	<p @click="pathClaim('DJSClaimList')">全部<img src="./images/more.png" /></p>
      	  </div>
      	  <table>
      	  	<tr>
-     	  		<td class="claims_users">孟**</td>
-     	  		<td class="claims_money">3,000.00</td>
-     	  		<td class="claims_detail">详情</td>
+     	  		<td>孟**</td>
+     	  		<td>3,000.00</td>
+     	  		<td>详情</td>
      	  	</tr>
      	  	<tr>
-     	  		<td class="claims_users">孟**</td>
-     	  		<td class="claims_money">3,000.00</td>
-     	  		<td class="claims_detail">详情</td>
+     	  		<td>孟**</td>
+     	  		<td>3,000.00</td>
+     	  		<td>详情</td>
      	  	</tr>
      	  	<tr>
-     	  		<td class="claims_users">孟**</td>
-     	  		<td class="claims_money">3,000.00</td>
-     	  		<td class="claims_detail">详情</td>
+     	  		<td>孟**</td>
+     	  		<td>3,000.00</td>
+     	  		<td>详情</td>
      	  	</tr>
      	  </table>
      </section>
-     <section class="serve-info-risk">
-     	 <p class="tip">服务介绍</p>
+     <section class="manage-info">
+     	 <p class="tip" >服务介绍</p>
      	 <div class="manage">
      	 	  <ul>
      	 	  	<li><img src="./images/icon_03.png" /></li>
-     	 	  	<li>合规管理</li>
+     	 	  	<li><span>合规管理</span></li>
      	 	  </ul>
      	 	  <ul>
      	 	  	<li><img src="./images/icon_04.png" /></li>
-     	 	  	<li>严选资产</li>
+     	 	  	<li><span>严选资产</span></li>
      	 	  </ul>
      	 	  <ul>
      	 	  	<li><img src="./images/icon_05.png" /></li>
-     	 	  	<li>资金安全</li>
+     	 	  	<li><span>资金安全</span></li>
      	 	  </ul>
      	 </div>
      </section>
-     <section class="risk_tips">
+     <section class="risk_tips commonType">
      	 	 <h2>风险告知书</h2>
-     	   <img src="./images/more.png" />
+     	   <p><img src="./images/more.png" /></p>
      </section>
-     <section class="questions">
+     <section class="questions commonType">
      	  <h2>常见问题</h2>
-     	  <img src="./images/more.png" />
+     	  <p><img src="./images/more.png" /></p>
      </section>
      <section class="company_info">
-     	  <p></p>
+     	  <p>由江西汇通金融信息服务有限公司提供网络借贷信息中介服务</p>
+     	  <span>网贷有风险，借贷需谨慎</span>
      </section>
-     <section class="lend_btns">
-     	
+     <section class="to-lend">
+     	  <div class="lend_btns">
+     	  	<p>授权出借</p>
+     	  	<span>剩余可投57.29万</span>
+     	  </div>
      </section>
+    <!-- 服务弹窗 -->
+    <Dialog class="serve-dialog" :show.sync="serveDialog.show">
+      <div>
+        <p>aaaa</p>
+      </div>
+    </Dialog>
   </BScroll>
 </template>
 
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import Dialog from '@/components/Dialog/Serve'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    BScroll
+    BScroll,
+    Dialog
   },
   data() {
-    return {}
+    return {
+      serveDialog: {
+        show: false
+      }
+    }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    pathClaim(router_name) {
+      this.$router.push({
+        name: router_name
+      })
+    },
+    judge() {
+      this.serveDialog.show = true
+    }
+  },
   computed: {},
   created() {},
   mounted() {},
@@ -221,13 +246,14 @@ export default {
           font-size: 11px;
           color: #666666;
           line-height: 24px;
+          padding-left: 11px;
         }
         img {
           display: inline-block;
           vertical-align: middle;
           height: 12px;
           width: 12px;
-          margin-left: 4px;
+          padding-left: 4px;
         }
       }
     }
@@ -284,8 +310,6 @@ export default {
     }
     .serve-info {
       padding: 16px 15px;
-      display: flex;
-      align-items: center;
       border-bottom: 1px solid #eeeeee;
       span {
         font-size: 15px;
@@ -303,10 +327,14 @@ export default {
         display: inline-block;
         padding: 4px;
       }
-      img {
-        height: 10px;
-        width: 10px;
-        margin-left: 95px;
+      p {
+        float: right;
+        align-items: center;
+        img {
+          height: 10px;
+          width: 10px;
+          margin: 6px auto;
+        }
       }
     }
     .countdown {
@@ -326,16 +354,18 @@ export default {
       height: 53px;
       padding: 16px 15px;
       font-size: 15px;
-      display: flex;
-      align-items: center;
       .desc {
         color: #ec5e52;
         margin-left: 16px;
       }
-      img {
-        height: 10px;
-        width: 10px;
-        margin-left: 57px;
+      p {
+        float: right;
+        align-items: center;
+        img {
+          height: 10px;
+          width: 10px;
+          margin: 6px auto;
+        }
       }
     }
   }
@@ -480,45 +510,56 @@ export default {
           color: #333333;
           letter-spacing: 0.16px;
           border-bottom: 1px solid #eeeeee;
-        }
-        td.claims_users {
-          padding: 16px 0 15px 15px;
-        }
-        td.claims_money {
-          text-align: center;
-        }
-        td.claims_detail {
-          font-size: 13px;
-          color: #ec5e52;
-          letter-spacing: 0.16px;
-          text-align: right;
-          padding-right: 15px;
-        }
-      }
-    }
-  }
-  .serve-info-risk {
-    height: 192px;
-    background: #fff;
-    margin-bottom: 8px;
-    .manage {
-      ul {
-        display: inline-block;
-        li {
-          img {
-            height: 26px;
-            width: 24px;
+          &:nth-of-type(1) {
+            padding: 16px 0 15px 15px;
+          }
+          &:nth-of-type(2) {
+            text-align: center;
+          }
+          &:nth-last-of-type(1) {
+            font-size: 13px;
+            color: #ec5e52;
+            letter-spacing: 0.16px;
+            text-align: right;
+            padding-right: 15px;
           }
         }
       }
     }
   }
-  .risk_tips {
+  .manage-info {
+    height: 141px;
+    background: #fff;
+    border-bottom: 1px solid #eeeeee;
+    .tip {
+      font-size: 15px;
+      color: #999;
+      letter-spacing: 0.18px;
+      padding: 16px 0 24px 15px;
+    }
+    .manage {
+      ul {
+        display: inline-block;
+        width: 33%;
+        li {
+          margin-top: 10px;
+          text-align: center;
+          img {
+            height: 28px;
+            width: 24px;
+          }
+          span {
+            font-size: 13px;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
+  .commonType {
     height: 50px;
     background: #fff;
     margin-bottom: 8px;
-    display: flex;
-    align-items: center;
     h2 {
       font-size: 15px;
       color: #333333;
@@ -526,32 +567,64 @@ export default {
       float: left;
       padding: 16px 0 16px 15px;
     }
-    img {
-      height: 10px;
-      width: 10px;
+    p {
+      display: flex;
+      align-items: center;
+      height: 50px;
       float: right;
+      margin-right: 15.1px;
+      img {
+        height: 10px;
+        width: 10px;
+      }
     }
   }
-  .questions {
-    height: 50px;
-    background: #fff;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    h2 {
-      font-size: 15px;
-      color: #333333;
-      letter-spacing: 0.18px;
-      float: left;
-      padding: 16px 0 16px 15px;
-    }
-    img {
-      height: 10px;
-      width: 10px;
-      float: right;
-    }
-  }
+
   .company_info {
+    box-shadow: inset 0 1px 0 0 #eeeeee;
+    height: 94px;
+    p {
+      font-size: 13px;
+      color: #999999;
+      letter-spacing: 0.16px;
+      height: 36px;
+      width: 255px;
+      margin: auto;
+      margin: 9px auto 16px;
+      text-align: center;
+    }
+    span {
+      font-size: 13px;
+      color: #999999;
+      letter-spacing: 0.16px;
+      width: 145px;
+      height: 18px;
+      display: block;
+      margin: 0 auto 16px;
+    }
+  }
+  .to-lend {
+    height: 56px;
+    .lend_btns {
+      margin: 6px 15px;
+      width: 345px;
+      height: 44px;
+      background: #ec5e52;
+      border-radius: 3px;
+      text-align: center;
+      p {
+        font-size: 15px;
+        color: #ffffff;
+        letter-spacing: 0.18px;
+        padding-top: 4px;
+      }
+      span {
+        font-size: 11px;
+        color: #ffffff;
+        letter-spacing: 0.13px;
+        opacity: 0.6;
+      }
+    }
   }
 }
 </style>

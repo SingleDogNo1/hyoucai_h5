@@ -75,7 +75,7 @@
      <section class="claims">
      	  <div class="claims_list">
      	  	<h2>债权列表</h2>
-     	  	<p>全部<img src="./images/more.png" /></p>
+     	  	<p @click="pathClaim('DJSClaimList')">全部<img src="./images/more.png" /></p>
      	  </div>
      	  <table>
      	  	<tr>
@@ -148,7 +148,13 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+  	pathClaim(router_name) {
+      this.$router.push({
+        name: router_name
+      })
+    },
+  },
   computed: {},
   created() {},
   mounted() {},

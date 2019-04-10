@@ -60,13 +60,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'index',
   components: {},
   data() {
     return {
-    	flag: false,
+      flag: false,
       borrowerName: '',
       sex: '',
       idNum: '',
@@ -86,15 +85,12 @@ export default {
       loanNo: '',
       repaymentWay: '',
       rate: ''
-      
     }
   },
 
-  methods: {
-  
-  },
+  methods: {},
   created() {
-/*    getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
+    /*    getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
       let data = res.data.data
       this.borrowerName = data.borrowerName
       this.sex = data.sex
@@ -121,64 +117,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.claimDetail{
-	background: #eee;
-	font-family: PingFangSC-Regular;
-	p{
-		height: 10px;
-		background: #eee;
-	}
-	.info{
-		background: #fff;
-		h2{
-	   	font-size: 15px;
-			color: #333333;
-			letter-spacing: 0.18px;
-			padding: 15px  0 14px 14.5px;
-			border-bottom: 1px solid #E8E8E8;
-	  }
-	  table{
-	  	border-collapse: collapse;
-			border-spacing: 0;
-			table-layout: fixed;
-			width: 100%;
-	  	tr{
-	  		width: 49%;
-	  		
-	  		td{
-	  			span{
-	  				font-size: 13px;
-						color: #666666;
-						letter-spacing: 0.16px;
-	  			}
-	  			i{
-	  				font-size: 13px;
-						color: #333333;
-						letter-spacing: 0.16px;
-	  			}
-	  		}
-	  		&:nth-of-type(1) td{
-	  				padding: 12px 0 9px 15px;
-	  		}
-	  		&:nth-of-type(2) td{
-	  				padding: 0px 0 9px 15px;
-	  		}
-	  		&:nth-of-type(n+3) td{
-	  				padding: 0px 0 15px 15px;
-	  		}
-	  	}
-	  	
-	  }
-	}
-	.lender_info{
-	   height: 150px;
-	   margin-bottom: 10px;
-	   
+.claimDetail {
+  background: #eee;
+  font-family: PingFangSC-Regular;
+  p {
+    height: 10px;
+    background: #eee;
   }
-  .loan_info{
-  	height: 296px;
-  }
-	
-}
+  .info {
+    background: #fff;
+    h2 {
+      font-size: 15px;
+      color: #333333;
+      letter-spacing: 0.18px;
+      padding: 15px 0 14px 14.5px;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      table-layout: fixed;
+      width: 100%;
+      tr {
+        width: 49%;
 
+        td {
+          span {
+            font-size: 13px;
+            color: #666666;
+            letter-spacing: 0.16px;
+          }
+          i {
+            font-size: 13px;
+            color: #333333;
+            letter-spacing: 0.16px;
+          }
+        }
+        &:nth-of-type(1) td {
+          padding: 12px 0 9px 15px;
+        }
+        &:nth-of-type(2) td {
+          padding: 0px 0 9px 15px;
+        }
+        &:nth-of-type(n + 3) td {
+          padding: 0px 0 15px 15px;
+        }
+      }
+    }
+  }
+  .lender_info {
+    height: 150px;
+    margin-bottom: 10px;
+  }
+  .loan_info {
+    height: 296px;
+  }
+}
 </style>

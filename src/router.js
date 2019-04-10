@@ -32,8 +32,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'DJSInvestList',
-          component: () => import(/* webpackChunkName: "DJSInvestList" */ '@/views/djs/investList')
+          name: 'DJSInvestment',
+          component: () => import(/* webpackChunkName: "DJSInvestment" */ '@/views/djs/investment')
         },
         {
           path: 'mine',
@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'HYCInvestList',
-          component: () => import(/* webpackChunkName: "HYCInvestList" */ '@/views/hyc/investList')
+          name: 'HYCInvestment',
+          component: () => import(/* webpackChunkName: "HYCInvestment" */ '@/views/hyc/investment')
         },
         {
           path: 'mine',
@@ -91,6 +91,29 @@ export default new Router({
           meta: {
             title: '汇有财注册'
           }
+        },
+        {
+          path: 'remind-open-account',
+          name: 'remindOpenAccount',
+          component: () => import(/* webpackChunkName: "remindOpenAccount" */ '@/views/common/openAccount/RemindOpenAccount'),
+          meta: {
+            title: '提醒开户'
+          }
+        },
+        {
+          path: 'open-account',
+          name: 'openAccountProgress',
+          component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/Progress'),
+          children: [
+            {
+              path: 'open',
+              name: 'openAccount',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
+              meta: {
+                title: '开通存管账户'
+              }
+            }
+          ]
         },
         {
           path: 'forgetpwd',
@@ -369,6 +392,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'DJSInviteFriends',
+          component: () => import(/* webpackChunkName: "DJSinviteFriends" */ '@/views/djs/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'DJSRecommender',
+          component: () => import(/* webpackChunkName: "DJSRecommender" */ '@/views/djs/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'DJSTransferCharge',
           component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
@@ -425,7 +464,7 @@ export default new Router({
         {
           path: 'transactionRecord',
           name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/TransactionRecord'),
+          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }

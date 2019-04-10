@@ -1,17 +1,17 @@
 <template>
-  <div class="index">
+  <div class="SignAgreement">
     hello, {{msg}}
   </div>
 </template>
 
 <script>
 export default {
-  name: 'index',
+  name: 'SignAgreement',
   mixins: [],
   components: {},
   data() {
     return {
-      msg: 'hyc-inv-list'
+      msg: 'SignAgreement'
     }
   },
   props: {},

@@ -78,7 +78,7 @@ export default {
     bottom: -40%;
     left: 50%;
     width: 101%;
-    height:380px;
+    height: 380px;
     padding: 0.44rem 0.2rem 0.2rem;
     transform: translate(-50%, -50%);
     background-color: #fff;

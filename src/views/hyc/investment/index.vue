@@ -1,48 +1,77 @@
 <template>
   <div class="investment" ref="investment">
+    <mt-navbar v-model="selected" v-if="user">
+      <mt-tab-item v-if="showYZhiJiHua" class='tab_item' id="1">轻松投</mt-tab-item>
+      <mt-tab-item v-if="showSanBiao" class='tab_item' id="2">自选投</mt-tab-item>
+      <mt-tab-item v-if="showZQuanZhuanRang" class='tab_item' id="3">债权转让</mt-tab-item>
+    </mt-navbar>
     <div class="tab-container-wrapper" ref="tabContainer">
-      <b-scroll
-        class="scroll"
-        ref="scrollRef1"
-        :data="yZhiJiHuaDataCompute"
-        :pullup="pullup"
-        :touchend="touchend"
-        :listenScroll="listenScroll"
-        @scroll="scroll"
-        @scrollToEnd="scrollToEnd1"
-        @pulldownTouchend="pulldownTouchend">
-        <div>
-          <div class="top">
-            <div class="inn">
-              <em>新手专享</em>
-              <div class="wrapper">
-                <dl>
-                  <dt>16.0<span>&nbsp;%</span></dt>
-                  <dd>历史年化收益率</dd>
-                </dl>
-                <dl>
-                  <dt>30天锁定期</dt>
-                  <dd>2000元起投</dd>
-                </dl>
-              </div>
-              <button>注册 / 登录</button>
-              <span>您还剩余 50000.00元 新手额度</span>
+      <mt-tab-container v-model="selected">
+        <mt-tab-container-item class='tab_container' id='1'>
+          <b-scroll
+            class="scroll"
+            ref="scrollRef1"
+            :data="yZhiJiHuaDataCompute"
+            :pullup="pullup"
+            :touchend="touchend"
+            :listenScroll="listenScroll"
+            @scroll="scroll"
+            @scrollToEnd="scrollToEnd1"
+            @pulldownTouchend="pulldownTouchend">
+            <div>
+              <ul>
+                <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item)">
+                  <investment-item :itemData="item"></investment-item>
+                </li>
+              </ul>
             </div>
-          </div>
-          <ul>
-            <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item)">
-              <investment-item :itemData="item"></investment-item>
-              <!--<div class="set_countdown"-->
-                   <!--v-if="item.status === 1 && item.remainingSeconds && item.remainingSeconds > 0">-->
-                <!--<span>距离开售：</span>-->
-                <!--<em>{{item.djs}}</em>-->
-              <!--</div>-->
-              <!--<div v-if="item.status === 3" class="full"></div>-->
-            </li>
-          </ul>
-        </div>
-        <!--<no-data v-if="!yZhiJiHuaData.length"></no-data>-->
-      </b-scroll>
+            <no-data v-if="!yZhiJiHuaData.length"></no-data>
+          </b-scroll>
+        </mt-tab-container-item>
+        <mt-tab-container-item class='tab_container' id='2'>
+          <b-scroll
+            class='scroll'
+            ref='scrollRef2'
+            :data="sanBiaoDataCompute"
+            :pullup="pullup"
+            :touchend="touchend"
+            :listenScroll="listenScroll"
+            @scroll="scroll"
+            @scrollToEnd="scrollToEnd2"
+            @pulldownTouchend="pulldownTouchend">
+            <div>
+              <ul>
+                <li v-for="(item, index) in sanBiaoData" :key="index" @click="selectSanBiaoItem(item)">
+                  <investment-item :itemData="item"></investment-item>
+                  <div class="progress_wrapper" v-if="item.status !== 0">
+                    <mt-progress :value="item.investPercent">
+                      <div slot="end" :class="{text_dis:item.status !== 0}">已投{{item.showInvestPercent}}</div>
+                    </mt-progress>
+                  </div>
+                  <div class="set_countdown" v-if="item.status === 0">
+                    <div class="set_countdown"
+                         v-if="item.status === 0 && item.remainingSeconds && item.remainingSeconds > 0">
+                      <span>距离开售：</span>
+                      <em>{{item.djs}}</em>
+                    </div>
+                  </div>
+                  <div v-if="item.status === 2" class="full"></div>
+                </li>
+              </ul>
+              <button v-if="showFiltered" class="all_prods" @click="allProds">查看全部产品</button>
+            </div>
+            <no-data v-if="!sanBiaoData.length"></no-data>
+          </b-scroll>
+        </mt-tab-container-item>
+        <mt-tab-container-item class='tab_container' id='3'>
+          <b-scroll class='scroll'
+                    ref='scrollRef3'>
+            <div>
+            </div>
+            <no-data v-if="!zQuanZhuanRang.length"></no-data>
+          </b-scroll>
+        </mt-tab-container-item>
+      </mt-tab-container>
     </div>
   </div>
 </template>
@@ -54,12 +83,13 @@ import {
   Indicator
 } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-// import Loading from '@/components/Loading/Loading'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
-// import apiIndex from '@/api/invest/index'
-import api from '@/api/djs/investList/index'
+// import apiIndex from '@/api/index'
+import { collectionApi } from '@/api/hyc/investment/index'
 // import NoData from '@/components/NoData/NoData'
+import { mapGetters } from 'vuex'
+import { timeCountDown } from '@/assets/js/utils'
 
 const CODE_OK = '1'
 
@@ -97,7 +127,6 @@ export default {
   components: {
     // Progress,
     BScroll,
-    // Loading,
     InvestmentItem
     // NoData
   },
@@ -118,30 +147,7 @@ export default {
       hasMore2: true,
       hasMore3: true,
       authorization: Hyoucai.getItem('g_authorization'),
-      yZhiJiHuaData: [
-        {
-          status: '1'
-        },
-        {
-          status: '2',
-          last: 1
-        },
-        {
-          status: '3'
-        },
-        {
-          status: '4'
-        },
-        {
-          status: '5'
-        },
-        {
-          status: '6'
-        },
-        {
-          status: '7'
-        }
-      ],
+      yZhiJiHuaData: [],
       sanBiaoData: [],
       zQuanZhuanRang: [],
       showYZhiJiHua: false,
@@ -160,7 +166,9 @@ export default {
       }, 20)
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     goBack() {
       switch (this.type) {
@@ -221,29 +229,29 @@ export default {
         data.extendId = this.id
       }
       Indicator.open('正在加载')
-      api.projectApi(data).then(res => {
-        Indicator.close()
-        let resp = res.data
-        if (resp.resultCode === CODE_OK) {
-          this.sanBiaoData = []
-          let list = resp.data.list
-          let curPage = resp.data.curPage
-          let countPage = resp.data.countPage
-          if (!list.length) {
-            this.hasMore2 = false
-            Toast('无记录')
-            return false
-          } else if (curPage >= countPage) {
-            this.hasMore2 = false
-          } else {
-            this.hasMore2 = true
-          }
-          this.sanBiaoDataCompute = [...list]
-          this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
-        } else {
-          Toast(resp.resultMsg)
-        }
-      })
+      // api.projectApi(data).then(res => {
+      //   Indicator.close()
+      //   let resp = res.data
+      //   if (resp.resultCode === CODE_OK) {
+      //     this.sanBiaoData = []
+      //     let list = resp.data.list
+      //     let curPage = resp.data.curPage
+      //     let countPage = resp.data.countPage
+      //     if (!list.length) {
+      //       this.hasMore2 = false
+      //       Toast('无记录')
+      //       return false
+      //     } else if (curPage >= countPage) {
+      //       this.hasMore2 = false
+      //     } else {
+      //       this.hasMore2 = true
+      //     }
+      //     this.sanBiaoDataCompute = [...list]
+      //     this.countDown('sanBiao', this.sanBiaoData, this.sanBiaoDataCompute)
+      //   } else {
+      //     Toast(resp.resultMsg)
+      //   }
+      // })
     },
     scrollGetSanBiaoData(maxLine, curPage) {
       let data = {
@@ -319,12 +327,13 @@ export default {
         data.extendId = this.id
       }
       Indicator.open('正在加载')
-      api.collectionApi(data).then(res => {
-        debugger
+      collectionApi(data).then(res => {
         Indicator.close()
         let resp = res.data
         if (resp.resultCode === CODE_OK) {
           let list = resp.data.list
+          list[0].status = 1
+          list[0].remainingSeconds = 27836
           let curPage = resp.data.curPage
           let countPage = resp.data.countPage
           this.yZhiJiHuaData = []
@@ -353,30 +362,30 @@ export default {
         data.extendType = this.type
         data.extendId = this.id
       }
-      // Indicator.open("正在加载");
-      // api.collectionApi(data).then(res => {
-      //   Indicator.close();
-      //   let resp = res.data;
-      //   if (resp.resultCode === CODE_OK) {
-      //     let list = resp.data.list;
-      //     let curPage = resp.data.curPage;
-      //     let countPage = resp.data.countPage;
-      //     if (!list.length) {
-      //       this.hasMore1 = false;
-      //       Toast("无记录");
-      //       return;
-      //     } else if (curPage >= countPage) {
-      //       this.hasMore1 = false;
-      //     } else {
-      //       this.hasMore1 = true;
-      //     }
-      //     this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list];
-      //     this.countDown("yZhiJiHua", this.yZhiJiHuaData, this.yZhiJiHuaDataCompute);
-      //     this.$refs.scrollRef1.refresh();
-      //   } else {
-      //     Toast(resp.resultMsg);
-      //   }
-      // });
+      Indicator.open('正在加载')
+      collectionApi(data).then(res => {
+        Indicator.close()
+        let resp = res.data
+        if (resp.resultCode === CODE_OK) {
+          let list = resp.data.list
+          let curPage = resp.data.curPage
+          let countPage = resp.data.countPage
+          if (!list.length) {
+            this.hasMore1 = false
+            Toast('无记录')
+            return
+          } else if (curPage >= countPage) {
+            this.hasMore1 = false
+          } else {
+            this.hasMore1 = true
+          }
+          this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaData, ...list]
+          this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
+          this.$refs.scrollRef1.refresh()
+        } else {
+          Toast(resp.resultMsg)
+        }
+      })
     },
     scrollToEnd1() {
       // 上拉到底部，加载更多
@@ -440,10 +449,23 @@ export default {
         clearInterval(Timer1)
         this.yZhiJiHuaData = []
         this.yZhiJiHuaData = JSON.parse(JSON.stringify(listRes))
+        // for (let key = 0; key < data.length; key++) {
+        //   if (data[key]['remainingSeconds'] && data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 1) {
+        //     let t = data[key]['remainingSeconds']
+        //     console.log(t)
+        //     var that = this
+        //     data[key]['djs'] = timeCountDown(t, 1, () => {
+        //       this.yZhiJiHuaData = data
+        //       console.log(this.yZhiJiHuaData[0]['djs'])
+        //     })
+        //   }
+        // }
+
         Timer1 = setInterval(() => {
           for (let key = 0; key < data.length; key++) {
-            if (data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 0) {
+            if (data[key]['remainingSeconds'] && data[key]['remainingSeconds'] >= 0 && data[key]['status'] === 1) {
               let t = data[key]['remainingSeconds']
+              timeCountDown(t, 1)
               if (t <= 0) {
                 data[key]['status'] = 1
                 data[key]['remainingSeconds'] = 0
@@ -509,11 +531,15 @@ export default {
     }
     this.yZhiJiHuaDataCompute = []
     this.sanBiaoDataCompute = []
+    this.clickGetYZhiJiHuaData()
     // this.setNavShow()
     this.$nextTick(() => {
       if (this.type) {
         this.showFiltered = true
         this.$refs.tabContainer.style.top = 0.88 + 'rem'
+      }
+      if (!this.user) {
+        this.$refs.tabContainer.style.top = 0 + 'rem'
       }
     })
   },
@@ -529,6 +555,59 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
+.mint-navbar {
+  height: 0.44rem;
+  margin-bottom: 0.08rem;
+  box-shadow: inset 0 -1px 0 0 #eeeeee;
+  .tab_item.mint-tab-item {
+    font-size: $font-size-small-s;
+    position: relative;
+    /deep/ .mint-tab-item-label {
+      font-size: $font-size-small-s;
+    }
+    &.is-selected {
+      border-bottom: none;
+      /deep/ .mint-tab-item-label {
+        color: $color-button;
+      }
+      &:after {
+        position: absolute;
+        content: ' ';
+        background-color: $color-button;
+        width: 0.2rem;
+        height: 0.02rem;
+        bottom: 0.03rem;
+        left: 50%;
+        transform: translate(-50%, 0);
+        z-index: 999;
+      }
+    }
+  }
+}
+
+.tab-container-wrapper {
+  position: absolute;
+  top: 0.44rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  .mint-tab-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    /deep/ .mint-tab-container-wrap {
+      height: 100%;
+      .mint-tab-container-item.tab_container {
+        height: 100%;
+      }
+    }
+  }
+}
+
 .investment {
   position: fixed;
   top: 0;
@@ -537,9 +616,6 @@ export default {
   left: 0;
   margin: auto;
   font-size: 0;
-  .tab-container-wrapper {
-    height: 100%;
-  }
   .scroll {
     position: absolute;
     top: 0;
@@ -548,133 +624,10 @@ export default {
     left: 0;
     margin: auto;
     overflow: hidden;
-    .top {
-      margin: 0 auto;
-      padding: 0.2rem 0;
-      background-color: #fff;
-      .inn {
-        position: relative;
-        width: 92%;
-        height: 1.77rem;
-        margin: 0 auto;
-        padding: 0.16rem 0.16rem 0.08rem;
-        box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
-        border-radius: 0.04rem;
-        background-color: #fff;
-        text-align: center;
-        em {
-          display: inline-block;
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 0.7rem;
-          height: 0.22rem;
-          line-height: 0.22rem;
-          color: #fff;
-          font-size: $font-size-small-ss;
-          text-align: center;
-          background-image: url('./image/ranctangel.png');
-          background-size: 100% 100%;
-        }
-        .wrapper {
-          display: flex;
-          padding-left: 0.2rem;
-          font-size: 0;
-          dl {
-            flex: 1;
-            dd {
-              font-size: $font-size-small-s;
-              color: $color-text-s;
-            }
-            &:nth-of-type(1) {
-              text-align: center;
-              dt {
-                font-size: 0.33rem;
-                color: $color-button;
-                span {
-                  font-size: 0.15rem;
-                }
-              }
-            }
-            &:nth-of-type(2) {
-              position: relative;
-              dt {
-                position: absolute;
-                bottom: 0.3rem;
-                left: 10%;
-                font-size: $font-size-small;
-                color: $color-text-b;
-              }
-              dd {
-                position: absolute;
-                left: 10%;
-                bottom: 0;
-                padding: 0.03rem 0.05rem;
-                color: #ab917c;
-                font-size: $font-size-small-ss;
-                background-color: #efefef;
-              }
-            }
-          }
-        }
-        button {
-          display: block;
-          width: 100%;
-          height: 0.4rem;
-          margin: 0.26rem 0 0.07rem;
-          background-color: $color-button;
-          color: #fff;
-          font-size: 0.16rem;
-          border-radius: 0.04rem;
-        }
-        span {
-          color: #333;
-          font-size: $font-size-small-s;
-          text-align: center;
-        }
-      }
-    }
     ul {
       li {
         position: relative;
-        /*min-height: 1.19rem;*/
-        /*margin-bottom: 0.08rem;*/
         background-color: #fff;
-        .progress_wrapper {
-          margin-top: 0.1rem;
-          font-size: $font-size-small-s;
-          /deep/ .mt-progress-content {
-            margin-right: 0.215rem;
-            .mt-progress-runway,
-            .mt-progress-progress {
-              border-radius: 10000px;
-            }
-          }
-          /deep/ .text_dis {
-            color: $color-text-s;
-          }
-        }
-        .set_countdown {
-          margin-top: 0.16rem;
-          font-size: $font-size-small-s;
-          span {
-            display: inline-block;
-            margin-right: 0.02rem;
-            color: $color-text;
-          }
-          em {
-            color: $color-text-s;
-          }
-        }
-        .full {
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 1.03rem;
-          height: 0.85rem;
-          /*@include bg-image('full');*/
-          background-size: 100% 100%;
-        }
       }
     }
     .all_prods {

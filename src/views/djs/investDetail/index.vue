@@ -131,15 +131,9 @@
      	  </div>
      </section>
     <!-- 服务弹窗 -->
-    <Dialog
-      class="system-maintenance-dialog"
-      title="服务"
-      confirmText="我知道了"
-      :show.sync="systemDialogOptions.show"
-      :singleButton="systemDialogOptions.singleButton"
-    >
+    <Dialog class="serve-dialog" :show.sync="serveDialog.show">
       <div>
-        <p>{{systemDialogOptions.msg}}</p>
+        <p>aaaa</p>
       </div>
     </Dialog>
   </BScroll>
@@ -148,7 +142,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import Dialog from '@/components/Dialog/Alert'
+import Dialog from '@/components/Dialog/Serve'
 export default {
   name: 'index',
   mixins: [],
@@ -158,11 +152,9 @@ export default {
   },
   data() {
     return {
-    	systemDialogOptions: {
-	        show: false,
-	        singleButton: false,
-	        msg: ''
-	      }
+       serveDialog: {
+        show: false
+      }
     }
     
   },
@@ -175,8 +167,7 @@ export default {
       })
     },
     judge(){
-    	 this.systemDialogOptions.show = true
-       this.systemDialogOptions.msg = "aaaaa"
+    	 this.serveDialog.show = true
     }
   },
   computed: {},

@@ -186,7 +186,7 @@ export default {
     },
     loginSuccess() {
       this.$router.push({
-        name: 'AppDownload'
+        name: 'openAccount'
       })
     },
     sendSMSCode() {

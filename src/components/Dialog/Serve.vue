@@ -1,10 +1,25 @@
 <template>
   <div class="Dialog" v-if="show">
     <div class="inner">
-      <div v-if="showCloseBtn" class="close" @click="closeDialog"><i class="iconfont icon-guanbi"></i></div>
-      <header v-if="showTitle">{{ title }}</header>
+    	<div class="dlg">
+    		<header>服务</header>
+	      <div v-if="showCloseBtn" class="close" @click="closeDialog">
+	      	<i class="iconfont icon-guanbi"></i>
+	      </div>
+    	</div>
       <section>
-        <slot></slot>
+        <div class="content_01 content">
+        	<a href="javascript:;">利息分配计划</a>
+        	<p>投资当日开始生息，次日入账，投资当日开始生息，次日入账</p>
+        </div>
+        <div class="content_02 content">
+        	<a href="javascript:;">费用说明</a>
+        	<p>无费用</p>
+        </div>
+        <div class="content_03 content">
+        	<a href="javascript:;">退出机制</a>
+        	<p>每月结息</p>
+        </div>
       </section>
     </div>
   </div>
@@ -24,21 +39,6 @@ export default {
     showCloseBtn: {
       type: Boolean,
       default: true
-    },
-    // 标题文字
-    title: {
-      type: String,
-      default: '服务'
-    },
-    // 是否显示标题
-    showTitle: {
-      type: Boolean,
-      default: true
-    },
-    // 按钮文字
-    confirmText: {
-      type: String,
-      default: '确定'
     },
     // 点击确定执行的函数
     onConfirm: {
@@ -79,39 +79,63 @@ export default {
     left: 50%;
     width: 101%;
     height: 380px;
-    padding: 0.44rem 0.2rem 0.2rem;
+    padding: 0 0.1rem;
     transform: translate(-50%, -50%);
     background-color: #fff;
-    .close {
-      position: absolute;
-      right: 0.05rem;
-      top: 0.05rem;
-      padding: 0.03rem;
-      line-height: 0.15rem;
-      text-align: center;
-      font-size: 18px;
+    .dlg{
+    	position:relative;
+    	border-bottom: 1px solid #EEEEEE;
+    	height:53px;
+    	.close {
+	      position: absolute;
+	      right: 0.05rem;
+	      top: 0.05rem;
+	      padding: 0.03rem;
+	      line-height: 0.15rem;
+	      text-align: center;
+	      font-size: 18px;
+	    }
+	    header {
+	      font-size: 15px;
+				color: #333333;
+				letter-spacing: 0.18px;
+	      text-align: center;
+	      line-height: 0.24rem;
+	      padding: 0.05rem;
+	    }
     }
-    header {
-      font-size: 0.17rem;
-      color: #333;
-      text-align: center;
-      line-height: 0.24rem;
-      margin-bottom: 0.36rem;
-      font-weight: bold;
-    }
+    
     section {
       margin-bottom: 0.46rem;
       font-size: 0.13rem;
-      text-align: center;
+      .content{
+      	height:77px;
+      	border-bottom: 1px solid #EEEEEE;
+      	a{
+	      	font-size: 11px;
+					color: #EC5E52;
+					letter-spacing: 0.13px;
+					border: 1px solid #EC5E52;
+	        border-radius: 2px;
+	        max-width: 75px;
+	        height: 17px;
+	        display: inline-block;
+	        margin-bottom: 8px;
+	        margin-top: 5px;
+	        padding: 2px;
+	      }
+	      p{
+	      	font-size: 15px;
+					color: #333333;
+					letter-spacing: 0.18px;
+					width: 344px;
+	      }
+      }
+      .content_01{
+      	height: 98px;
+      }
     }
-    button {
-      @include cube(2.75rem, 0.4rem);
-      border-radius: 0.04rem;
-      font-size: 0.16rem;
-      color: #ffffff;
-      background: #ec5e52;
-      /*background: linear-gradient(90deg, #FF5E19, #EC5E52);*/
-    }
+
   }
 }
 </style>

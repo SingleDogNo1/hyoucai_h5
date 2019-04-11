@@ -12,9 +12,13 @@
          	  <center>
          	  	 <span>历史平均年化收益率</span><br>
          	  	 <strong>{{investDetail.investRate}}</strong><span class="per">%</span>
-         	  	 <p><i>{{investDetail.recentShow}}</i><img src="./images/quest.png"/> </p>
+         	  	 <p>
+         	  	 	<i>{{investDetail.recentShow}}</i>
+         	  	 	<img @click="showQuestDlg()" src="./images/quest.png"/> 
+         	  	 </p>
          	  </center>
          </div>
+         	 
          <div class="pro-info-bottom">
          	  <p><span>锁定期</span><b>{{investDetail.investMent}}天</b></p>
          	  <p><b>{{investDetail.minInvAmt}}元</b><span class="start_amout">起投</span></p>
@@ -126,6 +130,11 @@
         <p>aaaa</p>
       </div>
     </Dialog>
+    <div v-if="showQuest" class="questDlgWrap">
+  	 	<div class="questDlg">
+  	 		<span>{{investDetail.recentTips}}</span>
+  	 	</div>
+  	 </div>
   </BScroll>
 </template>
 
@@ -144,12 +153,20 @@ export default {
   data() {
     return {
     	projectNo: this.$route.params.projectNo,
-      investDetail: null, // 出借详情
+      investDetail: {
+      	projectName:'',//名称
+      	surplusAmount:'',//剩余可投
+      	investRate:'',//年化收益
+      	recentShow:'',//近期表现
+      	investMent:'',//锁定期
+      	minInvAmt:''//起投
+      }, // 出借详情
       creditListData: [], // 债权列表
       investEndTimestamp: 0, // 募集倒计时
       serveDialog: {
         show: false
-      }
+      },
+      showQuest:false
     }
   },
   props: {},
@@ -163,6 +180,10 @@ export default {
     judge() {
       this.serveDialog.show = true
     },
+    showQuestDlg(){
+    	this.showQuest = true
+    },
+    
   },
   computed: {},
   created() {
@@ -243,6 +264,7 @@ export default {
         border-radius: 12px;
         display: flex;
         align-items: center;
+        position: relative;
         i {
           font-style: normal;
           font-size: 11px;
@@ -258,10 +280,12 @@ export default {
           padding-left: 4px;
         }
       }
+
     }
     .pro-info-bottom {
       height: 80px;
       line-height: 80px;
+      z-index: -1;
       p {
         display: inline-block;
         width: 50%;
@@ -628,5 +652,37 @@ export default {
       }
     }
   }
+  
+ .questDlgWrap{
+	  position: fixed;
+	  z-index: 9999999;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  visibility: hidden;
+	  background-color: rgba(0, 0, 0, 0.2);
+    .questDlg{
+    	background-image: url(./images/quest_bg.png);
+    	background-size: 100%;
+    	width: 300px;
+    	height: 85.1px;
+    	position: absolute;
+    	left: 3.5%;
+      top: 31%;
+    	text-align: center;
+    	z-index: 1;
+    	span{
+    		font-size: 13px;
+				  color: #333333;
+				  line-height: 20px;
+				  display: block;
+				  height: 40px;
+				  width: 260px;
+				  padding: 27px 20px 18.1px;
+    	}
+    	
+    }
+ } 
 }
 </style>

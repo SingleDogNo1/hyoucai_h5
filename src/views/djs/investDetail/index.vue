@@ -2,22 +2,22 @@
   <BScroll class="invest-detail">
      <section class="pro-info">
          <div class="pro-info-head">
-            <div class="item-l"><span>汇选投(30天)</span></div>
+            <div class="item-l"><span>{{investDetail.projectName}}</span></div>
             <div class="item-r">
             	<span class="overplus">剩余可投</span><br>
-              <span class="over_amount">38.71万</span>
+              <span class="over_amount">{{investDetail.surplusAmount}}万</span>
             </div>
          </div>
          <div class="pro-info-middle">
          	  <center>
          	  	 <span>历史平均年化收益率</span><br>
-         	  	 <strong>11.0</strong><span class="per">%</span>
-         	  	 <p><i>近期表现 8.00% ～ 8.00%</i><img src="./images/quest.png"/> </p>
+         	  	 <strong>{{investDetail.investRate}}</strong><span class="per">%</span>
+         	  	 <p><i>{{investDetail.recentShow}}</i><img src="./images/quest.png"/> </p>
          	  </center>
          </div>
          <div class="pro-info-bottom">
-         	  <p><span>锁定期</span><b>90天</b></p>
-         	  <p><b>1000元</b><span class="start_amout">起投</span></p>
+         	  <p><span>锁定期</span><b>{{investDetail.investMent}}天</b></p>
+         	  <p><b>{{investDetail.minInvAmt}}元</b><span class="start_amout">起投</span></p>
          </div>
      </section>
      
@@ -48,12 +48,12 @@
      <section class="user-numbers">
      	 <div class="number">
      	 	 <img src="./images/users_img.png" />
-     	 	 <span>··· 已有<b>158537</b>位用户投标成功</span>
+     	 	 <span>··· 已有<b>{{investDetail.investPeople}}</b>位用户投标成功</span>
      	 </div>
      </section>
      <section class="serve-detail">
      	  <p class="tip">服务介绍</p>
-     	  <p class="content">随着房产市场竞争的日益激烈， 企业越早获得准确的房屋信息就能越早和业主建立直接的联系， 从而成功把握更多的商机。我们在在北京的信息员均有着多年的房产信息收集经验， 能够通过各种媒体渠道、</p>
+     	  <p class="content">{{investDetail.appDesc}}</p>
      	  <dl>
      	  	<dt><img src="./images/icon_01.png" /></dt>
      	  	<dd><span>自动投标</span><br><i>系统自动根据用户确认的投标条件完成分散投标以降低风险</i></dd>
@@ -143,6 +143,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
+import api from '@/api/djs/investDetail/index'
 export default {
   name: 'index',
   mixins: [],
@@ -152,6 +153,12 @@ export default {
   },
   data() {
     return {
+    	productId: this.$route.params.productId,
+      itemId: this.$route.params.itemId,
+      recentShow: null, // 项目信息
+      investDetail: null, // 出借详情
+      projects: [], // 项目组成
+      investEndTimestamp: 0, // 募集倒计时
       serveDialog: {
         show: false
       }
@@ -167,10 +174,16 @@ export default {
     },
     judge() {
       this.serveDialog.show = true
-    }
+    },
   },
   computed: {},
-  created() {},
+  created() {
+  	api.getInvestDetail({ projectNo: '1901180802'}).then(res => {
+      this.investDetail = res.data
+      
+   })
+ 
+  },
   mounted() {},
   destroyed() {}
 }

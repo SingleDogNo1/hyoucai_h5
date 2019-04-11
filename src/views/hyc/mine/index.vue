@@ -4,18 +4,18 @@
       <div>
         <div class="statistics">
           <div class="total-count">
-            <p class="title">总资产(元)<span></span></p>
-            <p class="content">0.00</p>
-            <span class="icon-hidden"></span>
+            <p class="title">总资产(元)<span @click="showModel=true"></span></p>
+            <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
+            <span class="icon-hidden" :class="{'show':!showAmount,'hide':showAmount}"  @click="showAmountFn"></span>
           </div>
-          <div class="other-counts">
+          <div class="other-counts" >
             <div>
               <p class="title">在投本金（元）</p>
-              <p class="content">0.00</p>
+              <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
             </div>
             <div>
               <p class="title">累积收益（元）</p>
-              <p class="content">0.00</p>
+              <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
             </div>
           </div>
         </div>
@@ -41,9 +41,9 @@
             </div>
           </div>
           <div class="actions">
-            <div class="amount">可用金额(元) <span>0.00</span></div>
+            <div class="amount">可用金额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></div>
             <div class="action">
-              <input type="button" value="提现">
+              <input type="button" value="提现" >
               <input type="button" value="充值">
             </div>
           </div>
@@ -60,13 +60,13 @@
               <span>系统切换</span>
               <span></span>
             </div>
-            <div class="link">
+            <div class="link" @click="$router.push({name:'Setting'})">
               <span>设置</span>
               <span></span>
             </div>
           </div>
           <div class="customer-service">
-            <span class="phone">客服热线 400-099-7979</span>
+            <span class="phone"  >客服热线 400-099-7979</span>
             <span class="service-time">工作日：上午 9:00-12:00  下午13:00-18:00</span>
           </div>
         </div>
@@ -76,6 +76,16 @@
         </div>
       </div>
     </b-scroll>
+    <div class="model" v-if="showModel" @click="showModel=false">
+      <div class="amount">
+        <ul>
+          <li>可用余额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
+          <li>在投本金(元) <span v-if="showAmount">200000000.00</span><span v-else>****</span></li>
+          <li>待收利息(元) <span v-if="showAmount">4.50</span><span v-else>****</span></li>
+          <li>冻结金额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -89,12 +99,18 @@ export default {
   mixins: [],
   data() {
     return {
-      msg: 'hyc-user-center'
+      msg: 'hyc-user-center',
+      showModel: false,
+      showAmount: false
     }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    showAmountFn() {
+      this.showAmount = !this.showAmount
+    }
+  },
   computed: {},
   created() {},
   mounted() {},
@@ -109,202 +125,242 @@ export default {
   .scroll {
     height: 100%;
     overflow: hidden;
-  }
-  .statistics {
-    background: #ec5e52;
-    padding: 0.15rem;
-    height: 1.68rem;
-    color: #fff;
+    .statistics {
+      background: #ec5e52;
+      padding: 0.15rem;
+      height: 1.68rem;
+      color: #fff;
 
-    .total-count {
-      position: relative;
-      .title {
-        font-size: 0.13rem;
-        line-height: 0.18rem;
-        span {
-          margin-left: 0.1rem;
-          vertical-align: middle;
-          display: inline-block;
-          width: 0.12rem;
-          height: 0.12rem;
-          background-image: url(./question.png);
-          background-size: 100% 100%;
-        }
-      }
-      .content {
-        font-size: 0.36rem;
-        line-height: 0.5rem;
-      }
-      .icon-hidden {
-        position: absolute;
-        top: 0;
-        right: 0.07rem;
-        width: 0.19rem;
-        height: 0.13rem;
-        background: url(./hide.png);
-        background-size: 100% 100%;
-      }
-    }
-    .other-counts {
-      margin-top: 0.09rem;
-      display: flex;
-      & > div {
-        flex: 1;
-      }
-      .title {
-        font-size: 0.12rem;
-      }
-      .content {
-        font-size: 0.16rem;
-        margin-top: 0.08rem;
-      }
-    }
-  }
-  .main {
-    background: #f9f9f9;
-    .buttons {
-      position: relative;
-      top: -0.1rem;
-      background: #fff;
-      border-radius: 0.04rem;
-      width: 3.45rem;
-      height: 0.9rem;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      text-align: center;
-      .btn {
-        .btn-image {
-          height: 0.24rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        img {
-          width: 0.26rem;
-          height: 0.19rem;
-        }
-        p {
-          margin-top: 0.12rem;
+      .total-count {
+        position: relative;
+        .title {
           font-size: 0.13rem;
           line-height: 0.18rem;
+          span {
+            margin-left: 0.1rem;
+            vertical-align: middle;
+            display: inline-block;
+            width: 0.12rem;
+            height: 0.12rem;
+            background-image: url(./question.png);
+            background-size: 100% 100%;
+          }
         }
-        &:nth-child(2) img {
-          width: 0.2rem;
-          height: 0.24rem;
+        .content {
+          font-size: 0.36rem;
+          line-height: 0.5rem;
+        }
+        .icon-hidden {
+          position: absolute;
+          top: 0;
+          right: 0.07rem;
+          width: 0.19rem;
+          height: 0.13rem;
+          &.hide {
+            background: url(./hide.png);
+            background-size: 100% 100%;
+          }
+          &.show {
+            background: url(./show.png);
+            background-size: 100% 100%;
+          }
         }
       }
-    }
-    .actions {
-      background: #fff;
-      padding: 0 0.15rem;
-      line-height: 0.52rem;
-      display: flex;
-      justify-content: space-between;
-      color: #999;
-      .amount {
-        font-size: 0.13rem;
-        span {
+      .other-counts {
+        margin-top: 0.09rem;
+        display: flex;
+        & > div {
+          flex: 1;
+        }
+        .title {
+          font-size: 0.12rem;
+        }
+        .content {
           font-size: 0.16rem;
-          color: #ec5e52;
-          vertical-align: middle;
-          margin-left: 0.08rem;
+          margin-top: 0.08rem;
         }
       }
-      input[type='button'] {
-        width: 0.58rem;
-        height: 0.28rem;
-        border: 0.01rem solid #999;
-        border-radius: 0.04rem;
-        margin-left: 0.1rem;
-      }
     }
-    .links {
-      margin-top: 0.1rem;
-      background: #fff;
-      padding: 0 0 0 0.15rem;
-      .link {
-        height: 0.5rem;
-        line-height: 0.5rem;
+    .main {
+      background: #f9f9f9;
+      .buttons {
+        position: relative;
+        top: -0.1rem;
+        background: #fff;
+        border-radius: 0.04rem;
+        width: 3.45rem;
+        height: 0.9rem;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        text-align: center;
+        .btn {
+          .btn-image {
+            height: 0.24rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          img {
+            width: 0.26rem;
+            height: 0.19rem;
+          }
+          p {
+            margin-top: 0.12rem;
+            font-size: 0.13rem;
+            line-height: 0.18rem;
+          }
+          &:nth-child(2) img {
+            width: 0.2rem;
+            height: 0.24rem;
+          }
+        }
+      }
+      .actions {
+        background: #fff;
+        padding: 0 0.15rem;
+        line-height: 0.52rem;
         display: flex;
         justify-content: space-between;
-        border-bottom: 0.01rem solid #e8e8e8;
-        padding-right: 0.15rem;
-        span:first-child {
-          font-size: 0.15rem;
-        }
-        span:last-child {
+        color: #999;
+        .amount {
           font-size: 0.13rem;
-          color: #999;
-          &:after {
-            content: '';
-            display: inline-block;
-            background: url(./more.png);
-            width: 0.057rem;
-            height: 0.114rem;
-            background-size: 100% 100%;
+          span {
+            font-size: 0.16rem;
+            color: #ec5e52;
             vertical-align: middle;
             margin-left: 0.08rem;
           }
         }
-      }
-    }
-    .customer-service {
-      background: #fff;
-      text-align: center;
-      display: flex;
-      font-size: 0.11rem;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      height: 0.89rem;
-      .phone {
-        width: 1.82rem;
-        height: 0.28rem;
-        color: #999999;
-        line-height: 0.28rem;
-        border: 0.01rem solid #ccc;
-        border-radius: 0.14rem;
-        margin-top: 0.2rem;
-        &:before {
-          content: '';
-          display: inline-block;
-          width: 0.15rem;
-          height: 0.15rem;
-          background: url(./customer_service.png);
-          background-size: 100% 100%;
-          margin-right: 0.08rem;
-          vertical-align: middle;
+        input[type='button'] {
+          width: 0.58rem;
+          height: 0.28rem;
+          border: 0.01rem solid #999;
+          border-radius: 0.04rem;
+          margin-left: 0.1rem;
         }
       }
-      .service-time {
-        color: #ccc;
-        margin-bottom: 0.18rem;
+      .links {
+        margin-top: 0.1rem;
+        background: #fff;
+        padding: 0 0 0 0.15rem;
+        .link {
+          height: 0.5rem;
+          line-height: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 0.01rem solid #e8e8e8;
+          padding-right: 0.15rem;
+          span:first-child {
+            font-size: 0.15rem;
+          }
+          span:last-child {
+            font-size: 0.13rem;
+            color: #999;
+            &:after {
+              content: '';
+              display: inline-block;
+              background: url(./more.png);
+              width: 0.057rem;
+              height: 0.114rem;
+              background-size: 100% 100%;
+              vertical-align: middle;
+              margin-left: 0.08rem;
+            }
+          }
+        }
+      }
+      .customer-service {
+        background: #fff;
+        text-align: center;
+        display: flex;
+        font-size: 0.11rem;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 0.89rem;
+        .phone {
+          width: 1.82rem;
+          height: 0.28rem;
+          color: #999999;
+          line-height: 0.28rem;
+          border: 0.01rem solid #ccc;
+          border-radius: 0.14rem;
+          margin-top: 0.2rem;
+          &:before {
+            content: '';
+            display: inline-block;
+            width: 0.15rem;
+            height: 0.15rem;
+            background: url(./customer_service.png);
+            background-size: 100% 100%;
+            margin-right: 0.08rem;
+            vertical-align: middle;
+          }
+        }
+        .service-time {
+          color: #ccc;
+          margin-bottom: 0.18rem;
+        }
+      }
+    }
+    .download {
+      display: flex;
+      align-items: center;
+      height: 0.52rem;
+      padding: 0 0.15rem;
+      justify-content: space-between;
+      img {
+        width: 0.15rem;
+        height: 0.15rem;
+        margin-right: 0.08rem;
+      }
+      span {
+        font-size: 0.13rem;
+        color: #999999;
+      }
+      input {
+        background: #ec5e52;
+        border-radius: 4px;
+        color: #fff;
+        width: 0.72rem;
+        height: 0.3rem;
       }
     }
   }
-  .download {
-    display: flex;
-    align-items: center;
-    height: 0.52rem;
-    padding: 0 0.15rem;
-    justify-content: space-between;
-    img {
-      width: 0.15rem;
-      height: 0.15rem;
-      margin-right: 0.08rem;
-    }
-    span {
-      font-size: 0.13rem;
-      color: #999999;
-    }
-    input {
-      background: #ec5e52;
-      border-radius: 4px;
-      color: #fff;
-      width: 0.72rem;
-      height: 0.3rem;
+  .model {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    .amount {
+      position: relative;
+      top: 0.43rem;
+      left: 0.54rem;
+      display: inline-block;
+      background: #fff;
+      border-radius: 0.04rem;
+      font-size: 0.11rem;
+      line-height: 0.16rem;
+      color: #333333;
+      padding: 0.06rem 0.09rem 0.07rem 0.09rem;
+      &:before {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 10px solid #fff;
+        top: -0.08rem;
+        left: 0.32rem;
+        position: absolute;
+      }
+      li {
+        margin-bottom: 0.02rem;
+      }
     }
   }
 }

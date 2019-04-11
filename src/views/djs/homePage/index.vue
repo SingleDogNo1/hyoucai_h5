@@ -144,11 +144,9 @@ export default {
           name: 'loginRegister'
         })
       } else {
-        // TODO 消息中心未完成
-        console.log(`to-msg-detail`)
-        // this.$router.push({
-        //   name: ''
-        // })
+        this.$router.push({
+          name: 'DJSSiteMessage'
+        })
       }
     },
     showTabs(router_name) {
@@ -350,7 +348,7 @@ export default {
   }
   .newbie {
     position: relative;
-    @include cube(3.45rem, 2.5rem);
+    width: 3.45rem;
     margin: 0.3rem auto 0.2rem;
     background: #fff;
     box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
@@ -543,6 +541,7 @@ export default {
           align-self: center;
           button {
             @include cube(0.82rem, 0.3rem);
+            line-height: 0.3rem;
             background: #ec5e52;
             border-radius: 0.04rem;
             font-size: 0.13rem;

@@ -7,13 +7,20 @@
 
 <script>
 import { showFlag } from '@/api/common/common'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'differPlatform',
+  methods: {
+    ...mapMutations({
+      setPlatform: 'SET_PLATFORM'
+    })
+  },
   created() {
     showFlag().then(res => {
       const data = res.data
       if (res.data.resultCode === '1') {
+        this.setPlatform(data.data.platformFlag === '1' ? 'djs' : 'hyc')
         switch (data.data.platformFlag) {
           case '1':
             // 点金石

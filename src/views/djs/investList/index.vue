@@ -58,7 +58,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
 // import apiIndex from '@/api/invest/index'
-import api from '@/api/djs/investList/index'
+import api from '@/api/djs/investList'
 // import NoData from '@/components/NoData/NoData'
 
 const CODE_OK = '1'

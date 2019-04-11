@@ -61,7 +61,7 @@
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import Hyoucai from '@/assets/js/hyoucai'
-import { getEvaInvLimitApi, saveEvaluatingResultApi, userBasicInfo } from '@/api/common/riskTest/riskTest'
+import { getEvaInvLimitApi, saveEvaluatingResultApi, userBasicInfo } from '@/api/common/riskTest'
 import { Base64Utils } from '@/assets/js/utils'
 
 export default {

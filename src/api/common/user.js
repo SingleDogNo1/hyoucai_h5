@@ -27,11 +27,3 @@ export function queryAgreementCatalog(data) {
     data: qs.stringify(data)
   })
 }
-
-export function getBasicInfo(data) {
-  return request({
-    url: 'user/basicInfo',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}

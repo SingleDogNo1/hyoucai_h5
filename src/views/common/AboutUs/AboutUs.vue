@@ -366,7 +366,7 @@ export default {
         },
         {
           name: '职能管理中心',
-          include: ['人事行政部', '财务部', '法务部']
+          include: ['人事行政部', '财务部', '法务部', '内部审计部']
         }
       ],
       showAllInfo: false, // 是否显示全部基本信息

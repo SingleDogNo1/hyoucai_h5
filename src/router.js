@@ -368,6 +368,14 @@ export default new Router({
           }
         },
         {
+          path: 'lendRecord',
+          name: 'DJSLendRecord',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/lendRecord'),
+          meta: {
+            title: '出借记录'
+          }
+        },
+        {
           path: 'act-center',
           name: 'DJSActivityCenter',
           component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),

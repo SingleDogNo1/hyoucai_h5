@@ -28,8 +28,8 @@
      <section class="pro-serve">
      	  <ul>
      	  	<li class="li-one"><span>...</span><i>募集期</i></li>
-     	  	<li><span>2018-11-29</span><i>投资完成</i></li>
-     	  	<li><span>2018-11-30</span><i>起息</i></li>
+     	  	<li><span>{{investDetail.endData}}</span><i>投资完成</i></li>
+     	  	<li><span>{{investDetail.breathDate}}</span><i>起息</i></li>
      	  	<li><span>2019-02-28</span><i>锁定期结束</i></li>
      	  </ul>
      	  <div class="serve-info">
@@ -45,11 +45,11 @@
      	  </div>
      	  <div class="activity">
      	  	<span class="title">活动</span>
-          <span class="desc">投资6,95万，免费送华为mate手机</span>
+          <span class="desc">{{activity.activityInfo}}</span>
           <p><img src="./images/more.png" /></p>
      	  </div>
      </section>
-     <section class="user-numbers">
+     <section class="user-numbers" @click="pathUrl('DJSLendRecord')">
      	 <div class="number">
      	 	 <img src="./images/users_img.png" />
      	 	 <span>··· 已有<b>{{investDetail.investPeople}}</b>位用户投标成功</span>
@@ -79,7 +79,7 @@
      <section class="claims">
      	  <div class="claims_list">
      	  	<h2>债权列表</h2>
-     	  	<p @click="pathClaim('DJSClaimList')">全部<img src="./images/more.png" /></p>
+     	  	<p @click="pathUrl('DJSClaimList')">全部<img src="./images/more.png" /></p>
      	  </div>
      	  <table>
      	  	<tr v-for="(item, index) in creditListData" :key="index">
@@ -92,15 +92,15 @@
      <section class="manage-info">
      	 <p class="tip" >服务介绍</p>
      	 <div class="manage">
-     	 	  <ul>
+     	 	  <ul @click="complianceManagement()">
      	 	  	<li><img src="./images/icon_03.png" /></li>
      	 	  	<li><span>合规管理</span></li>
      	 	  </ul>
-     	 	  <ul>
+     	 	  <ul @click="selectMeans()">
      	 	  	<li><img src="./images/icon_04.png" /></li>
      	 	  	<li><span>严选资产</span></li>
      	 	  </ul>
-     	 	  <ul>
+     	 	  <ul @click="fundSafety()">
      	 	  	<li><img src="./images/icon_05.png" /></li>
      	 	  	<li><span>资金安全</span></li>
      	 	  </ul>
@@ -143,6 +143,7 @@
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
 import api from '@/api/djs/investDetail/index'
+import { timeCountDown } from '@/assets/js/utils'
 export default {
   name: 'index',
   mixins: [],
@@ -154,36 +155,55 @@ export default {
     return {
     	projectNo: this.$route.params.projectNo,
       investDetail: {
-      	projectName:'',//名称
+      	projectName:'',//产品名称
       	surplusAmount:'',//剩余可投
       	investRate:'',//年化收益
       	recentShow:'',//近期表现
       	investMent:'',//锁定期
-      	minInvAmt:''//起投
+      	minInvAmt:'',//起投
+      	
       }, // 出借详情
       creditListData: [], // 债权列表
       investEndTimestamp: 0, // 募集倒计时
       serveDialog: {
         show: false
       },
-      showQuest:false
+      showQuest:false,
+      activity:''//活动
     }
   },
   props: {},
-  watch: {},
+  watch: {
+  	
+  },
   methods: {
-    pathClaim(router_name) {
+    pathUrl(router_name) {
       this.$router.push({
         name: router_name
       })
     },
-    judge() {
+    judge() {//服务弹框
       this.serveDialog.show = true
     },
-    showQuestDlg(){
-    	this.showQuest = true
+    showQuestDlg(){//点击问号弹框
+    	//this.showQuest = true
     },
-    
+    selectMeans(){//跳转到严选资产
+    	 this.$router.push({
+          path: `/selectMeans`
+        })
+    },
+    complianceManagement(){//跳转到合规管理
+    	this.$router.push({
+          path: `/complianceManagement`
+        })
+    },
+    fundSafety(){//跳转到资金安全
+    	this.$router.push({
+          path: `/fundSafety`
+      })
+    }
+
   },
   computed: {},
   created() {
@@ -191,6 +211,8 @@ export default {
   	api.getInvestDetail({ projectNo: '1811150801'}).then(res => {
       this.investDetail = res.data
       this.creditListData = res.data.creditList
+      this.activity = res.data.activity
+     
     })
   	
   },

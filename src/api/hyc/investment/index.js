@@ -1,8 +1,7 @@
 import axios from '@/assets/js/requestHYC'
 import Qs from 'qs'
 
-// 优质计划
-export function collectionApi(data) {
+function collectionApi(data) {
   // 出借列表
   return axios({
     url: '/collection/investList',
@@ -14,7 +13,18 @@ export function collectionApi(data) {
   })
 }
 
-export function projectApi(data) {
+function pageConfig(data) {
+  return axios({
+    url: '/pageConfig/getPageConfig',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+function projectApi(data) {
   return new Promise((resolve, reject) => {
     axios.post('/project/investList', Qs.stringify(data)).then(
       res => {
@@ -27,7 +37,7 @@ export function projectApi(data) {
   })
 }
 
-export function getLoanDetail(data) {
+function getLoanDetail(data) {
   return new Promise((resolve, reject) => {
     axios.post('/collection/loanDetail', Qs.stringify(data)).then(
       res => {
@@ -40,7 +50,7 @@ export function getLoanDetail(data) {
   })
 }
 
-export function getBorrowerDetail(data) {
+function getBorrowerDetail(data) {
   return new Promise((resolve, reject) => {
     axios.post('/jxLoanPeopleInfo/detail', Qs.stringify(data)).then(
       res => {
@@ -53,8 +63,7 @@ export function getBorrowerDetail(data) {
   })
 }
 
-// 散标项目详情
-export function getProjectDetail(data, authorization) {
+function getProjectDetail(data, authorization) {
   return axios({
     url: 'project/projectDetail',
     method: 'post',
@@ -66,8 +75,7 @@ export function getProjectDetail(data, authorization) {
   })
 }
 
-// 优质计划产品详情
-export function getProductDetail(data, authorization) {
+function getProductDetail(data, authorization) {
   return axios({
     url: 'collection/investDetail',
     method: 'post',
@@ -77,4 +85,14 @@ export function getProductDetail(data, authorization) {
       authorization: authorization
     }
   })
+}
+
+export {
+  collectionApi, // 优质计划
+  projectApi, // 散标
+  pageConfig, // 获取分类
+  getLoanDetail,
+  getBorrowerDetail,
+  getProjectDetail, // 散标项目详情
+  getProductDetail // 优质计划产品详情
 }

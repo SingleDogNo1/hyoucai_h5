@@ -1,41 +1,43 @@
 <template>
   <div class="box">
     <div class="have" v-show="haveCard">
-      <div class="coupon">
+      <!-- 待领取券包 -->
+      <div class="coupon" v-for="(item, index) in unclaimed" :key="index + 'a'">
         <div class="coupon_left">
           <p class="coupon_left_p">
-            <span class="number">30.00</span>
-            <span class="txt">元</span>
+            <span class="number">{{ item.voucherFaceValue }}</span>
+            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
+            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
           </p>
-          <p class="coupon_left_txt">
-            可与加息券
-            <br />一起使用
-          </p>
+          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1">起投金额：100.00元</p>
+          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
-          <p class="right_p2 right_p3">有效期至：2018-10-11</p>
-          <div class="coupon_right_btn">
+          <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
             <img src="./images/btn.png" alt />
           </div>
         </div>
       </div>
-      <div class="coupon">
+      <!-- 已领取券包 -->
+      <div class="coupon" v-for="(item, index) in haveReceived" :key="index + 'b'" @click="touse()">
         <div class="coupon_left">
           <p class="coupon_left_p">
-            <span class="number">30.00</span>
-            <span class="txt">元</span>
+            <span class="number">{{ item.voucherFaceValue }}</span>
+            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
+            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
           </p>
-          <p class="coupon_left_txt">
-            可与加息券
-            <br />一起使用
-          </p>
+          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1">起投金额：100.00元</p>
+          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
-          <p class="right_p2">有效期至：2018-10-11</p>
+          <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
     </div>
@@ -49,10 +51,60 @@
 </template>
 
 <script>
+import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
 export default {
   data() {
     return {
-      haveCard: true
+      haveCard: true, //有没有券
+      unclaimed: [], //待领取券
+      haveReceived: [] //已领取待使用券
+    }
+  },
+  created() {
+    this.CouponPacketList()
+  },
+  methods: {
+    CouponPacketList() {
+      CouponPacketList({ userName: '小狗', clientType: 'QD03' }).then(res => {
+        console.log(res.data.vouchers)
+        let data = res.data.vouchers
+        data.map(item => {
+          if (item.commonUse == 1) {
+            //判断是否可共用
+            item.commonUse = '可'
+          } else {
+            item.commonUse = '不可'
+          }
+          if (item.status == 2) {
+            //判断是否可领取
+            this.haveReceived.push(item)
+          } else {
+            this.unclaimed.push(item)
+          }
+        })
+      })
+    },
+    // 领取加息券
+    receiveCoupon: function(id) {
+      this.isShow1 = true
+      let obj = {}
+      obj.userName = '小狗'
+      obj.couponId = id
+      ReceiveCoupon(obj)
+    },
+    // 领取红包
+    receiveRedPacket: function(id) {
+      this.isShow2 = true
+      let obj = {}
+      obj.userName = '小狗'
+      obj.redPacketId = id
+      ReceiveRedPacket(obj)
+    },
+    //去使用
+    touse() {
+      this.$router.push({
+        name: 'DJSInvestment'
+      })
     }
   }
 }
@@ -93,6 +145,10 @@ export default {
         color: #999999;
         letter-spacing: 0.12px;
       }
+      // .actives{
+      //   width: .89rem;
+      //   text-align: center;
+      // }
     }
     .coupon_right {
       padding-left: 0.13rem;

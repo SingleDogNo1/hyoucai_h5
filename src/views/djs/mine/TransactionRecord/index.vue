@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getUserTransaction } from '@/api/djs/transaction'
 export default {
   name: 'index',
   components: {},
@@ -41,9 +42,17 @@ export default {
       flag: 1
     }
   },
+  created() {
+    this.getUserTransaction()
+  },
   methods: {
     changeFlag(val) {
       this.flag = val
+    },
+    getUserTransaction() {
+      getUserTransaction({ userName: '12111000040' }).then(res => {
+        console.log(res)
+      })
     }
   }
 }

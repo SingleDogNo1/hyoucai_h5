@@ -8,6 +8,9 @@
     <div class="item_wrapper" :class="matchClass(itemData)">
       <div class='item_title'>
           <span>{{ itemData.projectName }}</span>
+          <em v-if="itemData.tags && itemData.tags.length">
+            <i v-for="(el, i) in itemData.tags" :key="i"> {{el.tagName}} </i>
+          </em>
       </div>
       <div class='item_info'>
         <dl>
@@ -20,9 +23,9 @@
           <dd>锁定期</dd>
         </dl>
          <!--hyoucai 优质计划-->
-        <div v-if="itemData.projectType && itemData.projectType == 2">
+        <div v-if="itemData.projectType && itemData.projectType === 2">
+          <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
           <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
-            <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
             <button disabled> 还款中 </button>
           </template>
           <template v-else-if="itemData.status === 2">
@@ -37,8 +40,29 @@
             </button>
           </template>
         </div>
+        <!--散标-->
+        <div v-else-if="itemData.projectType && itemData.projectType === 0">
+          <template v-if="itemData.status === 3">
+            <!--3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
+            <button disabled> 还款中 </button>
+          </template>
+          <template v-else-if="itemData.status === 2">
+            <button disabled> 满标 </button>
+          </template>
+          <template v-else-if="itemData.status === 1">
+            <button disabled> 授权出借 </button>
+          </template>
+          <template v-else>
+            <button disabled>
+              <dl>
+                <dt>距离开售</dt>
+                <dd>{{ itemData.djs }}</dd>
+              </dl>
+            </button>
+          </template>
+        </div>
         <!--djs-->
-        <div v-else>
+        <div v-else-if="!itemData.projectType">
           <template v-if="itemData.status === '1' && parseFloat(itemData.enablAmt) !== 0">
             <button> 授权出借 </button>
           </template>
@@ -132,17 +156,6 @@ export default {
       font-size: 0.17rem;
       color: #333;
     }
-    i {
-      display: inline-block;
-      vertical-align: top;
-      padding: 3px 0.05rem;
-      font-size: 0.11rem;
-      color: #b27c50;
-      border-radius: 0.01rem;
-      letter-spacing: 0;
-      text-align: center;
-      background-color: #efefef;
-    }
   }
   .item_wrapper {
     background-color: #fff;
@@ -156,11 +169,17 @@ export default {
         font-size: $font-size-small;
         color: $color-text-b;
       }
-      img {
+      i {
         display: inline-block;
-        width: 0.16rem;
-        height: 0.16rem;
-        margin: 0 0 0 0.08rem;
+        vertical-align: top;
+        margin-left: 0.1rem;
+        padding: 3px 0.05rem;
+        font-size: 0.11rem;
+        color: #b27c50;
+        border-radius: 0.01rem;
+        letter-spacing: 0;
+        text-align: center;
+        background-color: #efefef;
       }
     }
     .item_info {

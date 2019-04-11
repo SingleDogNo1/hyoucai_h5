@@ -165,6 +165,16 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
+        },
+        {
+          path: 'activity',
+          component: Empty,
+          children: [
+            {
+              path: 'prizeDraw',
+              component: () => import(/* webpackChunkName: "Activity" */ '@/views/common/activities/prizeDraw')
+            }
+          ]
         }
       ]
     },

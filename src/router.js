@@ -447,7 +447,7 @@ export default new Router({
         },
         {
           path: 'historyCard',
-          name: 'HistoryCard',
+          name: 'DJSHistoryCard',
           component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'

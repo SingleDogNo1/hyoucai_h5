@@ -14,7 +14,7 @@
         <div class="coupon_right">
           <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：{{ item.projectTypes[0].projectTypeName }}</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
@@ -30,7 +30,7 @@
         <div class="coupon_right">
           <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：{{ item.projectTypes[0].projectTypeName }}</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
@@ -60,7 +60,7 @@ export default {
   methods: {
     couponPacketHistory() {
       couponPacketHistory({ userName: '小狗' }).then(res => {
-        console.log(res.data.vouchers)
+        // console.log(res.data.vouchers)
         let data = res.data.vouchers // 历史卡券
         if (data) {
           //存在历史卡券
@@ -70,6 +70,14 @@ export default {
             } else {
               item.commonUse = '不可'
             }
+            item.projectTypes.map(items => {
+              // 展开券的适用范围
+              if ((index = item.projectTypes.length)) {
+                item.msg = items.projectTypeName
+              } else {
+                item.msg = items.projectTypeName + '、'
+              }
+            })
             switch (item.status) {
               case 1:
                 this.usedList.push(item) //已使用加息券
@@ -102,7 +110,8 @@ export default {
     margin-top: 0.1rem;
     height: 1.02rem;
     display: flex;
-    background: #fff;
+    background: url(./images/historybg.png);
+    background-size: 3.75rem 1.02rem;
     .coupon_left {
       width: 1.4rem;
       margin-top: 0.18rem;
@@ -136,7 +145,7 @@ export default {
       }
     }
     .coupon_right {
-      padding-left: 0.13rem;
+      padding-left: 0.03rem;
       padding-right: 0.14rem;
       .right_p1 {
         margin-top: 0.1rem;

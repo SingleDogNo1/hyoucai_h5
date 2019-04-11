@@ -2,19 +2,19 @@
   <div class="content">
     <div class="heads">
       <div class="head-box" :class="{ actives: flag == 1 }" @click="changeFlag(1)">
-        <span class="head-txt">申请中</span>
+        <span class="head-txt">全部</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 2 }" @click="changeFlag(2)">
-        <span class="head-txt">出借中</span>
+        <span class="head-txt">充值</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 3 }" @click="changeFlag(3)">
-        <span class="head-txt">已结清</span>
+        <span class="head-txt">提现</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 4 }" @click="changeFlag(4)">
-        <span class="head-txt">已退款</span>
+        <span class="head-txt">其他</span>
         <span class="head-line"></span>
       </div>
     </div>

@@ -13,8 +13,22 @@ function getInvestDetail(data) {
   })
 }
 
+function getClaimList(data) {
+  return new Promise((resolve, reject) => {
+    axios.post('/BondProject', Qs.stringify(data)).then(
+      res => {
+        resolve(res)
+      },
+      err => {
+        reject(err)
+      }
+    )
+  })
+}
+
 export default {
  
   getInvestDetail, // 项目详情
+  getClaimList,//债权列表
  
 }

@@ -78,19 +78,9 @@
      	  	<p @click="pathClaim('DJSClaimList')">全部<img src="./images/more.png" /></p>
      	  </div>
      	  <table>
-     	  	<tr>
-     	  		<td>孟**</td>
-     	  		<td>3,000.00</td>
-     	  		<td>详情</td>
-     	  	</tr>
-     	  	<tr>
-     	  		<td>孟**</td>
-     	  		<td>3,000.00</td>
-     	  		<td>详情</td>
-     	  	</tr>
-     	  	<tr>
-     	  		<td>孟**</td>
-     	  		<td>3,000.00</td>
+     	  	<tr v-for="(item, index) in creditListData" :key="index">
+     	  		<td>{{item.name}}</td>
+     	  		<td>{{item.amount}}</td>
      	  		<td>详情</td>
      	  	</tr>
      	  </table>
@@ -127,7 +117,7 @@
      <section class="to-lend">
      	  <div class="lend_btns">
      	  	<p>授权出借</p>
-     	  	<span>剩余可投57.29万</span>
+     	  	<span>剩余可投{{investDetail.surplusAmount}}万</span>
      	  </div>
      </section>
     <!-- 服务弹窗 -->
@@ -153,11 +143,9 @@ export default {
   },
   data() {
     return {
-    	productId: this.$route.params.productId,
-      itemId: this.$route.params.itemId,
-      recentShow: null, // 项目信息
+    	projectNo: this.$route.params.projectNo,
       investDetail: null, // 出借详情
-      projects: [], // 项目组成
+      creditListData: [], // 债权列表
       investEndTimestamp: 0, // 募集倒计时
       serveDialog: {
         show: false
@@ -178,11 +166,12 @@ export default {
   },
   computed: {},
   created() {
-  	api.getInvestDetail({ projectNo: '1901180802'}).then(res => {
+  	//出借详情
+  	api.getInvestDetail({ projectNo: '1811150801'}).then(res => {
       this.investDetail = res.data
-      
-   })
- 
+      this.creditListData = res.data.creditList
+    })
+  	
   },
   mounted() {},
   destroyed() {}

@@ -2,7 +2,16 @@
   <div class="box">
     <div class="have" v-show="haveCard">
       <!-- 待领取券包 -->
-      <div class="coupon" v-for="(item, index) in unclaimed" :key="index + 'a'">
+      <div
+        class="coupon"
+        v-for="(item, index) in unclaimed"
+        :key="index + 'a'"
+        :class="[
+          { receive1: item.voucherType == 'VT01' }, //加息券
+          { receive2: item.secondType == 1 }, //抵扣红包
+          { receive2_1: item.secondType == 2 } //投资红包
+        ]"
+      >
         <div class="coupon_left">
           <p class="coupon_left_p">
             <span class="number">{{ item.voucherFaceValue }}</span>
@@ -15,7 +24,7 @@
         <div class="coupon_right">
           <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
             <img src="./images/btn.png" alt />
@@ -23,7 +32,17 @@
         </div>
       </div>
       <!-- 已领取券包 -->
-      <div class="coupon" v-for="(item, index) in haveReceived" :key="index + 'b'" @click="touse()">
+      <div
+        class="coupon"
+        v-for="(item, index) in haveReceived"
+        :key="index + 'b'"
+        @click="touse()"
+        :class="[
+          { receive1: item.voucherType == 'VT01' }, //加息券
+          { receive2: item.secondType == 1 }, //抵扣红包
+          { receive2_1: item.secondType == 2 } //投资红包
+        ]"
+      >
         <div class="coupon_left">
           <p class="coupon_left_p">
             <span class="number">{{ item.voucherFaceValue }}</span>
@@ -36,7 +55,7 @@
         <div class="coupon_right">
           <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
@@ -46,6 +65,9 @@
         <img src="./images/bg.png" alt />
       </div>
       <p class="no_txt">暂无红包加息券</p>
+    </div>
+    <div class="see_history">
+      <button class="see_btn" @click="seeHistoryCard">查看历史卡券</button>
     </div>
   </div>
 </template>
@@ -66,17 +88,25 @@ export default {
   methods: {
     CouponPacketList() {
       CouponPacketList({ userName: '小狗', clientType: 'QD03' }).then(res => {
-        console.log(res.data.vouchers)
+        // console.log(res.data.vouchers)
         let data = res.data.vouchers
         data.map(item => {
           if (item.commonUse == 1) {
-            //判断是否可共用
+            // 判断是否可共用
             item.commonUse = '可'
           } else {
             item.commonUse = '不可'
           }
+          item.projectTypes.map(items => {
+            // 展开券的适用范围
+            if ((index = item.projectTypes.length)) {
+              item.msg = items.projectTypeName
+            } else {
+              item.msg = items.projectTypeName + '、'
+            }
+          })
           if (item.status == 2) {
-            //判断是否可领取
+            // 判断是否可领取
             this.haveReceived.push(item)
           } else {
             this.unclaimed.push(item)
@@ -105,6 +135,12 @@ export default {
       this.$router.push({
         name: 'DJSInvestment'
       })
+    },
+    //查看历史卡券
+    seeHistoryCard() {
+      this.$router.push({
+        name: 'DJSHistoryCard'
+      })
     }
   }
 }
@@ -118,70 +154,83 @@ export default {
   position: relative;
   font-family: PingFangSC-Regular;
   background: #f6f6f6;
-  overflow: hidden;
-  .coupon {
-    margin-top: 0.1rem;
-    height: 1.02rem;
-    display: flex;
-    background: #fff;
-    .coupon_left {
-      width: 1.2rem;
-      margin-top: 0.18rem;
-      .coupon_left_p {
-        text-align: center;
-        letter-spacing: 0.26px;
-        line-height: 0.33rem;
-        color: #ec5e52;
-        .number {
-          font-size: 0.24rem;
+  position: relative;
+  .have {
+    overflow: hidden;
+    height: 5.42rem;
+    .coupon {
+      margin-top: 0.1rem;
+      height: 1.02rem;
+      display: flex;
+      background-size: 3.75rem 1.02rem;
+      .coupon_left {
+        width: 1.2rem;
+        margin-top: 0.18rem;
+        .coupon_left_p {
+          text-align: center;
+          letter-spacing: 0.26px;
+          line-height: 0.33rem;
+          color: #ec5e52;
+          .number {
+            font-size: 0.24rem;
+          }
+          .txt {
+            font-size: 0.11rem;
+          }
         }
-        .txt {
+        .coupon_left_txt {
+          text-align: center;
           font-size: 0.11rem;
+          color: #999999;
+          letter-spacing: 0.12px;
+        }
+        // .actives{
+        //   width: .89rem;
+        //   text-align: center;
+        // }
+      }
+      .coupon_right {
+        padding-left: 0.13rem;
+        padding-right: 0.14rem;
+        color: #333;
+        position: relative;
+        .right_p1 {
+          margin-top: 0.1rem;
+          font-size: 0.13rem;
+          letter-spacing: 0.14px;
+        }
+        .right_p2 {
+          margin-top: 0.08rem;
+          font-size: 0.11rem;
+          letter-spacing: 0.12px;
+        }
+        .right_p3 {
+          color: #999;
+        }
+        .coupon_right_btn {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 0.75rem;
+          height: 0.24rem;
+          img {
+            width: 100%;
+          }
+          // line-height: .24rem;
+          // background-color: #ec5e52;
+          // color: #fff;
+          // border-radius: .24rem 0 0 0;
         }
       }
-      .coupon_left_txt {
-        text-align: center;
-        font-size: 0.11rem;
-        color: #999999;
-        letter-spacing: 0.12px;
-      }
-      // .actives{
-      //   width: .89rem;
-      //   text-align: center;
-      // }
     }
-    .coupon_right {
-      padding-left: 0.13rem;
-      padding-right: 0.14rem;
-      color: #333;
-      position: relative;
-      .right_p1 {
-        margin-top: 0.1rem;
-        font-size: 0.13rem;
-        letter-spacing: 0.14px;
-      }
-      .right_p2 {
-        margin-top: 0.08rem;
-        font-size: 0.11rem;
-        letter-spacing: 0.12px;
-      }
-      .right_p3 {
-        color: #999;
-      }
-      .coupon_right_btn {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 0.75rem;
-        height: 0.24rem;
-        img {
-          width: 100%;
-        }
-        // line-height: .24rem;
-        // background-color: #ec5e52;
-        // color: #fff;
-        // border-radius: .24rem 0 0 0;
-      }
+    .receive1 {
+      background-image: url(./images/jiaxi.png);
+    }
+    .receive2 {
+      background-image: url(./images/dikou.png);
+    }
+    .receive2_1 {
+      background-image: url(./images/touzi.png);
     }
   }
   .nothing {
@@ -206,6 +255,24 @@ export default {
       color: #999999;
       letter-spacing: 0;
       margin-top: 0.32rem;
+    }
+  }
+  .see_history {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 0.08rem;
+    .see_btn {
+      display: block;
+      font-size: 0.15rem;
+      color: #999999;
+      letter-spacing: 0.18px;
+      width: 1.26rem;
+      margin: 0 auto;
+      line-height: 0.21rem;
+      background: #f6f6f6 url(./images/see.png) no-repeat;
+      background-position: 1.15rem center;
+      background-size: 0.07rem 0.14rem;
     }
   }
 }

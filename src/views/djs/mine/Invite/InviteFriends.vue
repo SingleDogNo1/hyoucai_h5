@@ -1,6 +1,8 @@
 <template>
   <div class="content">
-    <div class="image"></div>
+    <div class="image">
+      <img src="./images/invite-banner.png" alt />
+    </div>
     <div class="information">
       <div class="information_top">
         <p class="information_p">
@@ -12,7 +14,7 @@
           <span class="information_number">18人</span>
         </p>
       </div>
-      <div class="go_look">
+      <div class="go_look" @click="showDetail">
         <img src="./images/lookbtn.png" alt />
       </div>
     </div>
@@ -21,18 +23,69 @@
       <span class="number">1234567</span>
     </div>
     <div class="btns">
-      <button class="btn scan">
+      <button class="btn scan" @click="scan">
         <img src="./images/scan.png" alt />
       </button>
-      <button class="btn share">
-        <img src="./images/scan.png" alt />
-      </button>
+      <!-- <button class="btn share">
+        <img src="./images/share.png" alt>
+      </button>-->
     </div>
+    <AppDialog :show-dialog="dialogOption.show" :QRCode="QRCode" :show-close-btn="dialogOption.showClose" @close="closeItem"></AppDialog>
   </div>
 </template>
 
 <script>
-export default {}
+import { userInviteCode, getQRCode, getRecommenderApi } from '@/api/djs/invite'
+import AppDialog from '@/components/Dialog/QRCodeDialog'
+export default {
+  components: {
+    AppDialog
+  },
+  data() {
+    return {
+      dialogOption: {
+        show: false,
+        showTitle: false,
+        showClose: false
+      },
+      QRCode: '',
+      recommend: '' //我推荐的人数
+    }
+  },
+  methods: {
+    userInviteCode() {
+      userInviteCode({ userName: '小狗' }).then(res => {
+        console.log(res)
+      })
+    },
+    showDetail() {
+      // 去查看
+      this.$router.push({
+        name: 'DJSGratitudeMoney'
+      })
+    },
+    scan() {
+      // 面对面扫一扫
+      getQRCode({
+        userName: '小狗'
+      }).then(res => {
+        // console.log(res.data)
+        this.QRCode = res.data.qrPicUrl
+        this.dialogOption.show = true
+      })
+    },
+    closeItem() {
+      this.dialogOption.show = false
+    }
+  },
+  mounted() {
+    // this.userInviteCode()
+    getRecommenderApi({ userName: '小狗' }).then(res => {
+      const data = res.data.data
+      this.recommend = data.list.length
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -115,6 +168,7 @@ export default {}
     display: flex;
     justify-content: space-between;
     .btn {
+      margin: 0 auto;
       background: #321ed1;
       display: block;
       width: 1.62rem;

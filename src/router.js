@@ -32,8 +32,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'DJSInvestList',
-          component: () => import(/* webpackChunkName: "DJSInvestList" */ '@/views/djs/investList')
+          name: 'DJSInvestment',
+          component: () => import(/* webpackChunkName: "DJSInvestment" */ '@/views/djs/investment')
         },
         {
           path: 'mine',
@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'HYCInvestList',
-          component: () => import(/* webpackChunkName: "HYCInvestList" */ '@/views/hyc/investList')
+          name: 'HYCInvestment',
+          component: () => import(/* webpackChunkName: "HYCInvestment" */ '@/views/hyc/investment')
         },
         {
           path: 'mine',
@@ -344,6 +344,22 @@ export default new Router({
           }
         },
         {
+          path: 'claimlist',
+          name: 'DJSClaimList',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'DJSClaimDetail',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimDetail'),
+          meta: {
+            title: '债权列表详情'
+          }
+        },
+        {
           path: 'act-center',
           name: 'DJSActivityCenter',
           component: () => import(/* webpackChunkName: "DJSActivityCenter" */ '@/views/djs/ActivityCenter/ActivityCenter'),
@@ -365,6 +381,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSGratitudeMoney" */ '@/views/djs/GratitudeMoney'),
           meta: {
             title: '我推荐的人'
+          }
+        },
+        {
+          path: 'inviteFriends',
+          name: 'DJSInviteFriends',
+          component: () => import(/* webpackChunkName: "DJSinviteFriends" */ '@/views/djs/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'DJSRecommender',
+          component: () => import(/* webpackChunkName: "DJSRecommender" */ '@/views/djs/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
           }
         },
         {
@@ -415,7 +447,7 @@ export default new Router({
         },
         {
           path: 'historyCard',
-          name: 'HistoryCard',
+          name: 'DJSHistoryCard',
           component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'
@@ -432,7 +464,7 @@ export default new Router({
         {
           path: 'transactionRecord',
           name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/TransactionRecord'),
+          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }

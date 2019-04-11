@@ -2,19 +2,19 @@
   <div class="content">
     <div class="heads">
       <div class="head-box" :class="{ actives: flag == 1 }" @click="changeFlag(1)">
-        <span class="head-txt">申请中</span>
+        <span class="head-txt">全部</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 2 }" @click="changeFlag(2)">
-        <span class="head-txt">出借中</span>
+        <span class="head-txt">充值</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 3 }" @click="changeFlag(3)">
-        <span class="head-txt">已结清</span>
+        <span class="head-txt">提现</span>
         <span class="head-line"></span>
       </div>
       <div class="head-box" :class="{ actives: flag == 4 }" @click="changeFlag(4)">
-        <span class="head-txt">已退款</span>
+        <span class="head-txt">其他</span>
         <span class="head-line"></span>
       </div>
     </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { getUserTransaction } from '@/api/djs/transaction'
 export default {
   name: 'index',
   components: {},
@@ -41,14 +42,21 @@ export default {
       flag: 1
     }
   },
+  created() {
+    this.getUserTransaction()
+  },
   methods: {
     changeFlag(val) {
       this.flag = val
+    },
+    getUserTransaction() {
+      getUserTransaction({ userName: '12111000040' }).then(res => {
+        console.log(res)
+      })
     }
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .content {
   font-family: PingFang-SC-Medium;
@@ -88,7 +96,7 @@ export default {
     margin-top: 0.1rem;
     .body-box {
       height: 0.7rem;
-      border-bottom: 1px solid #e8e8e8;
+      border-bottom: 0.01rem solid #e8e8e8;
       display: flex;
       align-items: center;
       justify-content: space-between;

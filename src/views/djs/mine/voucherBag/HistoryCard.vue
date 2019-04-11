@@ -1,38 +1,37 @@
 <template>
   <div class="box">
     <div class="have" v-show="haveCard">
-      <div class="coupon">
+      <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
         <div class="coupon_left">
           <p class="coupon_left_p">
-            <span class="number">30.00</span>
-            <span class="txt">元</span>
+            <span class="number">{{ item.voucherFaceValue }}</span>
+            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
+            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
           </p>
-          <p class="coupon_left_txt">
-            可与加息券
-            <br />一起使用
-          </p>
+          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1">起投金额：100.00元</p>
-          <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
-          <p class="right_p2">有效期至：2018-10-11</p>
+          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
+          <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
-      <div class="coupon">
+      <div class="coupon" v-for="(item, index) in expiredList" :key="index + 'b'">
         <div class="coupon_left">
           <p class="coupon_left_p">
-            <span class="number">30.00</span>
+            <span class="number">{{ item.voucherFaceValue }}</span>
             <span class="txt">元</span>
           </p>
-          <p class="coupon_left_txt">
-            可与加息券
-            <br />一起使用
-          </p>
+          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1">起投金额：100.00元</p>
-          <p class="right_p2">适用范围：点选投30天、点选投90天、点选投180天</p>
-          <p class="right_p2">有效期至：2018-10-11</p>
+          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <p class="right_p2">适用范围：{{ item.msg }}</p>
+          <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
     </div>
@@ -46,10 +45,53 @@
 </template>
 
 <script>
+import { couponPacketHistory } from '@/api/djs/coupon'
 export default {
   data() {
     return {
-      haveCard: true
+      haveCard: true, // 是否有历史卡券
+      usedList: [], // 已使用卡券
+      expiredList: [] // 已过期卡券
+    }
+  },
+  created() {
+    this.couponPacketHistory()
+  },
+  methods: {
+    couponPacketHistory() {
+      couponPacketHistory({ userName: '小狗' }).then(res => {
+        // console.log(res.data.vouchers)
+        let data = res.data.vouchers // 历史卡券
+        if (data) {
+          //存在历史卡券
+          data.map(item => {
+            if (item.commonUse == 1) {
+              item.commonUse = '可'
+            } else {
+              item.commonUse = '不可'
+            }
+            item.projectTypes.map(items => {
+              // 展开券的适用范围
+              if ((index = item.projectTypes.length)) {
+                item.msg = items.projectTypeName
+              } else {
+                item.msg = items.projectTypeName + '、'
+              }
+            })
+            switch (item.status) {
+              case 1:
+                this.usedList.push(item) //已使用加息券
+                break
+              case 2:
+                this.expiredList.push(item) //已过期加息券
+                break
+            }
+          })
+        } else {
+          //无历史卡券
+          this.haveCard = false
+        }
+      })
     }
   }
 }
@@ -63,19 +105,20 @@ export default {
   position: relative;
   font-family: PingFangSC-Regular;
   background: #f6f6f6;
-  overflow: hidden;
+  overflow: auto;
   .coupon {
     margin-top: 0.1rem;
     height: 1.02rem;
     display: flex;
-    background: #fff;
+    background: url(./images/historybg.png);
+    background-size: 3.75rem 1.02rem;
     .coupon_left {
-      width: 1.2rem;
+      width: 1.4rem;
       margin-top: 0.18rem;
       .coupon_left_p {
         text-align: center;
         letter-spacing: 0.26px;
-        line-height: 0.33rem;
+        line-height: 0.3rem;
         .number {
           font-size: 0.24rem;
           color: #999999;
@@ -86,6 +129,15 @@ export default {
         }
       }
       .coupon_left_txt {
+        width: 0.76rem;
+        text-align: center;
+        font-size: 0.11rem;
+        color: #999999;
+        letter-spacing: 0.12px;
+        margin: 0 auto;
+      }
+      .actives {
+        width: 100%;
         text-align: center;
         font-size: 0.11rem;
         color: #999999;
@@ -93,7 +145,7 @@ export default {
       }
     }
     .coupon_right {
-      padding-left: 0.13rem;
+      padding-left: 0.03rem;
       padding-right: 0.14rem;
       .right_p1 {
         margin-top: 0.1rem;

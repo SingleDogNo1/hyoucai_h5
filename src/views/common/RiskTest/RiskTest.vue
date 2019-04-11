@@ -1,11 +1,6 @@
 <template>
   <div class="risk">
-    <b-scroll
-        class="scroll"
-        ref="scrollRef"
-        :probeType="probeType"
-        :listen-scroll="listenScroll"
-    >
+    <b-scroll class="scroll" ref="scrollRef" :probeType="probeType" :listen-scroll="listenScroll">
       <div>
         <div class="top" v-if="num === 0 && !showResult">
           <div class="rectangle">
@@ -19,7 +14,9 @@
         <div class="content" v-if="num === 0 && !showResult">
           <dl>
             <dt></dt>
-            <dd>我们将对您的风险承担能力进行评估，请根据您的自身实际情况如实填写问卷，以便我们了解您的风险承担类型，进而根据您的风险承担能力提供适合您的产品。</dd>
+            <dd>
+              我们将对您的风险承担能力进行评估，请根据您的自身实际情况如实填写问卷，以便我们了解您的风险承担类型，进而根据您的风险承担能力提供适合您的产品。
+            </dd>
           </dl>
           <dl>
             <dt></dt>
@@ -29,12 +26,12 @@
           <button @click="startTest">确认</button>
         </div>
         <div class="question_wrapper" v-if="num && num !== 11 && !showResult">
-          <div class="title">已完成 {{num}}/10</div>
+          <div class="title">已完成 {{ num }}/10</div>
           <template v-for="(item, index) in questions">
             <div class="item" :key="index" v-if="num === index + 1">
-              <p>{{item.title}}</p>
-              <div :class="matchClass(answer)" v-for="(answer, i) in item.answers" :key="i"
-                   @click="selectAnswer(answer, index, i)">{{answer.des}}
+              <p>{{ item.title }}</p>
+              <div :class="matchClass(answer)" v-for="(answer, i) in item.answers" :key="i" @click="selectAnswer(answer, index, i)">
+                {{ answer.des }}
               </div>
             </div>
           </template>
@@ -44,8 +41,8 @@
         <transition name="fade">
           <div class="result" ref="result" v-if="showResult">
             <p class="tip">您的风险评测结果为</p>
-            <p class="title">{{resultTitle}}</p>
-            <p class="para">{{resultFont}}</p>
+            <p class="title">{{ resultTitle }}</p>
+            <p class="para">{{ resultFont }}</p>
             <p class="desc">本次评测有效期6个月</p>
             <!--invests1给app通知，关闭webview-->
             <button class="right_now" @click="judgeJumpTo">立即出借</button>
@@ -876,7 +873,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../../assets/css/theme';
 @import '../../../assets/css/mixins';
 

@@ -1,6 +1,6 @@
 <template>
   <div class="mate-act">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <div class="detail" @click="showDetail"></div>
       </div>
@@ -16,14 +16,14 @@
         <a class="btn" v-if="type !== '2'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1811150801">
           投资90天
         </a>
-        <a class="btn" v-if="type !== '1'"  href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1810310801">
+        <a class="btn" v-if="type !== '1'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1810310801">
           投资180天
         </a>
       </div>
     </div>
     <div class="detail-mask" v-if="detailFlag">
-      <img src="./off.png" class="close" alt="" @click="closeDialog">
-      <img src="./dialog.png" alt="">
+      <img src="./off.png" class="close" alt="" @click="closeDialog" />
+      <img src="./dialog.png" alt="" />
     </div>
   </div>
 </template>

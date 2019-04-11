@@ -2,24 +2,25 @@
   <div class="open-account">
     <div class="form">
       <div class="row">
-        <input type="text" placeholder="请输入姓名" v-model="name" :disabled="nameDisabled">
+        <input type="text" placeholder="请输入姓名" v-model="name" :disabled="nameDisabled" />
       </div>
       <div class="row">
-        <input type="text" placeholder="请输入身份证号" v-model="idCard" maxlength="18" :disabled="IDCardDisabled">
+        <input type="text" placeholder="请输入身份证号" v-model="idCard" maxlength="18" :disabled="IDCardDisabled" />
       </div>
       <div class="row">
-        <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="mobile" :disabled="mobileDisable">
+        <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="mobile" :disabled="mobileDisable" />
         <p @click="toSupportBank">查看可用银行卡列表</p>
       </div>
     </div>
     <p class="agreements">
-      <template v-for="(agreement,index) in agreements">
+      <template v-for="(agreement, index) in agreements">
         <div :key="index">
-          <input type="checkbox" id="isCheck" v-model="agree" v-if="agreement.checkBox">
+          <input type="checkbox" id="isCheck" v-model="agree" v-if="agreement.checkBox" />
           <label for="isCheck" v-if="agreement.checkBox"></label>
-          <span v-for="(item,index) in agreement.list" :key="index">
-              {{item.description1}}<a :href="item.showUrl" class="agreement">{{item.name}}</a>{{item.description2}}
-            </span>
+          <span v-for="(item, index) in agreement.list" :key="index">
+            {{ item.description1 }}<a :href="item.showUrl" class="agreement">{{ item.name }}</a
+            >{{ item.description2 }}
+          </span>
         </div>
       </template>
     </p>

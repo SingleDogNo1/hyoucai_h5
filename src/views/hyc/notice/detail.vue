@@ -1,16 +1,11 @@
 <template>
   <transition name="slide">
     <div class="notice">
-      <b-scroll
-        :beforeScroll="true"
-        @beforeScroll="beforeScroll"
-        class="notice_scroll"
-        ref="scrollRefND">
+      <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
         <div class="wrapper">
-          <h2>{{data.title}}</h2>
-          <div>{{data.createTime}}</div>
-          <article id="content" v-html="data.content">
-          </article>
+          <h2>{{ data.title }}</h2>
+          <div>{{ data.createTime }}</div>
+          <article id="content" v-html="data.content"></article>
         </div>
       </b-scroll>
     </div>

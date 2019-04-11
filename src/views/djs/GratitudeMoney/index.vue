@@ -9,7 +9,8 @@
         :listen-scroll="listenScroll"
         :pullup="pullup"
         @scrollToEnd="scrollToEnd"
-        @scroll="scroll">
+        @scroll="scroll"
+      >
         <div>
           <div class="my_recommonder">
             <div class="container">
@@ -17,8 +18,8 @@
                 <div class="slide border-bottom-1px" v-for="(referer, index) in referers" :key="index">
                   <div class="avator"></div>
                   <dl>
-                    <dt>{{referer.name}}</dt>
-                    <dd>注册日期：{{referer.createTime}}</dd>
+                    <dt>{{ referer.name }}</dt>
+                    <dd>注册日期：{{ referer.createTime }}</dd>
                   </dl>
                   <span v-if="referer.investStatus === 0" class="uninvest">未出借</span>
                   <span v-if="referer.investStatus === 1" class="invested">已出借</span>
@@ -28,10 +29,7 @@
           </div>
         </div>
       </b-scroll>
-      <no-data
-        v-if="!referers.length"
-        class="no-data"
-      />
+      <no-data v-if="!referers.length" class="no-data" />
     </div>
   </transition>
 </template>
@@ -154,7 +152,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 

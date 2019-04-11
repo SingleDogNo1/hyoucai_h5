@@ -8,20 +8,15 @@
     @scrollToEnd="scrollToEnd"
   >
     <div class="content">
-      <div
-        class="box"
-        v-for="(item, index) in noticeList"
-        :key="index"
-        @click="toDetail(item.id)"
-      >
+      <div class="box" v-for="(item, index) in noticeList" :key="index" @click="toDetail(item.id)">
         <div class="box-top">
           <span class="top-image">
             <img src="./time.png" alt="" />
           </span>
-          <span class="top-time">{{item.createTime}}</span>
+          <span class="top-time">{{ item.createTime }}</span>
         </div>
         <div class="box-bottom">
-          <span class="bottom-txt">{{item.title}}</span>
+          <span class="bottom-txt">{{ item.title }}</span>
           <span class="bottom-image">
             <img src="./more.png" alt="" />
           </span>

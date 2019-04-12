@@ -1,6 +1,5 @@
 <template>
   <div :class="['spell-group', { hidden: showMask }]">
-    <button></button>
     <div class="banner"></div>
     <div class="inner">
       <div class="desc"></div>

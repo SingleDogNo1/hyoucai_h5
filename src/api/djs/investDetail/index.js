@@ -27,8 +27,6 @@ function getClaimList(data) {
 }
 
 export default {
- 
   getInvestDetail, // 项目详情
-  getClaimList,//债权列表
- 
+  getClaimList //债权列表
 }

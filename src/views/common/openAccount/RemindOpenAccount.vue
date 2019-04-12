@@ -1,13 +1,15 @@
 <template>
-    <BScroll class="remind-scroll" ref="remindScrollRef">
-      <div>
-        <img class="banner" src="./remind.png" alt="">
-        <p>汇有财已上线江西银行资金存管，即汇有财的所有用户都将在江西银行存管系统内进行充值、出借、提现等操作，每个用户都会单独开通个人专属的江西银行存管电子账户，并由江西银行负责资金存管，更大程度保证用户的账户安全。</p>
-        <div class="flow"></div>
-        <button>开通江西银行存款账户，资金安全有保障</button>
-        <footer @click="openAccount">立即开启</footer>
-      </div>
-    </BScroll>
+  <BScroll class="remind-scroll" ref="remindScrollRef">
+    <div>
+      <img class="banner" src="./remind.png" alt="" />
+      <p>
+        汇有财已上线江西银行资金存管，即汇有财的所有用户都将在江西银行存管系统内进行充值、出借、提现等操作，每个用户都会单独开通个人专属的江西银行存管电子账户，并由江西银行负责资金存管，更大程度保证用户的账户安全。
+      </p>
+      <div class="flow"></div>
+      <button>开通江西银行存款账户，资金安全有保障</button>
+      <footer @click="openAccount">立即开启</footer>
+    </div>
+  </BScroll>
 </template>
 
 <script>

@@ -1,29 +1,28 @@
 <template>
-  <div class="activity" ref="container">
-      <div class="activity-wrapper" v-if="actList.length > 0">
+  <BScroll class="activity" ref="scrollRef" :beforScroll="true" @beforeScroll="beforeScroll">
+    <div class="activity-wrapper">
+      <template v-if="actList.length > 0">
         <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
-          <img :src="item.picUrl" alt="">
-          <p>
-            活动日期：{{item.startTime}}至{{item.endTime}}
-          </p>
+          <img :src="item.picUrl" alt="" />
+          <p>活动日期：{{ item.startTime }}至{{ item.endTime }}</p>
         </section>
-      </div>
-    <NoData
-      v-else
-      class="no-data"
-      type="event"
-    />
-  </div>
+      </template>
+      <NoData v-else class="no-data" type="event" />
+    </div>
+  </BScroll>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
 import NoData from '@/components/NoData/NoData'
-import { getHotApi } from '@/api/hyc/ActCenter/ActCenter'
+
+import { getHotApi } from '@/api/hyc/actCenter'
 
 export default {
   name: 'index',
   components: {
-    NoData
+    NoData,
+    BScroll
   },
   data() {
     return {
@@ -32,6 +31,9 @@ export default {
     }
   },
   methods: {
+    beforeScroll() {
+      this.refresh()
+    },
     linkTo(url) {
       if (this.$route.query.userName) {
         // app交互的逻辑

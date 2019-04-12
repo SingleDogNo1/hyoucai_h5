@@ -1,12 +1,11 @@
 import axios from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-function getInfoApi(data, headers) {
+function getInfoApi(data) {
   return axios({
     url: 'info/operationalData',
     method: 'post',
-    data: qs.stringify(data),
-    headers: headers
+    data: qs.stringify(data)
   })
 }
 

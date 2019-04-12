@@ -5,23 +5,23 @@
         <header>
           <h6>汇有财</h6>
           <p>唯有赚钱不能停</p>
-          <button :class="{new: newNotice}" @click="toMsgDetail"></button>
+          <button :class="{ new: newNotice }" @click="toMsgDetail"></button>
         </header>
         <ul class="tabs">
           <li @click="showTabs('AboutUs')">
-            <img src="./xxpl.png" alt="">
+            <img src="./xxpl.png" alt="" />
             <span>信息披露</span>
           </li>
           <li @click="showTabs('ArchivalInfo')">
-            <img src="./zjcg.png" alt="">
+            <img src="./zjcg.png" alt="" />
             <span>资金存管</span>
           </li>
           <li @click="showTabs('InfoDisclose')">
-            <img src="./yysj.png" alt="">
+            <img src="./yysj.png" alt="" />
             <span>运营数据</span>
           </li>
           <li @click="showTabs('DJSActivityCenter')">
-            <img src="./hdtj.png" alt="">
+            <img src="./hdtj.png" alt="" />
             <button>hot</button>
             <span>活动推荐</span>
           </li>
@@ -30,12 +30,9 @@
           <div class="title"></div>
           <div class="notice swiper-container">
             <div class="swiper-wrapper">
-              <div
-                class="swiper-slide"
-                v-for="(item, index) in noticeList"
-                :key="index"
-                @click="toNoticeDetail(item.id)"
-              ><span>{{item.title}}</span></div>
+              <div class="swiper-slide" v-for="(item, index) in noticeList" :key="index" @click="toNoticeDetail(item.id)">
+                <span>{{ item.title }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -43,15 +40,17 @@
           <h6>新手专享</h6>
           <button>新手专享</button>
           <div class="rate">
-            <span>{{item.investRate}}</span>
+            <span>{{ item.investRate }}</span>
             <span>%</span>
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
-            <li v-for="(tagItem, tagIndex) in item.tags" :key="tagIndex" :style="{background: tagItem.tagColor ? tagItem.tagColor : '#fff'}">{{tagItem.tagName}}</li>
+            <li v-for="(tagItem, tagIndex) in item.tags" :key="tagIndex" :style="{ background: tagItem.tagColor ? tagItem.tagColor : '#fff' }">
+              {{ tagItem.tagName }}
+            </li>
           </ul>
-          <input type="button" :value="user ? '立即赚钱': '注册 / 登录'" @click="handleInvest(item.projectNo)">
-          <div class="tips">{{item.projectTips}}</div>
+          <input type="button" :value="user ? '立即赚钱' : '注册 / 登录'" @click="handleInvest(item.projectNo)" />
+          <div class="tips">{{ item.projectTips }}</div>
         </div>
         <div class="hot-wrapper" v-if="popularProjectList">
           <div class="title">
@@ -60,13 +59,13 @@
           </div>
           <section v-for="(item, index) in popularProjectList" :key="index">
             <div class="item-title">
-              <p>{{item.projectName}}</p>
+              <p>{{ item.projectName }}</p>
               <div v-if="item.tags">
                 <template v-for="(tagItem, tagIndex) in item.tags">
                   <!-- 显示图标 -->
-                  <img :key="tagIndex" v-if="tagItem.tagType === 1" :src="tagItem.icon" alt="">
+                  <img :key="tagIndex" v-if="tagItem.tagType === 1" :src="tagItem.icon" alt="" />
                   <!-- 显示文字 -->
-                  <p :key="tagIndex" v-else-if="tagItem.tagType === 0">{{tagItem.tagName}}</p>
+                  <p :key="tagIndex" v-else-if="tagItem.tagType === 0">{{ tagItem.tagName }}</p>
                 </template>
               </div>
             </div>
@@ -74,13 +73,13 @@
               <div class="left">
                 <ul class="rate">
                   <li>
-                    <span>{{item.investRate}}</span>
+                    <span>{{ item.investRate }}</span>
                     <span>%</span>
                   </li>
                   <li><p>历史年化收益率</p></li>
                 </ul>
                 <ul class="day">
-                  <li>{{item.investMent}}</li>
+                  <li>{{ item.investMent }}</li>
                   <li><p>锁定期</p></li>
                 </ul>
               </div>
@@ -93,14 +92,14 @@
         </div>
         <footer>
           <p>
-            <img src="./homepage-footer.png" alt="">
+            <img src="./homepage-footer.png" alt="" />
             <span>账户资金安全由江西银行和人寿财险共同保障</span>
           </p>
           <div>网贷有风险，出借需谨慎</div>
           <template v-for="(item, index) in reportTel">
             <div :key="index" v-if="item.status === '1'">
-              <span>{{item.companyName}}</span>
-              <span>{{item.telephone}}</span>
+              <span>{{ item.companyName }}</span>
+              <span>{{ item.telephone }}</span>
             </div>
           </template>
         </footer>
@@ -144,11 +143,9 @@ export default {
           name: 'loginRegister'
         })
       } else {
-        // TODO 消息中心未完成
-        console.log(`to-msg-detail`)
-        // this.$router.push({
-        //   name: ''
-        // })
+        this.$router.push({
+          name: 'DJSSiteMessage'
+        })
       }
     },
     showTabs(router_name) {
@@ -350,7 +347,7 @@ export default {
   }
   .newbie {
     position: relative;
-    @include cube(3.45rem, 2.5rem);
+    width: 3.45rem;
     margin: 0.3rem auto 0.2rem;
     background: #fff;
     box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
@@ -543,6 +540,7 @@ export default {
           align-self: center;
           button {
             @include cube(0.82rem, 0.3rem);
+            line-height: 0.3rem;
             background: #ec5e52;
             border-radius: 0.04rem;
             font-size: 0.13rem;

@@ -10,7 +10,8 @@
         :listenScroll="listenScroll"
         @scroll="scroll"
         @scrollToEnd="scrollToEnd1"
-        @pulldownTouchend="pulldownTouchend">
+        @pulldownTouchend="pulldownTouchend"
+      >
         <div>
           <div class="top">
             <div class="inn">
@@ -25,7 +26,7 @@
                   <dd>2000元起投</dd>
                 </dl>
               </div>
-              <button v-if="user"> 立即赚钱 </button>
+              <button v-if="user">立即赚钱</button>
               <button v-else>注册 / 登录</button>
               <span>您还剩余 50000.00元 新手额度</span>
             </div>
@@ -37,7 +38,7 @@
             <no-data v-if="!yZhiJiHuaData.length"></no-data>
           </ul>
           <dl class="tips">
-            <dt><img src="./image/cunguan.png" alt=""></dt>
+            <dt><img src="./image/cunguan.png" alt="" /></dt>
             <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
           </dl>
         </div>
@@ -52,7 +53,7 @@ import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
-import api from '@/api/djs/investment/index'
+import api from '@/api/djs/investment'
 import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
 
@@ -239,7 +240,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 

@@ -4,15 +4,15 @@
       <router-view></router-view>
     </div>
     <ul class="tabs">
-      <router-link class="index" tag="li" :to="{name: platform === 'djs' ? 'DJSHomePage' : 'HYCHomePage'}">
+      <router-link class="index" tag="li" :to="{ name: platform === 'djs' ? 'DJSHomePage' : 'HYCHomePage' }">
         <div class="logo"></div>
         <p>首页</p>
       </router-link>
-      <router-link class="invest" tag="li" :to="{name: platform === 'djs' ? 'DJSInvestment' : 'HYCInvestment'}">
+      <router-link class="invest" tag="li" :to="{ name: platform === 'djs' ? 'DJSInvestment' : 'HYCInvestment' }">
         <div class="logo"></div>
         <p>出借</p>
       </router-link>
-      <router-link class="mine" tag="li" :to="{name: platform === 'djs' ? 'DJSUserCenter' : 'HYCUserCenter'}">
+      <router-link class="mine" tag="li" :to="{ name: platform === 'djs' ? 'DJSUserCenter' : 'HYCUserCenter' }">
         <div class="logo"></div>
         <p>我的</p>
       </router-link>

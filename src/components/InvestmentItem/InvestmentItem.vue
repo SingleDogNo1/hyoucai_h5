@@ -1,18 +1,18 @@
 <template>
-  <div class='prod_item' :class="itemData.last === '1' ? 'last_one' : ''">
+  <div class="prod_item" :class="itemData.last === '1' ? 'last_one' : ''">
     <div class="cata_title" v-if="itemData.head">
-      <img  v-if="itemData.head.icon" :src="itemData.head.icon" alt="">
+      <img v-if="itemData.head.icon" :src="itemData.head.icon" alt="" />
       <span>{{ itemData.head.title }}</span>
       <!--<i>投资送手机</i>-->
     </div>
     <div class="item_wrapper" :class="matchClass(itemData)">
-      <div class='item_title'>
-          <span>{{ itemData.projectName }}</span>
-          <em v-if="itemData.tags && itemData.tags.length">
-            <i v-for="(el, i) in itemData.tags" :key="i"> {{el.tagName}} </i>
-          </em>
+      <div class="item_title">
+        <span>{{ itemData.projectName }}</span>
+        <em v-if="itemData.tags && itemData.tags.length">
+          <i v-for="(el, i) in itemData.tags" :key="i"> {{ el.tagName }} </i>
+        </em>
       </div>
-      <div class='item_info'>
+      <div class="item_info">
         <dl>
           <dt v-if="itemData.investRate">{{ itemData.investRate.padEnd(4, 0) }}<span>%</span></dt>
           <dd>历史平均年化收益率</dd>
@@ -22,14 +22,14 @@
           <dt v-if="itemData.loanMent">{{ itemData.loanMent }}</dt>
           <dd>锁定期</dd>
         </dl>
-         <!--hyoucai 优质计划-->
+        <!--hyoucai 优质计划-->
         <div v-if="itemData.projectType && itemData.projectType === 2">
           <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
           <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
-            <button disabled> 还款中 </button>
+            <button disabled>还款中</button>
           </template>
           <template v-else-if="itemData.status === 2">
-            <button> 授权出借 </button>
+            <button>授权出借</button>
           </template>
           <template v-else>
             <button disabled>
@@ -44,13 +44,13 @@
         <div v-else-if="itemData.projectType && itemData.projectType === 0">
           <template v-if="itemData.status === 3">
             <!--3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
-            <button disabled> 还款中 </button>
+            <button disabled>还款中</button>
           </template>
           <template v-else-if="itemData.status === 2">
-            <button disabled> 满标 </button>
+            <button disabled>满标</button>
           </template>
           <template v-else-if="itemData.status === 1">
-            <button disabled> 授权出借 </button>
+            <button disabled>授权出借</button>
           </template>
           <template v-else>
             <button disabled>
@@ -64,7 +64,7 @@
         <!--djs-->
         <div v-else-if="!itemData.projectType">
           <template v-if="itemData.status === '1' && parseFloat(itemData.enablAmt) !== 0">
-            <button> 授权出借 </button>
+            <button>授权出借</button>
           </template>
           <template v-else-if="itemData.status === '1' && parseFloat(itemData.enablAmt) === 0">
             <button disabled>还款中</button>
@@ -131,7 +131,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../assets/css/theme.scss';
 @import '../../assets/css/mixins.scss';
 

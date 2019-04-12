@@ -1,6 +1,6 @@
 <template>
-  <div class="btnArea" :class="{'disable':disable_}">
-    <input type="button" class="smsBtn" :disabled="disable_" v-model="text_" @click="getCode">
+  <div class="btnArea" :class="{ disable: disable_ }">
+    <input type="button" class="smsBtn" :disabled="disable_" v-model="text_" @click="getCode" />
   </div>
 </template>
 

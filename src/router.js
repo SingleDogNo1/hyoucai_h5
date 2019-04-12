@@ -241,14 +241,6 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
-        },
-        {
-          path: 'notice',
-          name: 'Notice',
-          component: () => import(/* webpackChunkName: "Notice" */ '@/views/common/Notice'),
-          meta: {
-            title: '网站公告'
-          }
         }
       ]
     },
@@ -428,9 +420,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'DJSNoticeList',
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/list'),
+              meta: {
+                title: '网站公告'
+              }
+            },
+            {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice'),
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/detail'),
               meta: {
                 title: '公告详情'
               }
@@ -455,7 +455,7 @@ export default new Router({
         },
         {
           path: 'historyCard',
-          name: 'HistoryCard',
+          name: 'DJSHistoryCard',
           component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'
@@ -475,6 +475,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'DJSSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/message'),
+          meta: {
+            title: '消息'
           }
         }
       ]
@@ -570,9 +578,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'HYCNoticeList',
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/list'),
+              meta: {
+                title: '公告'
+              }
+            },
+            {
               path: ':id',
               name: 'HYCNoticeDetail',
-              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice'),
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/detail'),
               meta: {
                 title: '公告'
               }
@@ -601,6 +617,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'HYCSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
+          meta: {
+            title: '消息'
           }
         }
       ]

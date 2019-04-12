@@ -2,12 +2,12 @@
   <div class="investment" ref="investment">
     <mt-navbar v-model="selected" v-if="user">
       <template v-for="(item, index) in cataList">
-        <mt-tab-item v-if="item.isDisplay === '1'" class='tab_item' :id="item.id" :key="index"> {{item.modelName}} </mt-tab-item>
+        <mt-tab-item v-if="item.isDisplay === '1'" class="tab_item" :id="item.id" :key="index"> {{ item.modelName }} </mt-tab-item>
       </template>
     </mt-navbar>
     <div class="tab-container-wrapper" ref="tabContainer">
       <mt-tab-container v-model="selected">
-        <mt-tab-container-item class='tab_container' id='1'>
+        <mt-tab-container-item class="tab_container" id="1">
           <b-scroll
             class="scroll"
             ref="scrollRef1"
@@ -17,7 +17,8 @@
             :listenScroll="listenScroll"
             @scroll="scroll"
             @scrollToEnd="scrollToEnd1"
-            @pulldownTouchend="pulldownTouchend">
+            @pulldownTouchend="pulldownTouchend"
+          >
             <div>
               <ul>
                 <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item)">
@@ -25,24 +26,25 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt=""></dt>
+                <dt><img src="./image/cunguan.png" alt="" /></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>
             <no-data v-if="!yZhiJiHuaData.length"></no-data>
           </b-scroll>
         </mt-tab-container-item>
-        <mt-tab-container-item class='tab_container' id='2'>
+        <mt-tab-container-item class="tab_container" id="2">
           <b-scroll
-            class='scroll'
-            ref='scrollRef2'
+            class="scroll"
+            ref="scrollRef2"
             :data="sanBiaoDataCompute"
             :pullup="pullup"
             :touchend="touchend"
             :listenScroll="listenScroll"
             @scroll="scroll"
             @scrollToEnd="scrollToEnd2"
-            @pulldownTouchend="pulldownTouchend">
+            @pulldownTouchend="pulldownTouchend"
+          >
             <div>
               <ul>
                 <li v-for="(item, index) in sanBiaoData" :key="index" @click="selectSanBiaoItem(item)">
@@ -50,18 +52,16 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt=""></dt>
+                <dt><img src="./image/cunguan.png" alt="" /></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>
             <no-data v-if="!sanBiaoData.length"></no-data>
           </b-scroll>
         </mt-tab-container-item>
-        <mt-tab-container-item class='tab_container' id='3'>
-          <b-scroll class='scroll'
-                    ref='scrollRef3'>
-            <div>
-            </div>
+        <mt-tab-container-item class="tab_container" id="3">
+          <b-scroll class="scroll" ref="scrollRef3">
+            <div></div>
             <no-data v-if="!zQuanZhuanRang.length"></no-data>
           </b-scroll>
         </mt-tab-container-item>
@@ -75,7 +75,7 @@ import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
 import Hyoucai from '@/assets/js/hyoucai'
-import { collectionApi, pageConfig, projectApi } from '@/api/hyc/investment/index'
+import { collectionApi, pageConfig, projectApi } from '@/api/hyc/investment'
 import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
 
@@ -415,7 +415,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 

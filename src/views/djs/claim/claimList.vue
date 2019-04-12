@@ -1,7 +1,7 @@
 <template>
   <div class="claim_wrap">
     <p></p>
-    <table class="claim_list" :data="projectCompositionData">
+    <table class="claim_list">
       <thead>
         <tr>
           <td>借款人/出让人</td>
@@ -10,19 +10,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>孟**</td>
-          <td>3,000.00</td>
-          <td>详情</td>
-        </tr>
-        <tr>
-          <td>孟**</td>
-          <td>3,000.00</td>
-          <td>详情</td>
-        </tr>
-        <tr>
-          <td>孟**</td>
-          <td>3,000.00</td>
+        <tr v-for="(item, index) in creditListData" :key="index">
+          <td>{{ item.ownBondName }}</td>
+          <td>{{ item.totalBondAmt }}</td>
           <td>详情</td>
         </tr>
       </tbody>
@@ -31,13 +21,18 @@
 </template>
 
 <script>
+// import { creditListData } from '@/api/djs/investDetail/index'
 export default {
   name: 'index',
   components: {},
   data() {
-    return {}
+    return {
+      projectNo: this.$route.params.projectNo,
+      creditListData: [] // 债权列表
+    }
   },
-  methods: {}
+  methods: {},
+  created: {}
 }
 </script>
 

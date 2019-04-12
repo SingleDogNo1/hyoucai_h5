@@ -117,11 +117,18 @@ export default {
   },
   methods: {
     matchClass(itemData) {
-      if (itemData.projectType === 2) {
+      if (itemData.projectType && itemData.projectType === 2) {
+        // 优质计划
         if (itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3 || itemData.status === 1) {
           return 'disabled-item'
         }
+      } else if (itemData.projectType && itemData.projectType === 0) {
+        // 散标（自选投）
+        if (itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3 || itemData.status === 2) {
+          return 'disabled-item'
+        }
       } else {
+        // 点金石
         if ((itemData.status === '1' && parseFloat(itemData.enablAmt) === 0) || itemData.status === '0') {
           return 'disabled-item'
         }

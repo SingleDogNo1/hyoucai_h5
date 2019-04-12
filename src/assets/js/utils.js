@@ -115,3 +115,8 @@ export function JumpJX(url, data) {
     }
   })
 }
+
+export function getRetBaseURL() {
+  let index = window.location.href.indexOf('#')
+  return window.location.href.substr(0, index + 1)
+}

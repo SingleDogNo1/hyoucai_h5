@@ -14,9 +14,16 @@ $color-primary: #ea5e1b;
   .mintui {
     font-size: $font-size-medium;
   }
+  .mint-button {
+    .mint-button-text {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
   .mint-header-title {
     font-size: $font-size-medium;
     line-height: 0.2rem;
+    font-weight: bold;
   }
 }
 

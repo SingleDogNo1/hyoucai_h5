@@ -476,6 +476,15 @@ export default new Router({
           meta: {
             title: '消息'
           }
+        },
+        {
+          path: 'charge',
+          name: 'DJSCharge',
+          component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
+          meta: {
+            title: '充值',
+            cancel: '取消'
+          }
         }
       ]
     },
@@ -617,6 +626,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
           meta: {
             title: '消息'
+          }
+        },
+        {
+          path: 'charge',
+          name: 'HYCCharge',
+          component: () => import(/* webpackChunkName: "HYCCharge" */ '@/views/hyc/mine/charge/charge'),
+          meta: {
+            title: '充值'
           }
         }
       ]

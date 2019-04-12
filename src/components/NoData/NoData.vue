@@ -2,12 +2,12 @@
   <div class="__no__data">
     <section>
       <div v-if="type === 'data'" class="data"></div>
-      <div v-if="type === 'event'" class="event"></div>
+      <!--<div v-if="type === 'event'" class="event"></div>
       <div v-if="type === 'redpacket'" class="redpacket"></div>
       <div v-if="type === 'coupon'" class="coupon"></div>
       <div v-if="type === 'message'" class="message"></div>
       <div v-if="type === 'notice'" class="notice"></div>
-      <div v-if="type === 'network'" class="network"></div>
+      <div v-if="type === 'network'" class="network"></div>-->
     </section>
     <p v-if="type === 'data'" class="data">暂无数据</p>
     <p v-if="type === 'event'" class="event">暂无活动信息</p>

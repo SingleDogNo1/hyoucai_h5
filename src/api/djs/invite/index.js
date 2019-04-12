@@ -27,3 +27,21 @@ export function getRecommenderApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// 补录推荐码
+export function saveInviteCode(data) {
+  return request({
+    url: '/user/saveInviteCode',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+//  钞票码或推荐码显隐
+// export function cpmOrTjm() {
+//   return request({
+//     url: '/user/cpmOrTjm',
+//     method: 'post',
+//     data: qs.stringify(data)
+//   })
+// }

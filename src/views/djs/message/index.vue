@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/djs/message'
+import api from '@/api/djs/message'
 import BScroll from '@/components/BScroll/BScroll'
 
 export default {
@@ -34,7 +34,13 @@ export default {
  
   },
   computed: {},
-  created() {},
+  created() {
+  	//消息列表
+    api.getList({ platform: 'h5',authorization: 'djs411168jr' }).then(res => {
+      
+     
+    })
+  },
   mounted() {
   	
   },

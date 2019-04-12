@@ -32,7 +32,7 @@
 import { saveInviteCode, userInviteCode, getQRCode } from '@/api/djs/invite'
 import Dialog from '@/components/Dialog/Alert'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
-// import { Indicator, Toast } from 'mint-ui'
+import { Indicator, Toast } from 'mint-ui'
 export default {
   data() {
     return {
@@ -51,6 +51,9 @@ export default {
       myReferrer: ''
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     saveInviteCode() {
       // Indicator.open()
@@ -58,8 +61,9 @@ export default {
         this.msgDialog = '请输入推荐码'
         this.showDialog = true
       } else {
+        Indicator.open()
         saveInviteCode({ recommendCode: this.newRecommendCode }).then(res => {
-          // Indicator.close()
+          Indicator.close()
           console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
@@ -78,7 +82,7 @@ export default {
     // 获取我的推荐人姓名
     userInviteCode() {
       userInviteCode({
-        userName: '小狗'
+        userName: this.user.userName
       }).then(res => {
         this.myReferrer = res.data.data.recommendName
         this.hasRecommender = true
@@ -87,10 +91,10 @@ export default {
     scan() {
       // 面对面扫一扫
       getQRCode({
-        userName: '小狗'
+        userName: this.user.userName
       }).then(res => {
         // console.log(res.data)
-        this.QRCode = res.data.qrPicUrl
+        this.QRCode = res.data.qrPicUrl //二维码图片地址
         this.dialogOption.show = true
       })
     },

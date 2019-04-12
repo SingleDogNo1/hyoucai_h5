@@ -1,15 +1,33 @@
 <template>
   <section>
-      <div class="module">
-         <h2>送您一张3.0%加息券</h2>
-         <p>已存入您的账户，立即使用加息15天！</p>
-         <span>2017.12.14 13:12:44</span>
-      </div>
-       <div class="module">
-          <h2>送您一个100元红包</h2>
-          <p>已存入您的账户，立即使用增加100元！</p>
-          <span>2017.12.14  13:12:44</span>
-      </div>
+      	<div class="commonList">
+            <div class="title">
+                <i class=""></i>
+                <p>加息券消息</p>
+            </div>
+            <div class="more"><img src="./more_icon.png"/></div>
+        </div>
+        <div class="commonList ">
+            <div class="title">
+                <i class="red_dot"></i>
+                <p>红包消息</p>
+            </div>
+            <div class="more"><img src="./more_icon.png"/></div>
+        </div>
+         <div class="commonList ">
+            <div class="title">
+                <i class=""></i>
+                <p>体验金消息</p>
+            </div>
+            <div class="more"><img src="./more_icon.png"/></div>
+        </div>
+         <div class="commonList">
+            <div class="title">
+                <i class="repeat_dot"></i>
+                <p>复投提醒消息</p>
+            </div>
+            <div class="more"><img src="./more_icon.png"/></div>
+        </div>
   </section>
 </template>
 
@@ -35,11 +53,7 @@ export default {
   },
   computed: {},
   created() {
-  	//消息列表
-    api.getList({ platform: 'h5',authorization: 'djs411168jr' }).then(res => {
-      
-     
-    })
+  	
   },
   mounted() {
   	
@@ -49,35 +63,55 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	section{
-	   background: #eee;
-	   padding-top: 0.06rem;
-	   height: 100%;
-	   .module{
-	   	height: 1.38rem;
-	   	width: 3.45rem;
-	   	background: #fff;
-	   	margin: 0 auto 0.1rem;
-	   	padding-left: 0.16rem;
-	   	h2{
-	   		font-size: 0.17rem;
-        color: #333333;
-        font-weight: bold;
-        padding-top: 0.2rem;
-        font-family: PingFangSC-Semibold;
-	   	}
-	   	p{
-	   		font-size: 0.13rem;
-        color: #999999;
-        font-family: PingFang-SC-Regular;
-        padding-top: 0.15rem;
-        padding-bottom: 0.24rem;
-	   	}
-	   	span{
-	   		font-size: 0.11rem;
-	   		color: #999999;
-	   		font-family: PingFang-SC-Regular;
-	   	}
-	   }
-	}
+	 section{
+	 	background: #eee;
+	 	padding-top: 0.06rem;
+	 	.commonList{
+	 		background: #fff;
+	 		height: 0.5rem;
+	 		line-height: 0.5rem;
+	 		border-bottom: 0.01rem solid #EEEEEE;
+	 		font-size: 0.13rem;
+      color: #333333;
+      padding-left: 0.15rem;
+      .title{
+      	 float: left;
+      	 width: 70%;
+      	 position: relative;
+      	 i{
+      	 	 display:inline-block;
+            position: absolute;
+            z-index: 2;
+            width: 0.06rem;
+            height: 0.06rem;
+            border-radius:50%;
+            background-color:#ef5c52;
+            top: 42%; 
+            left:26%;
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+      	 }
+      	 .red_dot{
+      	 	  left:21%;
+      	 }
+      	 .repeat_dot{
+      	 	  left: 31%;
+      	 }
+      }
+      .more{
+      	display: flex;
+      	align-items: center;
+      	float: right;
+      	height: 0.5rem;
+      	img{
+      		height: 0.14rem;
+      		width: 0.14rem;
+      		padding-right: 0.15rem;
+      	}
+      }
+	 	}
+	 }
 </style>

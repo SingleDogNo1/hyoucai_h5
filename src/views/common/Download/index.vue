@@ -7,7 +7,7 @@
       </header>
       <div class="tel"></div>
       <button v-if="isIOS" @click="iosClick">
-        <img class="ios" src="./images/icon_ios.png" alt="">
+        <img class="ios" src="./images/icon_ios.png" alt="" />
         <span>iPhone 版下载</span>
       </button>
       <button v-if="isAndroid" @click="androidClick">

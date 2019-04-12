@@ -6,8 +6,12 @@
         <section class="intro">
           <div class="title"></div>
           <div class="info com_info">
-            <p>汇有财隶属于江西汇通金融信息服务有限公司旗下，江西汇通金融信息服务有限公司2013年3月22日在江西省南昌市红谷滩新区注册成立，通过科技驱动金融创新，为中国广大优质用户提供高效、便捷、个性化的信贷咨询服务，是江西省首批金融信息服务类企业。</p>
-            <p>汇通金融所有资产均从市场调研，产品设计，渠道拓展，广告推广，订制配套的评分卡、催收策略，征信数据采集等每个专业环节都自主开发完成，确保向机构与中小出借者客户提供的资产质量的可辨、可防、可控。</p>
+            <p>
+              汇有财隶属于江西汇通金融信息服务有限公司旗下，江西汇通金融信息服务有限公司2013年3月22日在江西省南昌市红谷滩新区注册成立，通过科技驱动金融创新，为中国广大优质用户提供高效、便捷、个性化的信贷咨询服务，是江西省首批金融信息服务类企业。
+            </p>
+            <p>
+              汇通金融所有资产均从市场调研，产品设计，渠道拓展，广告推广，订制配套的评分卡、催收策略，征信数据采集等每个专业环节都自主开发完成，确保向机构与中小出借者客户提供的资产质量的可辨、可防、可控。
+            </p>
           </div>
         </section>
         <!-- 高管介绍 -->
@@ -19,7 +23,8 @@
               <h2>陈跃文</h2>
               <div class="position">首席执行官 CEO</div>
               <p class="text">
-                华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。</p>
+                华东师范大学硕士研究生学历，拥有工科硕士学位。在公司运营、营销及风控领域拥有超过10年的管理经验，擅长金融风险管理。历任GSK（葛兰素史克），Pfizer(辉瑞制药)金融事业部核心管理岗位，对公司治理有着极深的理解。
+              </p>
             </div>
           </div>
           <div class="wrapper">
@@ -47,7 +52,8 @@
               <h2>林可正</h2>
               <div class="position">首席风控官 CRO</div>
               <p class="text">
-                20年以上消费金融经验，是知名的风险专家。加入担任汇通特邀风控专家顾问之前，曾担任台湾汇丰银行信用风险资深副总裁，1995核准台湾汇丰银行第一张信用卡。2002年在美国加州Sunshine Investment担任underwriter，2006年主持台湾汇丰银行坏帐计算模型设计与开发，拥有美国伊利诺伊大学香槟校区财务管理硕士学位。
+                20年以上消费金融经验，是知名的风险专家。加入担任汇通特邀风控专家顾问之前，曾担任台湾汇丰银行信用风险资深副总裁，1995核准台湾汇丰银行第一张信用卡。2002年在美国加州Sunshine
+                Investment担任underwriter，2006年主持台湾汇丰银行坏帐计算模型设计与开发，拥有美国伊利诺伊大学香槟校区财务管理硕士学位。
               </p>
             </div>
           </div>
@@ -74,9 +80,9 @@
           <div class="swiper-container" id="struct">
             <div class="swiper-wrapper">
               <div class="swiper-slide" v-for="(item, index) in organization" :key="index">
-                <h1>{{item.name}}</h1>
+                <h1>{{ item.name }}</h1>
                 <ul>
-                  <li v-for="value in item.include" :key="value">{{value}}</li>
+                  <li v-for="value in item.include" :key="value">{{ value }}</li>
                 </ul>
               </div>
             </div>
@@ -123,9 +129,7 @@
                 <p>法人代表：</p>
                 <span>陈跃文</span>
               </li>
-              <li
-                :style="{paddingBottom: showAllInfo ? 0 : '0.24rem'}"
-              >
+              <li :style="{ paddingBottom: showAllInfo ? 0 : '0.24rem' }">
                 <p>网站 IP 地址：</p>
                 <span>112.74.159.32</span>
               </li>
@@ -139,42 +143,54 @@
               </li>
               <li>
                 <p>上线时间：</p>
-                <span>2013年3月22日</span></li>
+                <span>2013年3月22日</span>
+              </li>
               <li>
                 <p>客服热线：</p>
-                <span>400-099-7979</span></li>
+                <span>400-099-7979</span>
+              </li>
               <li>
                 <p>统一社会信用代码：</p>
-                <span>9136012506349444XD</span></li>
+                <span>9136012506349444XD</span>
+              </li>
               <li>
                 <p>APP上线时间：</p>
-                <span>2016年10月</span></li>
+                <span>2016年10月</span>
+              </li>
               <li>
                 <p>微信公众号：</p>
-                <span>huiyoucaidyh</span></li>
+                <span>huiyoucaidyh</span>
+              </li>
               <li>
                 <p>资金存管：</p>
-                <span>江西银行存管</span></li>
+                <span>江西银行存管</span>
+              </li>
               <li>
                 <p>存管时间上线：</p>
-                <span>2017年9月</span></li>
+                <span>2017年9月</span>
+              </li>
               <li>
                 <p>A轮融资：</p>
-                <span>3000万元</span></li>
+                <span>3000万元</span>
+              </li>
               <li>
                 <p>经营地址：</p>
-                <span>江西省南昌市红谷滩新区红谷中大道1669号华尔登商业中心喜来登酒店、办公楼写字楼3105-3106室
-</span></li>
+                <span>江西省南昌市红谷滩新区红谷中大道1669号华尔登商业中心喜来登酒店、办公楼写字楼3105-3106室 </span>
+              </li>
               <li>
                 <p>公安部认证：</p>
-                <span>公安部安全等级三级认证</span></li>
+                <span>公安部安全等级三级认证</span>
+              </li>
               <li>
                 <p>分支机构：</p>
-                <span>暂无</span></li>
+                <span>暂无</span>
+              </li>
               <li>
                 <p>经营范围：</p>
-                <span>接受金融机构委托从事金融信息技术外包；接受金融机构委托从事金融业务流程外包；接受金融机构委托从事金融知识流程外包；金融产品的研发、设计、咨询服务；金融信息和经济信息咨询服务；市场调查（不含社会调查）及数据分析服务；计算机软硬件开发；出借管理服务；出借咨询服务；电子产品网上销售（以上项目国家有专项规定的凭许可证、资质证或其他批准文件经营）
-</span></li>
+                <span
+                  >接受金融机构委托从事金融信息技术外包；接受金融机构委托从事金融业务流程外包；接受金融机构委托从事金融知识流程外包；金融产品的研发、设计、咨询服务；金融信息和经济信息咨询服务；市场调查（不含社会调查）及数据分析服务；计算机软硬件开发；出借管理服务；出借咨询服务；电子产品网上销售（以上项目国家有专项规定的凭许可证、资质证或其他批准文件经营）
+                </span>
+              </li>
             </ul>
           </div>
           <button v-show="!showAllInfo" @click="showMore">展开全部</button>
@@ -244,13 +260,8 @@
           <div class="title"></div>
           <div class="swiper-container" id="honor">
             <div class="swiper-wrapper">
-              <div
-                class="swiper-slide"
-                v-for="(item, index) in honorPics"
-                :key="index"
-                @click="fullScreen(index)"
-              >
-                <img :src="item" alt="">
+              <div class="swiper-slide" v-for="(item, index) in honorPics" :key="index" @click="fullScreen(index)">
+                <img :src="item" alt="" />
               </div>
             </div>
           </div>
@@ -291,7 +302,7 @@
           </table>
         </div>
         <div class="zfbz">
-          <img src="./zfbz.png" alt="">
+          <img src="./zfbz.png" alt="" />
         </div>
         <!-- 联系我们 -->
         <div class="contact">
@@ -307,18 +318,18 @@
           </div>
           <div>
             <p>联系时间：</p>
-            <span>周一到周五：09：00-12：00  13：00-18：00</span>
+            <span>周一到周五：09：00-12：00 13：00-18：00</span>
           </div>
           <div>
             <p>咨询、投诉、举报电子邮箱：</p>
             <span>cs@idjshi.com</span>
           </div>
           <p>
-            如果您在使用汇有财的过程中有任何疑问，<br>
+            如果您在使用汇有财的过程中有任何疑问，<br />
             请您与汇有财客服人员联系。
           </p>
         </div>
-        <img src="@/assets/imgs/cyw-sign.png" alt="" width="100%" height="1.41rem">
+        <img src="@/assets/imgs/cyw-sign.png" alt="" width="100%" height="1.41rem" />
       </div>
     </b-scroll>
     <div class="honor-mask" ref="originImg">

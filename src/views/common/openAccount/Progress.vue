@@ -2,12 +2,12 @@
   <BScroll class="progress-wrapper">
     <div class="progress">
       <div class="line">
-        <div class="ball" :class="{active: ['openAccount','setTradePWD','signAgreement'].includes($route.name)}"></div>
-        <div class="ball" :class="{active: ['signAgreement'].includes($route.name)}"></div>
+        <div class="ball" :class="{ active: ['openAccount', 'setTradePWD', 'signAgreement'].includes($route.name) }"></div>
+        <div class="ball" :class="{ active: ['signAgreement'].includes($route.name) }"></div>
       </div>
       <div class="steps">
-        <div class="step" :class="{active: ['openAccount','setTradePWD','signAgreement'].includes($route.name)}">实名开户</div>
-        <div class="step" :class="{active: ['signAgreement'].includes($route.name)}">业务授权</div>
+        <div class="step" :class="{ active: ['openAccount', 'setTradePWD', 'signAgreement'].includes($route.name) }">实名开户</div>
+        <div class="step" :class="{ active: ['signAgreement'].includes($route.name) }">业务授权</div>
       </div>
     </div>
     <router-view v-if="status"></router-view>

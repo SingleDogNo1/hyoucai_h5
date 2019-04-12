@@ -1,35 +1,23 @@
 <template>
-  <div class="activity pageContainer" ref="container">
-    <BScroll
-      ref="scrollRef"
-      :beforScroll="true"
-      @beforeScroll="beforeScroll"
-    >
+  <div class="activity" ref="container">
+    <BScroll ref="scrollRef" :beforScroll="true" @beforeScroll="beforeScroll">
       <div class="activity-wrapper">
-        <template   v-if="actList.length > 0">
+        <template v-if="actList.length > 0">
           <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
-            <img :src="item.picUrl" alt="">
-            <p>
-              活动日期：{{item.startTime}}至{{item.endTime}}
-            </p>
+            <img :src="item.picUrl" alt="" />
+            <p>活动日期：{{ item.startTime }}至{{ item.endTime }}</p>
           </section>
         </template>
-        <NoData
-          v-else
-          class="no-data"
-          type="event"
-        />
+        <NoData v-else class="no-data" type="event" />
       </div>
-
     </BScroll>
-
   </div>
 </template>
 
 <script>
 import NoData from '@/components/NoData/NoData'
 import BScroll from '@/components/BScroll/BScroll'
-import { getHotApi } from '@/api/djs/ActCenter/ActCenter'
+import { getHotApi } from '@/api/djs/actCenter'
 
 export default {
   name: 'index',
@@ -80,14 +68,9 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
-.pageContainer {
-  background: #eee;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
+.activity {
+  height: 100%;
 }
-
 .my-scroll {
   height: 100%;
   overflow: hidden;
@@ -95,10 +78,9 @@ export default {
 
 .activity-wrapper {
   background: #fff;
-  padding: 0 0.16rem 0.16rem;
+  padding: 0.08rem 0.16rem 0.16rem;
   min-height: 100%;
   section {
-    margin-top: 0.08rem;
     padding-top: 0.16rem;
     p {
       font-size: 0.13rem;

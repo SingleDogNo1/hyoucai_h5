@@ -1,7 +1,5 @@
 <template>
-  <div class="index">
-    hello, {{msg}}
-  </div>
+  <div class="index">hello, {{ msg }}</div>
 </template>
 
 <script>
@@ -24,5 +22,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

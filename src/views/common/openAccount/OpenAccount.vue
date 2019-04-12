@@ -2,24 +2,25 @@
   <div class="open-account">
     <div class="form">
       <div class="row">
-        <input type="text" placeholder="请输入姓名" v-model="name">
+        <input type="text" placeholder="请输入姓名" v-model="name" :disabled="nameDisabled" />
       </div>
       <div class="row">
-        <input type="text" placeholder="请输入身份证号" v-model="idCard" maxlength="18">
+        <input type="text" placeholder="请输入身份证号" v-model="idCard" maxlength="18" :disabled="IDCardDisabled" />
       </div>
       <div class="row">
-        <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="mobile" :disabled="mobileDisable">
+        <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="mobile" :disabled="mobileDisable" />
         <p @click="toSupportBank">查看可用银行卡列表</p>
       </div>
     </div>
     <p class="agreements">
-      <template v-for="(agreement,index) in agreements">
+      <template v-for="(agreement, index) in agreements">
         <div :key="index">
-          <input type="checkbox" id="isCheck" v-model="agree" v-if="agreement.checkBox">
+          <input type="checkbox" id="isCheck" v-model="agree" v-if="agreement.checkBox" />
           <label for="isCheck" v-if="agreement.checkBox"></label>
-          <span v-for="(item,index) in agreement.list" :key="index">
-              {{item.description1}}<a :href="item.showUrl" class="agreement">{{item.name}}</a>{{item.description2}}
-            </span>
+          <span v-for="(item, index) in agreement.list" :key="index">
+            {{ item.description1 }}<a :href="item.showUrl" class="agreement">{{ item.name }}</a
+            >{{ item.description2 }}
+          </span>
         </div>
       </template>
     </p>
@@ -33,12 +34,14 @@
 </template>
 
 <script>
-import { userInfoAuth, queryAgreementCatalog, getBasicInfo } from '@/api/common/user'
 import { Toast } from 'mint-ui'
+
 import { AppToast } from '@/assets/js/Toast'
-import Hyoucai from '@/assets/js/hyoucai'
 import { isChName, isIdcard } from '@/assets/js/regular'
 import { JumpJX } from '@/assets/js/utils'
+
+import { userInfoAuth, queryAgreementCatalog } from '@/api/common/user'
+import { getBasicInfo } from '@/api/common/basicInfo'
 
 export default {
   name: '',
@@ -46,25 +49,28 @@ export default {
     return {
       agree: true,
       idType: '01',
+      isOpenAccount: false,
       idNo: '',
       name: '',
+      nameDisabled: false, // 姓名是否可编辑
       idCard: '',
+      IDCardDisabled: false, // 身份证号是否可编辑
       mobile: '',
       agreements: [],
-      mobileDisable: false // 银行预留手机号是否禁用
+      mobileDisable: false // 银行预留手机号是否可编辑
     }
   },
   computed: {
     retUrl() {
-      return Hyoucai.getRetBaseURL() + '/open-account'
+      const index = window.location.href.indexOf('#')
+      const baseURL = window.location.href.substr(0, index + 1)
+      return baseURL + '/open-account'
     },
     continueFlag() {
       return this.name && this.mobile && this.idCard && this.agree
     }
   },
   methods: {
-    // 6216912104561546
-    // 140181199303273213
     toSupportBank() {
       this.$router.push({ name: 'supportBanks' })
     },
@@ -111,15 +117,22 @@ export default {
         mobile: this.mobile,
         identityNo: this.idCard
       }).then(res => {
-        // 性别
         let gender = res.data.data.gender
         if (res.data.data.isSuccess === '1') {
-          JumpJX('escrow/accountOpenEncryptPage', {
-            name: this.name,
-            mobile: this.mobile,
-            retUrl: this.retUrl,
-            gender: gender
-          })
+          if (!this.isOpenAccount) {
+            // 未开户
+            JumpJX('escrow/accountOpenEncryptPage', {
+              name: this.name,
+              mobile: this.mobile,
+              retUrl: this.retUrl,
+              gender: gender
+            })
+          } else {
+            // 开户未设置交易密码
+            JumpJX('escrow/passwordReset', {
+              retUrl: this.retUrl
+            })
+          }
         } else {
           Toast(res.data.data.message)
         }
@@ -135,10 +148,24 @@ export default {
       }
     })
     getBasicInfo().then(res => {
-      // 银行预留手机号
-      this.mobile = res.data.data.mobile
-      // 手机号是否能编辑
-      this.mobileDisable = res.data.data.isMobileEdit === '0'
+      if (res.data.resultCode === '1') {
+        const data = res.data.data
+        this.isOpenAccount = data.isOpenAccount
+        if (!data.isOpenAccount) {
+          // 未开户
+          this.mobile = res.data.data.mobile
+          this.mobileDisable = res.data.data.isMobileEdit === '0'
+        } else {
+          // 已开户未设置交易密码
+
+          this.name = data.name
+          this.nameDisabled = true
+          this.idCard = data.identityNo
+          this.IDCardDisabled = true
+          this.mobile = res.data.data.mobile
+          this.mobileDisable = res.data.data.isMobileEdit === '0'
+        }
+      }
     })
   }
 }

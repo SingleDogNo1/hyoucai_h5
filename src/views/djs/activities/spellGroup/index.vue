@@ -1,19 +1,19 @@
 <template>
-  <div :class="['spell-group', {hidden: showMask}]">
-    <button ></button>
+  <div :class="['spell-group', { hidden: showMask }]">
+    <button></button>
     <div class="banner"></div>
     <div class="inner">
       <div class="desc"></div>
       <div class="wrapper">
         <div class="count-down">
           <span class="title">参团倒计时：</span>
-          <span class="time" v-if="day > 0">{{day}}</span>
+          <span class="time" v-if="day > 0">{{ day }}</span>
           <span class="split" v-if="day > 0">天</span>
-          <span class="time">{{hours}}</span>
+          <span class="time">{{ hours }}</span>
           <span class="split">:</span>
-          <span class="time">{{minute}}</span>
+          <span class="time">{{ minute }}</span>
           <span class="split">:</span>
-          <span class="time">{{second}}</span>
+          <span class="time">{{ second }}</span>
         </div>
         <div class="progress-wrapper">
           <ul class="rate">
@@ -25,7 +25,7 @@
             <li><span></span></li>
           </ul>
           <div class="progress-out">
-            <div class="progress-bar" :style="{width: percent}"></div>
+            <div class="progress-bar" :style="{ width: percent }"></div>
           </div>
           <ul class="num">
             <li><span>1人</span></li>
@@ -37,8 +37,12 @@
           </ul>
         </div>
         <div class="total">
-          <div class="people">当前参团人数：<span>{{currPeopleNum}}人</span></div>
-          <div class="rate">加息：<span>{{couponRate}}%</span></div>
+          <div class="people">
+            当前参团人数：<span>{{ currPeopleNum }}人</span>
+          </div>
+          <div class="rate">
+            加息：<span>{{ couponRate }}%</span>
+          </div>
         </div>
         <!-- 活动进行中 -->
         <div class="act-wrapper" v-if="!isOverdue">
@@ -51,46 +55,46 @@
             <p>现在完成账户设置，即可领取10元现金红包啦，快快下载APP提现吧！</p>
             <section>
               <button @click="download">下载APP</button>
-              <button @click="shareActivity" class="clip-board"  :data-clipboard-text="clipBoardPath">分享拼团</button>
+              <button @click="shareActivity" class="clip-board" :data-clipboard-text="clipBoardPath">分享拼团</button>
             </section>
           </div>
         </div>
         <!-- 活动已结束 -->
         <div class="no-act" v-else>
-         <div></div>
+          <div></div>
           <section>
             <button @click="download">下载APP</button>
-            <button class="clip-board"  :data-clipboard-text="clipBoardPath" @click="shareActivity">分享拼团</button>
+            <button class="clip-board" :data-clipboard-text="clipBoardPath" @click="shareActivity">分享拼团</button>
           </section>
         </div>
         <div class="rules">
           <div class="title"></div>
           <p>
-            1、参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。<br>
+            1、参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。<br />
             假设您出借<span style="color: #ff7a13;">1万元</span>，你将获得：
           </p>
           <table cellspacing="0">
             <thead>
-            <tr>
-              <th>出借品类</th>
-              <th>年化收益率</th>
-              <th>加息3%后</th>
-              <th>总收益(元)</th>
-            </tr>
+              <tr>
+                <th>出借品类</th>
+                <th>年化收益率</th>
+                <th>加息3%后</th>
+                <th>总收益(元)</th>
+              </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>汇选3个月</td>
-              <td>10%</td>
-              <td>13%</td>
-              <td>250<span>+75</span></td>
-            </tr>
-            <tr>
-              <td>汇选6个月</td>
-              <td>11%</td>
-              <td>14%</td>
-              <td>550<span>+150</span></td>
-            </tr>
+              <tr>
+                <td>汇选3个月</td>
+                <td>10%</td>
+                <td>13%</td>
+                <td>250<span>+75</span></td>
+              </tr>
+              <tr>
+                <td>汇选6个月</td>
+                <td>11%</td>
+                <td>14%</td>
+                <td>550<span>+150</span></td>
+              </tr>
             </tbody>
           </table>
           <p>
@@ -118,29 +122,24 @@
       <div class="mask">
         <section>
           <span>姓名</span>
-          <input type="text" v-model="userName" placeholder="请输入姓名">
+          <input type="text" v-model="userName" placeholder="请输入姓名" />
         </section>
         <section>
           <span>手机号</span>
-          <input type="tel" maxlength="11" v-model="mobile" placeholder="请输入手机号">
+          <input type="tel" maxlength="11" v-model="mobile" placeholder="请输入手机号" />
         </section>
         <section>
           <span>验证码</span>
-          <input type="tel" maxlength="6" v-model="smsCode" placeholder="请输入验证码">
-          <SMSBtn
-            text="获取验证码"
-            class="sms-btn"
-            ref="smsBtn"
-            @getSMSCode="sendSMSCode"
-          />
+          <input type="tel" maxlength="6" v-model="smsCode" placeholder="请输入验证码" />
+          <SMSBtn text="获取验证码" class="sms-btn" ref="smsBtn" @getSMSCode="sendSMSCode" />
         </section>
-        <p>{{errMsg}}</p>
-        <input type="button" value="参加拼团" @click="joinActivity">
+        <p>{{ errMsg }}</p>
+        <input type="button" value="参加拼团" @click="joinActivity" />
       </div>
     </div>
     <div id="captcha"></div>
     <div class="share-mask" v-if="showShare" @click.self="closeShare">
-      <img src="./images/dir_share.png" alt="">
+      <img src="./images/dir_share.png" alt="" />
       <p>1.点击右上角的...按钮；</p>
       <p>2.选择“发送给朋友”或“分享到朋友圈”！</p>
     </div>

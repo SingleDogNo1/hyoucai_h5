@@ -1,13 +1,13 @@
 <template>
   <div class="coupon">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <div class="detail" @click="showDetail"></div>
       </div>
     </div>
     <div class="detail-mask" v-if="detailFlag">
-      <img src="./off.png" class="close" alt="" @click="closeDialog">
-      <img src="./dialog.png" alt="">
+      <img src="./off.png" class="close" alt="" @click="closeDialog" />
+      <img src="./dialog.png" alt="" />
     </div>
   </div>
 </template>

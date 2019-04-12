@@ -1,8 +1,7 @@
 <template>
   <div class="register">
     <div class="inner">
-      <div class="wrapper">
-      </div>
+      <div class="wrapper"></div>
     </div>
   </div>
 </template>

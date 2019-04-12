@@ -1,62 +1,62 @@
 <template>
-   <section class="claimDetail">
-      <p></p>
-      <div class="lender_info info">
-          <h2>借款人信息</h2>
-          <table>
-          	<tr>
-          		<td><span>姓名</span></td>
-          		<td><i>吴**</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>性别</span></td>
-          		<td><i>男</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>年龄</span></td>
-          		<td><i>32</i></td>
-          	</tr>
-          </table>
-      </div>
-      
-      <div class="loan_info info">
-          <h2>贷款信息</h2>
-          <table>
-          	<tr>
-          		<td><span>流水号</span></td>
-          		<td><i>319010219022XX</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>贷款金额</span></td>
-          		<td><i>2200.00元</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>贷款期限</span></td>
-          		<td><i>0期</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>还款方式</span></td>
-          		<td><i></i></td>
-          	</tr>
-          	<tr>
-          		<td><span>还款进度</span></td>
-          		<td><i>1/3期</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>还款状态</span></td>
-          		<td><i>正常还款</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>借款人约定的借款利率</span></td>
-          		<td><i>10.0%</i></td>
-          	</tr>
-          	<tr>
-          		<td><span>募标起始日期</span></td>
-          		<td><i>2019-02-20</i></td>
-          	</tr>
-          </table>
-      </div>
-   </section>
+  <section class="claimDetail">
+    <p></p>
+    <div class="lender_info info">
+      <h2>借款人信息</h2>
+      <table>
+        <tr>
+          <td><span>姓名</span></td>
+          <td><i>吴**</i></td>
+        </tr>
+        <tr>
+          <td><span>性别</span></td>
+          <td><i>男</i></td>
+        </tr>
+        <tr>
+          <td><span>年龄</span></td>
+          <td><i>32</i></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="loan_info info">
+      <h2>贷款信息</h2>
+      <table>
+        <tr>
+          <td><span>流水号</span></td>
+          <td><i>319010219022XX</i></td>
+        </tr>
+        <tr>
+          <td><span>贷款金额</span></td>
+          <td><i>2200.00元</i></td>
+        </tr>
+        <tr>
+          <td><span>贷款期限</span></td>
+          <td><i>0期</i></td>
+        </tr>
+        <tr>
+          <td><span>还款方式</span></td>
+          <td><i></i></td>
+        </tr>
+        <tr>
+          <td><span>还款进度</span></td>
+          <td><i>1/3期</i></td>
+        </tr>
+        <tr>
+          <td><span>还款状态</span></td>
+          <td><i>正常还款</i></td>
+        </tr>
+        <tr>
+          <td><span>借款人约定的借款利率</span></td>
+          <td><i>10.0%</i></td>
+        </tr>
+        <tr>
+          <td><span>募标起始日期</span></td>
+          <td><i>2019-02-20</i></td>
+        </tr>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script>

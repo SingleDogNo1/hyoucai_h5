@@ -2,55 +2,31 @@
   <div class="register">
     <section>
       <div class="block sms-code">
-        <input
-          ref="smsInput"
-          type="tel"
-          placeholder="请输入短信验证码"
-          maxlength="6"
-          v-model="form.identifyCode"
-          @blur="smsCodeBlur"
-        />
-        <SMSBtn
-          class="sms-btn"
-          ref="smsBtn"
-          @getSMSCode="sendSMSCode"
-        />
+        <input ref="smsInput" type="tel" placeholder="请输入短信验证码" maxlength="6" v-model="form.identifyCode" @blur="smsCodeBlur" />
+        <SMSBtn class="sms-btn" ref="smsBtn" @getSMSCode="sendSMSCode" />
       </div>
       <div class="block pwd">
-        <input
-          ref="pwdInput"
-          type="password"
-          v-model="form.passWord"
-          placeholder="输入8-20位字母和数字组合"
-          maxlength="20"
-          @blur="passwordBlur"
-        />
-        <password-strength
-          class="password-strength"
-          :pwd="form.passWord"
-          v-show="form.passWord !== ''"
-        ></password-strength>
+        <input ref="pwdInput" type="password" v-model="form.passWord" placeholder="输入8-20位字母和数字组合" maxlength="20" @blur="passwordBlur" />
+        <password-strength class="password-strength" :pwd="form.passWord" v-show="form.passWord !== ''"></password-strength>
       </div>
       <div class="block repeat-pwd">
-        <input
-          ref="repeatPWDInput"
-          type="password"
-          v-model="form.repeatPassword"
-          placeholder="请再次输入密码"
-          @blur="repeatPWDInput"
-        >
+        <input ref="repeatPWDInput" type="password" v-model="form.repeatPassword" placeholder="请再次输入密码" @blur="repeatPWDInput" />
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)" />
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)">
+        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)" />
       </div>
       <input
-        :class="['block', 'submit', {
-          active: form.identifyCode && form.passWord.length >= 8 && form.repeatPassword.length >= 8
-        }]"
+        :class="[
+          'block',
+          'submit',
+          {
+            active: form.identifyCode && form.passWord.length >= 8 && form.repeatPassword.length >= 8
+          }
+        ]"
         type="button"
         value="注册"
         :disabled="!form.identifyCode || !form.passWord || !form.repeatPassword"

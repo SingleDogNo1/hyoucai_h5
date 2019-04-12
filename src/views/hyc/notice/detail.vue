@@ -1,18 +1,13 @@
 <template>
   <transition name="slide">
-    <div class="notice" ref="container">
-      <b-scroll
-          :beforeScroll="true"
-          @beforeScroll="beforeScroll"
-          class="notice_scroll"
-          ref="scrollRefND">
-          <div class="wrapper">
-            <h2>{{data.title}}</h2>
-            <div>{{data.createTime}}</div>
-            <article id="content" v-html="data.content">
-            </article>
-          </div>
-        </b-scroll>
+    <div class="notice">
+      <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
+        <div class="wrapper">
+          <h2>{{ data.title }}</h2>
+          <div>{{ data.createTime }}</div>
+          <article id="content" v-html="data.content"></article>
+        </div>
+      </b-scroll>
     </div>
   </transition>
 </template>
@@ -20,7 +15,7 @@
 <script>
 import { Indicator, Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import { noticeDetailApi } from '@/api/djs/notice'
+import { noticeDetailApi } from '@/api/hyc/notice'
 
 const CODE_OK = '1'
 export default {
@@ -29,8 +24,6 @@ export default {
   },
   data() {
     return {
-      text: '公告详情',
-      mobile: this.$route.query.mobile,
       id: this.$route.params.id,
       data: {
         title: '',

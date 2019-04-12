@@ -168,9 +168,8 @@ export default {
     handleInvest(projectNo) {
       if (this.user && this.user.userName) {
         // 已登录
-        // TODO 跳转到对应的标的 routerName && routerQuery
         this.$router.push({
-          name: '',
+          name: 'DJSInvestDetail',
           query: {
             projectNo: projectNo
           }
@@ -183,9 +182,8 @@ export default {
       }
     },
     toInvestList() {
-      // TODO 点金石投资列表页 routerName
       this.$router.push({
-        name: ''
+        name: 'DJSInvestment'
       })
     }
   },

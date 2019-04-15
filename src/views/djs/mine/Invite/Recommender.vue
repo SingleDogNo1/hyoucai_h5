@@ -48,12 +48,12 @@ export default {
       msgDialog: '请输入推荐码', // 提示弹窗内容
       newRecommendCode: '', // 输入推荐吗
       newReferrer: '', // 新添加推荐码对应的姓名
-      myReferrer: ''
+      myReferrer: '' // 我的推荐人
     }
   },
-  computed: {
-    ...mapGetters(['user'])
-  },
+  // computed: {
+  //   ...mapGetters(['user'])
+  // },
   methods: {
     saveInviteCode() {
       // Indicator.open()
@@ -61,7 +61,7 @@ export default {
         this.msgDialog = '请输入推荐码'
         this.showDialog = true
       } else {
-        Indicator.open()
+        Indicator.open('加载中')
         saveInviteCode({ recommendCode: this.newRecommendCode }).then(res => {
           Indicator.close()
           console.log(res)
@@ -82,7 +82,7 @@ export default {
     // 获取我的推荐人姓名
     userInviteCode() {
       userInviteCode({
-        userName: this.user.userName
+        userName: '小狗'
       }).then(res => {
         this.myReferrer = res.data.data.recommendName
         this.hasRecommender = true
@@ -90,9 +90,11 @@ export default {
     },
     scan() {
       // 面对面扫一扫
+      Indicator.open('加载中')
       getQRCode({
-        userName: this.user.userName
+        userName: 'djs752580gr'
       }).then(res => {
+        Indicator.close()
         // console.log(res.data)
         this.QRCode = res.data.qrPicUrl //二维码图片地址
         this.dialogOption.show = true
@@ -108,6 +110,7 @@ export default {
   },
   mounted() {
     this.userInviteCode()
+    // console.log(this.user.realName)
   }
 }
 </script>

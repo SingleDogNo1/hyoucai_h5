@@ -43,7 +43,7 @@
         </div>
         <div class="button-area">
           <button @click="showRule = true">活动规则</button>
-          <button @click="showLog = true">中奖纪录</button>
+          <button @click="showLogDetail">中奖纪录</button>
         </div>
         <div class="model" v-if="showRule||showResult||showLog">
           <div class="dialog rule animated zoomIn faster" v-if="showRule">
@@ -126,6 +126,7 @@
 </template>
 
 <script>
+import { info, record, draw } from '@/api/common/activity/prizeDraw'
 export default {
   name: 'prizeDraw',
   data() {
@@ -149,8 +150,9 @@ export default {
       remainingNumber: 5, // 剩余抽奖次数
       aHour: true, // 是否开始前一小时内
       remainingSecond: 10, // 活动倒计时
-      nextDrawTime: '2019年4月22日 10:00', // 下次抽奖时间
-      rewardList: []
+      nextDrawTime: '', // 下次抽奖时间 2019年4月22日 10:00
+      rewardList: [],
+      userName: this.$route.query.userName
     }
   },
   computed: {
@@ -172,16 +174,38 @@ export default {
     }
   },
   methods: {
-    mock() {
+    /*mock() {
       this.reward = this.rewards[Math.floor(Math.random() * 8)]
       if (this.isGetReward) this.rewardList.push({ winningDate: '2019-04-12', prize: this.reward.name })
-      this.remainingNumber--
-    },
+    },*/
     getReward() {
-      this.mock()
-      this.current = 0
       this.onGoing = true
-      this.nextStep()
+      draw({ userName: this.userName }).then(res => {
+        if (res && res.data && res.data.resultCode === '1') {
+          switch (res.data.prizeKey) {
+            case '1':
+              this.reward = this.rewards[0]
+              break
+            case '2':
+              this.reward = this.rewards[2]
+              break
+            case '3':
+              this.reward = this.rewards[7]
+              break
+            case '4':
+              this.reward = this.rewards[6]
+              break
+            case '5':
+              this.reward = this.rewards[4]
+              break
+            default:
+              this.reward = this.rewards[Math.floor(Math.random() * 3) * 2 + 1]
+          }
+          this.remainingNumber = res.data.remainingNumber
+          this.current = 0
+          this.nextStep()
+        }
+      })
     },
     nextStep() {
       this.current++
@@ -210,9 +234,23 @@ export default {
           this.onGoing = false
         }, 500)
       }
+    },
+    showLogDetail() {
+      record({ userName: this.userName }).then(res => {
+        if (res && res.data && res.data.resultCode === '1') {
+          this.rewardList = res.data.list
+          this.showLog = true
+        }
+      })
     }
   },
   created() {
+    info({ userName: this.userName }).then(res => {
+      this.remainingNumber = JSON.parse(res.data.remainingNumber)
+      this.nextDrawTime = res.data.nextDrawTime
+      this.aHour = JSON.parse(res.data.aHour)
+      if (this.aHour) this.remainingSecond = JSON.parse(res.data.remainingSecond)
+    })
     let t = window.setInterval(() => {
       if (this.remainingSecond > 0) {
         this.remainingSecond--

@@ -295,6 +295,14 @@ export default {
               width: 0.84rem;
               height: 0.84rem;
             }
+            &.disabled:before {
+              content: '';
+              position: absolute;
+              width: 0.84rem;
+              height: 0.84rem;
+              background: #fff;
+              opacity: 0;
+            }
             &.disabled:after {
               content: '';
               position: absolute;
@@ -360,7 +368,6 @@ export default {
       }
       .rule {
         width: 3.45rem;
-        height: 3.35rem;
         h3 {
           width: 0.88rem;
         }

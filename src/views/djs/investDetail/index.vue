@@ -72,23 +72,16 @@
         <section class="serve-detail">
           <p class="tip">服务介绍</p>
           <p class="content">{{ investDetail.appDesc }}</p>
-          <dl>
-            <dt><img src="./images/icon_01.png" alt="" /></dt>
-            <dd>
-              <span>自动投标</span>
-              <br />
-              <i>系统自动根据用户确认的投标条件完成分散投标以降低风险</i>
-            </dd>
-          </dl>
-          <dl>
-            <dt><img src="./images/icon_02.png" alt="" /></dt>
-            <dd>
-              <span>轻松出借</span>
-              <br />
-              <i>出借、回款0费用；简单出借，乐享收益</i>
-            </dd>
-          </dl>
-          <div class="risk_assess common">
+          <ul v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+            <li v-if="item.isShowPic === '1'">
+              <img src="./images/icon_01.png" alt="" />
+            </li>
+            <li>
+              <h6>{{ item.serviceName }}</h6>
+              <p>{{ item.serviceMessage }}</p>
+            </li>
+          </ul>
+          <!--  <div class="risk_assess common">
             <p class="risk_title">项目风险评估及可能产生的风险结果</p>
             <p class="risk_content">
               根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。
@@ -100,33 +93,35 @@
               1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；<br />
               2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。
             </p>
-          </div>
+          </div> -->
         </section>
         <section class="claims">
           <div class="claims_list">
             <h2>债权列表</h2>
-            <p @click="showClaimList">全部<img src="./images/more.png" alt="" /></p>
+            <p @click="showClaimList"><span>全部</span><i class="iconfont icon-rightpage"></i></p>
           </div>
-          <table>
+          <table v-if="creditListData.length > 0">
             <tr v-for="(item, index) in creditListData" :key="index">
               <td>{{ item.name }}</td>
               <td>{{ item.amount }}</td>
               <td @click="showClaimDetail()">详情</td>
             </tr>
           </table>
+
+          <NoData v-else></NoData>
         </section>
         <section class="manage-info">
           <p class="tip">服务介绍</p>
           <div class="manage">
-            <ul @click="complianceManagement()">
+            <ul @click="complianceManagement">
               <li><img src="./images/icon_03.png" alt="" /></li>
               <li><span>合规管理</span></li>
             </ul>
-            <ul @click="selectMeans()">
+            <ul @click="selectMeans">
               <li><img src="./images/icon_04.png" alt="" /></li>
               <li><span>严选资产</span></li>
             </ul>
-            <ul @click="fundSafety()">
+            <ul @click="fundSafety">
               <li><img src="./images/icon_05.png" alt="" /></li>
               <li><span>资金安全</span></li>
             </ul>
@@ -169,13 +164,15 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
+import NoData from '@/components/NoData/NoData'
 import { getInvestDetail } from '@/api/djs/investDetail'
 export default {
   name: 'index',
   mixins: [],
   components: {
     BScroll,
-    Dialog
+    Dialog,
+    NoData
   },
   data() {
     return {
@@ -501,29 +498,29 @@ export default {
         margin-bottom: 0.16rem;
         padding-bottom: 0.16rem;
       }
-      dl {
-        height: 0.47rem;
-        margin-bottom: 0.16rem;
-        dt {
-          float: left;
+      ul {
+        padding: 0.08rem 0.15rem;
+        display: flex;
+        margin-bottom: 0.08rem;
+        li {
+          &:first-child {
+            width: 0.5rem;
+          }
+          &:last-child {
+            flex: 1;
+          }
           img {
             @include square(0.36rem);
-            padding-left: 0.15rem;
+            margin-right: 0.16rem;
           }
-        }
-        dd {
-          float: right;
-          margin-right: 0.15rem;
-          span {
+          h6 {
             font-size: 0.15rem;
-            color: #333333;
-            padding-bottom: 0.03rem;
+            margin-bottom: 0.1rem;
           }
-          i {
+          p {
             display: block;
             font-size: 0.13rem;
             color: #999;
-            @include cube(2.93rem, 0.36rem);
           }
         }
       }
@@ -545,8 +542,8 @@ export default {
       }
     }
     .claims {
-      height: 2rem;
       margin-bottom: 0.08rem;
+      padding-bottom: 0.16rem;
       background: #fff;
       .claims_list {
         height: 0.53rem;
@@ -558,16 +555,16 @@ export default {
           padding: 0.16rem 0 0.16rem 0.15rem;
         }
         p {
-          font-size: 0.13rem;
+          span {
+            font-size: 0.13rem;
+          }
           color: #999999;
           float: right;
           display: flex;
           align-items: center;
           padding: 0.15rem;
-          img {
-            @include square(0.1rem);
-            display: inline-block;
-            margin-left: 0.06rem;
+          i {
+            font-size: 0.13rem;
           }
         }
       }

@@ -1,18 +1,17 @@
 <template>
   <transition name="fade">
     <div class="pageContainer" ref="container">
-      <b-scroll class="scroll"
-                ref="scrollRef">
+      <b-scroll class="scroll" ref="scrollRef">
         <div>
           <ul class="top">
             <li class="border-bottom-1px">
               <dl>
-                <dt><img v-lazy="bankCardInfo.iconUrl" alt=""></dt>
+                <dt><img v-lazy="bankCardInfo.iconUrl" alt="" /></dt>
                 <dd>
                   <p>付款方式</p>
                   <input v-if="!isBankcardSupport" type="text" v-model="bankCardInfo.cardNo" />
                   <span v-else>{{ bankCardInfo.cardNo }}</span>
-                  <div class="border-top-1px">{{bankCardInfo.quota}}</div>
+                  <div class="border-top-1px">{{ bankCardInfo.quota }}</div>
                 </dd>
               </dl>
             </li>
@@ -20,7 +19,7 @@
               <p>充值金额</p>
               <div class="border-bottom-1px">
                 <span>¥</span>
-                <input placeholder="请输入充值金额（100元起）" type="text" @input="amountInput">
+                <input placeholder="请输入充值金额（100元起）" type="text" @input="amountInput" />
               </div>
             </li>
             <!--<li>
@@ -34,21 +33,21 @@
             <li>
               <label>姓名</label>
               <!--<input disabled type="text" id="name" placeholder="请输入姓名" v-model="plusStar(bankCardInfo.accountName, 1, 0)">-->
-              <span>{{plusStar(bankCardInfo.accountName, 0, 1)}}</span>
+              <span>{{ plusStar(bankCardInfo.accountName, 0, 1) }}</span>
             </li>
             <li>
               <label>身份证号</label>
               <!--<input disabled type="text" id="idNo" placeholder="请输入身份证号" v-model="this.bankCardInfo.idCard">-->
-              <span>{{bankCardInfo.idCard}}</span>
+              <span>{{ bankCardInfo.idCard }}</span>
             </li>
             <li>
               <label for="tel">手机号</label>
-              <input v-if="!isBankcardSupport" type="text" id="tel" placeholder="请输入银行预留手机号" @input="mobileInput">
+              <input v-if="!isBankcardSupport" type="text" id="tel" placeholder="请输入银行预留手机号" @input="mobileInput" />
               <span v-else>{{ bankCardInfo.mobile }}</span>
             </li>
             <li>
               <label for="smsCode">验证码</label>
-              <input type="text" id="smsCode" placeholder="请输入短信验证码" v-model="smsCode">
+              <input type="text" id="smsCode" placeholder="请输入短信验证码" v-model="smsCode" />
               <sms-btn class="sms-btn"></sms-btn>
             </li>
           </ul>
@@ -58,10 +57,8 @@
           </div>
         </div>
       </b-scroll>
-      <app-dialog
-        :title="dialogTitle"
-        :show.sync="showDialog">
-        <p class="dialog-content">{{chargeErrText}}</p>
+      <app-dialog :title="dialogTitle" :show.sync="showDialog">
+        <p class="dialog-content">{{ chargeErrText }}</p>
       </app-dialog>
     </div>
   </transition>

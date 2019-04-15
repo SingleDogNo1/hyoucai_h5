@@ -120,3 +120,13 @@ export function getRetBaseURL() {
   let index = window.location.href.indexOf('#')
   return window.location.href.substr(0, index + 1)
 }
+
+export function plusStar(str, frontNO, endNo) {
+  if (str && str.length) {
+    let len = Math.abs(frontNO - endNo)
+    let star = ''.padStart(len, '*')
+    return str.substring(0, frontNO) + star + str.substring(endNo)
+  } else {
+    return ''
+  }
+}

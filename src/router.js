@@ -486,6 +486,14 @@ export default new Router({
           }
         },
         {
+          path: 'couponMessageList',
+          name: 'CouponMessageList',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/couponMessageList'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
           path: 'charge',
           name: 'DJSCharge',
           component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
@@ -629,7 +637,7 @@ export default new Router({
           }
         },
         {
-          path: 'message',
+          path: 'coupon.vue.vue',
           name: 'HYCSiteMessage',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
           meta: {

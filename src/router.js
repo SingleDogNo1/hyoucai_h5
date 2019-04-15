@@ -340,7 +340,15 @@ export default new Router({
           name: 'DJSInvestDetail',
           component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
           meta: {
-            title: '出借'
+            title: '产品详情'
+          }
+        },
+        {
+          path: 'easyLend',
+          name: 'DJSInvestFlow',
+          component: () => import('@/views/djs/investDetail/easyLend'),
+          meta: {
+            title: '授权出借'
           }
         },
         {

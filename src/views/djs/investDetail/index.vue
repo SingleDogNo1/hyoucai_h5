@@ -61,7 +61,7 @@
             <p><i class="iconfont icon-rightpage"></i></p>
           </div>
         </section>
-        <section class="user-numbers" @click="showLendRecord">
+        <section class="user-numbers" @click="linkTo('DJSLendRecord', { projectNo: projectNo })">
           <div class="number">
             <img src="./images/users_img.png" alt="" />
             <span>
@@ -98,13 +98,16 @@
         <section class="claims">
           <div class="claims_list">
             <h2>债权列表</h2>
-            <p @click="showClaimList"><span>全部</span><i class="iconfont icon-rightpage"></i></p>
+            <p @click="linkTo('DJSClaimList', { projectNo: projectNo })">
+              <span>全部</span>
+              <span class="iconfont icon-rightpage"></span>
+            </p>
           </div>
           <table v-if="creditListData.length > 0">
             <tr v-for="(item, index) in creditListData" :key="index">
               <td>{{ item.name }}</td>
               <td>{{ item.amount }}</td>
-              <td @click="showClaimDetail()">详情</td>
+              <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
             </tr>
           </table>
 
@@ -113,15 +116,15 @@
         <section class="manage-info">
           <p class="tip">服务介绍</p>
           <div class="manage">
-            <ul @click="complianceManagement">
+            <ul @click="linkTo('complianceManagement')">
               <li><img src="./images/icon_03.png" alt="" /></li>
               <li><span>合规管理</span></li>
             </ul>
-            <ul @click="selectMeans">
+            <ul @click="linkTo('selectMeans')">
               <li><img src="./images/icon_04.png" alt="" /></li>
               <li><span>严选资产</span></li>
             </ul>
-            <ul @click="fundSafety">
+            <ul @click="linkTo('fundSafety')">
               <li><img src="./images/icon_05.png" alt="" /></li>
               <li><span>资金安全</span></li>
             </ul>
@@ -129,31 +132,31 @@
         </section>
         <section class="risk_tips commonType">
           <h2>风险告知书</h2>
-          <p><img src="./images/more.png" alt="" /></p>
+          <p><i class="iconfont icon-rightpage"></i></p>
         </section>
         <section class="questions commonType">
           <h2>常见问题</h2>
-          <p><img src="./images/more.png" alt="" /></p>
+          <p><i class="iconfont icon-rightpage"></i></p>
         </section>
         <section class="company_info">
           <p>由江西汇通金融信息服务有限公司提供网络借贷信息中介服务</p>
           <span>网贷有风险，借贷需谨慎</span>
         </section>
-        <!-- 服务弹窗 -->
-        <div v-if="showQuest" class="questDlgWrap">
-          <div class="questDlg">
-            <span>{{ investDetail.recentTips }}</span>
-          </div>
-        </div>
-        <Dialog class="serve-dialog" :show.sync="serveDialog.show">
-          <div>
-            <p>aaaa</p>
-          </div>
-        </Dialog>
       </div>
     </BScroll>
+    <!-- 服务弹窗 -->
+    <div v-if="showQuest" class="questDlgWrap" @click="showQuest = !showQuest">
+      <div class="questDlg">
+        <span>{{ investDetail.recentTips }}</span>
+      </div>
+    </div>
+    <Dialog class="serve-dialog" :show.sync="serveDialog.show">
+      <div>
+        <p>aaaa</p>
+      </div>
+    </Dialog>
     <section class="to-lend">
-      <div class="lend_btns">
+      <div class="lend_btns" @click="invest">
         <p>授权出借</p>
         <span>剩余可投{{ investDetail.surplusAmount }}万</span>
       </div>
@@ -168,7 +171,6 @@ import NoData from '@/components/NoData/NoData'
 import { getInvestDetail } from '@/api/djs/investDetail'
 export default {
   name: 'index',
-  mixins: [],
   components: {
     BScroll,
     Dialog,
@@ -195,31 +197,11 @@ export default {
       activity: '' //活动
     }
   },
-  props: {},
-  watch: {},
   methods: {
-    showLendRecord() {
+    linkTo(routerName, routerQuery = {}) {
       this.$router.push({
-        name: 'DJSLendRecord',
-        query: {
-          projectNo: this.projectNo
-        }
-      })
-    },
-    showClaimList() {
-      this.$router.push({
-        name: 'DJSClaimList',
-        query: {
-          projectNo: this.projectNo
-        }
-      })
-    },
-    showClaimDetail(id) {
-      this.$router.push({
-        name: 'DJSClaimDetail',
-        query: {
-          id: id
-        }
+        name: routerName,
+        query: routerQuery
       })
     },
     judge() {
@@ -228,28 +210,17 @@ export default {
     },
     showQuestDlg() {
       //点击问号弹框
-      //this.showQuest = true
+      this.showQuest = true
     },
-    selectMeans() {
-      //跳转到严选资产
+    invest() {
       this.$router.push({
-        path: `/selectMeans`
-      })
-    },
-    complianceManagement() {
-      //跳转到合规管理
-      this.$router.push({
-        path: `/complianceManagement`
-      })
-    },
-    fundSafety() {
-      //跳转到资金安全
-      this.$router.push({
-        path: `/fundSafety`
+        name: 'DJSInvestFlow',
+        query: {
+          projectNo: this.projectNo
+        }
       })
     }
   },
-  computed: {},
   created() {
     //出借详情
     getInvestDetail({
@@ -259,9 +230,7 @@ export default {
       this.creditListData = res.data.creditList
       this.activity = res.data.activity
     })
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
@@ -301,14 +270,14 @@ export default {
             color: #333333;
             margin-right: 0.4rem;
             line-height: 0.24rem;
-          }
-          span.overplus {
-            font-size: 0.13rem;
-            color: #999;
-          }
-          span.over_amount {
-            font-size: 0.15rem;
-            color: #333;
+            &.overplus {
+              font-size: 0.13rem;
+              color: #999;
+            }
+            &.over_amount {
+              font-size: 0.15rem;
+              color: #333;
+            }
           }
         }
       }
@@ -547,24 +516,26 @@ export default {
       background: #fff;
       .claims_list {
         height: 0.53rem;
+        display: flex;
+        justify-content: space-between;
         @include border-bottom-1px(#eee);
         h2 {
           font-size: 0.15rem;
           color: #333333;
-          float: left;
           padding: 0.16rem 0 0.16rem 0.15rem;
         }
         p {
-          span {
-            font-size: 0.13rem;
-          }
           color: #999999;
-          float: right;
           display: flex;
           align-items: center;
           padding: 0.15rem;
-          i {
+          span {
             font-size: 0.13rem;
+            &:last-child {
+              font-size: 0.12rem;
+              margin-left: 0.1rem;
+              transform: translateY(0.01rem);
+            }
           }
         }
       }
@@ -639,8 +610,9 @@ export default {
         height: 0.5rem;
         float: right;
         margin-right: 0.15rem;
-        img {
-          @include square(0.1rem);
+        i {
+          color: #999;
+          font-size: 0.13rem;
         }
       }
     }
@@ -697,7 +669,6 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    visibility: hidden;
     background-color: rgba(0, 0, 0, 0.2);
     .questDlg {
       background-image: url(./images/quest_bg.png);

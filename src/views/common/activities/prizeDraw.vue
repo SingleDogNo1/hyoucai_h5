@@ -154,7 +154,7 @@ export default {
       remainingSecond: 10, // 活动倒计时
       nextDrawTime: '', // 下次抽奖时间 2019年4月22日 10:00
       rewardList: [],
-      userName: this.$route.query.userName
+      userName: this.$route.query.serverUserName
     }
   },
   computed: {
@@ -363,7 +363,7 @@ export default {
     .button-area {
       display: flex;
       justify-content: center;
-      margin-top: 0.12rem;
+      margin: 0.12rem auto;
       button {
         color: #9d3c00;
         width: 1.4rem;

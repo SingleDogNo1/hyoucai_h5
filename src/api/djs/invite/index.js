@@ -37,11 +37,10 @@ export function saveInviteCode(data) {
   })
 }
 
-//  钞票码或推荐码显隐
-// export function cpmOrTjm() {
-//   return request({
-//     url: '/user/cpmOrTjm',
-//     method: 'post',
-//     data: qs.stringify(data)
-//   })
-// }
+export function getProtocaol(data) {
+  return request({
+    url: 'obtainProtocol',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

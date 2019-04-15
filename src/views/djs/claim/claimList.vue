@@ -10,9 +10,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in creditListData" :key="index">
-          <td>{{ item.ownBondName }}</td>
-          <td>{{ item.totalBondAmt }}</td>
+        <tr>
+          <td>王淑惺</td>
+          <td>3000</td>
           <td>详情</td>
         </tr>
       </tbody>
@@ -21,15 +21,11 @@
 </template>
 
 <script>
-// import { creditListData } from '@/api/djs/investDetail/index'
 export default {
   name: 'index',
   components: {},
   data() {
-    return {
-      projectNo: this.$route.params.projectNo,
-      creditListData: [] // 债权列表
-    }
+    return {}
   },
   methods: {},
   created: {}
@@ -39,7 +35,7 @@ export default {
 <style lang="scss" scoped>
 .claim_wrap {
   p {
-    height: 10px;
+    height: 0.1rem;
     background: #eee;
   }
   .claim_list {
@@ -51,26 +47,26 @@ export default {
     background: #fff;
     thead {
       tr {
-        height: 50px;
-        border-bottom: 1px solid #eeeeee;
+        height: 0.5rem;
+        border-bottom: 0.01rem solid #eeeeee;
         td {
-          font-size: 13px;
+          font-size: 0.13rem;
           color: #999999;
-          letter-spacing: 0.16px;
+          letter-spacing: 0.0016rem;
           text-align: center;
 
           &:nth-of-type(1) {
-            width: 47px;
-            height: 36px;
-            padding: 7px 82px 7px 15px;
+            width: 0.47rem;
+            height: 0.36rem;
+            padding: 0.07rem 0.82rem 0.07rem 0.15rem;
           }
           &:nth-of-type(2) {
-            width: 60px;
-            height: 36px;
-            padding: 7px 103px 7px 0px;
+            width: 0.6rem;
+            height: 0.36rem;
+            padding: 0.07rem 1.03rem 0.07rem 0;
           }
           &:nth-last-of-type(1) {
-            padding: 0px 15px 0 0;
+            padding: 0 0.15rem 0 0;
           }
         }
       }
@@ -78,23 +74,23 @@ export default {
 
     tbody {
       tr {
-        height: 50px;
-        border-bottom: 1px solid #eeeeee;
+        height: 0.5rem;
+        border-bottom: 0.01px solid #eeeeee;
         td {
           width: 33%;
           font-size: 13px;
           color: #333333;
-          letter-spacing: 0.16px;
+          letter-spacing: 0.016rem;
           &:nth-of-type(1) {
-            padding: 16px 15px;
+            padding: 0.16rem 0.15rem;
             text-align: left;
           }
           &:nth-last-of-type(1) {
-            font-size: 13px;
+            font-size: 0.13rem;
             color: #ec5e52;
-            letter-spacing: 0.16px;
+            letter-spacing: 0.0016rem;
             text-align: right;
-            padding: 16px 28px 16px 0;
+            padding: 0.16rem 0.28rem 0.16rem 0;
           }
         }
       }

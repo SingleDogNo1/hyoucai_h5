@@ -1,36 +1,35 @@
 <template>
   <transition name="fade">
     <div class="pageContainer" ref="container">
-      <b-scroll class="scroll"
-                ref="scrollRef">
+      <b-scroll class="scroll" ref="scrollRef">
         <div>
           <ul class="top">
             <li class="border-bottom-1px">
               <dl>
-                <dt><img v-lazy="bankCardInfo.iconUrl" alt=""></dt>
+                <dt><img v-lazy="bankCardInfo.iconUrl" alt="" /></dt>
                 <dd>
-                  <p>{{bankCardInfo.bankName}}（尾号{{bankCardInfo.cardNo.slice(-4)}}）</p>
-                  <div>{{bankCardInfo.quota}}</div>
+                  <p>{{ bankCardInfo.bankName }}（尾号{{ bankCardInfo.cardNo.slice(-4) }}）</p>
+                  <div>{{ bankCardInfo.quota }}</div>
                 </dd>
               </dl>
             </li>
             <li>
               <div class="border-bottom-1px">
-                <input placeholder="请输入充值金额，百元起充" type="text" @input="amountInput">
+                <input placeholder="请输入充值金额，百元起充" type="text" @input="amountInput" />
                 <span>元</span>
               </div>
             </li>
             <li>
               <div>
                 <span>可用余额</span>
-                <em>{{banlance}}元</em>
+                <em>{{ banlance }}元</em>
               </div>
             </li>
           </ul>
           <ul class="bottom">
             <li>
               <div>
-                <input placeholder="请输入银行预留手机号" type="text" @input="mobileInput">
+                <input placeholder="请输入银行预留手机号" type="text" @input="mobileInput" />
               </div>
             </li>
           </ul>
@@ -40,13 +39,8 @@
           </div>
         </div>
       </b-scroll>
-      <app-dialog
-        :showDialog="showDialog"
-        :confirmType="confirmType"
-        :title="dialogTitle"
-        @close="closeDialog"
-        @ensure="closeDialog">
-        <p class="dialog-content">{{chargeErrText}}</p>
+      <app-dialog :showDialog="showDialog" :confirmType="confirmType" :title="dialogTitle" @close="closeDialog" @ensure="closeDialog">
+        <p class="dialog-content">{{ chargeErrText }}</p>
       </app-dialog>
     </div>
   </transition>

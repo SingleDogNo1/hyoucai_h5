@@ -104,12 +104,14 @@
               <table>
                 <thead>
                   <tr>
-                    <th>日期</th>
-                    <th>奖品</th>
+                    <td>日期</td>
+                    <td>奖品</td>
                   </tr>
                 </thead>
+              </table>
+              <table style="display:block;height:2rem;overflow: scroll;box-sizing: border-box">
                 <tbody>
-                  <tr v-for="prize in rewardList" :key="prize.prize">
+                  <tr v-for="(prize,index) in rewardList" :key="index">
                     <td>{{prize.winningDate}}</td>
                     <td>{{prize.prize}}</td>
                   </tr>
@@ -266,6 +268,7 @@ export default {
 .wrapper {
   height: 100%;
   background-color: #f33932;
+  overflow: auto;
   .activity {
     color: #9d3c00;
     font-size: 0.15rem;
@@ -457,6 +460,9 @@ export default {
             th {
               height: 0.5rem;
               border: 1px solid rgba(157, 60, 0, 1);
+              &:first-child {
+                width: 1.4rem;
+              }
             }
           }
         }

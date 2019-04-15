@@ -36,7 +36,7 @@
           </ul>
           <mt-cell title="转账充值" is-link @click.native="toChargeTip"></mt-cell>
           <div class="tip">
-            <button @click="checkAmount">确认充值</button>
+            <button @click="checkAmount">提交</button>
           </div>
         </div>
       </b-scroll>
@@ -56,7 +56,7 @@
 import { Toast } from 'mint-ui'
 import { Base64Utils } from '@/assets/js/utils'
 import BScroll from '@/components/BScroll/BScroll'
-import api from '@/api/hyc/charge'
+import api from '@/api/hyc/mine/charge'
 import { isMobile } from '@/assets/js/regular'
 import Hyoucai from '@/assets/js/hyoucai'
 import { AppToast } from '@/assets/js/Toast'
@@ -267,16 +267,17 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-
 .pageContainer {
+  height: 100%;
   top: 0.44rem;
   font-size: $font-size-small-s;
+  background-color: #f9f9f9;
   .scroll {
     width: 100%;
     height: 100%;
     overflow: hidden;
     .top {
-      padding-top: 0.08rem;
+      margin-top: 0.08rem;
       margin-bottom: 0.08rem;
       li {
         background-color: #fff;

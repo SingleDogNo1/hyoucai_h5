@@ -493,6 +493,14 @@ export default new Router({
             title: '充值',
             cancel: '取消'
           }
+        },
+        {
+          path: 'bank-card',
+          name: 'DJSBankCard',
+          component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
+          }
         }
       ]
     },
@@ -642,6 +650,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCCharge" */ '@/views/hyc/mine/charge/charge'),
           meta: {
             title: '充值'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'HYCBankCard',
+          component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
           }
         }
       ]

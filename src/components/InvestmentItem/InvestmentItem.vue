@@ -3,7 +3,6 @@
     <div class="cata_title" v-if="itemData.head">
       <img v-if="itemData.head.icon" :src="itemData.head.icon" alt="" />
       <span>{{ itemData.head.title }}</span>
-      <!--<i>投资送手机</i>-->
     </div>
     <div class="item_wrapper" :class="matchClass(itemData)">
       <div class="item_title">
@@ -24,7 +23,6 @@
         </dl>
         <!--hyoucai 优质计划-->
         <div v-if="itemData.projectType && itemData.projectType === 2">
-          <!--1.未开启 2.已投X% 3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
           <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
             <button disabled>还款中</button>
           </template>

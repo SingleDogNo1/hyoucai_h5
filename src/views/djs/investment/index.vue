@@ -32,7 +32,7 @@
             </div>
           </div>
           <ul>
-            <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item)">
+            <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item.projectNo)">
               <investment-item :itemData="item"></investment-item>
             </li>
             <no-data v-if="!yZhiJiHuaData.length"></no-data>
@@ -42,7 +42,6 @@
             <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
           </dl>
         </div>
-        <!--<no-data v-if="!yZhiJiHuaData.length"></no-data>-->
       </b-scroll>
     </div>
   </div>
@@ -52,8 +51,8 @@
 import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
-import Hyoucai from '@/assets/js/hyoucai'
-import api from '@/api/djs/investment'
+import { collectionApi } from '@/api/djs/investment'
+import { getInvestDetail } from '@/api/djs/investDetail'
 import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
 
@@ -96,7 +95,6 @@ export default {
       perpage: 15,
       page1: 1,
       hasMore1: true,
-      authorization: Hyoucai.getItem('g_authorization'),
       yZhiJiHuaData: [],
       id: '',
       showFiltered: false
@@ -107,26 +105,21 @@ export default {
   },
   methods: {
     // 优质计划
-    selectYZhiJiHuaItem(item) {
-      if ((item.status === '1' && item.enablAmt !== '0.00') || (item.status === '0' && item.enablAmt > 0)) {
-        if (this.type && this.showFiltered) {
-          this.$router.push({
-            path: `/investment/planDetail/${item.productId}/item/${item.itemId}`,
-            query: { redPacketId: this.redPacketId, couponId: this.couponId }
-          })
-        } else {
-          if (item.itemId) {
-            // 集合标
-            this.$router.push({
-              path: `/investment/planDetail/${item.productId}/item/${item.itemId}`
-            })
+    selectYZhiJiHuaItem(projectNo) {
+      if (!this.user) {
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        getInvestDetail({
+          projectNo: projectNo
+        }).then(res => {
+          if (res.data.resultCode === '1') {
+            this.$router.push({ name: 'DJSInvestDetail', query: { projectNo: projectNo } })
           } else {
-            // 债转标
-            this.$router.push({
-              path: `/investment/planDetail/${item.productId}`
-            })
+            Toast(res.data.resultMsg)
           }
-        }
+        })
       }
     },
     getList(maxLine, curPage) {
@@ -135,7 +128,7 @@ export default {
         curPage: curPage
       }
       Indicator.open('正在加载')
-      api.collectionApi(data).then(res => {
+      collectionApi(data).then(res => {
         Indicator.close()
         let resp = res.data
         if (resp.resultCode === CODE_OK) {

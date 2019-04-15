@@ -323,7 +323,7 @@ function peopleLoanInfo(data) {
   })
 }
 
-export default {
+export {
   collectionApi, // 优质计划
   projectApi, // 散标
   getProjectDetail, // 散标项目详情

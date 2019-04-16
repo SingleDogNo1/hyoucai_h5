@@ -6,54 +6,55 @@
       :beforScroll="true"
       @beforeScroll="beforeScroll"
       :preventDefaultException="preventDefaultException"
-      @touchmove.native="touchMove">
+      @touchmove.native="touchMove"
+    >
       <div>
         <div class="op_data" ref="opData">
           <div class="top">
             <div class="inn">
               <p>运营数据</p>
-              <p>数据截止至：{{info.loanStatisticsEndTime}}</p>
+              <p>数据截止至：{{ info.loanStatisticsEndTime }}</p>
             </div>
           </div>
           <div class="data_table">
             <table>
               <tr>
                 <td>
-                  <p class="num">{{info.accumulatedLoanAmount}}</p>
+                  <p class="num">{{ info.accumulatedLoanAmount }}</p>
                   <p class="title">累计借贷金额(万元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.accumulativeLoanCount}}</p>
+                  <p class="num">{{ info.accumulativeLoanCount }}</p>
                   <p class="title">累计借贷笔数(笔)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.creditBalance}}</p>
+                  <p class="num">{{ info.creditBalance }}</p>
                   <p class="title">借贷余额(万元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.loanBalanceCount}}</p>
+                  <p class="num">{{ info.loanBalanceCount }}</p>
                   <p class="title">借款余额笔数(笔）</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.cumulativeNumberOfLender}}</p>
+                  <p class="num">{{ info.cumulativeNumberOfLender }}</p>
                   <p class="title">累计出借人数量（人）</p>
                 </td>
                 <td>
-                  <p class="num">{{info.cumulativeNumberOfBorrower}}</p>
+                  <p class="num">{{ info.cumulativeNumberOfBorrower }}</p>
                   <p class="title">累计借款人数量（人）</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.currentNumberOfLender}}</p>
+                  <p class="num">{{ info.currentNumberOfLender }}</p>
                   <p class="title">当前出借人数量（人）</p>
                 </td>
                 <td>
-                  <p class="num">{{info.currentNumberOfBorrower}}</p>
+                  <p class="num">{{ info.currentNumberOfBorrower }}</p>
                   <p class="title">当前借款人数量（人）</p>
                 </td>
               </tr>
@@ -66,71 +67,71 @@
             <table>
               <tr>
                 <td>
-                  <p class="num">{{info.proportionOfOutstandingAmountTopTenBorrower}}</p>
+                  <p class="num">{{ info.proportionOfOutstandingAmountTopTenBorrower }}</p>
                   <p class="title">前十大借款人待还金额占比</p>
                 </td>
                 <td>
-                  <p class="num">{{info.proportionOfLargestSingleBorrowerOutstandingAmount}}</p>
+                  <p class="num">{{ info.proportionOfLargestSingleBorrowerOutstandingAmount }}</p>
                   <p class="title">最大单一借款人待还金额占比</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.numberOfLoanBalancesAmount}}</p>
+                  <p class="num">{{ info.numberOfLoanBalancesAmount }}</p>
                   <p class="title">关联关系借款余额（万元）</p>
                 </td>
                 <td>
-                  <p class="num">{{info.numberOfLoanBalances}}</p>
+                  <p class="num">{{ info.numberOfLoanBalances }}</p>
                   <p class="title">关联关系借款余额笔数(笔)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.overdueAmount}}</p>
+                  <p class="num">{{ info.overdueAmount }}</p>
                   <p class="title">逾期金额(出借人到期未到账)(万元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.overdueCount}}</p>
+                  <p class="num">{{ info.overdueCount }}</p>
                   <p class="title">逾期笔数(出借人到期未到账)(笔)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.overdueAmountMoreThan90}}</p>
+                  <p class="num">{{ info.overdueAmountMoreThan90 }}</p>
                   <p class="title">逾期90天(不含)以上金额(万元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.overdueCountMoreThan90}}</p>
+                  <p class="num">{{ info.overdueCountMoreThan90 }}</p>
                   <p class="title">逾期90天(不含)以上笔数(笔)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.accumulativeCompensationAmount}}</p>
+                  <p class="num">{{ info.accumulativeCompensationAmount }}</p>
                   <p class="title">累计代偿金额(万元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.accumulativeCompensation}}</p>
+                  <p class="num">{{ info.accumulativeCompensation }}</p>
                   <p class="title">累计代偿笔数(笔)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.accumulativeLoanAmountPerCapita}}</p>
+                  <p class="num">{{ info.accumulativeLoanAmountPerCapita }}</p>
                   <p class="title">人均累计借款金额(元)</p>
                 </td>
                 <td>
-                  <p class="num">{{info.accumulativeOutLoanAmountPerCapita}}</p>
+                  <p class="num">{{ info.accumulativeOutLoanAmountPerCapita }}</p>
                   <p class="title">人均累计出借金额(元)</p>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p class="num">{{info.proportionOfLargestSingleLendingBalance}}</p>
+                  <p class="num">{{ info.proportionOfLargestSingleLendingBalance }}</p>
                   <p class="title">最大单户出借余额占比</p>
                 </td>
                 <td>
-                  <p class="num">{{info.proportionOfLargestTenLendingBalance}}</p>
+                  <p class="num">{{ info.proportionOfLargestTenLendingBalance }}</p>
                   <p class="title">最大十户出借余额占比</p>
                 </td>
               </tr>
@@ -167,7 +168,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingGenderDistributeMale}}%</p>
+                  <p>{{ info.lendingGenderDistributeMale }}%</p>
                   <span>男</span>
                 </li>
               </ul>
@@ -176,7 +177,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingGenderDistributeFemale}}%</p>
+                  <p>{{ info.lendingGenderDistributeFemale }}%</p>
                   <span>女</span>
                 </li>
               </ul>
@@ -191,7 +192,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingTerminalDistributeWeb}}%</p>
+                  <p>{{ info.lendingTerminalDistributeWeb }}%</p>
                   <span>web端</span>
                 </li>
               </ul>
@@ -200,7 +201,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingTerminalDistributeMobile}}%</p>
+                  <p>{{ info.lendingTerminalDistributeMobile }}%</p>
                   <span>移动端</span>
                 </li>
               </ul>
@@ -215,7 +216,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingAmountDistribute1}}%</p>
+                  <p>{{ info.lendingAmountDistribute1 }}%</p>
                   <span>1万以下</span>
                 </li>
               </ul>
@@ -224,7 +225,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingAmountDistribute5}}%</p>
+                  <p>{{ info.lendingAmountDistribute5 }}%</p>
                   <span>1–5万</span>
                 </li>
               </ul>
@@ -233,7 +234,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingAmountDistribute10}}%</p>
+                  <p>{{ info.lendingAmountDistribute10 }}%</p>
                   <span>5–10万</span>
                 </li>
               </ul>
@@ -242,7 +243,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingAmountDistribute20}}%</p>
+                  <p>{{ info.lendingAmountDistribute20 }}%</p>
                   <span>10–20万</span>
                 </li>
               </ul>
@@ -251,7 +252,7 @@
                   <h2></h2>
                 </li>
                 <li>
-                  <p>{{info.lendingAmountDistributeAbove20}}%</p>
+                  <p>{{ info.lendingAmountDistributeAbove20 }}%</p>
                   <span>20万以上</span>
                 </li>
               </ul>
@@ -267,7 +268,7 @@
                   class="swiper-slide"
                   v-for="(item, index) in reports"
                   :key="index"
-                  :style="{backgroundImage: 'url('+ item.poster +')'}"
+                  :style="{ backgroundImage: 'url(' + item.poster + ')' }"
                   @click="showReport(item.images)"
                 ></div>
               </div>
@@ -282,7 +283,7 @@
               <div class="right">
                 <div class="top">2017年财务审计报告（1-12月份）</div>
                 <div class="btm" @click="showPDF('auditReport2017')">
-                  <img src="./finance-2017.png" alt="">
+                  <img src="./finance-2017.png" alt="" />
                 </div>
               </div>
             </li>
@@ -291,7 +292,7 @@
               <div class="right">
                 <div class="top">2016年财务审计报告（1-12月份）</div>
                 <div class="btm" @click="showPDF('auditReport2016')">
-                  <img src="./finance-2016.png" alt="">
+                  <img src="./finance-2016.png" alt="" />
                 </div>
               </div>
             </li>
@@ -305,20 +306,15 @@
             办理中…
           </li>
         </ul>
-        <img src="./cyw-sign.png" alt="">
+        <img src="./cyw-sign.png" alt="" />
       </div>
     </b-scroll>
 
-    <div
-      class="report-mask"
-      :style="{display: 'none'}"
-      ref="originImg"
-    >
+    <div class="report-mask" :style="{ display: 'none' }" ref="originImg">
       <div class="swiper-container" id="report-mask">
         <div class="swiper-wrapper"></div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -977,7 +973,7 @@ export default {
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../../assets/css/mixins';
 @import '../../../assets/css/theme';
 

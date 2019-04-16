@@ -3,18 +3,8 @@
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
-      <input
-        type="tel"
-        maxlength="11"
-        autofocus="autofocus"
-        placeholder="请输入您的手机号"
-        v-model="mobile" />
-      <input
-        type="button"
-        :disabled="mobile.length < 11"
-        @click="checkTelNum"
-        value="下一步"
-      >
+      <input type="tel" maxlength="11" autofocus="autofocus" placeholder="请输入您的手机号" v-model="mobile" />
+      <input type="button" :disabled="mobile.length < 11" @click="checkTelNum" value="下一步" />
     </div>
   </div>
 </template>

@@ -1,8 +1,5 @@
 <template>
-  <b-scroll
-    class="scroll"
-    ref="scrollRef"
-    :preventDefaultException="preventClass">
+  <b-scroll class="scroll" ref="scrollRef" :preventDefaultException="preventClass">
     <div class="bg_white">
       <div class="point_title">
         <div class="text">输入手机号---设置登录密码---注册成功</div>

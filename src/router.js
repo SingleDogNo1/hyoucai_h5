@@ -173,6 +173,10 @@ export default new Router({
             {
               path: 'prizeDraw',
               component: () => import(/* webpackChunkName: "Activity" */ '@/views/common/activities/prizeDraw')
+            },
+            {
+              path: 'spellTeam',
+              component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
             }
           ]
         }

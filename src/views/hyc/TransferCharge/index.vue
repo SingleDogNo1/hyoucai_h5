@@ -1,34 +1,36 @@
 <template>
   <div class="transfer-charge" ref="container">
     <b-scroll class="scroll" ref="scrollRef">
-        <div class="wrapper">
-          <dl class="top">
-            <dt></dt>
-            <dd>您可以使用您注册汇有财时绑定的银行卡，通过线下跨行转账（柜台、网银、手机银行APP）方式将资金充值到江西银行存管账户。</dd>
+      <div class="wrapper">
+        <dl class="top">
+          <dt></dt>
+          <dd>您可以使用您注册汇有财时绑定的银行卡，通过线下跨行转账（柜台、网银、手机银行APP）方式将资金充值到江西银行存管账户。</dd>
+        </dl>
+        <div class="items">
+          <dl>
+            <dt>收款方户名:</dt>
+            <dd>江西汇通金融信息服务有限公司</dd>
           </dl>
-          <div class="items">
-            <dl>
-              <dt>收款方户名:</dt>
-              <dd>江西汇通金融信息服务有限公司</dd>
-            </dl>
-            <dl>
-              <dt>收款方账号:</dt>
-              <dd>791913314800301 <span class="copy_num" :data-clipboard-text="791913314800301">复制</span></dd>
-            </dl>
-            <dl>
-              <dt>收款银行:</dt>
-              <dd>江西银行</dd>
-            </dl>
-            <dl>
-              <dt>收款方开户行:</dt>
-              <dd>江西银行股份有限公司南昌铁路支行营业部</dd>
-            </dl>
-          </div>
-          <h6 @click="showInfo">线下充值流程更改说明，点击查看>></h6>
-          <p>温馨提示：以上账户为汇有财平台在江西银行的存管账户，平台将根据您的转账金额自动发放至您的电子账户，资金安全由第三方江西银行全权保障。</p>
-          <p>充值过程中收取的转账费用，以银行规定为准，汇有财不收取任何手续费用。</p>
-          <p>如资金未到账，请联系汇有财客服：<a href="javascript:;">{{serviceTel}}</a></p>
+          <dl>
+            <dt>收款方账号:</dt>
+            <dd>791913314800301 <span class="copy_num" :data-clipboard-text="791913314800301">复制</span></dd>
+          </dl>
+          <dl>
+            <dt>收款银行:</dt>
+            <dd>江西银行</dd>
+          </dl>
+          <dl>
+            <dt>收款方开户行:</dt>
+            <dd>江西银行股份有限公司南昌铁路支行营业部</dd>
+          </dl>
         </div>
+        <h6 @click="showInfo">线下充值流程更改说明，点击查看>></h6>
+        <p>温馨提示：以上账户为汇有财平台在江西银行的存管账户，平台将根据您的转账金额自动发放至您的电子账户，资金安全由第三方江西银行全权保障。</p>
+        <p>充值过程中收取的转账费用，以银行规定为准，汇有财不收取任何手续费用。</p>
+        <p>
+          如资金未到账，请联系汇有财客服：<a href="javascript:;">{{ serviceTel }}</a>
+        </p>
+      </div>
     </b-scroll>
   </div>
 </template>

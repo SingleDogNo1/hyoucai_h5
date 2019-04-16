@@ -3,50 +3,21 @@
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
-      <p v-if="step === 0">当前登录使用手机号：
-        <span>{{registerMobile | splitTelNum}}</span>
+      <p v-if="step === 0">
+        当前登录使用手机号：
+        <span>{{ registerMobile | splitTelNum }}</span>
       </p>
       <p v-if="step === 1">为您的账号重新设置一个密码</p>
       <div class="sms-code" v-if="step === 0">
-        <input
-          type="tel"
-          maxlength="6"
-          autofocus="autofocus"
-          placeholder="请输入短信验证码"
-          v-model="smsCode" />
-        <SMSBtn
-          class="sms-btn"
-          ref="smsBtn"
-          @getSMSCode="sendSMSCode"
-        />
+        <input type="tel" maxlength="6" autofocus="autofocus" placeholder="请输入短信验证码" v-model="smsCode" />
+        <SMSBtn class="sms-btn" ref="smsBtn" @getSMSCode="sendSMSCode" />
       </div>
       <div class="sms-code" v-if="step === 1">
-        <input
-          type="password"
-          maxlength="20"
-          autofocus="autofocus"
-          placeholder="请输入密码(8位及以上数字加英文组合)"
-          v-model="password" />
-        <password-strength
-          class="password-strength"
-          :pwd="password"
-          v-show="password !== ''"
-        ></password-strength>
+        <input type="password" maxlength="20" autofocus="autofocus" placeholder="请输入密码(8位及以上数字加英文组合)" v-model="password" />
+        <password-strength class="password-strength" :pwd="password" v-show="password !== ''"></password-strength>
       </div>
-      <input
-        type="button"
-        value="下一步"
-        v-if="step === 0"
-        :disabled="smsCode === ''"
-        @click="nextStep"
-      >
-      <input
-        type="button"
-        value="确认并登录"
-        v-if="step === 1"
-        :disabled="password === ''"
-        @click="login"
-      >
+      <input type="button" value="下一步" v-if="step === 0" :disabled="smsCode === ''" @click="nextStep" />
+      <input type="button" value="确认并登录" v-if="step === 1" :disabled="password === ''" @click="login" />
     </div>
     <div id="captcha"></div>
   </div>

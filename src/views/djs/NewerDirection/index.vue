@@ -1,8 +1,5 @@
 <template>
-  <b-scroll
-    class="scroll"
-    ref="scrollRef"
-    :preventDefaultException="preventClass">
+  <b-scroll class="scroll" ref="scrollRef" :preventDefaultException="preventClass">
     <div class="bg_white">
       <div class="point_title">
         <div class="text">输入手机号---设置登录密码---注册成功</div>
@@ -33,7 +30,7 @@
       </div>
       <div class="point_title">
         <div class="text">选择产品---输入出借金额---立即出借</div>
-        </div>
+      </div>
       <div class="swiper-container swiper-container-4">
         <div class="swiper-wrapper">
           <div class="swiper-slide"></div>

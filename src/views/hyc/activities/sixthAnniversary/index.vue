@@ -1,15 +1,15 @@
 <template>
   <div class="pageContainer" ref="container">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
-        <img src="./bg.png" alt="">
+        <img src="./bg.png" alt="" />
         <div class="rule-icon" @click="showDetail"></div>
       </div>
     </div>
     <div class="detail-mask" v-if="detailFlag">
-      <img src="./rule.png" alt="">
-      <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
+      <img src="./rule.png" alt="" />
+      <img src="./close-btn.png" class="close" alt="" @click="closeDialog" />
     </div>
   </div>
 </template>

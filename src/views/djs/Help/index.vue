@@ -1,8 +1,7 @@
 <template>
   <div class="pageContainer" ref="container">
     <!--app用-->
-    <div v-if="mobile" v-show="!showItem" class="tel" @click="callTel">
-    </div>
+    <div v-if="mobile" v-show="!showItem" class="tel" @click="callTel"></div>
     <!--H5 用-->
     <div v-else v-show="!showItem" class="tel">
       <a :href="'tel:' + serviceTel"></a>
@@ -17,10 +16,10 @@
       <div class="left">
         <dl>
           <dt>客服热线</dt>
-          <dd>{{serviceTel}}</dd>
+          <dd>{{ serviceTel }}</dd>
         </dl>
         <dl>
-          <dt>服务时间<br>工作日</dt>
+          <dt>服务时间<br />工作日</dt>
           <dd>
             <div>上午： 09:00 - 12:00</div>
             <div>下午： 13:00 - 18:00</div>
@@ -56,17 +55,16 @@
         </mt-tab-item>
       </mt-navbar>
       <div v-show="!showItem" class="common_questions">
-        <b-scroll class="scroll"
-                  ref="scrollRef">
+        <b-scroll class="scroll" ref="scrollRef">
           <div>
             <div class="title">
-              <div class="inn border-bottom-1px">{{questionType[0].dicName}}</div>
+              <div class="inn border-bottom-1px">{{ questionType[0].dicName }}</div>
             </div>
             <div class="item" v-for="(item, index) in commonQuestions" :key="index">
               <div class="inn border-bottom-1px">
                 <div class="question" @click="toggleItems(commonQuestions, index)">
                   <span>Q：</span>
-                  <em>{{item.question}}</em>
+                  <em>{{ item.question }}</em>
                   <transition name="rotate-min">
                     <i v-if="item.flag_min"></i>
                   </transition>
@@ -77,8 +75,7 @@
                 <div class="answer" v-if="item.flag_min">
                   <dl>
                     <dt>A：</dt>
-                    <dd v-html="item.answer">
-                    </dd>
+                    <dd v-html="item.answer"></dd>
                   </dl>
                 </div>
               </div>
@@ -89,17 +86,16 @@
       <div v-show="showItem" class="mt-tab-container-wrapper" ref="mtTabContainer">
         <mt-tab-container v-model="selected">
           <mt-tab-container-item class="tab_container" id="1">
-            <b-scroll class="scroll"
-                      ref="scrollRef1">
+            <b-scroll class="scroll" ref="scrollRef1">
               <div>
                 <div class="title">
-                  <div class="inn" v-if="questionType.length">{{questionType[1].dicName}}</div>
+                  <div class="inn" v-if="questionType.length">{{ questionType[1].dicName }}</div>
                 </div>
                 <div class="item" v-for="(item, index) in securityQuestions" :key="index">
                   <div class="inn">
                     <div class="question" @click="toggleItems(securityQuestions, index)">
                       <span>Q：</span>
-                      <em>{{item.question}}</em>
+                      <em>{{ item.question }}</em>
                       <transition name="rotate-min">
                         <i v-if="item.flag_min"></i>
                       </transition>
@@ -110,8 +106,7 @@
                     <div class="answer" v-if="item.flag_min">
                       <dl>
                         <dt>A：</dt>
-                        <dd v-html="item.answer">
-                        </dd>
+                        <dd v-html="item.answer"></dd>
                       </dl>
                     </div>
                   </div>
@@ -120,17 +115,16 @@
             </b-scroll>
           </mt-tab-container-item>
           <mt-tab-container-item class="tab_container" id="2">
-            <b-scroll class="scroll"
-                      ref="scrollRef2">
+            <b-scroll class="scroll" ref="scrollRef2">
               <div>
                 <div class="title" @click="getQuestions(questionType[2].dicCode)">
-                  <div class="inn" v-if="questionType.length">{{questionType[2].dicName}}</div>
+                  <div class="inn" v-if="questionType.length">{{ questionType[2].dicName }}</div>
                 </div>
                 <div class="item" v-for="(item, index) in projectIntro" :key="index">
                   <div class="inn">
                     <div class="question" @click="toggleItems(projectIntro, index)">
                       <span>Q：</span>
-                      <em>{{item.question}}</em>
+                      <em>{{ item.question }}</em>
                       <transition name="rotate-min">
                         <i v-if="item.flag_min"></i>
                       </transition>
@@ -141,8 +135,7 @@
                     <div class="answer" v-if="item.flag_min">
                       <dl>
                         <dt>A：</dt>
-                        <dd v-html="item.answer">
-                        </dd>
+                        <dd v-html="item.answer"></dd>
                       </dl>
                     </div>
                   </div>
@@ -151,17 +144,16 @@
             </b-scroll>
           </mt-tab-container-item>
           <mt-tab-container-item class="tab_container" id="3">
-            <b-scroll class="scroll"
-                      ref="scrollRef3">
+            <b-scroll class="scroll" ref="scrollRef3">
               <div>
                 <div class="title" @click="getQuestions(questionType[3].dicCode)">
-                  <div class="inn" v-if="questionType.length">{{questionType[3].dicName}}</div>
+                  <div class="inn" v-if="questionType.length">{{ questionType[3].dicName }}</div>
                 </div>
                 <div class="item" v-for="(item, index) in platformCharacteristic" :key="index">
                   <div class="inn">
                     <div class="question" @click="toggleItems(platformCharacteristic, index)">
                       <span>Q：</span>
-                      <em>{{item.question}}</em>
+                      <em>{{ item.question }}</em>
                       <transition name="rotate-min">
                         <i v-if="item.flag_min"></i>
                       </transition>
@@ -172,8 +164,7 @@
                     <div class="answer" v-if="item.flag_min">
                       <dl>
                         <dt>A：</dt>
-                        <dd v-html="item.answer">
-                        </dd>
+                        <dd v-html="item.answer"></dd>
                       </dl>
                     </div>
                   </div>
@@ -182,17 +173,16 @@
             </b-scroll>
           </mt-tab-container-item>
           <mt-tab-container-item class="tab_container" id="4">
-            <b-scroll class="scroll"
-                      ref="scrollRef4">
+            <b-scroll class="scroll" ref="scrollRef4">
               <div>
                 <div class="title" @click="getQuestions(questionType[4].dicCode)">
-                  <div class="inn" v-if="questionType.length">{{questionType[4].dicName}}</div>
+                  <div class="inn" v-if="questionType.length">{{ questionType[4].dicName }}</div>
                 </div>
                 <div class="item" v-for="(item, index) in websitOprate" :key="index">
                   <div class="inn">
                     <div class="question" @click="toggleItems(websitOprate, index)">
                       <span>Q：</span>
-                      <em>{{item.question}}</em>
+                      <em>{{ item.question }}</em>
                       <transition name="rotate-min">
                         <i v-if="item.flag_min"></i>
                       </transition>
@@ -203,8 +193,7 @@
                     <div class="answer" v-if="item.flag_min">
                       <dl>
                         <dt>A：</dt>
-                        <dd v-html="item.answer">
-                        </dd>
+                        <dd v-html="item.answer"></dd>
                       </dl>
                     </div>
                   </div>

@@ -101,22 +101,15 @@
             <span class="close" @click="showLog=false"></span>
             <h3>中奖纪录</h3>
             <div class="hasReward" v-if="rewardList.length > 0">
-              <table>
-                <thead>
-                  <tr>
-                    <td>日期</td>
-                    <td>奖品</td>
-                  </tr>
-                </thead>
-              </table>
-              <table style="display:block;height:2rem;overflow: scroll;box-sizing: border-box">
-                <tbody>
-                  <tr v-for="(prize,index) in rewardList" :key="index">
-                    <td>{{prize.winningDate}}</td>
-                    <td>{{prize.prize}}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <ul>
+                <li><div>日期</div><div>奖品</div></li>
+              </ul>
+              <ul class="content">
+                <li v-for="(prize,index) in rewardList" :key="index">
+                  <div>{{prize.winningDate}}</div>
+                  <div>{{prize.prize}}</div>
+                </li>
+              </ul>
             </div>
             <div class="noReward" v-else>
               <span>暂无中奖纪录</span>
@@ -208,6 +201,7 @@ export default {
           this.current = 0
           this.nextStep()
         } else {
+          this.getInfo()
           Toast(res.data.resultMsg)
         }
       })
@@ -249,15 +243,18 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
+    },
+    getInfo() {
+      info({ userName: this.userName }).then(res => {
+        this.remainingNumber = JSON.parse(res.data.remainingNumber)
+        this.nextDrawTime = res.data.nextDrawTime
+        this.aHour = JSON.parse(res.data.aHour)
+        if (this.aHour) this.remainingSecond = JSON.parse(res.data.remainingSecond)
+      })
     }
   },
   created() {
-    info({ userName: this.userName }).then(res => {
-      this.remainingNumber = JSON.parse(res.data.remainingNumber)
-      this.nextDrawTime = res.data.nextDrawTime
-      this.aHour = JSON.parse(res.data.aHour)
-      if (this.aHour) this.remainingSecond = JSON.parse(res.data.remainingSecond)
-    })
+    this.getInfo()
     let t = window.setInterval(() => {
       if (this.remainingSecond > 0) {
         this.remainingSecond--
@@ -458,16 +455,21 @@ export default {
         .hasReward {
           width: 2.9rem;
           margin: 0.3rem auto;
-          table {
+          ul {
             width: 100%;
-            border: 1px solid rgba(157, 60, 0, 1);
-            td,
-            th {
-              height: 0.5rem;
-              border: 1px solid rgba(157, 60, 0, 1);
-              &:first-child {
-                width: 1.4rem;
+            li {
+              width: 100%;
+              height: 0.55rem;
+              line-height: 0.55rem;
+              div {
+                border: 0.01rem solid rgba(157, 60, 0, 1);
+                display: inline-block;
+                width: 50%;
               }
+            }
+            &.content {
+              height: 2rem;
+              overflow: scroll;
             }
           }
         }

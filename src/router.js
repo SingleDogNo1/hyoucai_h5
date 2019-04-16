@@ -471,7 +471,7 @@ export default new Router({
         },
         {
           path: 'couponList',
-          name: 'CouponList',
+          name: 'DJSCouponList',
           component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/voucherBag/CouponList'),
           meta: {
             title: '券包'
@@ -479,8 +479,8 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
+          name: 'DJSTransactionRecord',
+          component: () => import(/* webpackChunkName: "DJSTransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }
@@ -646,8 +646,8 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
+          name: 'HYCTransactionRecord',
+          component: () => import(/* webpackChunkName: "HYCTransactionRecord" */ '@/views/hyc/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }

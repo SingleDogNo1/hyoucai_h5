@@ -46,6 +46,7 @@
 
 <script>
 import { couponPacketHistory } from '@/api/djs/coupon'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {

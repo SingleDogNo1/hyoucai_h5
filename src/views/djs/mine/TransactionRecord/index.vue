@@ -1,19 +1,19 @@
 <template>
   <div class="content">
     <div class="heads">
-      <div class="head-box" :class="{ actives: flag == 1 }" @click="clickGetRecord(1, null, null, page1)">
+      <div class="head-box" :class="{ actives: flag == 1 }" @click="clickGetRecord(1, null, page1)">
         <span class="head-txt">全部</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 2 }" @click="clickGetRecord(2, 'TXCZ', null, page2)">
+      <div class="head-box" :class="{ actives: flag == 2 }" @click="clickGetRecord(2, 'TXCZ', page2)">
         <span class="head-txt">充值</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 3 }" @click="clickGetRecord(3, 'TXTX', null, page3)">
+      <div class="head-box" :class="{ actives: flag == 3 }" @click="clickGetRecord(3, 'TXTX', page3)">
         <span class="head-txt">提现</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 4 }" @click="clickGetRecord(4, 'TXQT', null, page4)">
+      <div class="head-box" :class="{ actives: flag == 4 }" @click="clickGetRecord(4, 'TXQT', page4)">
         <span class="head-txt">其他</span>
         <span class="head-line"></span>
       </div>
@@ -33,8 +33,9 @@
 </template>
 
 <script>
-// import { Toast } from 'mint-ui' //Indicator
+// import { Toast, Indicator, tabItem } from 'mint-ui' //Indicator
 import { getUserTransaction } from '@/api/djs/transaction'
+import { mapGetters } from 'vuex'
 export default {
   name: 'index',
   components: {
@@ -55,19 +56,22 @@ export default {
       otherData: []
     }
   },
-  // computed: {
-  //   ...mapGetters(['user'])
-  // },
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     this.clickGetRecord(1, null, null, 1)
   },
   methods: {
-    clickGetRecord(val, txType, txDate, page) {
+    clickGetRecord(val, txType, page) {
       this.flag = val
       let data = {
-        txType: txType,
-        txDate: txDate,
-        curPage: page
+        userName: this.user.userName,
+        timeType: 'ODLX',
+        tranType: 'XSCC',
+        // txType: txType,
+        // txDate: txDate,
+        page: page
       }
       if (
         (txType === 'TXCZ' && this.chargeData.length === 0) ||

@@ -129,6 +129,7 @@
 
 <script>
 import { info, record, draw } from '@/api/common/activity/prizeDraw'
+import { Toast } from 'mint-ui'
 export default {
   name: 'prizeDraw',
   data() {
@@ -206,6 +207,8 @@ export default {
           this.remainingNumber = res.data.remainingNumber
           this.current = 0
           this.nextStep()
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     },
@@ -242,6 +245,8 @@ export default {
         if (res && res.data && res.data.resultCode === '1') {
           this.rewardList = res.data.list
           this.showLog = true
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     }

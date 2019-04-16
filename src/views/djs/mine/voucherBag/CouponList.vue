@@ -74,6 +74,7 @@
 
 <script>
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {

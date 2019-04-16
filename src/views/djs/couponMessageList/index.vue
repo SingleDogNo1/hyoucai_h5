@@ -37,14 +37,16 @@ export default {
 section {
   background: #eee;
   padding-top: 0.06rem;
+  height: 100%;
   .commonList {
     background: #fff;
-    height: 0.5rem;
-    line-height: 0.5rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
     border-bottom: 0.01rem solid #eeeeee;
     font-size: 0.13rem;
     color: #333333;
-
+    margin-bottom: 0.06rem;
+    border-radius: 0.05rem;
     .title {
       float: left;
       width: 70%;
@@ -55,8 +57,8 @@ section {
         position: absolute;
         z-index: 2;
         width: 0.06rem;
-        height: 0.5rem;
-        border-radius: 20% 0 0 20%;
+        height: 0.4rem;
+        border-radius: 0.05rem 0 0 0.05rem;
         background-color: #ef5c52;
         left: 0;
       }
@@ -65,7 +67,7 @@ section {
       display: flex;
       align-items: center;
       float: right;
-      height: 0.5rem;
+      height: 0.4rem;
       img {
         height: 0.14rem;
         width: 0.14rem;

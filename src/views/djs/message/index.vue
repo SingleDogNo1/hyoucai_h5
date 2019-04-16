@@ -1,27 +1,27 @@
 <template>
   <section>
-    <div class="commonList">
+    <div class="commonList" @click="linkTo('CouponMsg')">
       <div class="title">
         <i v-if="couponShow"></i>
         <p>加息券消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList ">
+    <div class="commonList" @click="linkTo('RedMsg')">
       <div class="title">
         <i v-if="redShow" class="red_dot"></i>
         <p>红包消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList ">
+    <div class="commonList" @click="linkTo('ExperienceMsg')">
       <div class="title">
         <i v-if="tasteShow"></i>
         <p>体验金消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList">
+    <div class="commonList" @click="linkTo('RepeatMsg')">
       <div class="title">
         <i v-if="repeatShow" class="repeat_dot"></i>
         <p>复投提醒消息</p>
@@ -35,14 +35,11 @@
 import api from '@/api/djs/message'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
-// import BScroll from '@/components/BScroll/BScroll'
 
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
     return {
       userName: getUser().userName,
@@ -55,7 +52,11 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    linkTo(routerName) {
+      this.$router.push({ name: routerName })
+    }
+  },
   computed: {},
   created() {
     let data = {

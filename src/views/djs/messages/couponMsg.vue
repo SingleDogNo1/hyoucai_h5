@@ -1,44 +1,56 @@
 <template>
   <section>
-    <div class="commonList">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="{ isRead: couponShow }">
       <div class="title">
-        <i class=""></i>
-        <p>汇有财送你一张1.00%加息券</p>
+        <i></i>
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <i class=""></i>
-        <p>汇有财送你一张1.00%加息券</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
+    <!--<div class="noData">
       <p><img alt="" src="./noData.png" /></p>
       <p>暂无消息</p>
-    </div>
+    </div>-->
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
 
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      couponShow: false, //是否已读
+      datas: null //列表
+    }
   },
   props: {},
   watch: {},
   methods: {},
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //加息券消息接口
+    api.getCouponMessage(data).then(res => {
+      let data = res.data.message
+      let couponUnReadData = data.couponUnRead
+      let couponReadData = data.couponRead
+      if (couponUnReadData.length == 0) {
+        this.couponShow = true
+      }
+      this.datas = couponReadData.concat(couponUnReadData)
+    })
+  },
   mounted() {},
   destroyed() {}
 }

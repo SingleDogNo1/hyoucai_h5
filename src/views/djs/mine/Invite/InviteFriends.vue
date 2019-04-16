@@ -37,6 +37,7 @@
 <script>
 import { userInviteCode, getQRCode, getRecommenderApi } from '@/api/djs/invite'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     AppDialog

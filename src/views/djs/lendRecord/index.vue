@@ -40,40 +40,40 @@ export default {
 <style lang="scss" scoped>
 section {
   background: #eee;
-  padding-top: 6px;
+  padding-top: 0.06rem;
   .day {
     background: #fff;
     h2 {
-      font-size: 11px;
+      font-size: 0.11rem;
       color: #333333;
-      letter-spacing: 0.13px;
-      height: 16px;
-      padding: 8px 15px;
-      border-bottom: 1px solid #eeeeee;
+      letter-spacing: 0.0013rem;
+      height: 0.16rem;
+      padding: 0.08rem 0.15rem;
+      border-bottom: 0.01rem solid #eeeeee;
     }
     .menu {
-      height: 67px;
-      border-bottom: 1px solid #eeeeee;
-      margin-bottom: 6px;
+      height: 0.67rem;
+      border-bottom: 0.01rem solid #eeeeee;
+      margin-bottom: 0.06rem;
       p {
-        font-size: 15px;
+        font-size: 0.15rem;
         color: #333333;
-        letter-spacing: 0.18px;
-        height: 21px;
-        padding: 15px 0 0 15px;
+        letter-spacing: 0.0018rem;
+        height: 0.21rem;
+        padding: 0.15rem 0 0 0.15rem;
         span {
           float: left;
         }
         i {
           float: right;
-          margin-right: 15px;
+          margin-right: 0.15rem;
         }
       }
       a {
-        font-size: 11px;
+        font-size: 0.11rem;
         color: #999999;
-        letter-spacing: 0.13px;
-        margin: 15px 0 15px 15px;
+        letter-spacing: 0.0013rem;
+        margin: 0.15rem 0 0.15rem 0.15rem;
       }
     }
   }

@@ -2,28 +2,28 @@
   <section>
     <div class="commonList">
       <div class="title">
-        <i class=""></i>
+        <i v-if="couponShow"></i>
         <p>加息券消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
     <div class="commonList ">
       <div class="title">
-        <i class="red_dot"></i>
+        <i v-if="redShow" class="red_dot"></i>
         <p>红包消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
     <div class="commonList ">
       <div class="title">
-        <i class=""></i>
+        <i v-if="tasteShow"></i>
         <p>体验金消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
     <div class="commonList">
       <div class="title">
-        <i class="repeat_dot"></i>
+        <i v-if="repeatShow" class="repeat_dot"></i>
         <p>复投提醒消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
@@ -32,7 +32,9 @@
 </template>
 
 <script>
-// import api from '@/api/djs/message'
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
 // import BScroll from '@/components/BScroll/BScroll'
 
 export default {
@@ -42,13 +44,55 @@ export default {
     // BScroll
   },
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      couponShow: false, //判断加息券消息红点
+      redShow: false, //判断红包消息红点
+      tasteShow: false, //判断体验金消息红点
+      repeatShow: false //判断复投消息红点
+    }
   },
   props: {},
   watch: {},
   methods: {},
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //加息券未读消息中心接口
+    api.getCouponUnreadCount(data).then(res => {
+      let data = res.data.message
+      let couponUnReadCount = data.couponUnRead.length
+      if (couponUnReadCount !== 0) {
+        this.couponShow = true
+      }
+    })
+    //红包消息接口
+    api.getRedPacketCount(data).then(res => {
+      let data = res.data.message
+      if (data.length !== 0) {
+        this.redShow = true
+      }
+    })
+    //体验金消息接口
+    api.getTasteGoldCount(data).then(res => {
+      let data = res.message
+      if (data) {
+        this.tasteShow = true
+      }
+    })
+    //复投消息接口
+    api.getRepeatUnreadCount(data).then(res => {
+      let data = res.data.message
+      let repeatUnReadCount = data.repeatUnRead.length
+      if (repeatUnReadCount !== 0) {
+        this.repeatShow = true
+      }
+    })
+  },
   mounted() {},
   destroyed() {}
 }

@@ -59,11 +59,13 @@
           <div v-for="(agreement, index) in protocolData" :key="index">
             <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.isSelect === '1'" />
             <label for="isCheck" @click="changeStatus" v-if="agreement.isSelect === '1'"></label>
-            <span>
-              {{ agreement.tipsBefore }}
-              <a :href="agreement.protocolUrl" class="agreement">{{ agreement.protocolName }}</a>
-              {{ agreement.tipsAfter }}
-            </span>
+            <div>
+              <p>
+                {{ agreement.tipsBefore }}
+                <a :href="agreement.protocolUrl" class="agreement">{{ agreement.protocolName }}</a>
+              </p>
+              <p>{{ agreement.tipsAfter }}</p>
+            </div>
           </div>
         </div>
       </section>

@@ -509,6 +509,14 @@ export default new Router({
           meta: {
             title: '银行卡'
           }
+        },
+        {
+          path: 'to-cash',
+          name: 'DJSToCash',
+          component: () => import(/* webpackChunkName: "DJSToCash" */ '@/views/djs/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
+          }
         }
       ]
     },
@@ -666,6 +674,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
           meta: {
             title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'HYCToCash',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]

@@ -494,11 +494,35 @@ export default new Router({
           }
         },
         {
-          path: 'couponMessageList',
-          name: 'CouponMessageList',
-          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/couponMessageList'),
+          path: 'couponMsg',
+          name: 'CouponMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/couponMessageList/couponMsg'),
           meta: {
             title: '加息券消息'
+          }
+        },
+        {
+          path: 'couponMsgDetail',
+          name: 'CouponMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/couponMessageList/couponMsgDetail'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'redMsg',
+          name: 'RedMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/redMessageList/redMsg'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'redMsgDetail',
+          name: 'RedMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/redMessageList/redMsgDetail'),
+          meta: {
+            title: '红包消息'
           }
         },
         {

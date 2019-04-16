@@ -1,11 +1,11 @@
 <template>
   <section>
     <div class="topH">
-      <span>加息券消息</span>
+      <span>红包消息</span>
     </div>
     <div class="msg">
-      <p><em>5.0%加息券</em></p>
-      <p><i>已存入您的账户，立即使用加息30天</i></p>
+      <p><em>10.00元红包</em></p>
+      <p><i>已存入您的账户，立即使用抵扣10.00元</i></p>
     </div>
   </section>
 </template>
@@ -48,7 +48,7 @@ section {
   }
   .msg {
     height: 1.11rem;
-    background-image: url(./couponMsgBg.png);
+    background-image: url(redMsgBg.png);
     background-repeat: no-repeat;
     background-position: 0.1rem;
     margin-right: 0.1rem;

@@ -3,14 +3,14 @@
     <div class="commonList">
       <div class="title">
         <i class=""></i>
-        <p>汇有财送你一张1.00%加息券</p>
+        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
     <div class="commonList isRead">
       <div class="title">
         <i class=""></i>
-        <p>汇有财送你一张1.00%加息券</p>
+        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
@@ -56,7 +56,7 @@ section {
     border-radius: 0.05rem;
     .title {
       float: left;
-      width: 70%;
+      width: 80%;
       position: relative;
       padding-left: 0.15rem;
       i {

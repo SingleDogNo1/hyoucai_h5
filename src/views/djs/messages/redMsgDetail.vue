@@ -48,7 +48,7 @@ section {
   }
   .msg {
     height: 1.11rem;
-    background-image: url(redMsgBg.png);
+    background-image: url(./msgDetailBg.png);
     background-repeat: no-repeat;
     background-position: 0.1rem;
     margin-right: 0.1rem;

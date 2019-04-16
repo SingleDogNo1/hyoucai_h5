@@ -14,6 +14,10 @@
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
+    <div class="noData">
+      <p><img alt="" src="./noData.png" /></p>
+      <p>暂无消息</p>
+    </div>
   </section>
 </template>
 
@@ -93,6 +97,17 @@ section {
       i {
         background-color: #ccc;
       }
+    }
+  }
+  .noData {
+    p {
+      text-align: center;
+      color: #999;
+      font-size: 0.15rem;
+    }
+    img {
+      margin-top: 0.5rem;
+      width: 35%;
     }
   }
 }

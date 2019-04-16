@@ -1,29 +1,29 @@
 <template>
   <div class="pageContainer" ref="container">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <div class="detail" @click="showDetail"></div>
       </div>
       <!--<div class="btn-wrapper all" v-if="type === '0'">-->
-        <!--<a class="btn" id="three-months" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">-->
-          <!--<span>汇投资90天</span>-->
-        <!--</a>-->
-        <!--<a class="btn" id="halfYear" href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">-->
-          <!--<span>汇投资180天</span>-->
-        <!--</a>-->
+      <!--<a class="btn" id="three-months" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">-->
+      <!--<span>汇投资90天</span>-->
+      <!--</a>-->
+      <!--<a class="btn" id="halfYear" href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">-->
+      <!--<span>汇投资180天</span>-->
+      <!--</a>-->
       <!--</div>-->
       <!--<div class="btn-wrapper half" v-else>-->
-        <!--<a class="btn" v-if="type !== '2'" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">-->
-          <!--汇投资90天-->
-        <!--</a>-->
-        <!--<a class="btn" v-if="type !== '1'"  href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">-->
-          <!--汇投资180天-->
-        <!--</a>-->
+      <!--<a class="btn" v-if="type !== '2'" href="https://m.hyoucai.com/#/investment/planDetail/21/item/333">-->
+      <!--汇投资90天-->
+      <!--</a>-->
+      <!--<a class="btn" v-if="type !== '1'"  href="https://m.hyoucai.com/#/investment/planDetail/22/item/337">-->
+      <!--汇投资180天-->
+      <!--</a>-->
       <!--</div>-->
     </div>
     <div class="detail-mask" v-if="detailFlag">
-      <img src="./off.png" class="close" alt="" @click="closeDialog">
-      <img src="./dialog.png" alt="">
+      <img src="./off.png" class="close" alt="" @click="closeDialog" />
+      <img src="./dialog.png" alt="" />
     </div>
   </div>
 </template>

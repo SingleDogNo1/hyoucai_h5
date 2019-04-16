@@ -1,30 +1,30 @@
 <template>
   <div class="gold" ref="container">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
       </div>
       <div style="background: rgb(204,52,41);height:60px;"></div>
-    <div class="btn-wrapper all" v-if="type === '0'">
-      <a class="btn" id="three-months" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
-        <span>出借黄金乐90天</span>
-      </a>
-      <a class="btn" id="halfYear" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
-        <span>出借黄金乐180天</span>
-      </a>
-    </div>
-    <div class="btn-wrapper half" v-else>
-      <a class="btn" v-if="type !== '2'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
-        出借黄金乐90天
-      </a>
-      <a class="btn" v-if="type !== '1'"  href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
-        出借黄金乐180天
-      </a>
-    </div>
+      <div class="btn-wrapper all" v-if="type === '0'">
+        <a class="btn" id="three-months" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
+          <span>出借黄金乐90天</span>
+        </a>
+        <a class="btn" id="halfYear" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
+          <span>出借黄金乐180天</span>
+        </a>
+      </div>
+      <div class="btn-wrapper half" v-else>
+        <a class="btn" v-if="type !== '2'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040801">
+          出借黄金乐90天
+        </a>
+        <a class="btn" v-if="type !== '1'" href="https://mobile.hyoucai.com/#/d/investdetail?projectNo=1901040802">
+          出借黄金乐180天
+        </a>
+      </div>
     </div>
     <div class="detail-mask" v-if="detailFlag">
-      <img src="./off.png" class="close" alt="" @click="closeDialog">
-      <img src="./dialog.png" alt="">
+      <img src="./off.png" class="close" alt="" @click="closeDialog" />
+      <img src="./dialog.png" alt="" />
     </div>
   </div>
 </template>

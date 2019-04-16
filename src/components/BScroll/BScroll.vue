@@ -64,7 +64,7 @@ export default {
     preventDefaultException: {
       type: Object,
       default: function() {
-        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN)$/ }
+        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|LABEL)$/ }
       }
     },
     eventPassthrough: {
@@ -169,5 +169,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

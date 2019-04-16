@@ -3,8 +3,9 @@
     <div class="login-form">
       <header class="logo"></header>
       <h6 class="slogan">唯有赚钱不能停</h6>
-      <p>当前登录使用手机号：
-        <span>{{registerMobile | splitTelNum}}</span>
+      <p>
+        当前登录使用手机号：
+        <span>{{ registerMobile | splitTelNum }}</span>
       </p>
       <input
         v-if="isPassword"
@@ -12,31 +13,18 @@
         maxlength="20"
         autofocus="autofocus"
         placeholder="请输入密码(8位及以上数字加英文组合)"
-        v-model="password" />
+        v-model="password"
+      />
       <div class="sms-code" v-else>
-        <input
-          type="tel"
-          maxlength="6"
-          autofocus="autofocus"
-          placeholder="请输入短信验证码"
-          v-model="smsCode" />
-        <SMSBtn
-          class="sms-btn"
-          ref="smsBtn"
-          @getSMSCode="sendSMSCode"
-        />
+        <input type="tel" maxlength="6" autofocus="autofocus" placeholder="请输入短信验证码" v-model="smsCode" />
+        <SMSBtn class="sms-btn" ref="smsBtn" @getSMSCode="sendSMSCode" />
       </div>
-      <input
-        type="button"
-        value="登录"
-        :disabled="!activeBtn()"
-        @click="login"
-      >
-     <div class="other">
-       <span v-if="isPassword" @click="isPassword = false">使用短信验证码登录</span>
-       <span v-else @click="isPassword = true">使用密码登录</span>
-       <span v-if="isPassword" @click="$router.push({name: 'forgetPWD'})">忘记密码</span>
-     </div>
+      <input type="button" value="登录" :disabled="!activeBtn()" @click="login" />
+      <div class="other">
+        <span v-if="isPassword" @click="isPassword = false">使用短信验证码登录</span>
+        <span v-else @click="isPassword = true">使用密码登录</span>
+        <span v-if="isPassword" @click="$router.push({ name: 'forgetPWD' })">忘记密码</span>
+      </div>
     </div>
     <div id="captcha_pwd"></div>
   </div>
@@ -121,8 +109,15 @@ export default {
         passWord: btoa(this.password)
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data)
+          console.log(res.data.data)
           let user = res.data.data
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              break
+            case '2':
+              this.setPlatform('hyc')
+          }
           this.setUser(user)
           setLoginUsername(this.registerMobile)
           this.setErrorNum(0)
@@ -141,6 +136,13 @@ export default {
       userLoginVcode(postData).then(res => {
         if (res.data.resultCode === '1') {
           let user = res.data.data
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              break
+            case '2':
+              this.setPlatform('hyc')
+          }
           this.setUser(user)
           setLoginUsername(this.userName)
           this.setErrorNum(0)
@@ -172,7 +174,7 @@ export default {
     },
     loginSuccess() {
       this.$router.push({
-        name: 'AppDownload'
+        name: 'openAccount'
       })
     },
     sendSMSCode() {
@@ -189,7 +191,8 @@ export default {
     },
     ...mapMutations({
       setUser: 'SET_USER',
-      setErrorNum: 'SET_ERROR_NUM'
+      setErrorNum: 'SET_ERROR_NUM',
+      setPlatform: 'SET_PLATFORM'
     })
   },
   created() {}

@@ -2,12 +2,12 @@
   <div class="__no__data">
     <section>
       <div v-if="type === 'data'" class="data"></div>
-      <div v-if="type === 'event'" class="event"></div>
+      <!--<div v-if="type === 'event'" class="event"></div>
       <div v-if="type === 'redpacket'" class="redpacket"></div>
       <div v-if="type === 'coupon'" class="coupon"></div>
       <div v-if="type === 'message'" class="message"></div>
       <div v-if="type === 'notice'" class="notice"></div>
-      <div v-if="type === 'network'" class="network"></div>
+      <div v-if="type === 'network'" class="network"></div>-->
     </section>
     <p v-if="type === 'data'" class="data">暂无数据</p>
     <p v-if="type === 'event'" class="event">暂无活动信息</p>
@@ -28,14 +28,14 @@ export default {
   props: {
     type: {
       /*
-         * type === 'data'       没有数据(default)
-         * type === 'event'       这里空空如也（活动中心没有数据）
-         * type === 'redpacket'  没有红包
-         * type === 'coupon'     没有加息券
-         * type === 'message'    没有新消息
-         * type === 'notice'     没有公告
-         * type === 'network'    没有网络
-         */
+       * type === 'data'       没有数据(default)
+       * type === 'event'       这里空空如也（活动中心没有数据）
+       * type === 'redpacket'  没有红包
+       * type === 'coupon'     没有加息券
+       * type === 'message'    没有新消息
+       * type === 'notice'     没有公告
+       * type === 'network'    没有网络
+       */
       type: String,
       default: 'data'
     }

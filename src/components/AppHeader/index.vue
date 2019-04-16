@@ -1,6 +1,8 @@
 <template>
   <mt-header v-show="!isAppTitle" ref="mtHeader" :title="title">
-    <mt-button icon="back" slot="left" @click="goBack"></mt-button>
+    <mt-button icon="back" slot="left" @click="goBack"
+      ><span v-if="cancel">{{ cancel }}</span></mt-button
+    >
     <mt-button slot="right" @click="getMore">
       <slot></slot>
     </mt-button>
@@ -12,6 +14,7 @@ export default {
   data() {
     return {
       title: this.$route.meta.title,
+      cancel: this.$route.meta.cancel,
       // 首页不显示标题（首页当做是和app一样处理）
       // TODO 目前登录注册输入手机号页当成首页在使用，后期需求会更改首页
       isAppTitle: this.$route.name === 'home' ? true : this.$route.query.mobile,
@@ -26,6 +29,9 @@ export default {
       } else {
         this.$router.go(-1)
       }
+    },
+    setTitle() {
+      this.$emit('setTitle')
     },
     getMore() {
       this.$emit('getMore')
@@ -47,10 +53,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-/deep/ .mint-header {
-  .mint-header-title {
-    font-weight: bold;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

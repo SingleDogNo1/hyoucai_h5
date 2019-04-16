@@ -1,21 +1,19 @@
 <template>
-  <transition name="slide">
-    <div class="layout">
-      <AppHeader v-if="$route.meta.title" @getMore="getMore">
-        <div>{{appTitleParams.handle}}</div>
-      </AppHeader>
-      <div class="container">
-        <router-view></router-view>
-      </div>
+  <div class="layout">
+    <AppHeader v-if="$route.meta.title" @getMore="getMore">
+      <div>{{ appTitleParams.handle }}</div>
+    </AppHeader>
+    <div class="container">
+      <router-view></router-view>
     </div>
-  </transition>
+  </div>
 </template>
 
 <script>
 /*
-* 怎么控制右上角的小标题显示文字和样式（路由不变）
-* 登录从短信登录到密码登录，短信右上角忘记密码，验证码右上角啥也没有
-* */
+ * 怎么控制右上角的小标题显示文字和样式（路由不变）
+ * 登录从短信登录到密码登录，短信右上角忘记密码，验证码右上角啥也没有
+ * */
 import AppHeader from '@/components/AppHeader'
 
 export default {
@@ -40,15 +38,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.3s;
-}
-.slide-enter,
-.slide-leave-to {
-  transform: translate3d(100%, 0, 0);
-}
-
 .layout {
   height: 100vh;
   display: flex;

@@ -5,20 +5,20 @@
         <li v-for="(item, index) in bankList" :key="index">
           <div class="border-bottom-1px">
             <dl>
-              <dt><img :src="item.iconUrl" alt=""></dt>
-              <dd>{{item.bankName}}</dd>
+              <dt><img :src="item.iconUrl" alt="" /></dt>
+              <dd>{{ item.bankName }}</dd>
             </dl>
             <div class="info">
               <dl>
-                <dt>{{item.onceLimit}}</dt>
+                <dt>{{ item.onceLimit }}</dt>
                 <dd>单笔限额</dd>
               </dl>
               <dl>
-                <dt>{{item.dayLimit}}</dt>
+                <dt>{{ item.dayLimit }}</dt>
                 <dd>单日限额</dd>
               </dl>
               <dl>
-                <dt>{{item.monthLimit}}</dt>
+                <dt>{{ item.monthLimit }}</dt>
                 <dd>单月限额</dd>
               </dl>
             </div>
@@ -32,7 +32,7 @@
 <script>
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import { supportBankListApi } from '@/api/common/support_bank'
+import { supportBankListApi } from '@/api/common/supportBank'
 
 const CODE_OK = '1'
 export default {

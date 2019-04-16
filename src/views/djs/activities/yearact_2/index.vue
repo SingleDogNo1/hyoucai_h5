@@ -3,17 +3,17 @@
 -->
 
 <template>
-    <div class="wrapper">
-      <div>
-        <img src="./1.png" alt="">
-        <img src="./2.png" alt="">
-      </div>
-      <div>
-        <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: 1 })"></div>
-        <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
-        <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
-      </div>
+  <div class="wrapper">
+    <div>
+      <img src="./1.png" alt="" />
+      <img src="./2.png" alt="" />
     </div>
+    <div>
+      <div class="area area1" @click="toActivityPage('DJSSpellGroupAct', { leaderInviteCode: leaderInviteCode, groupId: 1 })"></div>
+      <div class="area area2" @click="toActivityPage('DJS3000Act')"></div>
+      <div class="area area3" @click="toActivityPage('DJSyearAct')"></div>
+    </div>
+  </div>
 </template>
 
 <script>

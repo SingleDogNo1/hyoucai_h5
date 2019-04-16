@@ -1,16 +1,16 @@
 <template>
   <div class="pageContainer" ref="container">
-    <div class="inner" :class="{blur: detailFlag}">
+    <div class="inner" :class="{ blur: detailFlag }">
       <div class="wrapper">
         <!--<div class="detail" @click="showDetail"></div>-->
-        <img src="./year-bg.png" alt="">
+        <img src="./year-bg.png" alt="" />
         <div class="rule-icon" @click="showDetail"></div>
       </div>
     </div>
     <BScroll class="detail-mask" ref="scrollRef" :beforeScroll="true" @beforeScroll="beforeScroll" v-show="detailFlag">
       <div>
-        <img src="./rule.png" class="rule" alt="">
-        <img src="./close-btn.png" class="close" alt="" @click="closeDialog">
+        <img src="./rule.png" class="rule" alt="" />
+        <img src="./close-btn.png" class="close" alt="" @click="closeDialog" />
       </div>
     </BScroll>
   </div>

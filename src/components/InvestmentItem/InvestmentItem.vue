@@ -1,26 +1,77 @@
 <template>
-  <div class='prod_item' :class="itemData.last ? 'last_one' : ''">
-    <div class="cata_title" v-if="itemData.status == 3 || itemData.status == 1">
-      <img src="https://file.hyoucai.com/huiyoucaifiles/picture/icon/huixuan_PC.png" alt="">
-      <span>手机乐</span>
-      <i>投资送手机</i>
+  <div class="prod_item" :class="itemData.last === '1' ? 'last_one' : ''">
+    <div class="cata_title" v-if="itemData.head">
+      <img v-if="itemData.head.icon" :src="itemData.head.icon" alt="" />
+      <span>{{ itemData.head.title }}</span>
     </div>
-    <div class="item_wrapper">
-      <div class='item_title'>
-          <span>{{itemData.itemName}}</span>
+    <div class="item_wrapper" :class="matchClass(itemData)">
+      <div class="item_title">
+        <span>{{ itemData.projectName }}</span>
+        <em v-if="itemData.tags && itemData.tags.length">
+          <i v-for="(el, i) in itemData.tags" :key="i"> {{ el.tagName }} </i>
+        </em>
       </div>
-      <div class='item_info'>
+      <div class="item_info">
         <dl>
-          <dt>6.00<span>&nbsp;%</span></dt>
+          <dt v-if="itemData.investRate">{{ itemData.investRate.padEnd(4, 0) }}<span>%</span></dt>
           <dd>历史平均年化收益率</dd>
         </dl>
         <dl>
-          <dt>180天</dt>
+          <dt v-if="itemData.investMent">{{ itemData.investMent }}天</dt>
+          <dt v-if="itemData.loanMent">{{ itemData.loanMent }}</dt>
           <dd>锁定期</dd>
         </dl>
-        <button>
-          <span>授权出借</span>
-        </button>
+        <!--hyoucai 优质计划-->
+        <div v-if="itemData.projectType && itemData.projectType === 2">
+          <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
+            <button disabled>还款中</button>
+          </template>
+          <template v-else-if="itemData.status === 2">
+            <button>授权出借</button>
+          </template>
+          <template v-else>
+            <button disabled>
+              <dl>
+                <dt>距离开售</dt>
+                <dd>{{ itemData.djs }}</dd>
+              </dl>
+            </button>
+          </template>
+        </div>
+        <!--散标-->
+        <div v-else-if="itemData.projectType && itemData.projectType === 0">
+          <template v-if="itemData.status === 3">
+            <!--3.满标(包括item.investPercent >= 100 || item.investEndTimestamp <= 0 || item.status === 3)-->
+            <button disabled>还款中</button>
+          </template>
+          <template v-else-if="itemData.status === 2">
+            <button disabled>满标</button>
+          </template>
+          <template v-else-if="itemData.status === 1">
+            <button disabled>授权出借</button>
+          </template>
+          <template v-else>
+            <button disabled>
+              <dl>
+                <dt>距离开售</dt>
+                <dd>{{ itemData.djs }}</dd>
+              </dl>
+            </button>
+          </template>
+        </div>
+        <!--djs-->
+        <div v-else-if="!itemData.projectType">
+          <template v-if="itemData.status === '1' && parseFloat(itemData.enablAmt) !== 0">
+            <button>授权出借</button>
+          </template>
+          <template v-else-if="itemData.status === '1' && parseFloat(itemData.enablAmt) === 0">
+            <button disabled>还款中</button>
+          </template>
+          <template v-else>
+            <button v-if="itemData.enablAmt > 0">预售中</button>
+            <button disabled v-else>还款中</button>
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -61,11 +112,31 @@ export default {
     replace(data) {
       return data.replace('%', '')
     }
+  },
+  methods: {
+    matchClass(itemData) {
+      if (itemData.projectType && itemData.projectType === 2) {
+        // 优质计划
+        if (itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3 || itemData.status === 1) {
+          return 'disabled-item'
+        }
+      } else if (itemData.projectType && itemData.projectType === 0) {
+        // 散标（自选投）
+        if (itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3 || itemData.status === 2) {
+          return 'disabled-item'
+        }
+      } else {
+        // 点金石
+        if ((itemData.status === '1' && parseFloat(itemData.enablAmt) === 0) || itemData.status === '0') {
+          return 'disabled-item'
+        }
+      }
+    }
   }
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 @import '../../assets/css/theme.scss';
 @import '../../assets/css/mixins.scss';
 
@@ -90,35 +161,30 @@ export default {
       font-size: 0.17rem;
       color: #333;
     }
-    i {
-      display: inline-block;
-      vertical-align: top;
-      padding: 3px 0.05rem;
-      font-size: 0.11rem;
-      color: #b27c50;
-      border-radius: 0.01rem;
-      letter-spacing: 0;
-      text-align: center;
-      background-color: #efefef;
-    }
   }
   .item_wrapper {
     background-color: #fff;
     .item_title {
-      height: 0.15rem;
       text-align: left;
-      margin-bottom: 0.08rem;
+      padding-top: 0.16rem;
+      margin: 0 0 0.08rem 0.15rem;
       span {
         vertical-align: top;
         line-height: 1.1;
         font-size: $font-size-small;
         color: $color-text-b;
       }
-      img {
+      i {
         display: inline-block;
-        width: 0.16rem;
-        height: 0.16rem;
-        margin: 0 0 0 0.08rem;
+        vertical-align: top;
+        margin-left: 0.1rem;
+        padding: 3px 0.05rem;
+        font-size: 0.11rem;
+        color: #b27c50;
+        border-radius: 0.01rem;
+        letter-spacing: 0;
+        text-align: center;
+        background-color: #efefef;
       }
     }
     .item_info {
@@ -140,7 +206,7 @@ export default {
             font-size: 0.28rem;
             color: $color-button;
             span {
-              font-size: 0.15rem;
+              font-size: 0.2rem;
             }
           }
         }
@@ -176,6 +242,41 @@ export default {
           background-image: none;
           background-color: #eee;
           box-shadow: none;
+        }
+        dl {
+          text-align: center;
+          line-height: 1;
+          dt {
+            width: auto !important;
+            font-size: $font-size-small-ss !important;
+            color: #333 !important;
+          }
+          dd {
+            color: #333 !important;
+          }
+        }
+      }
+    }
+    &.disabled-item {
+      color: #ccc;
+      .item_title {
+        span {
+          color: #ccc;
+        }
+      }
+      .item_info {
+        dl {
+          dt {
+            color: #ccc;
+          }
+          dd {
+            color: #ccc;
+          }
+          &:first-child {
+            dt {
+              color: #999;
+            }
+          }
         }
       }
     }

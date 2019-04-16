@@ -32,8 +32,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'DJSInvestList',
-          component: () => import(/* webpackChunkName: "DJSInvestList" */ '@/views/djs/investList')
+          name: 'DJSInvestment',
+          component: () => import(/* webpackChunkName: "DJSInvestment" */ '@/views/djs/investment')
         },
         {
           path: 'mine',
@@ -53,8 +53,8 @@ export default new Router({
         },
         {
           path: 'invest',
-          name: 'HYCInvestList',
-          component: () => import(/* webpackChunkName: "HYCInvestList" */ '@/views/hyc/investList')
+          name: 'HYCInvestment',
+          component: () => import(/* webpackChunkName: "HYCInvestment" */ '@/views/hyc/investment')
         },
         {
           path: 'mine',
@@ -91,6 +91,29 @@ export default new Router({
           meta: {
             title: '汇有财注册'
           }
+        },
+        {
+          path: 'remind-open-account',
+          name: 'remindOpenAccount',
+          component: () => import(/* webpackChunkName: "remindOpenAccount" */ '@/views/common/openAccount/RemindOpenAccount'),
+          meta: {
+            title: '提醒开户'
+          }
+        },
+        {
+          path: 'open-account',
+          name: 'openAccountProgress',
+          component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/Progress'),
+          children: [
+            {
+              path: 'open',
+              name: 'openAccount',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
+              meta: {
+                title: '开通存管账户'
+              }
+            }
+          ]
         },
         {
           path: 'forgetpwd',
@@ -220,14 +243,6 @@ export default new Router({
           }
         },
         {
-          path: 'notice',
-          name: 'Notice',
-          component: () => import(/* webpackChunkName: "Notice" */ '@/views/common/Notice'),
-          meta: {
-            title: '网站公告'
-          }
-        },
-        {
           path: 'setting',
           name: 'Setting',
           component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting'),
@@ -349,7 +364,39 @@ export default new Router({
           name: 'DJSInvestDetail',
           component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
           meta: {
-            title: '出借'
+            title: '产品详情'
+          }
+        },
+        {
+          path: 'easyLend',
+          name: 'DJSInvestFlow',
+          component: () => import('@/views/djs/investDetail/easyLend'),
+          meta: {
+            title: '授权出借'
+          }
+        },
+        {
+          path: 'claimlist',
+          name: 'DJSClaimList',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'DJSClaimDetail',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimDetail'),
+          meta: {
+            title: '债权列表详情'
+          }
+        },
+        {
+          path: 'lendRecord',
+          name: 'DJSLendRecord',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/lendRecord'),
+          meta: {
+            title: '出借记录'
           }
         },
         {
@@ -377,6 +424,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'DJSInviteFriends',
+          component: () => import(/* webpackChunkName: "DJSinviteFriends" */ '@/views/djs/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'DJSRecommender',
+          component: () => import(/* webpackChunkName: "DJSRecommender" */ '@/views/djs/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'DJSTransferCharge',
           component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
@@ -389,9 +452,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'DJSNoticeList',
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/list'),
+              meta: {
+                title: '网站公告'
+              }
+            },
+            {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice'),
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/detail'),
               meta: {
                 title: '公告详情'
               }
@@ -416,7 +487,7 @@ export default new Router({
         },
         {
           path: 'historyCard',
-          name: 'HistoryCard',
+          name: 'DJSHistoryCard',
           component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
           meta: {
             title: '历史卡券'
@@ -433,9 +504,34 @@ export default new Router({
         {
           path: 'transactionRecord',
           name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/TransactionRecord'),
+          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'DJSSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/message'),
+          meta: {
+            title: '消息'
+          }
+        },
+        {
+          path: 'charge',
+          name: 'DJSCharge',
+          component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
+          meta: {
+            title: '充值',
+            cancel: '取消'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'DJSBankCard',
+          component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
           }
         }
       ]
@@ -531,9 +627,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'HYCNoticeList',
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/list'),
+              meta: {
+                title: '公告'
+              }
+            },
+            {
               path: ':id',
               name: 'HYCNoticeDetail',
-              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice'),
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/detail'),
               meta: {
                 title: '公告'
               }
@@ -562,6 +666,30 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'HYCSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
+          meta: {
+            title: '消息'
+          }
+        },
+        {
+          path: 'charge',
+          name: 'HYCCharge',
+          component: () => import(/* webpackChunkName: "HYCCharge" */ '@/views/hyc/mine/charge/charge'),
+          meta: {
+            title: '充值'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'HYCBankCard',
+          component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
           }
         }
       ]

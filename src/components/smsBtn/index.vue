@@ -1,6 +1,6 @@
 <template>
-  <div class="btnArea" :class="{'disable':disable_}">
-    <input type="button" class="smsBtn" :disabled="disable_" v-model="text_" @click="getCode">
+  <div class="btnArea" :class="{ disable: disable_ }">
+    <input type="button" class="smsBtn" :disabled="disable_" v-model="text_" @click="getCode" />
   </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
   .smsBtn {
     width: 100%;
     font-size: $font-size-small-ss;
-    color: $color-main;
+    color: $color-button;
     line-height: 0.25rem;
     text-align: center;
   }

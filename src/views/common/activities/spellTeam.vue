@@ -74,7 +74,7 @@
                 <p>现在完成账户设置，即可领取10元现金红包啦，快快下载APP提现吧！</p>
                 <section>
                   <button @click="download">下载APP</button>
-                  <button @click="shareActivity" class="clip-board" :data-clipboard-text="clipBoardPath">分享拼团</button>
+                  <button @click="shareActivity" class="clip-board">立即注册</button>
                 </section>
               </div>
             </div>
@@ -83,7 +83,7 @@
               <img src="./spellTeam/no-act.png" alt="" />
               <section>
                 <button @click="download">下载APP</button>
-                <button class="clip-board" :data-clipboard-text="clipBoardPath" @click="shareActivity">分享拼团</button>
+                <button class="clip-board" @click="shareActivity">立即注册</button>
               </section>
             </div>
           </div>
@@ -133,7 +133,7 @@
         <div id="captcha"></div>
       </div>
     </BScroll>
-    <div class="mask-wrapper" v-if="showMask" @click.self="closeMask">
+    <div class="mask-wrapper" v-if="showMask">
       <div class="mask">
         <section>
           <span>姓名</span>
@@ -151,11 +151,7 @@
         <p>{{ errMsg }}</p>
         <input type="button" value="参加拼团" @click="joinActivity" />
       </div>
-    </div>
-    <div class="share-mask" v-if="showShare" @click.self="closeShare">
-      <img src="./spellTeam/dir_share.png" alt="" />
-      <p>1.点击右上角的...按钮；</p>
-      <p>2.选择“发送给朋友”或“分享到朋友圈”！</p>
+      <img src="./spellTeam/close.png" alt="" @click.self="closeMask" />
     </div>
   </div>
 </template>
@@ -164,17 +160,12 @@
 import SMSBtn from '@/components/smsBtn'
 import BScroll from '@/components/BScroll/BScroll'
 import api from '@/api/common/activities'
-import {
-  // queryProgressApi,
-  joinActivityApi,
-  getSMSCodeApi
-} from '@/api/djs/ActivitiesApi/spellGroup'
+import { queryProgressApi, joinActivityApi, getSMSCodeApi } from '@/api/djs/ActivitiesApi/spellGroup'
 import { timeCountDown, uuid } from '@/assets/js/utils'
 
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
 import Cookies from 'js-cookie'
-import Clipboard from 'clipboard'
 
 export default {
   name: 'spellGroup',
@@ -184,12 +175,11 @@ export default {
   },
   data() {
     return {
-      clipBoardPath: window.location.href,
       leaderInviteCode: this.$route.query.teamCode, // 团长邀请码
       groupId: this.$route.query.groupId, // 拼团活动Id
-      currPeopleNum: 10, // 当前参与人数
-      couponRate: '0', // 当前可加息利率
-      remainingTime: '4565456', // 参团倒计时
+      currPeopleNum: 0, // 当前参与人数
+      couponRate: 0, // 当前可加息利率
+      remainingTime: 1111111, // 参团倒计时
       isOverdue: false,
       isJoin: false, // 该用户是否参与过活动
       day: 0, // 倒计时天
@@ -197,7 +187,6 @@ export default {
       minute: 0, // 倒计时分钟
       second: 0, // 倒计时秒
       showMask: false, // 是否显示输入框
-      showShare: false, // 是否显示微信分享引导图
       userName: '', // 姓名
       mobile: '', // 手机号
       smsCode: '', // 短信验证码
@@ -298,19 +287,9 @@ export default {
       })
     },
     shareActivity() {
-      function isWeixin() {
-        const UA = window.navigator.userAgent.toLowerCase()
-        return UA.match(/MicroMessenger/i) == 'micromessenger'
-      }
-
-      if (!isWeixin()) {
-        let clipboard = new Clipboard('.clip-board')
-        clipboard.on('success', () => {
-          Toast('已复制分享链接，快去粘贴邀请好友吧！')
-        })
-      } else {
-        this.showShare = true
-      }
+      this.$router.push({
+        name: 'home'
+      })
     },
     sendSMSCode() {
       this.captchaIns && this.captchaIns.popUp()
@@ -336,17 +315,9 @@ export default {
       this.mobile = ''
       this.smsCode = ''
     },
-    closeShare() {
-      this.showShare = false
-      this.errMsg = ''
-      this.userName = ''
-      this.mobile = ''
-      this.smsCode = ''
-    },
     splitTime() {
       timeCountDown(this.remainingTime, 1, data => {
         if (data.includes('天')) {
-          // 21天08:03:31
           const [days, day] = data.split('天')
           ;[this.day, [this.hours, this.minute, this.second]] = [days, day.split(':')]
         } else if (data !== '00:00:00') {
@@ -354,7 +325,7 @@ export default {
           ;[this.hours, this.minute, this.second] = data.split(':')
         } else if (data === '00:00:00') {
           this.isOverdue = true
-          this.second = '00'
+          this.second = '0'
         }
       })
     }
@@ -400,7 +371,7 @@ export default {
     }
 
     // 拼团活动进度查询接口
-    /*   queryProgressApi({
+    queryProgressApi({
       leaderInviteCode: this.leaderInviteCode,
       uuid: this.uuid,
       groupId: this.groupId
@@ -415,9 +386,7 @@ export default {
       } else if (res.data.resultCode !== '1') {
         Toast(res.data.resultMsg)
       }
-    })*/
-
-    // 微信分享
+    })
     this.shareWX()
   }
 }
@@ -712,6 +681,7 @@ export default {
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   .mask {
@@ -776,6 +746,10 @@ export default {
       font-size: 0.18rem;
       color: #ffffff;
     }
+  }
+  img {
+    @include radiusCube(0.4rem);
+    margin-top: 0.6rem;
   }
 }
 .share-mask {

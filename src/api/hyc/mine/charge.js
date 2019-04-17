@@ -3,54 +3,34 @@ import Qs from 'qs'
 // import serviceTelApi from './index'
 
 function bankCardQueryApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/bankCardQuery/query', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: '/bankCardQuery/query',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 
 function checkAmountApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/bank/checkAmount', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: '/bank/checkAmount',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 
 function rechargeApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/directRecharge/recharge', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: '/directRecharge/recharge',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 
 function amountInfoApi(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/personalAccount/amountInfo', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: '/personalAccount/amountInfo',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 

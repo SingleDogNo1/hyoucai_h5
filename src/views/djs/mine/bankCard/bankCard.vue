@@ -1,27 +1,27 @@
 <template>
-    <div class="wrapper">
-      <div class="top">
-        <div class="inn">
-          <dl>
-            <dt>
-              <div class="logo-wrapper">
-                <img :src="bankCardInfo.iconUrl" alt="">
-              </div>
-              <div class="bank-name">
-                {{ bankCardInfo.bankName }}
-              </div>
-            </dt>
-            <dd>
-              {{ bankCardInfo.showCardNo }}
-            </dd>
-          </dl>
-        </div>
+  <div class="wrapper">
+    <div class="top">
+      <div class="inn">
+        <dl>
+          <dt>
+            <div class="logo-wrapper">
+              <img :src="bankCardInfo.iconUrl" alt="" />
+            </div>
+            <div class="bank-name">
+              {{ bankCardInfo.bankName }}
+            </div>
+          </dt>
+          <dd>
+            {{ bankCardInfo.showCardNo }}
+          </dd>
+        </dl>
       </div>
-      <dl class="download-wrapper">
-        <dt>如需变更银行卡请下载官方App</dt>
-        <dd><router-link :to="{name: ''}">下载App</router-link></dd>
-      </dl>
     </div>
+    <dl class="download-wrapper">
+      <dt>如需变更银行卡请下载官方App</dt>
+      <dd><router-link :to="{ name: '' }">下载App</router-link></dd>
+    </dl>
+  </div>
 </template>
 
 <script>

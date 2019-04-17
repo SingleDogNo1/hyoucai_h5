@@ -1,18 +1,12 @@
 <template>
   <div class="activity" ref="container">
-      <div class="activity-wrapper" v-if="actList.length > 0">
-        <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
-          <img :src="item.picUrl" alt="">
-          <p>
-            活动日期：{{item.startTime}}至{{item.endTime}}
-          </p>
-        </section>
-      </div>
-    <NoData
-      v-else
-      class="no-data"
-      type="event"
-    />
+    <div class="activity-wrapper" v-if="actList.length > 0">
+      <section v-for="(item, index) in actList" :key="index" @click="linkTo(item.url)">
+        <img :src="item.picUrl" alt="" />
+        <p>活动日期：{{ item.startTime }}至{{ item.endTime }}</p>
+      </section>
+    </div>
+    <NoData v-else class="no-data" type="event" />
   </div>
 </template>
 

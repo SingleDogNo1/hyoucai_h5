@@ -28,14 +28,14 @@ export default {
   props: {
     type: {
       /*
-         * type === 'data'       没有数据(default)
-         * type === 'event'       这里空空如也（活动中心没有数据）
-         * type === 'redpacket'  没有红包
-         * type === 'coupon'     没有加息券
-         * type === 'message'    没有新消息
-         * type === 'notice'     没有公告
-         * type === 'network'    没有网络
-         */
+       * type === 'data'       没有数据(default)
+       * type === 'event'       这里空空如也（活动中心没有数据）
+       * type === 'redpacket'  没有红包
+       * type === 'coupon'     没有加息券
+       * type === 'message'    没有新消息
+       * type === 'notice'     没有公告
+       * type === 'network'    没有网络
+       */
       type: String,
       default: 'data'
     }

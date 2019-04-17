@@ -1,19 +1,19 @@
 <template>
   <div class="content">
     <div class="heads">
-      <div class="head-box" :class="{ actives: flag == 1 }" @click="changeFlag(1)">
+      <div class="head-box" :class="{ actives: flag == 1 }" @click="clickGetRecord(1, null, page1)">
         <span class="head-txt">全部</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 2 }" @click="changeFlag(2)">
+      <div class="head-box" :class="{ actives: flag == 2 }" @click="clickGetRecord(2, 'TXCZ', page2)">
         <span class="head-txt">充值</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 3 }" @click="changeFlag(3)">
+      <div class="head-box" :class="{ actives: flag == 3 }" @click="clickGetRecord(3, 'TXTX', page3)">
         <span class="head-txt">提现</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 4 }" @click="changeFlag(4)">
+      <div class="head-box" :class="{ actives: flag == 4 }" @click="clickGetRecord(4, 'TXQT', page4)">
         <span class="head-txt">其他</span>
         <span class="head-line"></span>
       </div>
@@ -33,27 +33,117 @@
 </template>
 
 <script>
+// import { Toast, Indicator, tabItem } from 'mint-ui' //Indicator
 import { getUserTransaction } from '@/api/djs/transaction'
+import { mapGetters } from 'vuex'
 export default {
   name: 'index',
-  components: {},
+  components: {
+    // tabItem,
+    // Indicator,
+    // Toast
+  },
   data() {
     return {
-      flag: 1
+      flag: 1,
+      page1: 1,
+      page2: 1,
+      page3: 1,
+      page4: 1,
+      allData: [],
+      chargeData: [],
+      toCashData: [],
+      otherData: []
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
-    this.getUserTransaction()
+    this.clickGetRecord(1, null, null, 1)
   },
   methods: {
-    changeFlag(val) {
+    clickGetRecord(val, txType, page) {
       this.flag = val
-    },
-    getUserTransaction() {
-      getUserTransaction({ userName: '12111000040' }).then(res => {
-        console.log(res)
-      })
+      let data = {
+        userName: this.user.userName,
+        timeType: 'ODLX',
+        tranType: 'XSCC',
+        // txType: txType,
+        // txDate: txDate,
+        page: page
+      }
+      if (
+        (txType === 'TXCZ' && this.chargeData.length === 0) ||
+        (txType === 'TXTX' && this.toCashData.length === 0) ||
+        (txType === 'TXQT' && this.otherData.length === 0) ||
+        this.allData.length === 0
+      ) {
+        // 有分页点击tab时，只有之前没有数据才发请求。否则，不发
+        Indicator.open('加载中')
+        getUserTransaction(data).then(res => {
+          Indicator.close()
+          let resp = res.data
+          if (resp.resultCode === CODE_OK) {
+            let list = resp.data.list
+            let countPage = resp.data.countPage
+            let curPage = resp.data.curPage
+            if (txType === 'TXCZ') {
+              if (!list.length) {
+                this.hasMore2 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore2 = false
+              } else {
+                this.hasMore2 = true
+              }
+              this.chargeData = this.chargeData.concat(list)
+            } else if (txType === 'TXTX') {
+              if (!list.length) {
+                this.hasMore3 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore3 = false
+              } else {
+                this.hasMore3 = true
+              }
+              this.toCashData = this.toCashData.concat(list)
+            } else if (txType === 'TXQT') {
+              if (!list.length) {
+                this.hasMore4 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore4 = false
+              } else {
+                this.hasMore4 = true
+              }
+              this.otherData = this.otherData.concat(list)
+            } else {
+              if (!list.length) {
+                this.hasMore1 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore1 = false
+              } else {
+                this.hasMore1 = true
+              }
+              this.allData = this.allData.concat(list)
+            }
+          } else {
+            Toast(resp.resultMsg)
+          }
+        })
+      }
     }
+    // getUserTransaction() {
+    //   getUserTransaction({ userName: '小狗' }).then(res => {
+    //     console.log(res)
+    //   })
+    // }
   }
 }
 </script>

@@ -37,6 +37,7 @@
 <script>
 import { userInviteCode, getQRCode, getRecommenderApi } from '@/api/djs/invite'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     AppDialog
@@ -52,9 +53,12 @@ export default {
       recommend: '' //我推荐的人数
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     userInviteCode() {
-      userInviteCode({ userName: '小狗' }).then(res => {
+      userInviteCode({ userName: this.user.userName }).then(res => {
         console.log(res)
       })
     },
@@ -67,7 +71,7 @@ export default {
     scan() {
       // 面对面扫一扫
       getQRCode({
-        userName: '小狗'
+        userName: this.user.userName
       }).then(res => {
         // console.log(res.data)
         this.QRCode = res.data.qrPicUrl
@@ -79,8 +83,8 @@ export default {
     }
   },
   mounted() {
-    // this.userInviteCode()
-    getRecommenderApi({ userName: '小狗' }).then(res => {
+    this.userInviteCode()
+    getRecommenderApi({ userName: this.user.userName }).then(res => {
       const data = res.data.data
       this.recommend = data.list.length
     })

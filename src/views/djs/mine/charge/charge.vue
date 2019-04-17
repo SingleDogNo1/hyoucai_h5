@@ -9,8 +9,8 @@
                 <dt><img v-lazy="bankCardInfo.iconUrl" alt="" /></dt>
                 <dd>
                   <p>付款方式</p>
-                  <input v-if="!isBankcardSupport" type="text" v-model="bankCardInfo.cardNo" />
-                  <span v-else>{{ bankCardInfo.cardNo }}</span>
+                  <input v-if="!isBankcardSupport" type="text" @input="bankCardInput" />
+                  <span v-else>{{ bankCardInfo.cardNo | bankCardFilter }}</span>
                   <div class="border-top-1px">{{ bankCardInfo.quota }}</div>
                 </dd>
               </dl>
@@ -32,12 +32,10 @@
           <ul class="bottom">
             <li>
               <label>姓名</label>
-              <!--<input disabled type="text" id="name" placeholder="请输入姓名" v-model="plusStar(bankCardInfo.accountName, 1, 0)">-->
-              <span>{{ plusStar(bankCardInfo.accountName, 0, 1) }}</span>
+              <span>{{ bankCardInfo.showRealName }}</span>
             </li>
             <li>
               <label>身份证号</label>
-              <!--<input disabled type="text" id="idNo" placeholder="请输入身份证号" v-model="this.bankCardInfo.idCard">-->
               <span>{{ bankCardInfo.idCard }}</span>
             </li>
             <li>
@@ -48,12 +46,16 @@
             <li>
               <label for="smsCode">验证码</label>
               <input type="text" id="smsCode" placeholder="请输入短信验证码" v-model="smsCode" />
-              <sms-btn class="sms-btn"></sms-btn>
+              <sms-btn class="sms-btn" @getSMSCode="getSmsCode"></sms-btn>
             </li>
           </ul>
+          <dl class="download-wrapper">
+            <dt>如需变更银行卡请下载官方App</dt>
+            <dd><router-link :to="{ name: '' }">下载App</router-link></dd>
+          </dl>
           <!--<mt-cell title="转账充值" is-link @click.native="toChargeTip"></mt-cell>-->
-          <div class="tip">
-            <button @click="submitCharge">确认充值</button>
+          <div class="tip border-top-1px">
+            <button @click="submitCharge">提交</button>
           </div>
         </div>
       </b-scroll>
@@ -76,13 +78,13 @@ import {
   rechargeApiDirectPayServer,
   unionPay,
   userAndBankInfo
-} from '@/api/djs/charge'
+} from '@/api/djs/mine/charge'
 import SmsBtn from '@/components/smsBtn/index'
-// import { isMobile } from '@/assets/js/regular'
-// import { AppToast } from '@/assets/js/Toast'
+import { isMobile } from '@/assets/js/regular'
+import { AppToast } from '@/assets/js/Toast'
 import AppDialog from '@/components/Dialog/Alert'
 import { getUser } from '@/assets/js/cache'
-import { getAuth, getRetBaseURL } from '@/assets/js/utils'
+import { getAuth, getRetBaseURL, plusStar } from '@/assets/js/utils'
 
 const ERR_OK = '1'
 export default {
@@ -95,10 +97,10 @@ export default {
     return {
       amount: '',
       smsCode: '',
-      mobile: '',
       balance: 0.0,
       chargedBalance: 0.0,
       bankCardInfo: {
+        showRealName: '',
         accountId: '',
         area: '',
         bankNo: '',
@@ -136,6 +138,11 @@ export default {
       retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
   },
+  filters: {
+    bankCardFilter(val) {
+      return val.replace(/....(?!$)/g, '$& ')
+    }
+  },
   watch: {
     amount(ne) {
       if (!ne) {
@@ -151,22 +158,10 @@ export default {
     }
   },
   methods: {
-    plusStar(str, frontNO, endNo) {
-      if (str && str.length) {
-        let len = str.length - frontNO - endNo
-        let star = ''
-        for (let i = 0; i < len; i++) {
-          star += '*'
-        }
-        return str.substring(0, frontNO) + star + str.substring(str.length - endNo)
-      } else {
-        return ''
-      }
-    },
     userAndBankInfo() {
       userAndBankInfo().then(res => {
         if (res.data.userInfo.cardNo) {
-          this.bankCardInfo.idCard = res.data.userInfo.identityNo
+          this.$set(this.bankCardInfo, 'idCard', res.data.userInfo.identityNo)
           this.userRechargePreVerify()
         }
       })
@@ -192,6 +187,13 @@ export default {
       }
       this.bankCardInfo.mobile = e.target.value
     },
+    bankCardInput(e) {
+      e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/....(?!$)/g, '$& ')
+      if (e.target.value.length > 24) {
+        e.target.value = e.target.value.slice(0, 24)
+      }
+      this.bankCardInfo.cardNo = e.target.value.replace(/\s/g, '')
+    },
     checkAmountInput() {
       if (!this.amount) {
         this.errMsg.amount = '请输入充值金额！'
@@ -212,6 +214,18 @@ export default {
         this.errMsg.amount = '100元起充！'
         return false
       }
+      if (this.bankCardInfo.mobile && this.bankCardInfo.mobile.length < 11) {
+        AppToast.short('mobile', 11)
+        return false
+      }
+      if (this.bankCardInfo.mobile && this.bankCardInfo.mobile.length > 11) {
+        AppToast.overstep('mobile', 11)
+        return false
+      }
+      if (!isMobile(this.bankCardInfo.mobile)) {
+        AppToast.empty('reservedMobile')
+        return false
+      }
       let data = {
         amount: this.amount,
         userName: this.userName,
@@ -224,7 +238,7 @@ export default {
       }
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
-        this.showDialog = true
+        // this.showDialog = true
         if (data.resultCode === ERR_OK) {
           this.errMsg.common = '验证码发送成功！'
           this.showCountDown = true
@@ -240,12 +254,31 @@ export default {
             }
           }, 1000)
         } else {
-          this.errMsg.common = data.resultMsg
+          Toast(data.resultMsg)
         }
       })
     },
     submitCharge() {
-      this.checkAmountInput()
+      if (!this.amount) {
+        AppToast.empty('chargeAmount')
+        return false
+      }
+      if (this.amount && this.amount < 100) {
+        AppToast.minVal('chargeAmount', '100元')
+        return false
+      }
+      if (this.bankCardInfo.mobile && this.bankCardInfo.mobile.length < 11) {
+        AppToast.short('mobile', 11)
+        return false
+      }
+      if (this.bankCardInfo.mobile && this.bankCardInfo.mobile.length > 11) {
+        AppToast.overstep('mobile', 11)
+        return false
+      }
+      if (!isMobile(this.bankCardInfo.mobile)) {
+        AppToast.empty('reservedMobile')
+        return false
+      }
       if (!this.smsCode) {
         Toast('请输入短信验证码！')
         return
@@ -268,7 +301,7 @@ export default {
           this.dialogTitle = '充值中'
           this.chargeErrText = '预计15s内到账，请您耐心等候。'
         } else {
-          this.errMsg.smsCode = data.resultMsg
+          Toast(data.resultMsg)
         }
       })
     },
@@ -277,6 +310,9 @@ export default {
         let data = res.data
         if (data.resultCode === ERR_OK) {
           this.isBankcardSupport = data.isBankcardSupport
+          // this.isBankcardSupport = false
+        } else {
+          Toast(data.resultMsg)
         }
       })
     },
@@ -304,6 +340,8 @@ export default {
           delete options.bill99MerUrl
           let params = options
           this.postcall(redirectUrl, params, '_blank')
+        } else {
+          Toast(data.resultMsg)
         }
       })
     },
@@ -342,6 +380,8 @@ export default {
           this.personalInfo = data
           // this.personalInfo.banlance = 10000.89
           this.chargedBalance = this.personalInfo.banlance
+        } else {
+          Toast(data.resultMsg)
         }
       })
     },
@@ -349,12 +389,14 @@ export default {
       let params = {
         userName: this.userName,
         authorization: this.authorization,
-        bankCardNum: this.bankCardNo
+        bankCardNum: this.bankCardInfo.cardNo
       }
       queryCardInfo(params).then(res => {
         let data = res.data
         if (data.resultCode === ERR_OK) {
-          this.bankCardInfo = data
+          // this.bankCardInfo = data
+        } else {
+          Toast(data.resultMsg)
         }
       })
     },
@@ -367,10 +409,13 @@ export default {
         let data = res.data
         if (data.resultCode === ERR_OK) {
           this.bankCardInfo = data.list[0]
-          let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
-          let len = nos.length
-          this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
-          this.getBasicInfo()
+          this.bankCardInfo.showRealName = plusStar(this.bankCardInfo.accountName, 0, 1)
+          // let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
+          // let len = nos.length
+          // this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
+          // this.getBasicInfo()
+        } else {
+          Toast(data.resultMsg)
         }
       })
     },
@@ -413,9 +458,10 @@ export default {
 }
 
 .pageContainer {
+  height: 100%;
   top: 0.44rem;
   font-size: $font-size-small-s;
-  background-color: #eee;
+  background-color: #f9f9f9;
   .scroll {
     width: 100%;
     height: 100%;
@@ -514,7 +560,7 @@ export default {
       }
     }
     .bottom {
-      margin: 0.08rem 0;
+      margin: 0.08rem 0 0;
       background-color: #fff;
       li {
         height: 0.5rem;
@@ -536,6 +582,28 @@ export default {
         }
       }
     }
+    .download-wrapper {
+      display: flex;
+      padding: 0.12rem 0.16rem 0.1rem;
+      background-color: #efefef;
+      font-size: $font-size-small;
+      line-height: 30px;
+      dt {
+        flex: 1;
+        color: #999;
+        text-align: left;
+      }
+      dd {
+        width: 0.72rem;
+        height: 0.3rem;
+        border-radius: 0.04rem;
+        background-color: #ec5e52;
+        text-align: center;
+        a {
+          color: #fff;
+        }
+      }
+    }
     /deep/ .mint-cell {
       height: 0.44rem;
       color: $color-text;
@@ -552,16 +620,18 @@ export default {
       }
     }
     .tip {
+      margin-top: 0.39rem;
       padding: 0.16rem;
+      @include border-top-1px(#eee);
       font-size: $font-size-small-s;
       color: $color-text-s;
+      background-color: #fff;
       div {
         margin-bottom: 0.08rem;
       }
       button {
         width: 100%;
         height: 0.44rem;
-        margin-top: 0.24rem;
         background-color: $color-button;
         color: #fff;
         font-size: $font-size-small;

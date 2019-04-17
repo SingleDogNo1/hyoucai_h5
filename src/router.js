@@ -471,7 +471,7 @@ export default new Router({
         },
         {
           path: 'couponList',
-          name: 'CouponList',
+          name: 'DJSCouponList',
           component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/voucherBag/CouponList'),
           meta: {
             title: '券包'
@@ -479,8 +479,8 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
+          name: 'DJSTransactionRecord',
+          component: () => import(/* webpackChunkName: "DJSTransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }
@@ -500,6 +500,14 @@ export default new Router({
           meta: {
             title: '充值',
             cancel: '取消'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'DJSBankCard',
+          component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
           }
         }
       ]
@@ -630,8 +638,8 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
+          name: 'HYCTransactionRecord',
+          component: () => import(/* webpackChunkName: "HYCTransactionRecord" */ '@/views/hyc/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }
@@ -650,6 +658,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCCharge" */ '@/views/hyc/mine/charge/charge'),
           meta: {
             title: '充值'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'HYCBankCard',
+          component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
           }
         }
       ]

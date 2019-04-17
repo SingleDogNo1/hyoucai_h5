@@ -74,6 +74,7 @@
 
 <script>
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -85,9 +86,12 @@ export default {
   created() {
     this.CouponPacketList()
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     CouponPacketList() {
-      CouponPacketList({ userName: '小狗', clientType: 'QD03' }).then(res => {
+      CouponPacketList({ userName: this.user.userName, clientType: 'QD03' }).then(res => {
         // console.log(res.data.vouchers)
         let data = res.data.vouchers
         data.map(item => {
@@ -118,7 +122,7 @@ export default {
     receiveCoupon: function(id) {
       this.isShow1 = true
       let obj = {}
-      obj.userName = '小狗'
+      obj.userName = this.user.userName
       obj.couponId = id
       ReceiveCoupon(obj)
     },
@@ -126,7 +130,7 @@ export default {
     receiveRedPacket: function(id) {
       this.isShow2 = true
       let obj = {}
-      obj.userName = '小狗'
+      obj.userName = this.user.userName
       obj.redPacketId = id
       ReceiveRedPacket(obj)
     },

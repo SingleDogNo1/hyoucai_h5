@@ -46,6 +46,7 @@
 
 <script>
 import { couponPacketHistory } from '@/api/djs/coupon'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -54,12 +55,15 @@ export default {
       expiredList: [] // 已过期卡券
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     this.couponPacketHistory()
   },
   methods: {
     couponPacketHistory() {
-      couponPacketHistory({ userName: '小狗' }).then(res => {
+      couponPacketHistory({ userName: this.user.userName }).then(res => {
         // console.log(res.data.vouchers)
         let data = res.data.vouchers // 历史卡券
         if (data) {

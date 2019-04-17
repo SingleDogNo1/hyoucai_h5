@@ -1,5 +1,7 @@
 <!--
-  http://localhost:8080/#/activity/spellTeam?groupId=2
+  http://localhost:8080/#/activity/spellTeam?groupId=2&teamCode=zd1
+
+  http://localhost:8080/#/d/activity/spell-group?groupId=1&leaderInviteCode=djs312775xb
 -->
 
 <template>
@@ -183,7 +185,7 @@ export default {
   data() {
     return {
       clipBoardPath: window.location.href,
-      leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
+      leaderInviteCode: this.$route.query.teamCode, // 团长邀请码
       groupId: this.$route.query.groupId, // 拼团活动Id
       currPeopleNum: 10, // 当前参与人数
       couponRate: '0', // 当前可加息利率
@@ -398,7 +400,7 @@ export default {
     }
 
     // 拼团活动进度查询接口
-    /*  queryProgressApi({
+    /*   queryProgressApi({
       leaderInviteCode: this.leaderInviteCode,
       uuid: this.uuid,
       groupId: this.groupId
@@ -414,8 +416,6 @@ export default {
         Toast(res.data.resultMsg)
       }
     })*/
-
-    this.splitTime()
 
     // 微信分享
     this.shareWX()

@@ -1,39 +1,39 @@
 <template>
   <section class="lend_record">
-    <div class="day01 day">
-      <h2>2018年11月</h2>
+    <div class="day01 day" v-for="(item, index) in lendRecordData" :key="index">
+      <h2>{{ item.timeGroup }}</h2>
       <div class="menu">
-        <p><span>138******65</span><i>30000.00</i></p>
-        <a>11-28 17:48</a>
-      </div>
-      <div class="menu">
-        <p><span>138******65</span><i>30000.00</i></p>
-        <a>11-28 17:48</a>
-      </div>
-    </div>
-    <div class="day01 day">
-      <h2>2018年10月</h2>
-      <div class="menu">
-        <p><span>138******65</span><i>30000.00</i></p>
-        <a>11-28 17:48</a>
-      </div>
-      <div class="menu">
-        <p><span>138******65</span><i>30000.00</i></p>
-        <a>11-28 17:48</a>
+        <p>
+          <span>{{ item.userName }}</span
+          ><i>{{ item.invAmt }}</i>
+        </p>
+        <a>{{ item.invTime }}</a>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import { investUserCountMsg } from '@/api/djs/investDetail'
 export default {
   name: 'index',
   components: {},
   data() {
-    return {}
+    return {
+      projectNo: this.$route.query.projectNo,
+      lendRecordData: {}
+    }
   },
   methods: {},
-  created: {}
+  created() {
+    investUserCountMsg({
+      projectNo: this.projectNo,
+      curPage: '1',
+      maxLine: 100
+    }).then(res => {
+      this.lendRecordData = res.data.invUserList
+    })
+  }
 }
 </script>
 
@@ -41,6 +41,8 @@ export default {
 section {
   background: #eee;
   padding-top: 0.06rem;
+  height: 100%;
+  overflow-y: scroll;
   .day {
     background: #fff;
     h2 {

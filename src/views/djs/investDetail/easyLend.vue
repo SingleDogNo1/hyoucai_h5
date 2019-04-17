@@ -1,3 +1,7 @@
+<!--
+  TODO
+  点击红包加息券选择功能
+-->
 <template>
   <div class="lend-wrapper">
     <BScroll class="lend">
@@ -49,7 +53,7 @@
             </div>
           </li>
           <li>
-            <span>加息券</span>
+            <span>红包</span>
             <div>
               <p>2张</p>
               <i class="iconfont icon-rightpage"></i>

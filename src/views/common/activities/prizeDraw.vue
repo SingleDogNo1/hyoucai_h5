@@ -1,123 +1,131 @@
 <template>
-    <div class="wrapper">
-      <div class="activity">
-        <div class="prize-pool">
-          <p class="tips" v-if="!aHour">未到抽奖时间</p>
-          <p class="tips" v-else>今天还剩<span> {{remainingNumber}} </span>次抽奖机会</p>
-          <p class="time" v-if="!aHour">下次抽奖时间 {{nextDrawTime}}</p>
-          <p class="time" v-else><span v-if="remainingSecond > 0"><img src="./priceDraw/clock.png" alt="">本次活动倒计时 {{remainingTime}}</span></p>
-          <div class="prize-container">
-            <div :class="{active:current%8 === 0}" class="item prize">
-              <img src="./priceDraw/Mate20.png" alt="" style="height:0.45rem;">
-              <span>Mate20RS<br/>保时捷手机</span>
-            </div>
-            <div :class="{active:current%8 === 1}" class="item prize">
-              <span>谢谢参与</span>
-            </div>
-            <div :class="{active:current%8 === 2}" class="item prize">
-              <img src="./priceDraw/XS.png" alt="" style="height:0.45rem;">
-              <span>iPhone Xs Max 235GB 金色</span>
-            </div>
-            <div :class="{active:current%8 === 7}" class="item prize">
-              <img src="./priceDraw/JD1666.png" alt="" style="height:0.315rem;">
-              <span style="margin-top:0.1rem;">1666元京东E卡</span>
-            </div>
-            <div class="item btn" :class="{'disabled': !canDraw}">
-              <img src="./priceDraw/drawBtn.png" alt="" @click="getReward">
-            </div>
-            <div :class="{active:current%8 === 3}" class="item prize">
-              <span>谢谢参与</span>
-            </div>
-            <div :class="{active:current%8 === 6}" class="item prize">
-              <img src="./priceDraw/JD666.png" alt="" style="height:0.315rem;">
-              <span style="margin-top:0.1rem;">666元京东E卡</span>
-            </div>
-            <div :class="{active:current%8 === 5}" class="item prize">
-              <span>谢谢参与</span>
-            </div>
-            <div :class="{active:current%8 === 4}" class="item prize">
-              <img src="./priceDraw/gifts.png" alt="" style="height:0.45rem;">
-              <span>汇通六周年大礼包</span>
-            </div>
+  <div class="wrapper">
+    <div class="activity">
+      <div class="prize-pool">
+        <p class="tips" v-if="!aHour">未到抽奖时间</p>
+        <p class="tips" v-else>
+          今天还剩<span> {{ remainingNumber }} </span>次抽奖机会
+        </p>
+        <p class="time" v-if="!aHour">下次抽奖时间 {{ nextDrawTime }}</p>
+        <p class="time" v-else>
+          <span v-if="remainingSecond > 0"><img src="./priceDraw/clock.png" alt="" />本次活动倒计时 {{ remainingTime }}</span>
+        </p>
+        <div class="prize-container">
+          <div :class="{ active: current % 8 === 0 }" class="item prize">
+            <img src="./priceDraw/Mate20.png" alt="" style="height:0.45rem;" />
+            <span>Mate20RS<br />保时捷手机</span>
+          </div>
+          <div :class="{ active: current % 8 === 1 }" class="item prize">
+            <span>谢谢参与</span>
+          </div>
+          <div :class="{ active: current % 8 === 2 }" class="item prize">
+            <img src="./priceDraw/XS.png" alt="" style="height:0.45rem;" />
+            <span>iPhone Xs Max 235GB 金色</span>
+          </div>
+          <div :class="{ active: current % 8 === 7 }" class="item prize">
+            <img src="./priceDraw/JD1666.png" alt="" style="height:0.315rem;" />
+            <span style="margin-top:0.1rem;">1666元京东E卡</span>
+          </div>
+          <div class="item btn" :class="{ disabled: !canDraw }">
+            <img src="./priceDraw/drawBtn.png" alt="" @click="getReward" />
+          </div>
+          <div :class="{ active: current % 8 === 3 }" class="item prize">
+            <span>谢谢参与</span>
+          </div>
+          <div :class="{ active: current % 8 === 6 }" class="item prize">
+            <img src="./priceDraw/JD666.png" alt="" style="height:0.315rem;" />
+            <span style="margin-top:0.1rem;">666元京东E卡</span>
+          </div>
+          <div :class="{ active: current % 8 === 5 }" class="item prize">
+            <span>谢谢参与</span>
+          </div>
+          <div :class="{ active: current % 8 === 4 }" class="item prize">
+            <img src="./priceDraw/gifts.png" alt="" style="height:0.45rem;" />
+            <span>汇通六周年大礼包</span>
           </div>
         </div>
-        <div class="button-area">
-          <button @click="showRule = true">活动规则</button>
-          <button @click="showLogDetail">中奖纪录</button>
+      </div>
+      <div class="button-area">
+        <button @click="showRule = true">活动规则</button>
+        <button @click="showLogDetail">中奖纪录</button>
+      </div>
+      <div class="model" v-if="showRule || showResult || showLog">
+        <div class="dialog rule animated zoomIn faster" v-if="showRule">
+          <span class="close" @click="showRule = false"></span>
+          <h3>活动规则</h3>
+          <table>
+            <tr>
+              <td><span>1</span></td>
+              <td>抽奖日当天在投余额有20万的有一次抽奖机会，在投有40万的有2次抽奖机会，依次类推，每次抽奖一个人最多5次;</td>
+            </tr>
+            <tr>
+              <td><span>2</span></td>
+              <td>
+                抽奖时间定为每月22日的10:00~16:00，未在指定时间内登录app抽奖页面参与抽奖的视为自动放弃;
+              </td>
+            </tr>
+            <tr>
+              <td><span>3</span></td>
+              <td>在投余额按每月22日8:00的在投余额计算，由系统自动计算并在当日9:00前向客户展示对应的抽奖次数;</td>
+            </tr>
+            <tr>
+              <td><span>4</span></td>
+              <td>在抽奖后的5个工作日内完成发货，若遇无货则相应延后。</td>
+            </tr>
+          </table>
         </div>
-        <div class="model" v-if="showRule||showResult||showLog">
-          <div class="dialog rule animated zoomIn faster" v-if="showRule">
-            <span class="close" @click="showRule=false"></span>
-            <h3>活动规则</h3>
-            <table>
-              <tr>
-                <td><span>1</span></td>
-                <td>抽奖日当天在投余额有20万的有一次抽奖机会，在投有40万的有2次抽奖机会，依次类推，每次抽奖一个人最多5次;</td>
-              </tr>
-              <tr>
-                <td><span>2</span></td>
-                <td>
-                  抽奖时间定为每月22日的10:00~16:00，未在指定时间内登录app抽奖页面参与抽奖的视为自动放弃;</td>
-              </tr>
-              <tr>
-                <td><span>3</span></td>
-                <td>在投余额按每月22日8:00的在投余额计算，由系统自动计算并在当日9:00前向客户展示对应的抽奖次数;</td>
-              </tr>
-              <tr>
-                <td><span>4</span></td>
-                <td>在抽奖后的5个工作日内完成发货，若遇无货则相应延后。</td>
-              </tr>
-            </table>
+        <div class="dialog result animated faster" :class="{ jackInTheBox: isGetReward, zoomIn: !isGetReward }" v-if="showResult">
+          <h3 class="sorry" v-if="!isGetReward">很遗憾，未中奖</h3>
+          <h3 class="congratulation" v-else>恭喜您中奖了</h3>
+          <div class="reward" v-if="isGetReward">
+            <div v-if="reward.key === 0">
+              <img src="./priceDraw/Mate20.png" alt="" />
+              <p>HUAWEI Mate20RS 保时捷手机</p>
+            </div>
+            <div v-if="reward.key === 2">
+              <img src="./priceDraw/XS.png" alt="" />
+              <p>iPhone Xs Max 235GB 金色</p>
+            </div>
+            <div v-if="reward.key === 4">
+              <img src="./priceDraw/gifts.png" alt="" style=" margin-bottom: 0" />
+              <p>汇通六周年大礼包</p>
+            </div>
+            <div v-if="reward.key === 6">
+              <img src="./priceDraw/JD666.png" alt="" />
+              <p>666元京东E卡</p>
+            </div>
+            <div v-if="reward.key === 7">
+              <img src="./priceDraw/JD1666.png" alt="" />
+              <p>1666元京东E卡</p>
+            </div>
           </div>
-          <div class="dialog result animated faster" :class="{'jackInTheBox':isGetReward,'zoomIn':!isGetReward}" v-if="showResult">
-            <h3 class="sorry" v-if="!isGetReward">很遗憾，未中奖</h3>
-            <h3 class="congratulation" v-else>恭喜您中奖了</h3>
-            <div class="reward" v-if="isGetReward">
-              <div v-if="reward.key === 0">
-                <img src="./priceDraw/Mate20.png" alt="">
-                <p>HUAWEI Mate20RS 保时捷手机</p>
-              </div>
-              <div v-if="reward.key === 2">
-                <img src="./priceDraw/XS.png" alt="">
-                <p>iPhone Xs Max 235GB 金色</p>
-              </div>
-              <div v-if="reward.key === 4">
-                <img src="./priceDraw/gifts.png" alt="" style=" margin-bottom: 0">
-                <p>汇通六周年大礼包</p>
-              </div>
-              <div v-if="reward.key === 6">
-                <img src="./priceDraw/JD666.png" alt="">
-                <p>666元京东E卡</p>
-              </div>
-              <div v-if="reward.key === 7">
-                <img src="./priceDraw/JD1666.png" alt="">
-                <p>1666元京东E卡</p>
-              </div>
-            </div>
-            <div class="no-reward" v-else></div>
-            <button @click="showResult=false">确认</button>
+          <div class="no-reward" v-else></div>
+          <button @click="showResult = false">确认</button>
+        </div>
+        <div class="dialog log animated zoomIn faster" v-if="showLog">
+          <span class="close" @click="showLog = false"></span>
+          <h3>中奖纪录</h3>
+          <div class="hasReward" v-if="rewardList.length > 0">
+            <ul>
+              <li>
+                <div>日期</div>
+                <div>奖品</div>
+              </li>
+            </ul>
+            <ul class="content">
+              <li v-for="(prize, index) in rewardList" :key="index">
+                <div>{{ prize.winningDate }}</div>
+                <div>{{ prize.prize }}</div>
+              </li>
+            </ul>
           </div>
-          <div class="dialog log animated zoomIn faster" v-if="showLog">
-            <span class="close" @click="showLog=false"></span>
-            <h3>中奖纪录</h3>
-            <div class="hasReward" v-if="rewardList.length > 0">
-              <ul>
-                <li><div>日期</div><div>奖品</div></li>
-              </ul>
-              <ul class="content">
-                <li v-for="(prize,index) in rewardList" :key="index">
-                  <div>{{prize.winningDate}}</div>
-                  <div>{{prize.prize}}</div>
-                </li>
-              </ul>
-            </div>
-            <div class="noReward" v-else>
-              <span>暂无中奖纪录</span>
-            </div>
+          <div class="noReward" v-else>
+            <span>暂无中奖纪录</span>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>

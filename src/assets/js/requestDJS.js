@@ -8,6 +8,7 @@ const $axios = axios.create({
   timeout: 5000,
   headers: {
     platform: 'h5',
+    version: '1.0',
     'Content-type': 'application/x-www-form-urlencoded'
   }
 })

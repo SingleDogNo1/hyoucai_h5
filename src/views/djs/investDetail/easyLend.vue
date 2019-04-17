@@ -5,37 +5,38 @@
         <div class="huge">
           <ul>
             <li>
-              <span>11.00</span>
+              <span>{{ investDetail.investRate }}</span>
               <span>%</span>
             </li>
             <li>
-              <h5>汇选180天</h5>
-              <h6>锁定期90天</h6>
+              <h5>{{ investDetail.projectName }}</h5>
+              <h6>锁定期{{ investDetail.investMent }}天</h6>
             </li>
           </ul>
           <p>
             <span>剩余可投</span>
-            <span>1111万</span>
+            <span>{{ investDetail.surplusAmount }}万</span>
           </p>
         </div>
         <div class="amount-block">
           <h6>投标金额</h6>
           <section>
             <div>¥</div>
-            <input type="number" placeholder="请输入金额" value="" />
+            <input type="number" placeholder="请输入金额" v-model="amount" />
           </section>
+          <p class="err-msg">{{ errMsg }}</p>
           <div class="ctrl">
             <div>
               <p>
                 <span class="key"><i class="iconfont icon-ti-shi"></i>可用余额</span>
-                <span class="value">0.00元</span>
+                <span class="value">{{ amountInfo.banlance }}元</span>
               </p>
               <p>
                 <span class="key">预估收益：</span>
-                <span class="value">- -</span>
+                <span class="value">{{ expectedIncome }}</span>
               </p>
             </div>
-            <button>全部投标</button>
+            <button :class="{ active: lendAllFlag }" @click="lendAll">全部投标</button>
           </div>
         </div>
         <ul class="coupon">
@@ -86,6 +87,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import { Toast } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
+import { getInvestDetail, getPersonalAccount, expectedIncome } from '@/api/djs/investDetail'
 
 import { mapGetters } from 'vuex'
 export default {
@@ -96,24 +98,64 @@ export default {
   },
   data() {
     return {
+      projectNo: this.$route.query.projectNo,
       protocolData: [],
-      agree: false
+      agree: false,
+      amount: '',
+      investDetail: '',
+      amountInfo: '',
+      expectedIncome: '- -',
+      lendAllFlag: false,
+      errMsg: ''
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
-  props: {},
+  watch: {
+    amount(value) {
+      // 项目剩余可投和账户余额取小
+      const maxLendAmount =
+        parseFloat(this.amountInfo.banlance) <= parseFloat(this.investDetail.surplusAmount)
+          ? this.amountInfo.banlance
+          : this.investDetail.surplusAmount
+      if (value !== maxLendAmount) {
+        this.lendAllFlag = false
+      }
+
+      if (value - 0 < this.investDetail.minInvAmt - 0) {
+        this.errMsg = '申购金额需' + this.investDetail.minInvAmt + '元起'
+      } else {
+        this.errMsg = ''
+      }
+      expectedIncome({
+        invAmount: value,
+        projectNo: this.investDetail.projectNo,
+        investRate: this.investDetail.investRate,
+        invDays: this.investDetail.investMent
+      }).then(res => {
+        this.expectedIncome = res.data.expectedIncome
+      })
+    }
+  },
   methods: {
     changeStatus() {
       this.agree = !this.agree
+    },
+    lendAll() {
+      this.amount = this.amountInfo.banlance
+      this.lendAllFlag = true
     },
     invest() {
       console.log()
     }
   },
-
   created() {
+    getInvestDetail({
+      projectNo: this.projectNo
+    }).then(res => {
+      this.investDetail = res.data
+    })
     getProtocaol({
       type: 'TZJE'
     }).then(res => {
@@ -123,6 +165,12 @@ export default {
       } else {
         Toast(res.data.resultMsg)
       }
+    })
+
+    getPersonalAccount({
+      userName: this.user.userName
+    }).then(res => {
+      this.amountInfo = res.data
     })
   },
   mounted() {},
@@ -184,14 +232,16 @@ export default {
     }
     .amount-block {
       background: #fff;
-      padding: 0.16rem 0.15rem 0;
+      padding-top: 0.16rem;
       position: relative;
       margin-bottom: 0.08rem;
       h6 {
+        padding: 0 0.15rem;
         font-size: 0.13rem;
         color: #999999;
       }
       section {
+        padding: 0 0.15rem;
         height: 0.5rem;
         display: flex;
         justify-content: space-between;
@@ -212,7 +262,15 @@ export default {
           }
         }
       }
+      .err-msg {
+        line-height: 0.24rem;
+        background: rgba(255, 0, 0, 0.15);
+        padding: 0 0.15rem;
+        font-size: 0.11rem;
+        color: #f14b4b;
+      }
       .ctrl {
+        padding: 0 0.15rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -242,6 +300,10 @@ export default {
           line-height: 0.26rem;
           background: #ffffff;
           border: 0.01rem solid #333;
+          &.active {
+            border: 0.01rem solid #ace;
+            color: #ace;
+          }
         }
       }
     }

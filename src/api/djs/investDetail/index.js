@@ -1,8 +1,8 @@
 import axios from '@/assets/js/requestDJS'
 import Qs from 'qs'
 
-function getInvestDetail(data) {
-  // 出借详情
+// 出借详情
+export function getInvestDetail(data) {
   return axios({
     url: '/InvestCountProjectMsg',
     method: 'post',
@@ -13,20 +13,29 @@ function getInvestDetail(data) {
   })
 }
 
-function getClaimList(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/BondProject', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+//债权列表
+export function getClaimList(data) {
+  return axios({
+    url: '/BondProject',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 
-export {
-  getInvestDetail, // 项目详情
-  getClaimList //债权列表
+// 获取个人账户信息
+export function getPersonalAccount(data) {
+  return axios({
+    url: '/PersonalAccount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 预期收益计算
+export function expectedIncome(data) {
+  return axios({
+    url: 'ExpectedIncome',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
 }

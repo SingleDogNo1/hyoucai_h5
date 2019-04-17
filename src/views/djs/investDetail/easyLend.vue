@@ -94,6 +94,7 @@ import { getProtocaol } from '@/api/djs/invite'
 import { getInvestDetail, getPersonalAccount, expectedIncome } from '@/api/djs/investDetail'
 
 import { mapGetters } from 'vuex'
+
 export default {
   name: 'invest',
   mixins: [],

@@ -125,7 +125,7 @@
               <p><i>4</i>1%返现奖励最高300元，于4月23日-4月29日发放。</p>
               <p><i>5</i>加息券及1%返现奖励仅适用于客户首次出借奖励，且首次出借金额不低于2000元，呼朋唤友来参与拼团吧。</p>
               <p><i>6</i>为方便您获得现金红包及加息券，参与拼团即同意平台为您开通汇有财先息后本账号。账号可在汇有财APP通过短信验证码登录。</p>
-              <p><i>8</i>参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。</p>
+              <p><i>7</i>参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。</p>
             </section>
           </div>
           <footer>- 网贷有风险 出借需谨慎 -</footer>
@@ -546,7 +546,7 @@ export default {
           line-height: 0.4rem;
           color: #fff;
           font-size: 0.16rem;
-          background-image: linear-gradient(90deg, #f9c18b, #f66056);
+          background-image: linear-gradient(90deg, #f8a87d, #f66056);
         }
         .join {
           text-align: center;
@@ -579,7 +579,7 @@ export default {
               @include radiusCube(1.52rem, 0.42rem);
               font-size: 0.18rem;
               color: #fff;
-              background: linear-gradient(90deg, #f9c18b, #f66056);
+              background: linear-gradient(90deg, #f8a87d, #f66056);
             }
           }
         }
@@ -597,7 +597,7 @@ export default {
             @include radiusCube(1.52rem, 0.42rem);
             font-size: 0.18rem;
             color: #fff;
-            background: linear-gradient(90deg, #f9c18b, #f66056);
+            background: linear-gradient(90deg, #f8a87d, #f66056);
           }
         }
       }
@@ -742,7 +742,7 @@ export default {
       margin: 0.25rem auto 0;
       display: block;
       @include radiusCube(2.55rem, 0.42rem);
-      background-image: repeating-linear-gradient(39deg, #ff5140, #fc7221);
+      background-image: repeating-linear-gradient(39deg, #ff5140, #f8a87d);
       font-size: 0.18rem;
       color: #ffffff;
     }

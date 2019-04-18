@@ -63,9 +63,9 @@ export function availableRedPacketApi(data) {
 
 // 查询用户可用加息券
 export function availableCouponApi(data) {
-  return request({
+  return axios({
     url: 'AvailableCoupon',
     method: 'post',
-    data: qs.stringify(data)
+    data: Qs.stringify(data)
   })
 }

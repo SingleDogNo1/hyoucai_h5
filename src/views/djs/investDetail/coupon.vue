@@ -1,26 +1,50 @@
 <template>
-  <div class="coupon">hello, {{ msg }}</div>
+  <BScroll class="coupon">
+    <section>
+      <template v-for="(item, index) in couponLists">
+        <CouponItem :key="index" :unclaimed="item"></CouponItem>
+      </template>
+    </section>
+  </BScroll>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
+import CouponItem from '@/components/coupon'
+
 import { availableCouponApi } from '@/api/djs/investDetail'
+
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'coupon',
   mixins: [],
-  components: {},
+  components: {
+    BScroll,
+    CouponItem
+  },
   data() {
     return {
-      msg: 'coupon'
+      projectNo: this.$route.params.projectNo,
+      amount: this.$route.params.amount,
+      couponLists: []
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   props: {},
   watch: {},
   methods: {},
-  computed: {},
+
   created() {
-    availableCouponApi().then(res => {
+    availableCouponApi({
+      userName: this.user.userName,
+      projectNo: this.projectNo,
+      amount: this.amount
+    }).then(res => {
       console.log(res)
+      this.couponLists = res.data.coupons
     })
   },
   mounted() {},
@@ -28,4 +52,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.coupon {
+  height: 100%;
+  background: #eee;
+  padding-top: 0.1rem;
+}
+</style>

@@ -161,8 +161,10 @@ export default {
     chooseCoupon() {
       this.$router.push({
         name: 'DJSLendChooseCoupon',
-        query: {
-          projectNo: this.projectNo
+        params: {
+          projectNo: this.projectNo,
+          amount: this.amount,
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
         }
       })
     },

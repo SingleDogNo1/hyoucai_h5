@@ -14,19 +14,24 @@ function getInvestDetail(data) {
 }
 
 function getClaimList(data) {
-  return new Promise((resolve, reject) => {
-    axios.post('/BondProject', Qs.stringify(data)).then(
-      res => {
-        resolve(res)
-      },
-      err => {
-        reject(err)
-      }
-    )
+  return axios({
+    url: '/BondProject',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 获取出借记录
+function investUserCountMsg(data) {
+  return axios({
+    url: '/InvestUserCountMsg',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }
 
 export {
   getInvestDetail, // 项目详情
-  getClaimList //债权列表
+  getClaimList, //债权列表
+  investUserCountMsg //出借记录
 }

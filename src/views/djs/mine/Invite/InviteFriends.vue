@@ -11,7 +11,7 @@
         </p>
         <p class="information_p">
           <span class="information_txt">我推荐的人</span>
-          <span class="information_number">18人</span>
+          <span class="information_number">{{ recommend }}人</span>
         </p>
       </div>
       <div class="go_look" @click="showDetail">
@@ -20,7 +20,7 @@
     </div>
     <div class="recommendation_code">
       <span class="txt">我的推荐码：</span>
-      <span class="number">1234567</span>
+      <span class="number">{{ myInviteCode }}</span>
     </div>
     <div class="btns">
       <button class="btn scan" @click="scan">
@@ -35,8 +35,9 @@
 </template>
 
 <script>
-import { userInviteCode, getQRCode, getRecommenderApi } from '@/api/djs/invite'
+import { getQRCode, userInviteInfo } from '@/api/djs/invite'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     AppDialog
@@ -49,18 +50,19 @@ export default {
         showClose: false
       },
       QRCode: '',
-      recommend: '' //我推荐的人数
+      recommend: '', //我推荐的人数
+      myInviteCode: '' //我的推荐码
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
-    userInviteCode() {
-      userInviteCode({ userName: this.user.userName }).then(res => {
-        console.log(res)
-      })
-    },
+    // userInviteCode() {
+    //   userInviteCode({ userName: this.user.userName }).then(res => {
+    //     console.log(res)
+    //   })
+    // },
     showDetail() {
       // 去查看
       this.$router.push({
@@ -82,10 +84,11 @@ export default {
     }
   },
   mounted() {
-    this.userInviteCode()
-    getRecommenderApi({ userName: this.user.userName }).then(res => {
-      const data = res.data.data
-      this.recommend = data.list.length
+    // this.userInviteCode()
+    userInviteInfo({ userName: this.user.userName }).then(res => {
+      let data = res.data
+      this.myInviteCode = data.myInviteCode
+      this.recommend = data.inviteNum
     })
   }
 }

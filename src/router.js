@@ -495,7 +495,7 @@ export default new Router({
         },
         {
           path: 'couponList',
-          name: 'CouponList',
+          name: 'DJSCouponList',
           component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/voucherBag/CouponList'),
           meta: {
             title: '券包'
@@ -503,8 +503,8 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJStransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
+          name: 'DJSTransactionRecord',
+          component: () => import(/* webpackChunkName: "DJSTransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }
@@ -515,6 +515,70 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/message'),
           meta: {
             title: '消息'
+          }
+        },
+        {
+          path: 'couponMsg',
+          name: 'CouponMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsg'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'couponMsgDetail',
+          name: 'CouponMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsgDetail'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'redMsg',
+          name: 'RedMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsg'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'redMsgDetail',
+          name: 'RedMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsgDetail'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'repeatMsg',
+          name: 'RepeatMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsg'),
+          meta: {
+            title: '复投提醒消息'
+          }
+        },
+        {
+          path: 'repeatMsgDetail',
+          name: 'RepeatMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsgDetail'),
+          meta: {
+            title: '复投消息'
+          }
+        },
+        {
+          path: 'experienceMsg',
+          name: 'ExperienceMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsg'),
+          meta: {
+            title: '体验金消息'
+          }
+        },
+        {
+          path: 'experienceMsgDetail',
+          name: 'ExperienceMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsgDetail'),
+          meta: {
+            title: '体验金消息'
           }
         },
         {
@@ -532,6 +596,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
           meta: {
             title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'DJSToCash',
+          component: () => import(/* webpackChunkName: "DJSToCash" */ '@/views/djs/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]
@@ -662,14 +734,14 @@ export default new Router({
         },
         {
           path: 'transactionRecord',
-          name: 'TransactionRecord',
-          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/hyc/mine/TransactionRecord'),
+          name: 'HYCTransactionRecord',
+          component: () => import(/* webpackChunkName: "HYCTransactionRecord" */ '@/views/hyc/mine/TransactionRecord'),
           meta: {
             title: '交易记录'
           }
         },
         {
-          path: 'message',
+          path: 'coupon.vue.vue',
           name: 'HYCSiteMessage',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
           meta: {
@@ -690,6 +762,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
           meta: {
             title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'HYCToCash',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]

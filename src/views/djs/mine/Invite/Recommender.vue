@@ -29,9 +29,10 @@
 </template>
 
 <script>
-import { saveInviteCode, userInviteCode, getQRCode } from '@/api/djs/invite'
+import { saveInviteCode, userInviteInfo, getQRCode } from '@/api/djs/invite'
 import Dialog from '@/components/Dialog/Alert'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
+import { mapGetters } from 'vuex'
 import { Indicator, Toast } from 'mint-ui'
 export default {
   data() {
@@ -43,6 +44,7 @@ export default {
         showClose: false
       },
       QRCode: '',
+      recommendName: '', // 推荐人姓名
       hasRecommender: true, // 是否有推荐人
       showDialog: false, // 提示弹窗
       msgDialog: '请输入推荐码', // 提示弹窗内容
@@ -51,9 +53,9 @@ export default {
       myReferrer: '' // 我的推荐人
     }
   },
-  // computed: {
-  //   ...mapGetters(['user'])
-  // },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     saveInviteCode() {
       // Indicator.open()
@@ -64,7 +66,7 @@ export default {
         Indicator.open('加载中')
         saveInviteCode({ recommendCode: this.newRecommendCode }).then(res => {
           Indicator.close()
-          console.log(res)
+          // console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
             this.newReferrer = data.data.name
@@ -80,12 +82,23 @@ export default {
       this.showDialog = false
     },
     // 获取我的推荐人姓名
-    userInviteCode() {
-      userInviteCode({
-        userName: '小狗'
+    userInviteInfo() {
+      Indicator.open('加载中...')
+      userInviteInfo({
+        userName: this.user.userName
       }).then(res => {
-        this.myReferrer = res.data.data.recommendName
-        this.hasRecommender = true
+        Indicator.close()
+        let data = res.data
+        if (data.resultMsg == 'SUCCESS') {
+          if (data.recommendName) {
+            this.hasRecommender = true
+            this.recommendName = data.recommendName
+          } else {
+            this.hasRecommender = false
+          }
+        } else {
+          Toast(data.resultMsg)
+        }
       })
     },
     scan() {
@@ -109,7 +122,7 @@ export default {
     AppDialog
   },
   mounted() {
-    this.userInviteCode()
+    this.userInviteInfo()
     // console.log(this.user.realName)
   }
 }

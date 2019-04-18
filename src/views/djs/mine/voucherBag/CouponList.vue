@@ -74,6 +74,7 @@
 
 <script>
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -102,7 +103,7 @@ export default {
           }
           item.projectTypes.map(items => {
             // 展开券的适用范围
-            if ((index = item.projectTypes.length)) {
+            if ((couponList = item.projectTypes.length)) {
               item.msg = items.projectTypeName
             } else {
               item.msg = items.projectTypeName + '、'

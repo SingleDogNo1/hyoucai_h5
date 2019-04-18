@@ -13,7 +13,7 @@
     <p v-if="type === 'event'" class="event">暂无活动信息</p>
     <p v-if="type === 'redpacket'" class="redpacket">暂无红包</p>
     <p v-if="type === 'coupon'" class="coupon">暂无加息券</p>
-    <p v-if="type === 'message'" class="message">暂时没有新消息</p>
+    <p v-if="type === 'coupon.vue.vue'" class="message">暂时没有新消息</p>
     <p v-if="type === 'notice'" class="notice">暂无公告消息</p>
     <div v-if="type === 'network'" class="network">
       <h6>您的网络不稳定，请刷新重试</h6>

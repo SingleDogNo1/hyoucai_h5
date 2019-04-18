@@ -73,8 +73,8 @@
                 </div>
                 <p>现在完成账户设置，即可领取10元现金红包啦，快快下载APP提现吧！</p>
                 <section>
-                  <button @click="download">下载APP</button>
                   <button @click="shareActivity" class="clip-board">立即注册</button>
+                  <button @click="download">下载APP</button>
                 </section>
               </div>
             </div>
@@ -82,8 +82,8 @@
             <div class="no-act" v-else>
               <img src="./spellTeam/no-act.png" alt="" />
               <section>
-                <button @click="download">下载APP</button>
                 <button class="clip-board" @click="shareActivity">立即注册</button>
+                <button @click="download">下载APP</button>
               </section>
             </div>
           </div>
@@ -91,8 +91,8 @@
             <div class="title">活动细则</div>
             <section>
               <p>
-                <i>1</i>参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。<br />
-                假设您出借<span style="color: #ff7a13;">1万元</span>，你将获得：
+                <i>1</i>
+                参团人数达到10人时，即获1%加息券奖励；参团人数达到20人，获2%加息券奖励；参团人数大于30人，即获3%加息券奖励。假设您出借1万元，你将获得：
               </p>
               <ul>
                 <li class="thead">
@@ -116,15 +116,15 @@
               </ul>
               <p>
                 <i>2</i>
-                加息券于拼团活动结束后1~3个工作日内发放至客户汇有财账户，仅适用于“汇选3个月（10%）”及“汇选6个月（11%）”的出借品类，有效期为发放后的7天。
+                加息券适用于出借指定产品“汇选3个月（10%）”、“汇选6个月（11%）”，于拼团活动结束后1~3工作日发放至客户汇有财账户，加息券有效期为发放后的7天。
               </p>
               <p>
                 <i>3</i>
-                参与拼团用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
+                参与拼团的新手用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
               </p>
               <p><i>4</i>1%返现奖励最高300元，于4月23日-4月29日发放。</p>
               <p><i>5</i>加息券及1%返现奖励仅适用于客户首次出借奖励，且首次出借金额不低于2000元，呼朋唤友来参与拼团吧。</p>
-              <p><i>6</i>为方便您获得现金红包及加息券，参与拼团即同意平台为您开通汇有财先息后本账号。账号可在汇有财APP通过短信验证码登录。</p>
+              <p><i>6</i>加息券的发放，需用户于活动期间注册汇有财账号。</p>
               <p><i>7</i>参与拼团必须为是真实用户，若核实为虚假用户，则成团无效。</p>
             </section>
           </div>
@@ -251,6 +251,13 @@ export default {
           })
         })
     },
+    queryProgress() {
+      return queryProgressApi({
+        leaderInviteCode: this.leaderInviteCode,
+        uuid: this.uuid,
+        groupId: this.groupId
+      })
+    },
     showJoinMask() {
       this.showMask = true
     },
@@ -271,6 +278,11 @@ export default {
           identifyCode: this.smsCode
         }).then(res => {
           if (res.data.resultCode === '1') {
+            this.queryProgress().then(res => {
+              const data = res.data
+              this.currPeopleNum = data.currPeopleNum
+              this.couponRate = data.couponRate
+            })
             this.isJoin = true
             this.showMask = false
             this.errMsg = ''
@@ -371,11 +383,7 @@ export default {
     }
 
     // 拼团活动进度查询接口
-    queryProgressApi({
-      leaderInviteCode: this.leaderInviteCode,
-      uuid: this.uuid,
-      groupId: this.groupId
-    }).then(res => {
+    this.queryProgress().then(res => {
       const data = res.data
       this.currPeopleNum = data.currPeopleNum
       this.couponRate = data.couponRate
@@ -616,9 +624,9 @@ export default {
         padding: 0.16rem 0.1rem;
         border-radius: 0.16rem;
         > p {
-          font-size: 0.13rem;
-          color: #5b5b5b;
-          line-height: 1.75;
+          font-size: 0.12rem;
+          color: #666;
+          line-height: 0.22rem;
           margin-bottom: 0.1rem;
           word-break: break-all;
           word-wrap: break-word;
@@ -634,6 +642,9 @@ export default {
             line-height: 0.16rem;
             color: #ffffff;
             background: #f67958;
+          }
+          &:last-child {
+            margin-bottom: 0;
           }
         }
       }

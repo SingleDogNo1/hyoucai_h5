@@ -160,7 +160,10 @@ export default {
     },
     chooseCoupon() {
       this.$router.push({
-        name: 'DJSLendChooseCoupon'
+        name: 'DJSLendChooseCoupon',
+        query: {
+          projectNo: this.projectNo
+        }
       })
     },
     chooseRedPacket() {

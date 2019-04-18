@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import { availableCouponApi } from '@/api/djs/investDetail'
+
 export default {
   name: 'coupon',
   mixins: [],
@@ -16,7 +18,11 @@ export default {
   watch: {},
   methods: {},
   computed: {},
-  created() {},
+  created() {
+    availableCouponApi().then(res => {
+      console.log(res)
+    })
+  },
   mounted() {},
   destroyed() {}
 }

@@ -241,6 +241,30 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
+        },
+        {
+          path: 'setting',
+          name: 'Setting',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting'),
+          meta: {
+            title: '设置'
+          }
+        },
+        {
+          path: 'setting/loginPassword',
+          name: 'loginPassword',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/modifyPWD.vue'),
+          meta: {
+            title: '修改登录密码'
+          }
+        },
+        {
+          path: 'setting/receiveAddress',
+          name: 'receiveAddress',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/receiveAddress'),
+          meta: {
+            title: '地址管理'
+          }
         }
       ]
     },

@@ -56,7 +56,7 @@
               <span>我的推荐人</span>
               <span></span>
             </div>
-            <div class="link">
+            <div class="link" @click="switchSystem" v-if="user.platformFlag === '3'">
               <span>系统切换</span>
               <span></span>
             </div>
@@ -70,9 +70,9 @@
             <span class="service-time">工作日：上午 9:00-12:00  下午13:00-18:00</span>
           </div>
         </div>
-        <div class="download">
-          <span><img src="./close.png" alt="">如需要查看资产详情，请下载官方App</span>
-          <input type="button" value="下载App">
+        <div class="download" v-if="showDownload">
+          <span><img src="./close.png" alt="" @click="showDownload =false">如需要查看资产详情，请下载官方App</span>
+          <input type="button" value="下载App" @click="$router.push({name: 'AppDownload'})">
         </div>
       </div>
     </b-scroll>
@@ -92,6 +92,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import { amountInfo } from '@/api/hyc/mine/mine'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'index',
   components: {
@@ -102,6 +103,7 @@ export default {
     return {
       showModel: false,
       showAmount: true,
+      showDownload: true,
       amountInfo: {}
     }
   },
@@ -115,9 +117,18 @@ export default {
       amountInfo().then(res => {
         this.amountInfo = res.data.data
       })
-    }
+    },
+    switchSystem() {
+      this.setPlatform('djs')
+      this.$router.push({ name: 'DJSUserCenter' })
+    },
+    ...mapMutations({
+      setPlatform: 'SET_PLATFORM'
+    })
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
   created() {
     this.getAmountInfo()
   },

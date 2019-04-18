@@ -15,9 +15,9 @@
         </div>
       </div>
       <div class="btn">
-        <button @click="doLogout">退出登录</button>
+        <button @click="toLogout">退出登录</button>
       </div>
-      <Confirm :show.sync="showDialog" :onConfirm="logout" title="温馨提示" confirmText="确认">
+      <Confirm :show.sync="showDialog" :onConfirm="doLogout" title="温馨提示" confirmText="确认">
         您确认要退出登录？
       </Confirm>
     </div>
@@ -25,7 +25,7 @@
 
 <script>
 import { userLogout } from '@/api/common/mine'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import Confirm from '@/components/Dialog/Confirm'
 export default {
   name: 'index',
@@ -36,19 +36,25 @@ export default {
   },
   components: { Confirm },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'platform'])
   },
   methods: {
-    doLogout() {
+    toLogout() {
       this.showDialog = true
     },
-    logout() {
-      userLogout({ userName: this.user.nickname, logoutFrom: 'h5' }).then(res => {})
-    }
+    doLogout() {
+      userLogout({ userName: this.user.nickname, logoutFrom: 'h5' }).then(res => {
+        if (res.data.resultCode === '1') {
+          this.$router.push({ name: this.platform === 'djs' ? 'DJSHomePage' : 'HYCHomePage' })
+          this.logout()
+        }
+      })
+    },
+    ...mapActions(['logout'])
   },
   filters: {
     secret(mobile) {
-      return mobile.substr(0, 3) + '****' + mobile.substr(7)
+      return mobile ? mobile.substr(0, 3) + '****' + mobile.substr(7) : ''
     }
   }
 }

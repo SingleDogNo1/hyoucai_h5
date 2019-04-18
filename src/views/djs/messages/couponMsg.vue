@@ -1,7 +1,7 @@
 <template>
   <section>
-    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="{ isRead: couponShow }">
-      <div class="title">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toCouponDetail(item.id)">
         <i></i>
         <p>{{ item.msg }}</p>
       </div>
@@ -33,7 +33,21 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    /*   toCouponDetail(id) {
+        let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'JXQXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        this.$router.push({
+          name: 'CouponMsgDetail'
+        })
+      })
+    }*/
+  },
   computed: {},
   created() {
     let data = {
@@ -45,9 +59,7 @@ export default {
       let data = res.data.message
       let couponUnReadData = data.couponUnRead
       let couponReadData = data.couponRead
-      if (couponUnReadData.length == 0) {
-        this.couponShow = true
-      }
+
       this.datas = couponReadData.concat(couponUnReadData)
     })
   },

@@ -1,30 +1,23 @@
 <template>
   <section>
-    <div class="commonList">
-      <div class="title">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toRedDetail(item.id)">
         <i class=""></i>
-        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <i class=""></i>
-        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
+    <!-- <div class="noData">
       <p><img alt="" src="./noData.png" /></p>
       <p>暂无消息</p>
-    </div>
+    </div>-->
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
 export default {
   name: 'index',
   mixins: [],
@@ -32,13 +25,41 @@ export default {
     // BScroll
   },
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      redShow: false, //是否已读
+      datas: null //列表
+    }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    /*   toRedDetail(id) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'HBXI'
+      }
+    api.getUpdateMessage(param).then(res => {
+        this.$router.push({
+          name: 'RedMsgDetail'
+        })
+      })
+    }*/
+  },
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //加息券消息接口
+    api.getRedPacketMessage(data).then(res => {
+      this.datas = res.data.message
+    })
+  },
   mounted() {},
   destroyed() {}
 }

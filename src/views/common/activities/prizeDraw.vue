@@ -468,11 +468,14 @@ export default {
             li {
               width: 100%;
               height: 0.55rem;
-              line-height: 0.55rem;
+              display: flex;
               div {
                 border: 0.01rem solid rgba(157, 60, 0, 1);
-                display: inline-block;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 width: 50%;
+                height: 100%;
               }
             }
             &.content {

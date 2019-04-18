@@ -345,14 +345,31 @@ export default new Router({
         },
         {
           path: 'easyLend',
-          name: 'DJSInvestFlow',
-          component: () => import('@/views/djs/investDetail/easyLend'),
-          meta: {
-            title: '授权出借'
-          },
+          component: Empty,
           children: [
             {
-              path: 'coupon'
+              path: '',
+              name: 'DJSInvestFlow',
+              component: () => import(/* webpackChunkName: "DJSInvestFlow" */ '@/views/djs/investDetail/easyLend'),
+              meta: {
+                title: '授权出借'
+              }
+            },
+            {
+              path: 'coupon',
+              name: 'DJSLendChooseCoupon',
+              component: () => import('@/views/djs/investDetail/coupon'),
+              meta: {
+                title: '选择加息券'
+              }
+            },
+            {
+              path: 'redpacket',
+              name: 'DJSLendChooseRedPacket',
+              component: () => import('@/views/djs/investDetail/redpacket'),
+              meta: {
+                title: '选择红包'
+              }
             }
           ]
         },

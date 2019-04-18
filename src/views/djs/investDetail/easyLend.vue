@@ -44,7 +44,7 @@
           </div>
         </div>
         <ul class="coupon">
-          <li>
+          <li @click="chooseCoupon">
             <span>加息券</span>
             <div>
               <p v-if="!checkedCoupon">{{ couponNum }}张</p>
@@ -52,7 +52,7 @@
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
-          <li>
+          <li @click="chooseRedPacket">
             <span>红包</span>
             <div>
               <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
@@ -158,6 +158,16 @@ export default {
       this.amount = this.amountInfo.banlance
       this.lendAllFlag = true
     },
+    chooseCoupon() {
+      this.$router.push({
+        name: 'DJSLendChooseCoupon'
+      })
+    },
+    chooseRedPacket() {
+      this.$router.push({
+        name: 'DJSLendChooseRedPacket'
+      })
+    },
     getCouponPackage(amount) {
       Indicator.open()
       couponPackageApi({
@@ -167,9 +177,8 @@ export default {
       }).then(res => {
         Indicator.close()
         const data = res.data
-        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
-
         console.log(data)
+        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
       })
     },
     invest() {

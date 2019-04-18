@@ -5,35 +5,35 @@
         <div class="statistics">
           <div class="total-count">
             <p class="title">总资产(元)<span @click="showModel=true"></span></p>
-            <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
+            <p class="content"><span v-if="showAmount">{{amountInfo.totalAmount}}</span><span v-else>****</span></p>
             <span class="icon-hidden" :class="{'show':!showAmount,'hide':showAmount}"  @click="showAmountFn"></span>
           </div>
           <div class="other-counts" >
             <div>
               <p class="title">在投本金（元）</p>
-              <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
+              <p class="content"><span v-if="showAmount">{{amountInfo.totalInvAmount}}</span><span v-else>****</span></p>
             </div>
             <div>
               <p class="title">累积收益（元）</p>
-              <p class="content"><span v-if="showAmount">0.00</span><span v-else>****</span></p>
+              <p class="content"><span v-if="showAmount">{{amountInfo.totalIncome}}</span><span v-else>****</span></p>
             </div>
           </div>
         </div>
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image">
+              <div class="btn-image" @click="$router.push({name: 'HYCCouponList'})">
                 <img src="./coupon.png" alt="">
               </div>
               <p>券包</p>
             </div>
-            <div class="btn">
+            <div class="btn" @click="$router.push({name: 'HYCTransactionRecord'})">
               <div class="btn-image">
                 <img src="./record.png" alt="">
               </div>
               <p>交易记录</p>
             </div>
-            <div class="btn">
+            <div class="btn" @click="$router.push({name: 'HYCBankCard'})">
               <div class="btn-image">
                 <img src="./bankcard.png" alt="">
               </div>
@@ -41,18 +41,18 @@
             </div>
           </div>
           <div class="actions">
-            <div class="amount">可用金额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></div>
+            <div class="amount">可用金额(元) <span v-if="showAmount">{{amountInfo.banlance}}</span><span v-else>****</span></div>
             <div class="action">
               <input type="button" value="提现" >
-              <input type="button" value="充值">
+              <input type="button" value="充值" @click="$router.push({name: 'HYCCharge'})">
             </div>
           </div>
           <div class="links">
-            <div class="link">
+            <div class="link" @click="$router.push({name: 'HYCInviteFriends'})">
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link">
+            <div class="link" @click="$router.push({name: 'HYCIRecommender'})">
               <span>我的推荐人</span>
               <span></span>
             </div>
@@ -91,6 +91,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import { amountInfo } from '@/api/hyc/mine/mine'
 export default {
   name: 'index',
   components: {
@@ -99,9 +100,9 @@ export default {
   mixins: [],
   data() {
     return {
-      msg: 'hyc-user-center',
       showModel: false,
-      showAmount: false
+      showAmount: true,
+      amountInfo: {}
     }
   },
   props: {},
@@ -109,10 +110,17 @@ export default {
   methods: {
     showAmountFn() {
       this.showAmount = !this.showAmount
+    },
+    getAmountInfo() {
+      amountInfo().then(res => {
+        this.amountInfo = res.data.data
+      })
     }
   },
   computed: {},
-  created() {},
+  created() {
+    this.getAmountInfo()
+  },
   mounted() {},
   destroyed() {}
 }

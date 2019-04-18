@@ -3,26 +3,63 @@
     <div class="form">
       <div class="row">
         <span class="title">原密码</span>
-        <span class="text"><input type="password"></span>
+        <span class="text"><input type="password" v-model="oldPWD"></span>
       </div>
       <div class="row">
         <span class="title">新密码</span>
-        <span class="text"><input type="password"></span>
+        <span class="text"><input type="password" v-model="newPWD"></span>
       </div>
       <div class="row">
         <span class="title">确认密码</span>
-        <span class="text"><input type="password"></span>
+        <span class="text"><input type="password" v-model="confirmPWD"></span>
       </div>
     </div>
     <div class="btn">
-      <button>确认</button>
+      <button @click="updatePWD" :disabled="oldPWD.trim()===''||newPWD.trim()===''||confirmPWD.trim()===''">确认</button>
     </div>
   </div>
 </template>
 
 <script>
+import { updateUserPsw } from '@/api/common/mine'
+import { mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
+import { isPassword } from '@/assets/js/regular'
+
 export default {
-  name: 'modifyPWD'
+  name: 'modifyPWD',
+  data() {
+    return {
+      oldPWD: '',
+      newPWD: '',
+      confirmPWD: ''
+    }
+  },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  methods: {
+    updatePWD() {
+      if (!isPassword(this.newPWD)) {
+        Toast('输入8-20位数字和英文组合')
+        return false
+      }
+      if (this.newPWD !== this.confirmPWD) {
+        Toast('两次密码输入不一致，请重新输入')
+        return false
+      }
+      updateUserPsw({ userName: this.user.nickname, oldPassWord: this.oldPWD, newPassWord: this.confirmPWD }).then(res => {
+        if (res.data.resultCode === '1') {
+          Toast('修改成功')
+          window.setTimeout(() => {
+            this.$router.go(-1)
+          }, 3000)
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+    }
+  }
 }
 </script>
 
@@ -70,6 +107,9 @@ export default {
       background: #ec5e52;
       border-radius: 4px;
       font-size: 0.15rem;
+      &:disabled {
+        background: #ccc;
+      }
     }
   }
 }

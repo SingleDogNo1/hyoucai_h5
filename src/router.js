@@ -349,7 +349,12 @@ export default new Router({
           component: () => import('@/views/djs/investDetail/easyLend'),
           meta: {
             title: '授权出借'
-          }
+          },
+          children: [
+            {
+              path: 'coupon'
+            }
+          ]
         },
         {
           path: 'claimlist',

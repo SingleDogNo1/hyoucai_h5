@@ -39,3 +39,33 @@ export function expectedIncome(data) {
     data: Qs.stringify(data)
   })
 }
+
+// 券包最优搭配
+export function couponPackageApi(data) {
+  return axios({
+    url: 'CouponPackage',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 查询用户可用红包
+export function availableRedPacketApi(data) {
+  return axios({
+    url: 'AvailableRedPacket',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 查询用户可用加息券
+export function availableCouponApi(data) {
+  return request({
+    url: 'AvailableCoupon',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

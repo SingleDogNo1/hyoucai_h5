@@ -47,15 +47,16 @@
           <li>
             <span>加息券</span>
             <div>
-              <!--<p>2张</p>-->
-              <label>15天2.0%加息券</label>
+              <p v-if="!checkedCoupon">{{ couponNum }}张</p>
+              <label v-else>15天2.0%加息券</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
           <li>
             <span>红包</span>
             <div>
-              <p>2张</p>
+              <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
+              <label v-else>15元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
@@ -88,10 +89,10 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 
-import { Toast } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
-import { getInvestDetail, getPersonalAccount, expectedIncome } from '@/api/djs/investDetail'
+import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi } from '@/api/djs/investDetail'
 
 import { mapGetters } from 'vuex'
 
@@ -103,15 +104,19 @@ export default {
   },
   data() {
     return {
-      projectNo: this.$route.query.projectNo,
-      protocolData: [],
-      agree: false,
-      amount: '',
-      investDetail: '',
-      amountInfo: '',
-      expectedIncome: '- -',
-      lendAllFlag: false,
-      errMsg: ''
+      projectNo: this.$route.query.projectNo, // 标的号
+      protocolData: [], // 协议数据
+      agree: false, // 协议是否选中
+      amount: '', // 投资金额
+      investDetail: '', // 标的详情
+      amountInfo: '', // 账户金额详情
+      expectedIncome: '- -', // 预期收益
+      lendAllFlag: false, // 当前是否为全投状态
+      errMsg: '', // 错误提示
+      redPacketNum: 0, // 可用红包数量
+      couponNum: 0, // 可用加息券数量
+      checkedRedPacket: null, // 已选择的红包,
+      checkedCoupon: null // 已选择的加息券
     }
   },
   computed: {
@@ -141,6 +146,8 @@ export default {
       }).then(res => {
         this.expectedIncome = res.data.expectedIncome
       })
+
+      this.getCouponPackage(value)
     }
   },
   methods: {
@@ -150,6 +157,20 @@ export default {
     lendAll() {
       this.amount = this.amountInfo.banlance
       this.lendAllFlag = true
+    },
+    getCouponPackage(amount) {
+      Indicator.open()
+      couponPackageApi({
+        userName: this.user.userName,
+        projectNo: this.projectNo,
+        amount: amount
+      }).then(res => {
+        Indicator.close()
+        const data = res.data
+        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+
+        console.log(data)
+      })
     },
     invest() {
       console.log()
@@ -177,6 +198,8 @@ export default {
     }).then(res => {
       this.amountInfo = res.data
     })
+
+    this.getCouponPackage()
   },
   mounted() {},
   destroyed() {}

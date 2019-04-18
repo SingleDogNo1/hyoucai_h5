@@ -344,11 +344,17 @@ export default {
   },
   computed: {
     percent() {
-      const max_percent = 90 // 进度条最大值
+      const max_percent = 96 // 进度条最大值
 
-      const ori_percent = this.currPeopleNum * 1.7
-      const percent = ori_percent >= max_percent ? max_percent : ori_percent
-      return percent + '%'
+      if (parseInt(this.currPeopleNum) === 0) {
+        return 0
+      } else if (parseInt(this.currPeopleNum) === 1) {
+        return '17%'
+      } else {
+        const ori_percent = 1.6 * (this.currPeopleNum - 1) + 16
+        const percent = ori_percent >= max_percent ? max_percent : ori_percent
+        return percent + '%'
+      }
     }
   },
   created() {
@@ -385,7 +391,7 @@ export default {
     // 拼团活动进度查询接口
     this.queryProgress().then(res => {
       const data = res.data
-      this.currPeopleNum = data.currPeopleNum
+      this.currPeopleNum = parseInt(data.currPeopleNum)
       this.couponRate = data.couponRate
       this.remainingTime = data.remainingTime
       this.splitTime()

@@ -663,6 +663,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'HYCInviteFriends',
+          component: () => import(/* webpackChunkName: "HYCInviteFriends" */ '@/views/hyc/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'HYCRecommender',
+          component: () => import(/* webpackChunkName: "HYCRecommender" */ '@/views/hyc/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'HYCTransferCharge',
           component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),

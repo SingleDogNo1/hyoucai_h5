@@ -206,9 +206,9 @@ export default {
           // console.log(resp)
           if (resp.resultCode == 1) {
             // console.log(resp.data)
-            let list = resp.data.list
-            let countPage = resp.data.countPage
-            let curPage = resp.data.curPage
+            let list = resp.list
+            let countPage = resp.countPage
+            let curPage = resp.curPage
             if (txType === 'TXCZ') {
               // 充值
               if (!list.length) {

@@ -1,18 +1,12 @@
 <template>
   <section>
-    <div class="commonList">
-      <div class="title">
-        <p>汇有财送你一张您有一笔投资将于2018年05月28日到期。</p>
+    <div class="commonList" v-if="datas.length > 0" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" v-for="(item, index) in datas" :key="index">
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <p>汇有财送你一张您有一笔投资将于2018年05月28日到期。</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
+    <div v-else class="noData">
       <p><img alt="" src="./noData.png" /></p>
       <p>暂无消息</p>
     </div>
@@ -20,23 +14,40 @@
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      repeatShow: false, //是否已读
+      datas: [] //列表
+    }
   },
   props: {},
   watch: {},
   methods: {},
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //复投消息接口
+    api.getRepeatMessage(data).then(res => {
+      let data = res.data.message
+      let repeatUnReadData = data.repeatUnRead
+      let repeatReadData = data.repeatRead
+
+      this.datas = repeatReadData.concat(repeatUnReadData)
+      console.log(this.datas.length)
+    })
+  },
   mounted() {},
   destroyed() {}
 }

@@ -20,7 +20,7 @@
           </div>
           <div :class="{ active: current % 8 === 2 }" class="item prize">
             <img src="./priceDraw/XS.png" alt="" style="height:0.45rem;" />
-            <span>iPhone Xs Max 235GB 金色</span>
+            <span>iPhone Xs Max 256G 金色</span>
           </div>
           <div :class="{ active: current % 8 === 7 }" class="item prize">
             <img src="./priceDraw/JD1666.png" alt="" style="height:0.315rem;" />
@@ -84,7 +84,7 @@
             </div>
             <div v-if="reward.key === 2">
               <img src="./priceDraw/XS.png" alt="" />
-              <p>iPhone Xs Max 235GB 金色</p>
+              <p>iPhone Xs Max 256G 金色</p>
             </div>
             <div v-if="reward.key === 4">
               <img src="./priceDraw/gifts.png" alt="" style=" margin-bottom: 0" />
@@ -138,7 +138,7 @@ export default {
       rewards: [
         { key: 0, name: 'Mate20RS 保时捷手机' },
         { key: 1, name: '谢谢参与' },
-        { key: 2, name: 'iPhone Xs Max 235GB 金色' },
+        { key: 2, name: 'iPhone Xs Max 256G 金色' },
         { key: 3, name: '谢谢参与' },
         { key: 4, name: '汇通六周年大礼包' },
         { key: 5, name: '谢谢参与' },

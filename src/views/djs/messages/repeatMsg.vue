@@ -1,7 +1,7 @@
 <template>
   <section v-if="datas.length > 0">
     <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
-      <div class="title">
+      <div class="title" @click="toRepeatDetail(item.id, item.invOverDate)">
         <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
@@ -34,7 +34,23 @@ export default {
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    toRepeatDetail(id, invOverDate) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'FTXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
+        this.$router.push({
+          name: 'RepeatMsgDetail',
+          query: { invOverDate }
+        })
+      })
+    }
+  },
   computed: {},
   created() {
     let data = {

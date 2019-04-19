@@ -136,7 +136,7 @@
 </template>
 
 <script>
-// import { Toast, Indicator } from 'mint-ui' //tabItem
+import { Toast, Indicator } from 'mint-ui' //tabItem
 import { getUserTransaction } from '@/api/hyc/transaction'
 import { mapGetters } from 'vuex'
 import Loading from '@/components/Loading/Loading'
@@ -273,6 +273,7 @@ export default {
       }
       getUserTransaction(data).then(res => {
         let resp = res.data
+        // console.log(res.data)
         if (resp.resultCode == 1) {
           let list = resp.data.list
           if (txType === 'TXCZ') {

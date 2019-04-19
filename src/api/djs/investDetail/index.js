@@ -22,6 +22,15 @@ export function getClaimList(data) {
   })
 }
 
+// 获取出借记录
+export function investUserCountMsg(data) {
+  return axios({
+    url: '/InvestUserCountMsg',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
 // 获取个人账户信息
 export function getPersonalAccount(data) {
   return axios({

@@ -1,10 +1,10 @@
-import request from '@/assets/js/requestDJS'
+import axios from '@/assets/js/requestDJS'
 import Qs from 'qs'
 
 export function userBankCardList(data) {
-  return request({
+  return axios({
     url: '/UserBankCardList',
-    method: 'POST',
+    method: 'post',
     data: Qs.stringify(data)
   })
 }

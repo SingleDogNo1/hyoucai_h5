@@ -1,5 +1,5 @@
 <template>
-  <div class="claim_wrap">
+  <BScroll class="claim_wrap">
     <p></p>
     <table class="claim_list">
       <thead>
@@ -9,36 +9,67 @@
           <td>债权详情</td>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-for="(item, index) in claimListData" :key="index">
         <tr>
-          <td>王淑惺</td>
-          <td>3000</td>
-          <td>详情</td>
+          <td>{{ item.ownBondName }}</td>
+          <td>{{ item.totalBondAmt }}</td>
+          <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
         </tr>
       </tbody>
     </table>
-  </div>
+  </BScroll>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
+import { getClaimList } from '@/api/djs/investDetail'
 export default {
   name: 'index',
-  components: {},
-  data() {
-    return {}
+  components: {
+    BScroll
   },
-  methods: {},
-  created: {}
+  data() {
+    return {
+      projectNo: this.$route.query.projectNo,
+      claimListData: ''
+    }
+  },
+  methods: {
+    linkTo(routerName, routerQuery = {}) {
+      this.$router.push({
+        name: routerName,
+        query: routerQuery
+      })
+    }
+  },
+  created() {
+    getClaimList({
+      projectNo: this.projectNo,
+      curPage: '1',
+      maxLine: 100
+    }).then(res => {
+      this.claimListData = res.data.list
+    })
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/css/theme';
+@import '../../../assets/css/mixins';
 .claim_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  overflow-y: scroll;
   p {
     height: 0.1rem;
     background: #eee;
   }
   .claim_list {
+    flex: 1;
+    overflow: hidden;
     font-family: PingFangSC-Regular;
     border-collapse: collapse;
     border-spacing: 0;

@@ -241,6 +241,30 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
+        },
+        {
+          path: 'setting',
+          name: 'Setting',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting'),
+          meta: {
+            title: '设置'
+          }
+        },
+        {
+          path: 'setting/loginPassword',
+          name: 'loginPassword',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/modifyPWD.vue'),
+          meta: {
+            title: '修改登录密码'
+          }
+        },
+        {
+          path: 'setting/receiveAddress',
+          name: 'receiveAddress',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/receiveAddress'),
+          meta: {
+            title: '地址管理'
+          }
         }
       ]
     },
@@ -516,6 +540,70 @@ export default new Router({
           }
         },
         {
+          path: 'couponMsg',
+          name: 'CouponMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsg'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'couponMsgDetail',
+          name: 'CouponMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsgDetail'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'redMsg',
+          name: 'RedMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsg'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'redMsgDetail',
+          name: 'RedMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsgDetail'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'repeatMsg',
+          name: 'RepeatMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsg'),
+          meta: {
+            title: '复投提醒消息'
+          }
+        },
+        {
+          path: 'repeatMsgDetail',
+          name: 'RepeatMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsgDetail'),
+          meta: {
+            title: '复投消息'
+          }
+        },
+        {
+          path: 'experienceMsg',
+          name: 'ExperienceMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsg'),
+          meta: {
+            title: '体验金消息'
+          }
+        },
+        {
+          path: 'experienceMsgDetail',
+          name: 'ExperienceMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsgDetail'),
+          meta: {
+            title: '体验金消息'
+          }
+        },
+        {
           path: 'charge',
           name: 'DJSCharge',
           component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
@@ -530,6 +618,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
           meta: {
             title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'DJSToCash',
+          component: () => import(/* webpackChunkName: "DJSToCash" */ '@/views/djs/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]
@@ -613,6 +709,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'HYCInviteFriends',
+          component: () => import(/* webpackChunkName: "HYCInviteFriends" */ '@/views/hyc/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'HYCRecommender',
+          component: () => import(/* webpackChunkName: "HYCRecommender" */ '@/views/hyc/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'HYCTransferCharge',
           component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),
@@ -667,7 +779,7 @@ export default new Router({
           }
         },
         {
-          path: 'message',
+          path: 'coupon.vue.vue',
           name: 'HYCSiteMessage',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
           meta: {
@@ -688,6 +800,14 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
           meta: {
             title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'HYCToCash',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]

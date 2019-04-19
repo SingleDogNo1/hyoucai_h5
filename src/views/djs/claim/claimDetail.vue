@@ -6,7 +6,7 @@
       <table>
         <tr>
           <td><span>姓名</span></td>
-          <td><i>吴**</i></td>
+          <td><i>王**</i></td>
         </tr>
         <tr>
           <td><span>性别</span></td>
@@ -64,55 +64,11 @@ export default {
   name: 'index',
   components: {},
   data() {
-    return {
-      flag: false,
-      borrowerName: '',
-      sex: '',
-      idNum: '',
-      age: '',
-      industry: '',
-      domicile: '',
-      maritalStatus: '',
-      income: '',
-      prinAmt: '',
-      loanAim: '',
-      borrowerTheme: '',
-      loanDay: '',
-      paymentSource: '',
-      amountOverride: '',
-      creditReport: '',
-      borrowSituation: '',
-      loanNo: '',
-      repaymentWay: '',
-      rate: ''
-    }
+    return {}
   },
 
   methods: {},
-  created() {
-    /*    getPeopleInfoApi({ projectNo: 'BD20190125104251004113', nameEncrypt: true }).then(res => {
-      let data = res.data.data
-      this.borrowerName = data.borrowerName
-      this.sex = data.sex
-      this.idNum = data.idNum
-      this.age = data.age
-      this.domicile = data.domicile
-      this.maritalStatus = data.maritalStatus
-      this.industry = data.industry
-      this.income = data.income
-      this.prinAmt = data.prinAmt
-      this.loanAim = data.loanAim
-      this.borrowerTheme = data.borrowerTheme
-      this.loanDay = data.loanDay
-      this.paymentSource = data.paymentSource
-      this.amountOverride = data.amountOverride
-      this.creditReport = data.creditReport
-      this.borrowSituation = data.borrowSituation
-      this.loanNo = data.loanNo
-      this.repaymentWay = data.repaymentWay
-      this.rate = data.rate
-    })*/
-  }
+  created() {}
 }
 </script>
 

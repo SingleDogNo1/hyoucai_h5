@@ -134,7 +134,7 @@ export default {
             })
           }
         } else {
-          Toast(res.data.data.message)
+          Toast(res.data.data.coupon)
         }
       })
     }

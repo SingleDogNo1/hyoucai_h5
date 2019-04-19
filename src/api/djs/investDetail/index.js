@@ -66,7 +66,10 @@ export function availableRedPacketApi(data) {
   return axios({
     url: 'AvailableRedPacket',
     method: 'post',
-    data: Qs.stringify(data)
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
@@ -75,6 +78,9 @@ export function availableCouponApi(data) {
   return axios({
     url: 'AvailableCoupon',
     method: 'post',
-    data: Qs.stringify(data)
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }

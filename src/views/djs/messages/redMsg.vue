@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="datas.length > 0">
     <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
       <div class="title" @click="toRedDetail(item.id, item.amount)">
         <i class=""></i>
@@ -7,10 +7,10 @@
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <!-- <div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
-    </div>-->
+  </section>
+  <section v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
   </section>
 </template>
 
@@ -29,7 +29,7 @@ export default {
       userName: getUser().userName,
       authorization: getAuth(),
       redShow: false, //是否已读
-      datas: null //列表
+      datas: [] //列表
     }
   },
   props: {},

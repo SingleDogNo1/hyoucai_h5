@@ -2,7 +2,7 @@
   <BScroll class="coupon">
     <section>
       <template v-for="(item, index) in couponLists">
-        <CouponItem :key="index" :unclaimed="item"></CouponItem>
+        <CouponItem :key="index"></CouponItem>
       </template>
     </section>
   </BScroll>

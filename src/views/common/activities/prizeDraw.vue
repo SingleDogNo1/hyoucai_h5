@@ -351,6 +351,10 @@ export default {
               position: absolute;
               width: 0.84rem;
               height: 0.84rem;
+              top: 0;
+              left: 0;
+              right: 0;
+              margin: 0 auto;
               background: #fff;
               opacity: 0;
             }
@@ -359,6 +363,10 @@ export default {
               position: absolute;
               width: 0.84rem;
               height: 0.84rem;
+              top: 0;
+              left: 0;
+              right: 0;
+              margin: 0 auto;
               background: #000;
               opacity: 0.6;
               border-radius: 50%;

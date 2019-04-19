@@ -58,7 +58,7 @@ export default {
       userName: this.userName,
       authorization: this.authorization
     }
-    //加息券消息接口
+    //红包消息接口
     api.getRedPacketMessage(data).then(res => {
       this.datas = res.data.message
     })

@@ -94,7 +94,7 @@ import { Toast, Indicator } from 'mint-ui'
 import { getProtocaol } from '@/api/djs/invite'
 import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi } from '@/api/djs/investDetail'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   name: 'invest',
@@ -115,12 +115,15 @@ export default {
       errMsg: '', // 错误提示
       redPacketNum: 0, // 可用红包数量
       couponNum: 0, // 可用加息券数量
-      checkedRedPacket: null, // 已选择的红包,
-      checkedCoupon: null // 已选择的加息券
+      checkedRedPacket: null
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.djsLend.djsLendRedPacket // 已选择的红包
+    })
   },
   watch: {
     amount(value) {
@@ -164,13 +167,18 @@ export default {
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
+          redPacketId: this.checkedCoupon && this.checkedCoupon.id // TODO 已选择加息券的格式
         }
       })
     },
     chooseRedPacket() {
       this.$router.push({
-        name: 'DJSLendChooseRedPacket'
+        name: 'DJSLendChooseRedPacket',
+        params: {
+          projectNo: this.projectNo,
+          amount: this.amount,
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
+        }
       })
     },
     getCouponPackage(amount) {

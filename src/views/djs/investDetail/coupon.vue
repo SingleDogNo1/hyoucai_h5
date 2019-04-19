@@ -3,7 +3,13 @@
     <section>
       <header>
         <template v-for="(item, index) in usableCoupons">
-          <CouponItem :key="index" class="coupon-item active" :active="curIndex === index" :dataInfo="item" @choose="chooseItem(index)"></CouponItem>
+          <CouponItem
+            :key="index"
+            class="coupon-item active"
+            :active="curIndex === index"
+            :dataInfo="item"
+            @choose="chooseItem(item, index)"
+          ></CouponItem>
         </template>
         <button @click="$router.go(-1)">本次不使用加息券</button>
       </header>
@@ -28,7 +34,7 @@ import CouponItem from '@/components/coupon'
 
 import { availableCouponApi } from '@/api/djs/investDetail'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'coupon',
@@ -52,9 +58,14 @@ export default {
   props: {},
   watch: {},
   methods: {
-    chooseItem(index) {
+    chooseItem(item, index) {
       this.curIndex = index
-    }
+      this.chooseCoupon(item)
+      this.$router.go(-1)
+    },
+    ...mapMutations({
+      chooseCoupon: 'CHOOSE_COUPON'
+    })
   },
   created() {
     availableCouponApi({

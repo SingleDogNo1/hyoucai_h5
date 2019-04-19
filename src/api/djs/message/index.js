@@ -52,6 +52,15 @@ function getRedPacketMessage(data) {
   })
 }
 
+//复投消息中心接口
+function getRepeatMessage(data) {
+  return request({
+    url: '/RepeatMessage',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
 //消息标记成已读接口
 function getUpdateMessage(data) {
   return request({
@@ -67,5 +76,6 @@ export default {
   getRepeatUnreadCount, //复投消息
   getCouponMessage, //加息券消息中心接口
   getUpdateMessage, //消息标记成已读接口
-  getRedPacketMessage //红包消息接口
+  getRedPacketMessage, //红包消息接口
+  getRepeatMessage //复投消息接口
 }

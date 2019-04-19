@@ -48,7 +48,7 @@
             <span>加息券</span>
             <div>
               <p v-if="!checkedCoupon">{{ couponNum }}张</p>
-              <label v-else>15天2.0%加息券</label>
+              <label v-else>{{ checkedCoupon.validDays }}天{{ checkedCoupon.couponRate }}%加息券</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
@@ -114,8 +114,7 @@ export default {
       lendAllFlag: false, // 当前是否为全投状态
       errMsg: '', // 错误提示
       redPacketNum: 0, // 可用红包数量
-      couponNum: 0, // 可用加息券数量
-      checkedRedPacket: null
+      couponNum: 0 // 可用加息券数量
     }
   },
   computed: {
@@ -143,9 +142,11 @@ export default {
       }
       expectedIncome({
         invAmount: value,
-        projectNo: this.investDetail.projectNo,
         investRate: this.investDetail.investRate,
-        invDays: this.investDetail.investMent
+        invDays: this.investDetail.investMent,
+        couponRate: this.checkedCoupon ? this.checkedCoupon.couponRate : null,
+        validDays: this.checkedCoupon ? this.checkedCoupon.validDays : null,
+        redpacketID: this.checkedRedPacket ? this.checkedRedPacket.id : null
       }).then(res => {
         this.expectedIncome = res.data.expectedIncome
       })
@@ -167,7 +168,7 @@ export default {
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          redPacketId: this.checkedCoupon && this.checkedCoupon.id // TODO 已选择加息券的格式
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
         }
       })
     },
@@ -177,7 +178,7 @@ export default {
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
+          couponId: this.checkedCoupon && this.checkedCoupon.id // TODO 已选择加息券的格式
         }
       })
     },

@@ -8,21 +8,22 @@
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
   </section>
-  <section v-else class="noData">
+  <NoData v-else class="noData">
     <p><img alt="" src="./noData.png" /></p>
     <p>暂无消息</p>
-  </section>
+  </NoData>
 </template>
 
 <script>
 import api from '@/api/djs/message'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    // BScroll
+    NoData
   },
   data() {
     return {

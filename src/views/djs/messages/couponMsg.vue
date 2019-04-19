@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="datas.length > 0">
     <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
       <div class="title" @click="toCouponDetail(item.id, item.couponRate, item.validDays)">
         <i></i>
@@ -7,22 +7,24 @@
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <!--<div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
-    </div>-->
   </section>
+  <NoData v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
+  </NoData>
 </template>
 
 <script>
 import api from '@/api/djs/message'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
-
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
-  components: {},
+  components: {
+    NoData
+  },
   data() {
     return {
       userName: getUser().userName,

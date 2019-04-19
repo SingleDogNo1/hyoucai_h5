@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
-      <div class="title" @click="toCouponDetail(item.id)">
+      <div class="title" @click="toCouponDetail(item.id, item.couponRate, item.validDays)">
         <i></i>
         <p>{{ item.msg }}</p>
       </div>
@@ -28,25 +28,27 @@ export default {
       userName: getUser().userName,
       authorization: getAuth(),
       couponShow: false, //是否已读
-      datas: null //列表
+      datas: ''
     }
   },
   props: {},
   watch: {},
   methods: {
-    /*   toCouponDetail(id) {
-        let param = {
+    toCouponDetail(id, couponRate, validDays) {
+      let param = {
         id: id,
         userName: this.userName,
         authorization: this.authorization,
         messageType: 'JXQXI'
       }
       api.getUpdateMessage(param).then(res => {
+        console.log(res)
         this.$router.push({
-          name: 'CouponMsgDetail'
+          name: 'CouponMsgDetail',
+          query: { couponRate, validDays }
         })
       })
-    }*/
+    }
   },
   computed: {},
   created() {

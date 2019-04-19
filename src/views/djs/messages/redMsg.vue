@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
-      <div class="title" @click="toRedDetail(item.id)">
+      <div class="title" @click="toRedDetail(item.id, item.amount)">
         <i class=""></i>
         <p>{{ item.msg }}</p>
       </div>
@@ -35,19 +35,21 @@ export default {
   props: {},
   watch: {},
   methods: {
-    /*   toRedDetail(id) {
+    toRedDetail(id, amount) {
       let param = {
         id: id,
         userName: this.userName,
         authorization: this.authorization,
         messageType: 'HBXI'
       }
-    api.getUpdateMessage(param).then(res => {
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
         this.$router.push({
-          name: 'RedMsgDetail'
+          name: 'RedMsgDetail',
+          query: { amount }
         })
       })
-    }*/
+    }
   },
   computed: {},
   created() {

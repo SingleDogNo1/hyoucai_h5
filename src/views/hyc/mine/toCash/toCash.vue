@@ -1,32 +1,32 @@
 <template>
   <transition name="fade">
-    <div class='pageContainer' ref='container'>
-      <b-scroll class='scroll' ref='scrollRef'>
+    <div class="pageContainer" ref="container">
+      <b-scroll class="scroll" ref="scrollRef">
         <div>
           <ul class="top">
             <li class="border-bottom-1px">
               <dl>
-                <dt><img src="./image/jiangxi.png" alt=""></dt>
+                <dt><img src="./image/jiangxi.png" alt="" /></dt>
                 <dd>江西银行电子账户</dd>
               </dl>
               <div class="long_arrow"></div>
               <dl>
                 <dt>
-                  <img :src="bankCardInfo.iconUrl" alt="">
+                  <img :src="bankCardInfo.iconUrl" alt="" />
                 </dt>
-                <dd>{{bankCardInfo.bankName}}</dd>
+                <dd>{{ bankCardInfo.bankName }}</dd>
               </dl>
             </li>
             <li>
               <div class="border-bottom-1px">
-                <input ref="amountRef" placeholder="请输入提现金额" type="text" @input="amountInput">
+                <input ref="amountRef" placeholder="请输入提现金额" type="text" @input="amountInput" />
                 <span>元</span>
               </div>
             </li>
             <li>
               <div>
                 <span>江西银行电子账户</span>
-                <em>{{balance}}元</em>
+                <em>{{ balance }}元</em>
                 <i @click="toCashAll">全部提现</i>
               </div>
             </li>
@@ -35,7 +35,7 @@
             <li>
               <div class="border-bottom-1px">
                 <span>提现至</span>
-                <em>{{bankCardInfo.cardNo}}</em>
+                <em>{{ bankCardInfo.cardNo }}</em>
               </div>
             </li>
             <li>
@@ -44,18 +44,24 @@
                   <mt-radio
                     title="提现方式"
                     v-model="type"
-                    :options="[{
-                      label: '实时',
-                      value: '1'
-                    },{
-                      label: '大额',
-                      value: '2'
-                    }]">
+                    :options="[
+                      {
+                        label: '实时',
+                        value: '1'
+                      },
+                      {
+                        label: '大额',
+                        value: '2'
+                      }
+                    ]"
+                  >
                   </mt-radio>
                 </div>
                 <ul class="btm">
                   <li v-show="smallAmountFlag">支持5万（含5万）以下资金提现，实时到账</li>
-                  <li v-show="largeAmountFlag">支持5万以上资金提现，提现时间为工作日9:00-16:45。到账时间为30分钟左右，依据发卡行不同可能略有差异。</li>
+                  <li v-show="largeAmountFlag">
+                    支持5万以上资金提现，提现时间为工作日9:00-16:45。到账时间为30分钟左右，依据发卡行不同可能略有差异。
+                  </li>
                 </ul>
               </div>
             </li>
@@ -64,7 +70,7 @@
             <li>
               <div class="border-bottom-1px">
                 <span>联行号</span>
-                <input placeholder="请输入联行号" ref="cardBankCnapsInput" @focus="focusScroll" type="number" v-model="cardBankCnaps">
+                <input placeholder="请输入联行号" ref="cardBankCnapsInput" @focus="focusScroll" type="number" v-model="cardBankCnaps" />
                 <em @click="showSelector = true"></em>
               </div>
             </li>
@@ -90,22 +96,12 @@
           <mt-button icon="back" slot="left" @click="clickBackArrow"></mt-button>
         </mt-header>
         <mt-search v-model="searchVal" :show="true" :result.sync="filterResult">
-          <mt-cell
-            v-for="(item, index) in filterResult"
-            :key="index"
-            :title="item.name"
-            :value="item.code"
-            @click.native="selectItem(item)">
+          <mt-cell v-for="(item, index) in filterResult" :key="index" :title="item.name" :value="item.code" @click.native="selectItem(item)">
           </mt-cell>
         </mt-search>
       </div>
-      <app-dialog
-        :show="showDialog"
-        :confirmType="confirmType"
-        :title="dialogTitle"
-        @close="closeDialog"
-        @ensure="closeDialog">
-        <p class="dialog-content">{{chargeErrText}}</p>
+      <app-dialog :show="showDialog" :confirmType="confirmType" :title="dialogTitle" @close="closeDialog" @ensure="closeDialog">
+        <p class="dialog-content">{{ chargeErrText }}</p>
       </app-dialog>
     </div>
   </transition>

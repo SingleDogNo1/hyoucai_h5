@@ -5,24 +5,23 @@
     </div>
     <div class="msg">
       <span>您有一笔出借将于</span>
-      <p><em>2018年05月28日</em></p>
+      <p>
+        <em>{{ invOverDate }}</em>
+      </p>
       <p><i>到期</i></p>
     </div>
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
-    return {}
+    return {
+      invOverDate: this.$route.query.invOverDate
+    }
   },
   props: {},
   watch: {},

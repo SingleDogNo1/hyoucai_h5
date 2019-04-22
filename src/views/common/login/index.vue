@@ -111,17 +111,19 @@ export default {
         if (res.data.resultCode === '1') {
           console.log(res.data.data)
           let user = res.data.data
-          switch (user.platformFlag) {
-            case '1':
-              this.setPlatform('djs')
-              break
-            case '2':
-              this.setPlatform('hyc')
-          }
           this.setUser(user)
           setLoginUsername(this.registerMobile)
           this.setErrorNum(0)
-          this.loginSuccess()
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              this.loginSuccess('DJSUserCenter')
+              break
+            case '2':
+              this.setPlatform('hyc')
+              this.loginSuccess('HYCUserCenter')
+              break
+          }
         } else {
           Toast(res.data.resultMsg)
           this.setErrorNum(this.errorNum + 1)
@@ -129,24 +131,25 @@ export default {
       })
     },
     loginWithSMSCode() {
-      let postData = {
+      userLoginVcode({
         userName: this.registerMobile,
         smsCode: this.smsCode
-      }
-      userLoginVcode(postData).then(res => {
+      }).then(res => {
         if (res.data.resultCode === '1') {
           let user = res.data.data
-          switch (user.platformFlag) {
-            case '1':
-              this.setPlatform('djs')
-              break
-            case '2':
-              this.setPlatform('hyc')
-          }
           this.setUser(user)
           setLoginUsername(this.userName)
           this.setErrorNum(0)
-          this.loginSuccess()
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              this.loginSuccess('DJSUserCenter')
+              break
+            case '2':
+              this.setPlatform('hyc')
+              this.loginSuccess('HYCUserCenter')
+              break
+          }
         } else {
           Toast(res.data.resultMsg)
         }
@@ -172,9 +175,9 @@ export default {
         }
       )
     },
-    loginSuccess() {
+    loginSuccess(routerName) {
       this.$router.push({
-        name: 'openAccount'
+        name: routerName
       })
     },
     sendSMSCode() {

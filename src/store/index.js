@@ -5,6 +5,7 @@ import register from './modules/register'
 import login from './modules/login'
 import user from './modules/user'
 import platform from './modules/common'
+import djsLend from './modules/djsLend'
 
 import getters from './getters'
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
     login,
     register,
     user,
-    platform
+    platform,
+    djsLend
   },
   getters
 })

@@ -5,52 +5,54 @@
         <div class="huge">
           <ul>
             <li>
-              <span>11.00</span>
+              <span>{{ investDetail.investRate }}</span>
               <span>%</span>
             </li>
             <li>
-              <h5>汇选180天</h5>
-              <h6>锁定期90天</h6>
+              <h5>{{ investDetail.projectName }}</h5>
+              <h6>锁定期{{ investDetail.investMent }}天</h6>
             </li>
           </ul>
           <p>
             <span>剩余可投</span>
-            <span>1111万</span>
+            <span>{{ investDetail.surplusAmount }}万</span>
           </p>
         </div>
         <div class="amount-block">
           <h6>投标金额</h6>
           <section>
             <div>¥</div>
-            <input type="number" placeholder="请输入金额" value="" />
+            <input type="number" placeholder="请输入金额" v-model="amount" />
           </section>
+          <p class="err-msg">{{ errMsg }}</p>
           <div class="ctrl">
             <div>
               <p>
                 <span class="key"><i class="iconfont icon-ti-shi"></i>可用余额</span>
-                <span class="value">0.00元</span>
+                <span class="value">{{ amountInfo.banlance }}元</span>
               </p>
               <p>
                 <span class="key">预估收益：</span>
-                <span class="value">- -</span>
+                <span class="value">{{ expectedIncome }}</span>
               </p>
             </div>
-            <button>全部投标</button>
+            <button :class="{ active: lendAllFlag }" @click="lendAll">全部投标</button>
           </div>
         </div>
         <ul class="coupon">
-          <li>
+          <li @click="chooseCoupon">
             <span>加息券</span>
             <div>
-              <!--<p>2张</p>-->
-              <label>15天2.0%加息券</label>
+              <p v-if="!checkedCoupon">{{ couponNum }}张</p>
+              <label v-else>{{ checkedCoupon.validDays }}天{{ checkedCoupon.couponRate }}%加息券</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
-          <li>
-            <span>加息券</span>
+          <li @click="chooseRedPacket">
+            <span>红包</span>
             <div>
-              <p>2张</p>
+              <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
+              <label v-else>{{ checkedRedPacket.redPacketAmount }}元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
@@ -59,72 +61,275 @@
           <div v-for="(agreement, index) in protocolData" :key="index">
             <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.isSelect === '1'" />
             <label for="isCheck" @click="changeStatus" v-if="agreement.isSelect === '1'"></label>
-            <span>
-              {{ agreement.tipsBefore }}
-              <a :href="agreement.protocolUrl" class="agreement">{{ agreement.protocolName }}</a>
-              {{ agreement.tipsAfter }}
-            </span>
+            <div>
+              <p>
+                {{ agreement.tipsBefore }}
+                <a :href="agreement.protocolUrl" class="agreement">{{ agreement.protocolName }}</a>
+              </p>
+              <p>{{ agreement.tipsAfter }}</p>
+            </div>
           </div>
         </div>
       </section>
     </BScroll>
 
     <div class="invest-btn">
-      <section @click="invest">
-        <h6>账户余额不足</h6>
-        <p>还需余额10000.00</p>
+      <section :class="{ active: canILend }" @click="invest">
+        <h6>{{ lendBtnMsg }}</h6>
+        <p v-if="parseFloat(investDetail.minInvAmt) > parseFloat(amountInfo.banlance)">
+          还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}
+        </p>
       </section>
+      <!-- 复投弹窗 -->
+      <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :confirm="confirmAutoInvest">
+        <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
+      </Dialog>
     </div>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+// import Confirm from '@/components/Dialog/Confirm'
+import Dialog from '@/components/Dialog/Alert'
 
-import { Toast } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
+import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi } from '@/api/djs/investDetail'
 
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
+import Cookie from 'js-cookie'
+
 export default {
   name: 'invest',
-  mixins: [],
   components: {
-    BScroll
+    BScroll,
+    Dialog
+    // Confirm
   },
   data() {
     return {
-      protocolData: [],
-      agree: false
+      projectNo: this.$route.query.projectNo, // 标的号
+      protocolData: [], // 协议数据
+      lendBtnMsg: '提交', // 投资按钮的内容
+      canILend: false, // 投资按钮是否可点击
+      agree: false, // 协议是否选中
+      amount: Cookie.get('djsLendAmount') ? Cookie.get('djsLendAmount') : '', // 投资金额
+      investDetail: '', // 标的详情
+      amountInfo: '', // 账户金额详情
+      expectedIncome: '- -', // 预期收益
+      lendAllFlag: false, // 当前是否为全投状态
+      errMsg: '', // 错误提示
+      redPacketNum: 0, // 可用红包数量
+      couponNum: 0, // 可用加息券数量
+      autoInvestDialogOptions: {
+        // 自动出借产品成功弹窗
+        show: true,
+        title: '设置自动出借，省心赚钱'
+      },
+      autoLendTypeRadio: [{ label: '本金到期后自动出借', value: '1' }, { label: '本息到期后自动出借', value: '2' }],
+      autoLendType: '1'
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.djsLend.djsLendRedPacket // 已选择的红包
+    })
   },
-  props: {},
+  watch: {
+    amount(value) {
+      // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
+      Cookie.set('djsLendAmount', value)
+
+      // 项目剩余可投和账户余额取小，得到可投资的极限金额
+      const maxLendAmount =
+        parseFloat(this.amountInfo.banlance) <= parseFloat(this.investDetail.surplusAmount)
+          ? this.amountInfo.banlance
+          : this.investDetail.surplusAmount
+
+      // 判断全投状态
+      this.lendAllFlag = value === maxLendAmount
+
+      // 对比输入金额和可用金额case
+      if (value - 0 < this.investDetail.minInvAmt - 0) {
+        this.errMsg = '申购金额需' + this.investDetail.minInvAmt + '元起'
+      } else if (value - 0 === maxLendAmount) {
+        this.errMsg = '已经到极限了'
+      } else if (value - 0 > maxLendAmount) {
+        this.amount = maxLendAmount
+      } else {
+        this.errMsg = ''
+      }
+
+      // 根据投资金额获取可用的红包 && 加息券
+      this.getCouponPackage(value)
+
+      // 计算预期收益
+      this.getExpectedIncome()
+
+      // 判断投资按钮的可点击状态
+      this.canILend = value - 0 >= this.investDetail.minInvAmt - 0
+    }
+  },
   methods: {
     changeStatus() {
       this.agree = !this.agree
     },
+    getExpectedIncome() {
+      expectedIncome({
+        invAmount: this.amount,
+        investRate: this.investDetail.investRate,
+        invDays: this.investDetail.investMent,
+        couponRate: this.checkedCoupon ? this.checkedCoupon.couponRate : null,
+        validDays: this.checkedCoupon ? this.checkedCoupon.validDays : null,
+        redpacketID: this.checkedRedPacket ? this.checkedRedPacket.id : null
+      }).then(res => {
+        this.expectedIncome = res.data.expectedIncome
+      })
+    },
+    lendAll() {
+      this.amount = this.amountInfo.banlance
+      this.lendAllFlag = true
+    },
+    chooseCoupon() {
+      this.$router.push({
+        name: 'DJSLendChooseCoupon',
+        params: {
+          projectNo: this.projectNo,
+          amount: this.amount,
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id
+        }
+      })
+    },
+    chooseRedPacket() {
+      this.$router.push({
+        name: 'DJSLendChooseRedPacket',
+        params: {
+          projectNo: this.projectNo,
+          amount: this.amount,
+          couponId: this.checkedCoupon && this.checkedCoupon.id
+        }
+      })
+    },
+    getCouponPackage(amount) {
+      Indicator.open()
+      couponPackageApi({
+        userName: this.user.userName,
+        projectNo: this.projectNo,
+        amount: amount
+      }).then(res => {
+        Indicator.close()
+        const data = res.data
+        console.log(data)
+        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+      })
+    },
     invest() {
-      console.log()
-    }
-  },
+      if (this.canILend) {
+        investApi({
+          userName: this.user.userName,
+          projectNo: this.projectNo,
+          invAmount: this.amount,
+          userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
+          userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+          investSource: 'H5'
+        }).then(res => {
+          const data = res.data
+          if (data.resultCode === '1') {
+            this.cleanData()
+            if (this.investDetail.doubleBonuCouponEntity.dbCouponRate || this.investDetail.doubleBonuCouponEntity.dbValidDays !== null) {
+              // 可以加息复投
+            } else {
+              if (data.investType === 'SJLHD') {
+                // 手机乐活动
+              } else {
+                // 普通产品
+              }
+            }
+          } else if (data.resultCode === '90021' || data.resultCode === '90022') {
+            // 风险测评出借额度不够 || 出借期限不够
+            switch (data.evaluatingResult) {
+              case 'BSX':
+                this.riskType = '【保守型】'
+                break
+              case 'WJX':
+                this.riskType = '【谨慎型】'
+                break
+              case 'JJX':
+                this.riskType = '【积极型】'
+                break
+              case 'JQX':
+                this.riskType = '【积极型】'
+                break
+              case 'JINX':
+                this.riskType = '【激进型】'
+                break
+            }
 
-  created() {
-    getProtocaol({
-      type: 'TZJE'
-    }).then(res => {
-      if (res.data.resultCode === '1') {
-        this.protocolData = res.data.protocolData
-        this.agree = res.data.protocolData[0].isSelect === '1'
-      } else {
-        Toast(res.data.resultMsg)
+            if (['JINX'].includes(data.data.evaluatingResult)) {
+              // 激进型一个按钮
+              this.riskDialogSingleButton = true
+              this.cancelText = '我知道了'
+            }
+            this.riskContent = res.data.resultMsg
+            this.isShowRiskDialog = true
+          } else {
+            Toast(data.resultMsg)
+          }
+        })
       }
+    },
+    confirmAutoInvest() {
+      console.log`confirmAutoInvest`
+    },
+    ...mapMutations({
+      cleanData: 'CLEAN_LEND_DATA'
     })
   },
-  mounted() {},
-  destroyed() {}
+  created() {
+    const $this = this
+    ;(async function initData() {
+      await getInvestDetail({
+        projectNo: $this.projectNo
+      }).then(res => {
+        const data = res.data
+        $this.investDetail = data
+        if ($this.amount >= data.minInvAmt) {
+          $this.canILend = true
+        }
+      })
+      await getProtocaol({
+        type: 'TZJE'
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          $this.protocolData = res.data.protocolData
+          $this.agree = res.data.protocolData[0].isSelect === '1'
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+      await getPersonalAccount({
+        userName: $this.user.userName
+      }).then(res => {
+        const data = res.data
+        $this.amountInfo = data
+        if ($this.amount !== '') {
+          if (data.banlance - 0 === $this.amount - 0) {
+            $this.lendAllFlag = true
+          }
+          if (data.banlance < $this.investDetail.minInvAmt) {
+            $this.lendBtnMsg = '账户余额不足'
+            $this.canILend = false
+          }
+          $this.getExpectedIncome()
+        }
+      })
+      await $this.getCouponPackage()
+    })()
+  }
 }
 </script>
 
@@ -182,14 +387,16 @@ export default {
     }
     .amount-block {
       background: #fff;
-      padding: 0.16rem 0.15rem 0;
+      padding-top: 0.16rem;
       position: relative;
       margin-bottom: 0.08rem;
       h6 {
+        padding: 0 0.15rem;
         font-size: 0.13rem;
         color: #999999;
       }
       section {
+        padding: 0 0.15rem;
         height: 0.5rem;
         display: flex;
         justify-content: space-between;
@@ -210,7 +417,15 @@ export default {
           }
         }
       }
+      .err-msg {
+        line-height: 0.24rem;
+        background: rgba(255, 0, 0, 0.15);
+        padding: 0 0.15rem;
+        font-size: 0.11rem;
+        color: #f14b4b;
+      }
       .ctrl {
+        padding: 0 0.15rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -240,6 +455,10 @@ export default {
           line-height: 0.26rem;
           background: #ffffff;
           border: 0.01rem solid #333;
+          &.active {
+            border: 0.01rem solid #ace;
+            color: #ace;
+          }
         }
       }
     }
@@ -320,6 +539,7 @@ export default {
       @include cube(3.45rem, 0.42rem);
       border-radius: 0.04rem;
       background: #ccc;
+      transition: 0.4s;
       &.active {
         background: #ec5e52;
       }
@@ -333,6 +553,14 @@ export default {
         color: rgba(255, 255, 255, 0.6);
         text-align: center;
       }
+    }
+  }
+  .auto-lend-dialog {
+    /deep/ .mint-cell-wrapper {
+      background-image: none;
+    }
+    /deep/ .mint-cell {
+      background-image: none;
     }
   }
 }

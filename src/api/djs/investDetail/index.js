@@ -1,8 +1,8 @@
 import axios from '@/assets/js/requestDJS'
 import Qs from 'qs'
 
-function getInvestDetail(data) {
-  // 出借详情
+// 出借详情
+export function getInvestDetail(data) {
   return axios({
     url: '/InvestCountProjectMsg',
     method: 'post',
@@ -13,7 +13,8 @@ function getInvestDetail(data) {
   })
 }
 
-function getClaimList(data) {
+//债权列表
+export function getClaimList(data) {
   return axios({
     url: '/BondProject',
     method: 'post',
@@ -22,7 +23,7 @@ function getClaimList(data) {
 }
 
 // 获取出借记录
-function investUserCountMsg(data) {
+export function investUserCountMsg(data) {
   return axios({
     url: '/InvestUserCountMsg',
     method: 'post',
@@ -30,8 +31,68 @@ function investUserCountMsg(data) {
   })
 }
 
-export {
-  getInvestDetail, // 项目详情
-  getClaimList, //债权列表
-  investUserCountMsg //出借记录
+// 获取个人账户信息
+export function getPersonalAccount(data) {
+  return axios({
+    url: '/PersonalAccount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 预期收益计算
+export function expectedIncome(data) {
+  return axios({
+    url: 'ExpectedIncome',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 券包最优搭配
+export function couponPackageApi(data) {
+  return axios({
+    url: 'CouponPackage',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 查询用户可用红包
+export function availableRedPacketApi(data) {
+  return axios({
+    url: 'AvailableRedPacket',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 查询用户可用加息券
+export function availableCouponApi(data) {
+  return axios({
+    url: 'AvailableCoupon',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 用户投资
+export function investApi(data) {
+  return axios({
+    url: 'InvestProject',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
 }

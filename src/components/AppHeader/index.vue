@@ -1,8 +1,8 @@
 <template>
   <mt-header v-show="!isAppTitle" ref="mtHeader" :title="title">
-    <mt-button icon="back" slot="left" @click="goBack"
-      ><span v-if="cancel">{{ cancel }}</span></mt-button
-    >
+    <mt-button icon="back" slot="left" @click="goBack">
+      <span v-if="cancel">{{ cancel }}</span>
+    </mt-button>
     <mt-button slot="right" @click="getMore">
       <slot></slot>
     </mt-button>
@@ -53,5 +53,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

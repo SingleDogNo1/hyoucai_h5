@@ -11,7 +11,7 @@
             @choose="chooseItem(item, index)"
           ></CouponItem>
         </template>
-        <button @click="$router.go(-1)">本次不使用加息券</button>
+        <button @click="back">本次不使用加息券</button>
       </header>
       <footer v-if="unusableCoupon.length > 0">
         <h6>本交易您不可以使用以下加息券</h6>
@@ -60,8 +60,12 @@ export default {
   watch: {},
   methods: {
     chooseItem(item, index) {
+      // alert(1)
       this.curIndex = index
       this.chooseCoupon(item)
+      this.$router.go(-1)
+    },
+    back() {
       this.$router.go(-1)
     },
     ...mapMutations({

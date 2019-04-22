@@ -47,7 +47,7 @@ export default {
     return {
       projectNo: this.$route.params.projectNo, // 标的号
       amount: this.$route.params.amount, // 投资金额
-      redPacketId: this.$route.params.redPacketId, // 投资金额
+      couponId: this.$route.params.couponId, // 投资金额
       curIndex: -1, // 已选择的卡券的索引
       usableRedPacket: [], // 可用加息券
       unusableRedPacket: [] // 不可用加息券
@@ -73,7 +73,7 @@ export default {
       userName: this.user.userName,
       projectNo: this.projectNo,
       amount: this.amount,
-      redPacketId: this.redPacketId
+      couponId: this.couponId
     }).then(res => {
       const data = res.data.userRedPackets
       data.map(value => {

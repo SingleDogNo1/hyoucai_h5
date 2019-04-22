@@ -84,3 +84,15 @@ export function availableCouponApi(data) {
     }
   })
 }
+
+// 用户投资
+export function investApi(data) {
+  return axios({
+    url: 'InvestProject',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}

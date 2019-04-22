@@ -6,10 +6,6 @@ const djsLend = {
     djsLendRedPacket: Cookies.getJSON('djsLendRedPacket') || null
   },
   mutations: {
-    SET_LEND_AMOUNT: (state, amount) => {
-      state.djsLendAmount = amount
-      Cookies.set('djsLendAmount', amount)
-    },
     CHOOSE_COUPON: (state, coupon) => {
       state.djsLendCoupon = coupon
       Cookies.set('djsLendCoupon', coupon)

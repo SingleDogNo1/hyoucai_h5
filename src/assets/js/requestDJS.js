@@ -5,7 +5,7 @@ import { getAuth } from './utils'
 
 const $axios = axios.create({
   baseURL: process.env.VUE_APP_BASE_DJS_API,
-  timeout: 5000,
+  timeout: 30000,
   headers: {
     platform: 'h5',
     version: '1.0',

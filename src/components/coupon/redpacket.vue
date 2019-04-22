@@ -7,6 +7,8 @@
       </header>
       <footer v-if="dataInfo.commonUse === 1">可与加息券一起使用</footer>
       <footer v-else>不可与加息券一起使用</footer>
+      <img class="type" v-if="dataInfo.secondType === 1" src="./dikou.png" alt="" />
+      <img class="type" v-else-if="dataInfo.secondType === 2" src="./touzi.png" alt="" />
     </div>
     <div class="right">
       <h4>起投金额：{{ dataInfo.investMinAmount }}元</h4>
@@ -15,18 +17,13 @@
       </h6>
       <p>有效期至：{{ dataInfo.usableExpireDate }}</p>
     </div>
-    <img v-if="active" src="./btn.png" alt="" />
+    <img class="choose" v-if="active" src="./btn.png" alt="" />
   </div>
 </template>
 
 <script>
 export default {
   name: 'index',
-  mixins: [],
-  components: {},
-  data() {
-    return {}
-  },
   props: {
     dataInfo: {
       type: Object,
@@ -37,16 +34,11 @@ export default {
       default: false
     }
   },
-  watch: {},
   methods: {
     choose() {
       this.$emit('choose')
     }
-  },
-  computed: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
@@ -60,7 +52,7 @@ export default {
   justify-content: space-between;
   border-left: 0.02rem solid #999;
   position: relative;
-  img {
+  .choose {
     @include square(0.24rem);
     position: absolute;
     top: 0;
@@ -102,6 +94,12 @@ export default {
       color: #999;
       font-size: 0.11rem;
     }
+    .type {
+      position: absolute;
+      @include square(0.35rem);
+      left: 0;
+      top: 0;
+    }
   }
   .right {
     flex: 1;
@@ -129,9 +127,9 @@ export default {
     }
   }
   &.active {
-    border-left-color: #fac90f;
+    border-left-color: #ff5e19;
     header {
-      color: #fac90f;
+      color: #ff5e19;
     }
     .right {
       color: #333;

@@ -1,7 +1,3 @@
-<!--
-  TODO
-  点击红包加息券选择功能
--->
 <template>
   <div class="lend-wrapper">
     <BScroll class="lend">
@@ -56,7 +52,7 @@
             <span>红包</span>
             <div>
               <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
-              <label v-else>15元红包</label>
+              <label v-else>{{ checkedRedPacket.redPacketAmount }}元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
           </li>
@@ -78,43 +74,62 @@
     </BScroll>
 
     <div class="invest-btn">
-      <section @click="invest">
-        <h6>账户余额不足</h6>
-        <p>还需余额10000.00</p>
+      <section :class="{ active: canILend }" @click="invest">
+        <h6>{{ lendBtnMsg }}</h6>
+        <p v-if="parseFloat(investDetail.minInvAmt) > parseFloat(amountInfo.banlance)">
+          还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}
+        </p>
       </section>
+      <!-- 复投弹窗 -->
+      <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :confirm="confirmAutoInvest">
+        <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
+      </Dialog>
     </div>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+// import Confirm from '@/components/Dialog/Confirm'
+import Dialog from '@/components/Dialog/Alert'
 
 import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
-import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi } from '@/api/djs/investDetail'
+import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi } from '@/api/djs/investDetail'
 
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
+import Cookie from 'js-cookie'
 
 export default {
   name: 'invest',
-  mixins: [],
   components: {
-    BScroll
+    BScroll,
+    Dialog
+    // Confirm
   },
   data() {
     return {
       projectNo: this.$route.query.projectNo, // 标的号
       protocolData: [], // 协议数据
+      lendBtnMsg: '提交', // 投资按钮的内容
+      canILend: false, // 投资按钮是否可点击
       agree: false, // 协议是否选中
-      amount: '', // 投资金额
+      amount: Cookie.get('djsLendAmount') ? Cookie.get('djsLendAmount') : '', // 投资金额
       investDetail: '', // 标的详情
       amountInfo: '', // 账户金额详情
       expectedIncome: '- -', // 预期收益
       lendAllFlag: false, // 当前是否为全投状态
       errMsg: '', // 错误提示
       redPacketNum: 0, // 可用红包数量
-      couponNum: 0 // 可用加息券数量
+      couponNum: 0, // 可用加息券数量
+      autoInvestDialogOptions: {
+        // 自动出借产品成功弹窗
+        show: true,
+        title: '设置自动出借，省心赚钱'
+      },
+      autoLendTypeRadio: [{ label: '本金到期后自动出借', value: '1' }, { label: '本息到期后自动出借', value: '2' }],
+      autoLendType: '1'
     }
   },
   computed: {
@@ -126,22 +141,46 @@ export default {
   },
   watch: {
     amount(value) {
-      // 项目剩余可投和账户余额取小
+      // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
+      Cookie.set('djsLendAmount', value)
+
+      // 项目剩余可投和账户余额取小，得到可投资的极限金额
       const maxLendAmount =
         parseFloat(this.amountInfo.banlance) <= parseFloat(this.investDetail.surplusAmount)
           ? this.amountInfo.banlance
           : this.investDetail.surplusAmount
-      if (value !== maxLendAmount) {
-        this.lendAllFlag = false
-      }
 
+      // 判断全投状态
+      this.lendAllFlag = value === maxLendAmount
+
+      // 对比输入金额和可用金额case
       if (value - 0 < this.investDetail.minInvAmt - 0) {
         this.errMsg = '申购金额需' + this.investDetail.minInvAmt + '元起'
+      } else if (value - 0 === maxLendAmount) {
+        this.errMsg = '已经到极限了'
+      } else if (value - 0 > maxLendAmount) {
+        this.amount = maxLendAmount
       } else {
         this.errMsg = ''
       }
+
+      // 根据投资金额获取可用的红包 && 加息券
+      this.getCouponPackage(value)
+
+      // 计算预期收益
+      this.getExpectedIncome()
+
+      // 判断投资按钮的可点击状态
+      this.canILend = value - 0 >= this.investDetail.minInvAmt - 0
+    }
+  },
+  methods: {
+    changeStatus() {
+      this.agree = !this.agree
+    },
+    getExpectedIncome() {
       expectedIncome({
-        invAmount: value,
+        invAmount: this.amount,
         investRate: this.investDetail.investRate,
         invDays: this.investDetail.investMent,
         couponRate: this.checkedCoupon ? this.checkedCoupon.couponRate : null,
@@ -150,13 +189,6 @@ export default {
       }).then(res => {
         this.expectedIncome = res.data.expectedIncome
       })
-
-      this.getCouponPackage(value)
-    }
-  },
-  methods: {
-    changeStatus() {
-      this.agree = !this.agree
     },
     lendAll() {
       this.amount = this.amountInfo.banlance
@@ -168,7 +200,7 @@ export default {
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id // TODO 已选择红包的格式
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id
         }
       })
     },
@@ -178,7 +210,7 @@ export default {
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          couponId: this.checkedCoupon && this.checkedCoupon.id // TODO 已选择加息券的格式
+          couponId: this.checkedCoupon && this.checkedCoupon.id
         }
       })
     },
@@ -196,36 +228,108 @@ export default {
       })
     },
     invest() {
-      console.log()
-    }
+      if (this.canILend) {
+        investApi({
+          userName: this.user.userName,
+          projectNo: this.projectNo,
+          invAmount: this.amount,
+          userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
+          userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+          investSource: 'H5'
+        }).then(res => {
+          const data = res.data
+          if (data.resultCode === '1') {
+            this.cleanData()
+            if (this.investDetail.doubleBonuCouponEntity.dbCouponRate || this.investDetail.doubleBonuCouponEntity.dbValidDays !== null) {
+              // 可以加息复投
+            } else {
+              if (data.investType === 'SJLHD') {
+                // 手机乐活动
+              } else {
+                // 普通产品
+              }
+            }
+          } else if (data.resultCode === '90021' || data.resultCode === '90022') {
+            // 风险测评出借额度不够 || 出借期限不够
+            switch (data.evaluatingResult) {
+              case 'BSX':
+                this.riskType = '【保守型】'
+                break
+              case 'WJX':
+                this.riskType = '【谨慎型】'
+                break
+              case 'JJX':
+                this.riskType = '【积极型】'
+                break
+              case 'JQX':
+                this.riskType = '【积极型】'
+                break
+              case 'JINX':
+                this.riskType = '【激进型】'
+                break
+            }
+
+            if (['JINX'].includes(data.data.evaluatingResult)) {
+              // 激进型一个按钮
+              this.riskDialogSingleButton = true
+              this.cancelText = '我知道了'
+            }
+            this.riskContent = res.data.resultMsg
+            this.isShowRiskDialog = true
+          } else {
+            Toast(data.resultMsg)
+          }
+        })
+      }
+    },
+    confirmAutoInvest() {
+      console.log`confirmAutoInvest`
+    },
+    ...mapMutations({
+      cleanData: 'CLEAN_LEND_DATA'
+    })
   },
   created() {
-    getInvestDetail({
-      projectNo: this.projectNo
-    }).then(res => {
-      this.investDetail = res.data
-    })
-    getProtocaol({
-      type: 'TZJE'
-    }).then(res => {
-      if (res.data.resultCode === '1') {
-        this.protocolData = res.data.protocolData
-        this.agree = res.data.protocolData[0].isSelect === '1'
-      } else {
-        Toast(res.data.resultMsg)
-      }
-    })
-
-    getPersonalAccount({
-      userName: this.user.userName
-    }).then(res => {
-      this.amountInfo = res.data
-    })
-
-    this.getCouponPackage()
-  },
-  mounted() {},
-  destroyed() {}
+    const $this = this
+    ;(async function initData() {
+      await getInvestDetail({
+        projectNo: $this.projectNo
+      }).then(res => {
+        const data = res.data
+        $this.investDetail = data
+        if ($this.amount >= data.minInvAmt) {
+          $this.canILend = true
+        }
+      })
+      await getProtocaol({
+        type: 'TZJE'
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          $this.protocolData = res.data.protocolData
+          $this.agree = res.data.protocolData[0].isSelect === '1'
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+      await getPersonalAccount({
+        userName: $this.user.userName
+      }).then(res => {
+        const data = res.data
+        $this.amountInfo = data
+        if ($this.amount !== '') {
+          if (data.banlance - 0 === $this.amount - 0) {
+            $this.lendAllFlag = true
+          }
+          if (data.banlance < $this.investDetail.minInvAmt) {
+            $this.lendBtnMsg = '账户余额不足'
+            $this.canILend = false
+          }
+          $this.getExpectedIncome()
+        }
+      })
+      await $this.getCouponPackage()
+    })()
+  }
 }
 </script>
 
@@ -435,6 +539,7 @@ export default {
       @include cube(3.45rem, 0.42rem);
       border-radius: 0.04rem;
       background: #ccc;
+      transition: 0.4s;
       &.active {
         background: #ec5e52;
       }
@@ -448,6 +553,14 @@ export default {
         color: rgba(255, 255, 255, 0.6);
         text-align: center;
       }
+    }
+  }
+  .auto-lend-dialog {
+    /deep/ .mint-cell-wrapper {
+      background-image: none;
+    }
+    /deep/ .mint-cell {
+      background-image: none;
     }
   }
 }

@@ -151,9 +151,9 @@ export default {
       showRule: false, // 显示活动规则
       showLog: false, // 显示中奖纪录
       showResult: false, // 显示抽奖结果,
-      remainingNumber: 5, // 剩余抽奖次数
-      aHour: true, // 是否开始前一小时内
-      remainingSecond: 10, // 活动倒计时
+      remainingNumber: 0, // 剩余抽奖次数
+      aHour: false, // 是否开始前一小时内
+      remainingSecond: 0, // 活动倒计时
       nextDrawTime: '', // 下次抽奖时间 2019年4月22日 10:00
       rewardList: [],
       userName: this.$route.query.serverUserName

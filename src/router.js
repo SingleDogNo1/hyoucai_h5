@@ -502,6 +502,14 @@ export default new Router({
           }
         },
         {
+          path: 'experienceGold',
+          name: 'DJSExperienceGold',
+          component: () => import(/* webpackChunkName: "DJSExperienceGold" */ '@/views/djs/mine/voucherBag/ExperienceGold'),
+          meta: {
+            title: '体验金'
+          }
+        },
+        {
           path: 'transactionRecord',
           name: 'DJSTransactionRecord',
           component: () => import(/* webpackChunkName: "DJSTransactionRecord" */ '@/views/djs/mine/TransactionRecord'),

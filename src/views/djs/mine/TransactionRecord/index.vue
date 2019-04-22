@@ -36,11 +36,11 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in allData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.txDesc }}</span>
+              <span class="body-txt">{{ item.tranDesc }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.txAmount < 0 }">{{ item.txAmount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
             </div>
           </div>
           <loading v-show="hasMore1"></loading>
@@ -64,11 +64,11 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in chargeData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.txDesc }}</span>
+              <span class="body-txt">{{ item.tranDesc }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.txAmount < 0 }">{{ item.txAmount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
             </div>
           </div>
           <loading v-show="hasMore2"></loading>
@@ -92,11 +92,11 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in toCashData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.txDesc }}</span>
+              <span class="body-txt">{{ item.tranDesc }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.txAmount < 0 }">{{ item.txAmount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
             </div>
           </div>
           <loading v-show="hasMore3"></loading>
@@ -120,11 +120,11 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in otherData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.txDesc }}</span>
+              <span class="body-txt">{{ item.tranDesc }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.txAmount < 0 }">{{ item.txAmount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
             </div>
           </div>
           <loading v-show="hasMore4"></loading>
@@ -206,10 +206,10 @@ export default {
           // console.log(resp)
           if (resp.resultCode == 1) {
             // console.log(resp.data)
-            let list = resp.data.list
-            let countPage = resp.data.countPage
-            let curPage = resp.data.curPage
-            if (txType === 'TXCZ') {
+            let list = resp.list
+            let countPage = resp.countPage
+            let curPage = resp.curPage
+            if (txType === 'XSCC') {
               // 充值
               if (!list.length) {
                 this.hasMore2 = false
@@ -221,7 +221,8 @@ export default {
                 this.hasMore2 = true
               }
               this.chargeData = this.chargeData.concat(list)
-            } else if (txType === 'TXTX') {
+            } else if (txType === 'ZJQX') {
+              // 提现
               if (!list.length) {
                 this.hasMore3 = false
                 Toast('无记录')

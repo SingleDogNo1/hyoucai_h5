@@ -4,24 +4,26 @@
       <span>加息券消息</span>
     </div>
     <div class="msg">
-      <p><em>5.0%加息券</em></p>
-      <p><i>已存入您的账户，立即使用加息30天</i></p>
+      <p>
+        <em>{{ couponRate }}%加息券</em>
+      </p>
+      <p>
+        <i>已存入您的账户，立即使用加息{{ validDays }}天</i>
+      </p>
     </div>
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
-    return {}
+    return {
+      couponRate: this.$route.query.couponRate,
+      validDays: this.$route.query.validDays
+    }
   },
   props: {},
   watch: {},

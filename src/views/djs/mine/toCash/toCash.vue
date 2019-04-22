@@ -1,50 +1,57 @@
 <template>
-  <div class='pageContainer' ref='container'>
-    <b-scroll class='scroll' ref='scrollRef'>
+  <div class="pageContainer" ref="container">
+    <b-scroll class="scroll" ref="scrollRef">
       <div>
         <dl class="top">
-          <dt><img :src="bankCardInfo.iconUrl" alt=""></dt>
-          <dd>{{bankCardInfo.bankName}}({{bankCardInfo.cardNo.slice(bankCardInfo.cardNo.length - 4)}})</dd>
+          <dt><img :src="bankCardInfo.iconUrl" alt="" /></dt>
+          <dd>{{ bankCardInfo.bankName }}({{ bankCardInfo.cardNo.slice(bankCardInfo.cardNo.length - 4) }})</dd>
         </dl>
         <div class="amount-wrapper">
-          <div class="brand"><span>姓名</span> <em>{{bankCardInfo.accountName}}</em></div>
+          <div class="brand">
+            <span>姓名</span> <em>{{ bankCardInfo.accountName }}</em>
+          </div>
           <div class="input-wrapper">
             <div>¥</div>
             <div><input ref="amountRef" placeholder="0.00" type="text" @input="amountInput" /></div>
-            <mt-checklist
-              class="all"
-              align="right"
-              v-model="all"
-              :options="options">
-            </mt-checklist>
+            <mt-checklist class="all" align="right" v-model="all" :options="options"> </mt-checklist>
           </div>
         </div>
-        <div class="mid"><span>可提现余额</span> <em>{{balance}}元</em></div>
+        <div class="mid">
+          <span>可提现余额</span> <em>{{ balance }}元</em>
+        </div>
         <ul class="bottom">
           <li>
             <div class="border-bottom-1px">
               <span>开户地区</span>
-              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="areaName">
+              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="areaName" />
               <em @click="showProvince"></em>
             </div>
           </li>
           <li>
             <div class="border-bottom-1px">
               <span>开户网点</span>
-              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="bankName">
+              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="bankName" />
               <em @click="showBank"></em>
             </div>
           </li>
           <li>
             <div class="border-bottom-1px">
               <span>手机号</span>
-              <input class="phone-input" placeholder="请输入手机号" ref="cardBankCnapsInput" @focus="focusScroll" type="number" disabled v-model="bankCardInfo.mobile">
+              <input
+                class="phone-input"
+                placeholder="请输入手机号"
+                ref="cardBankCnapsInput"
+                @focus="focusScroll"
+                type="number"
+                disabled
+                v-model="bankCardInfo.mobile"
+              />
             </div>
           </li>
           <li>
             <div class="border-bottom-1px">
               <span>验证</span>
-              <input placeholder="请输入验证码" ref="cardBankCnapsInput" @focus="focusScroll" type="number">
+              <input placeholder="请输入验证码" ref="cardBankCnapsInput" @focus="focusScroll" type="number" />
               <div class="sms-wrapper"><sms-btn text="获取验证码" @getSMSCode="getSmsCode"></sms-btn></div>
             </div>
           </li>
@@ -68,13 +75,7 @@
         <mt-button icon="back" slot="left" @click="clickBackArrow"></mt-button>
       </mt-header>
       <mt-search v-model="searchVal" :show="true" :result.sync="filterResult">
-        <mt-cell
-          v-for="(item, index) in filterResult"
-          :key="index"
-          :title="item.name"
-          :value="item.code"
-          @click.native="selectItem(item)">
-        </mt-cell>
+        <mt-cell v-for="(item, index) in filterResult" :key="index" :title="item.name" :value="item.code" @click.native="selectItem(item)"> </mt-cell>
       </mt-search>
     </div>
     <app-dialog

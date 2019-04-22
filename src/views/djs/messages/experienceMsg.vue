@@ -1,44 +1,68 @@
 <template>
-  <section>
-    <div class="commonList">
-      <div class="title">
+  <section v-if="datas.length > 0">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toExperienceDetail(item.id, item.amount, item.days)">
         <i class=""></i>
-        <p>体验金消息</p>
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <i class=""></i>
-        <p>体验金消息</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
     </div>
   </section>
+  <NoData v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
+  </NoData>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    // BScroll
+    NoData
   },
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      experienceShow: false, //是否已读
+      datas: []
+    }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    toExperienceDetail(id, amount, days) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'TYXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
+        this.$router.push({
+          name: 'ExperienceMsgDetail',
+          query: { amount, days }
+        })
+      })
+    }
+  },
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //体验金消息接口
+    api.getTasteGoldCount(data).then(res => {
+      this.datas = res.data.message
+    })
+  },
   mounted() {},
   destroyed() {}
 }

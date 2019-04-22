@@ -1,26 +1,26 @@
 <template>
-    <div class="setting-container">
-      <div class="form">
-        <div class="row">
-          <span>手机号</span>
-          <span>{{user.mobile | secret}}</span>
-        </div>
-        <div class="row" @click="$router.push({name:'loginPassword'})">
-          <span>修改登录密码</span>
-          <span class="suffix"></span>
-        </div>
-        <div class="row" @click="$router.push({name:'receiveAddress'})">
-          <span>收货地址管理</span>
-          <span class="suffix"></span>
-        </div>
+  <div class="setting-container">
+    <div class="form">
+      <div class="row">
+        <span>手机号</span>
+        <span>{{ user.mobile | secret }}</span>
       </div>
-      <div class="btn">
-        <button @click="toLogout">退出登录</button>
+      <div class="row" @click="$router.push({ name: 'loginPassword' })">
+        <span>修改登录密码</span>
+        <span class="suffix"></span>
       </div>
-      <Confirm :show.sync="showDialog" :onConfirm="doLogout" title="温馨提示" confirmText="确认">
-        您确认要退出登录？
-      </Confirm>
+      <div class="row" @click="$router.push({ name: 'receiveAddress' })">
+        <span>收货地址管理</span>
+        <span class="suffix"></span>
+      </div>
     </div>
+    <div class="btn">
+      <button @click="toLogout">退出登录</button>
+    </div>
+    <Confirm :show.sync="showDialog" :onConfirm="doLogout" title="温馨提示" confirmText="确认">
+      您确认要退出登录？
+    </Confirm>
+  </div>
 </template>
 
 <script>

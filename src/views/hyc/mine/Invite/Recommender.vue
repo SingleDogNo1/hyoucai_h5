@@ -8,7 +8,7 @@
     </div>
     <div class="recommendation_code actives" v-show="hasRecommender">
       <p class="txt">我的推荐人</p>
-      <p class="txt bottom">{{ myReferrer }}</p>
+      <p class="txt bottom">{{ refereeName }}</p>
     </div>
     <div class="btn" v-show="!hasRecommender">
       <button class="confirm" @click="saveInviteCode">
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { saveInviteCode, userInviteInfo, getQRCode } from '@/api/djs/invite'
+import { saveInviteCode, userInviteCode, getQRCode } from '@/api/hyc/invite'
 import Dialog from '@/components/Dialog/Alert'
 import AppDialog from '@/components/Dialog/QRCodeDialog'
 import { mapGetters } from 'vuex'
@@ -44,19 +44,19 @@ export default {
         showClose: false
       },
       QRCode: '',
-      recommendName: '', // 推荐人姓名
+      refereeName: '', // 推荐人姓名 我的推荐人
       hasRecommender: true, // 是否有推荐人
       showDialog: false, // 提示弹窗
       msgDialog: '请输入推荐码', // 提示弹窗内容
       newRecommendCode: '', // 输入推荐吗
-      newReferrer: '', // 新添加推荐码对应的姓名
-      myReferrer: '' // 我的推荐人
+      newReferrer: '' // 新添加推荐码对应的姓名
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
+    // 补录推荐码
     saveInviteCode() {
       // Indicator.open()
       if (!this.newRecommendCode) {
@@ -69,7 +69,7 @@ export default {
           // console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
-            this.newReferrer = data.data.name
+            this.newReferrer = data.data.refereeName
             this.showDialog = true
           } else {
             Toast(data.resultMsg)
@@ -82,17 +82,18 @@ export default {
       this.showDialog = false
     },
     // 获取我的推荐人姓名
-    userInviteInfo() {
+    userInviteCode() {
       Indicator.open('加载中...')
-      userInviteInfo({
+      userInviteCode({
         userName: this.user.userName
       }).then(res => {
         Indicator.close()
+        // console.log(res.data.data)
         let data = res.data
         if (data.resultMsg == 'SUCCESS') {
-          if (data.recommendName) {
+          if (data.data.refereeName) {
             this.hasRecommender = true
-            this.recommendName = data.recommendName
+            this.refereeName = data.data.refereeName
           } else {
             this.hasRecommender = false
           }
@@ -122,7 +123,7 @@ export default {
     AppDialog
   },
   mounted() {
-    this.userInviteInfo()
+    this.userInviteCode()
     // console.log(this.user.realName)
   }
 }

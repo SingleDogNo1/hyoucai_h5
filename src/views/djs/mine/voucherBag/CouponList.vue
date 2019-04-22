@@ -101,12 +101,15 @@ export default {
           } else {
             item.commonUse = '不可'
           }
-          item.projectTypes.map(items => {
+          item.msg = ''
+          let length = item.projectTypes.length - 1
+          // console.log(length)
+          item.projectTypes.map((items, index) => {
             // 展开券的适用范围
-            if ((couponList = item.projectTypes.length)) {
-              item.msg = items.projectTypeName
+            if (index == length) {
+              item.msg += items.projectTypeName
             } else {
-              item.msg = items.projectTypeName + '、'
+              item.msg += items.projectTypeName + '、'
             }
           })
           if (item.status == 2) {
@@ -160,16 +163,18 @@ export default {
   background: #f6f6f6;
   position: relative;
   .have {
-    overflow: hidden;
-    height: 5.42rem;
+    overflow: auto;
+    height: 100%;
     .coupon {
       margin-top: 0.1rem;
       height: 1.02rem;
-      display: flex;
+      // display: flex;
       background-size: 3.75rem 1.02rem;
       .coupon_left {
         width: 1.2rem;
         margin-top: 0.18rem;
+        float: left;
+        padding: 0 0.2rem;
         .coupon_left_p {
           text-align: center;
           letter-spacing: 0.26px;
@@ -198,6 +203,8 @@ export default {
         padding-right: 0.14rem;
         color: #333;
         position: relative;
+        float: left;
+        width: 2.55rem;
         .right_p1 {
           margin-top: 0.1rem;
           font-size: 0.13rem;

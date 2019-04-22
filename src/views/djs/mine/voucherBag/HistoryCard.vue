@@ -117,8 +117,9 @@ export default {
     background: url(./images/historybg.png);
     background-size: 3.75rem 1.02rem;
     .coupon_left {
-      width: 1.4rem;
+      width: 1.2rem;
       margin-top: 0.18rem;
+      padding: 0 0.2rem;
       .coupon_left_p {
         text-align: center;
         letter-spacing: 0.26px;
@@ -151,6 +152,7 @@ export default {
     .coupon_right {
       padding-left: 0.03rem;
       padding-right: 0.14rem;
+      width: 2.55rem;
       .right_p1 {
         margin-top: 0.1rem;
         font-size: 0.13rem;

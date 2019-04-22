@@ -797,19 +797,29 @@ export default {
     /deep/ .mint-searchbar {
       margin-top: 0.44rem;
       padding: 0.08rem 0.1rem;
+      background-color: #f2f2f2;
       .mint-searchbar-inner {
-        height: 0.28rem;
+        height: 0.36rem;
         padding: 0.04rem 0.06rem;
+        border-radius: 1000px;
+        border: 1px solid #979797;
         .mintui-search {
-          font-size: 0.12rem;
+          display: none;
         }
         .mint-searchbar-core {
           font-size: 0.13rem;
+          padding: 0 0.1rem;
         }
+      }
+      .mint-searchbar-cancel {
+        display: none;
       }
     }
     /deep/ .mint-search-list {
-      padding-top: 0.88rem;
+      padding-top: 1rem;
+      .mint-cell-text {
+        line-height: 0.25rem;
+      }
       .mint-cell-value {
         display: none;
       }

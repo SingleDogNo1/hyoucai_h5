@@ -241,6 +241,30 @@ export default new Router({
           meta: {
             // title: 'App下载'
           }
+        },
+        {
+          path: 'setting',
+          name: 'Setting',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting'),
+          meta: {
+            title: '设置'
+          }
+        },
+        {
+          path: 'setting/loginPassword',
+          name: 'loginPassword',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/modifyPWD.vue'),
+          meta: {
+            title: '修改登录密码'
+          }
+        },
+        {
+          path: 'setting/receiveAddress',
+          name: 'receiveAddress',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/receiveAddress'),
+          meta: {
+            title: '地址管理'
+          }
         }
       ]
     },
@@ -660,6 +684,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCGratitudeMoney" */ '@/views/hyc/GratitudeMoney'),
           meta: {
             title: '我推荐的人'
+          }
+        },
+        {
+          path: 'inviteFriends',
+          name: 'HYCInviteFriends',
+          component: () => import(/* webpackChunkName: "HYCInviteFriends" */ '@/views/hyc/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'HYCRecommender',
+          component: () => import(/* webpackChunkName: "HYCRecommender" */ '@/views/hyc/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
           }
         },
         {

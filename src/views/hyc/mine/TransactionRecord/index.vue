@@ -273,6 +273,7 @@ export default {
       }
       getUserTransaction(data).then(res => {
         let resp = res.data
+        // console.log(res.data)
         if (resp.resultCode == 1) {
           let list = resp.data.list
           if (txType === 'TXCZ') {

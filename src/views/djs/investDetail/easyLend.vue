@@ -169,19 +169,21 @@ export default {
           value: '2'
         }
       ],
-      autoLendType: '1',
-      invId: -1,
-      investType: '',
+      autoLendType: '1', // 1:本金到期后自动出借  2:本息到期后自动出借
+      invId: -1, // 投资记录id
+      investType: '', // 标的类型 普通 || 手机乐活动
       autoLendSuccessDialogOptions: {
+        // 自动出借成功弹窗
         show: false,
         title: '恭喜您，出借成功',
         msg: '',
         confirmText: ''
       },
-      generalMsg: '还有很多优质产品，总还有一款适合您',
+      generalMsg: '还有很多优质产品，总还有一款适合您', // 自动出借成功描述
       autoLendSuccessType: -1, // 自动出借设置成功后判断出借类型的标识 0：普通标 1：手机乐活动标
       riskTestIsMax: '', // 风险测评类型是否达到最大
       riskTestDialogOptions: {
+        // 风险测评弹窗
         show: false,
         msg: '',
         title: '',

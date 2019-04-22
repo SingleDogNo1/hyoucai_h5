@@ -61,27 +61,28 @@ export default {
   created() {
     let data = {
       userName: this.userName,
-      authorization: this.authorization
+      authorization: this.authorization,
+      readStatus: '0'
     }
     //加息券未读消息中心接口
     api.getCouponUnreadCount(data).then(res => {
       let data = res.data.message
       let couponUnReadCount = data.couponUnRead.length
-      if (couponUnReadCount !== 0) {
+      if (couponUnReadCount > 0) {
         this.couponShow = true
       }
     })
     //红包消息接口
     api.getRedPacketCount(data).then(res => {
       let data = res.data.message
-      if (data.length !== 0) {
+      if (data.length > 0) {
         this.redShow = true
       }
     })
     //体验金消息接口
     api.getTasteGoldCount(data).then(res => {
-      let data = res.message
-      if (data) {
+      let data = res.data.message
+      if (data.length > 0) {
         this.tasteShow = true
       }
     })
@@ -89,7 +90,7 @@ export default {
     api.getRepeatUnreadCount(data).then(res => {
       let data = res.data.message
       let repeatUnReadCount = data.repeatUnRead.length
-      if (repeatUnReadCount !== 0) {
+      if (repeatUnReadCount > 0) {
         this.repeatShow = true
       }
     })

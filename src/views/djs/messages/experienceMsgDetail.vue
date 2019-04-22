@@ -4,25 +4,26 @@
       <span>体验金消息</span>
     </div>
     <div class="msg">
-      <span>您有一笔出借将于</span>
-      <p><em>2018年05月28日</em></p>
-      <p><i>到期</i></p>
+      <p>
+        <em>{{ amount }}元体验金</em>
+      </p>
+      <p>
+        <i>已存入您的账户，立即使用体验{{ days }}天</i>
+      </p>
     </div>
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
   data() {
-    return {}
+    return {
+      amount: this.$route.query.amount,
+      days: this.$route.query.days
+    }
   },
   props: {},
   watch: {},
@@ -54,13 +55,6 @@ section {
     background-position: 0.1rem;
     margin-right: 0.1rem;
     margin-bottom: 0.15rem;
-    span {
-      color: #fff;
-      font-size: 0.12rem;
-      display: block;
-      text-align: center;
-      padding-top: 0.25rem;
-    }
     p {
       em {
         color: #fff;
@@ -70,7 +64,7 @@ section {
         display: block;
         text-align: center;
         box-shadow: 0.02rem 0 0 #dbd624;
-        padding-top: 0.1rem;
+        padding-top: 0.3rem;
       }
       i {
         color: #fff;

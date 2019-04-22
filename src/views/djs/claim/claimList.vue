@@ -1,7 +1,7 @@
 <template>
   <BScroll class="claim_wrap">
     <p></p>
-    <table class="claim_list">
+    <table class="claim_list" v-if="claimListData.length > 0">
       <thead>
         <tr>
           <td>借款人/出让人</td>
@@ -9,29 +9,32 @@
           <td>债权详情</td>
         </tr>
       </thead>
-      <tbody v-for="(item, index) in claimListData" :key="index">
-        <tr>
+      <tbody>
+        <tr v-for="(item, index) in claimListData" :key="index">
           <td>{{ item.ownBondName }}</td>
           <td>{{ item.totalBondAmt }}</td>
           <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
         </tr>
       </tbody>
     </table>
+    <NoData v-else></NoData>
   </BScroll>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import { getClaimList } from '@/api/djs/investDetail'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    NoData
   },
   data() {
     return {
       projectNo: this.$route.query.projectNo,
-      claimListData: ''
+      claimListData: []
     }
   },
   methods: {
@@ -61,7 +64,6 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
   overflow-y: scroll;
   p {
     height: 0.1rem;

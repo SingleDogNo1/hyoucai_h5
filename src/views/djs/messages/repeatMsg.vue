@@ -1,42 +1,71 @@
 <template>
-  <section>
-    <div class="commonList">
-      <div class="title">
-        <p>汇有财送你一张您有一笔投资将于2018年05月28日到期。</p>
+  <section v-if="datas.length > 0">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toRepeatDetail(item.id, item.invOverDate)">
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <p>汇有财送你一张您有一笔投资将于2018年05月28日到期。</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
     </div>
   </section>
+  <NoData v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
+  </NoData>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    // BScroll
+    NoData
   },
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      repeatShow: false, //是否已读
+      datas: [] //列表
+    }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    toRepeatDetail(id, invOverDate) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'FTXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
+        this.$router.push({
+          name: 'RepeatMsgDetail',
+          query: { invOverDate }
+        })
+      })
+    }
+  },
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //复投消息接口
+    api.getRepeatMessage(data).then(res => {
+      let data = res.data.message
+      let repeatUnReadData = data.repeatUnRead
+      let repeatReadData = data.repeatRead
+
+      this.datas = repeatReadData.concat(repeatUnReadData)
+    })
+  },
   mounted() {},
   destroyed() {}
 }

@@ -4,24 +4,26 @@
       <span>红包消息</span>
     </div>
     <div class="msg">
-      <p><em>10.00元红包</em></p>
-      <p><i>已存入您的账户，立即使用抵扣10.00元</i></p>
+      <p>
+        <em>{{ amount }}元红包</em>
+      </p>
+      <p>
+        <i>已存入您的账户，立即使用抵扣{{ amount }}元</i>
+      </p>
     </div>
   </section>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
 export default {
   name: 'index',
   mixins: [],
-  components: {
-    // BScroll
-  },
+  components: {},
+
   data() {
-    return {}
+    return {
+      amount: this.$route.query.amount
+    }
   },
   props: {},
   watch: {},

@@ -37,10 +37,11 @@ export function saveInviteCode(data) {
   })
 }
 
-// export function getProtocaol(data) {
-//   return request({
-//     url: 'obtainProtocol',
-//     method: 'post',
-//     data: qs.stringify(data)
-//   })
-// }
+// 获取协议
+export function getProtocaol(data) {
+  return request({
+    url: 'obtainProtocol',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

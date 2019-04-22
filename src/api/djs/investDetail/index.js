@@ -96,3 +96,12 @@ export function investApi(data) {
     }
   })
 }
+
+// 到期自动复投
+export function expireRepeatApi(data) {
+  return axios({
+    url: 'ExpireRepeat',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

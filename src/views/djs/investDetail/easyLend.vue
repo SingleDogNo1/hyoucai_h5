@@ -80,23 +80,50 @@
           还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}
         </p>
       </section>
-      <!-- 复投弹窗 -->
-      <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :confirm="confirmAutoInvest">
-        <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
-      </Dialog>
     </div>
+
+    <!-- 复投弹窗 -->
+    <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest">
+      <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
+      <p class="agre">自动出借服务条款></p>
+    </Dialog>
+
+    <!-- 自动出借设置成功弹窗 -->
+    <Dialog
+      class="auto-lend-sxs-dialog"
+      :show.sync="autoLendSuccessDialogOptions.show"
+      :title="autoLendSuccessDialogOptions.title"
+      :confirmText="autoLendSuccessDialogOptions.confirmText"
+      :onConfirm="confirmAutoLendSXS"
+    >
+      <img src="./images/auto-lend-success.png" alt="" />
+      <p>{{ autoLendSuccessDialogOptions.msg }}</p>
+    </Dialog>
+
+    <!-- 风险测评弹窗 -->
+    <Dialog
+      class="risk-test-dialog"
+      :show.sync="riskTestDialogOptions.show"
+      :title="riskTestDialogOptions.title"
+      :confirmText="riskTestDialogOptions.confirmText"
+      :onConfirm="confirmRiskText"
+    >
+      <div>
+        <h6>{{ riskTestDialogOptions.title }}</h6>
+        <p>{{ riskTestDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-// import Confirm from '@/components/Dialog/Confirm'
 import Dialog from '@/components/Dialog/Alert'
 
 import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
-import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi } from '@/api/djs/investDetail'
+import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi, expireRepeatApi } from '@/api/djs/investDetail'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -106,7 +133,6 @@ export default {
   components: {
     BScroll,
     Dialog
-    // Confirm
   },
   data() {
     return {
@@ -123,13 +149,46 @@ export default {
       errMsg: '', // 错误提示
       redPacketNum: 0, // 可用红包数量
       couponNum: 0, // 可用加息券数量
+      investErrDialogOptions: {
+        // 出借错误弹窗（resultCode !== '1'）
+        show: false,
+        msg: ''
+      },
       autoInvestDialogOptions: {
         // 自动出借产品成功弹窗
-        show: true,
+        show: false,
         title: '设置自动出借，省心赚钱'
       },
-      autoLendTypeRadio: [{ label: '本金到期后自动出借', value: '1' }, { label: '本息到期后自动出借', value: '2' }],
-      autoLendType: '1'
+      autoLendTypeRadio: [
+        {
+          label: '本金到期后自动出借',
+          value: '1'
+        },
+        {
+          label: '本息到期后自动出借',
+          value: '2'
+        }
+      ],
+      autoLendType: '1', // 1:本金到期后自动出借  2:本息到期后自动出借
+      invId: -1, // 投资记录id
+      investType: '', // 标的类型 普通 || 手机乐活动
+      autoLendSuccessDialogOptions: {
+        // 自动出借成功弹窗
+        show: false,
+        title: '恭喜您，出借成功',
+        msg: '',
+        confirmText: ''
+      },
+      generalMsg: '还有很多优质产品，总还有一款适合您', // 自动出借成功描述
+      autoLendSuccessType: -1, // 自动出借设置成功后判断出借类型的标识 0：普通标 1：手机乐活动标
+      riskTestIsMax: '', // 风险测评类型是否达到最大
+      riskTestDialogOptions: {
+        // 风险测评弹窗
+        show: false,
+        msg: '',
+        title: '',
+        confirmText: '重新评测'
+      }
     }
   },
   computed: {
@@ -223,7 +282,6 @@ export default {
       }).then(res => {
         Indicator.close()
         const data = res.data
-        console.log(data)
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
       })
     },
@@ -242,40 +300,40 @@ export default {
             this.cleanData()
             if (this.investDetail.doubleBonuCouponEntity.dbCouponRate || this.investDetail.doubleBonuCouponEntity.dbValidDays !== null) {
               // 可以加息复投
+              this.invId = data.id
+              this.investType = data.investType
+              this.autoInvestDialogOptions.show = true
+              this.generalMsg = data.successInfo
             } else {
+              this.autoLendSuccessDialogOptions.show = true
               if (data.investType === 'SJLHD') {
                 // 手机乐活动
+                this.autoLendSuccessDialogOptions.msg = this.generalMsg
+                this.autoLendSuccessDialogOptions.confirmText = '去设置'
+                this.autoLendSuccessType = 1
               } else {
                 // 普通产品
+                this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
+                this.autoLendSuccessDialogOptions.confirmText = '查看更多'
+                this.autoLendSuccessType = 0
               }
             }
-          } else if (data.resultCode === '90021' || data.resultCode === '90022') {
-            // 风险测评出借额度不够 || 出借期限不够
-            switch (data.evaluatingResult) {
-              case 'BSX':
-                this.riskType = '【保守型】'
-                break
-              case 'WJX':
-                this.riskType = '【谨慎型】'
-                break
-              case 'JJX':
-                this.riskType = '【积极型】'
-                break
-              case 'JQX':
-                this.riskType = '【积极型】'
-                break
-              case 'JINX':
-                this.riskType = '【激进型】'
-                break
-            }
-
+          } else if (data.resultCode === '90021') {
+            // 风险测评等级不符
+            this.riskTestDialogOptions.show = true
+            this.riskTestDialogOptions.title = '风险测评等级不符'
+            this.riskTestDialogOptions.msg = res.data.resultMsg
             if (['JINX'].includes(data.data.evaluatingResult)) {
-              // 激进型一个按钮
-              this.riskDialogSingleButton = true
-              this.cancelText = '我知道了'
+              // 激进型
+              this.riskTestIsMax = true
+              this.riskTestDialogOptions.confirmText = '我知道了'
             }
-            this.riskContent = res.data.resultMsg
-            this.isShowRiskDialog = true
+          } else if (data.resultCode === '90022') {
+            // 风险测评过期
+            this.riskTestDialogOptions.show = true
+            this.riskTestDialogOptions.title = '风险测评过期'
+            this.riskTestDialogOptions.msg = res.data.resultMsg
+            this.riskTestIsMax = false
           } else {
             Toast(data.resultMsg)
           }
@@ -283,7 +341,54 @@ export default {
       }
     },
     confirmAutoInvest() {
-      console.log`confirmAutoInvest`
+      expireRepeatApi({
+        invId: this.invId,
+        projectNo: this.projectNo,
+        repeatStatus: this.autoLendType
+      }).then(res => {
+        const data = res.data
+        if (data.resultCode === '1') {
+          switch (this.investType) {
+            case 'GENERAL':
+              // 普通标
+              this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
+              this.autoLendSuccessType = 0
+              this.autoLendSuccessDialogOptions.confirmText = '查看更多'
+              break
+            case 'SJLHD':
+              // 手机乐活动
+              this.autoLendSuccessDialogOptions.msg = this.generalMsg
+              this.autoLendSuccessType = 1
+              this.autoLendSuccessDialogOptions.confirmText = '去设置'
+              break
+          }
+          this.autoLendSuccessDialogOptions.show = true
+        } else {
+          this.investErrDialogOptions.show = true
+          this.investErrDialogOptions.msg = data.resultMsg
+        }
+      })
+    },
+    confirmAutoLendSXS() {
+      switch (this.autoLendSuccessType) {
+        case 0:
+          this.$router.push({
+            name: 'DJSInvestment'
+          })
+          break
+        case 1:
+          this.$router.push({
+            name: 'receiveAddress'
+          })
+          break
+      }
+    },
+    confirmRiskText() {
+      if (!this.riskTestIsMax) {
+        this.$router.push({
+          name: 'riskTest'
+        })
+      }
     },
     ...mapMutations({
       cleanData: 'CLEAN_LEND_DATA'
@@ -561,6 +666,26 @@ export default {
     }
     /deep/ .mint-cell {
       background-image: none;
+      min-height: 0.5rem;
+    }
+    .agre {
+      font-size: 0.13rem;
+      color: #666;
+      text-align: center;
+    }
+  }
+  .auto-lend-sxs-dialog {
+    /deep/ .inner {
+      padding-top: 1rem;
+    }
+    img {
+      position: absolute;
+      @include square(1.3rem);
+      left: 0;
+      right: 0;
+      top: 0;
+      margin: 0 auto;
+      transform: translateY(-50%);
     }
   }
 }

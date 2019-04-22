@@ -107,7 +107,7 @@ export default {
       font-weight: bold;
     }
     section {
-      margin-bottom: 0.46rem;
+      margin-bottom: 0.3rem;
       font-size: 0.13rem;
       text-align: center;
     }
@@ -117,7 +117,6 @@ export default {
       font-size: 0.16rem;
       color: #ffffff;
       background: #ec5e52;
-      /*background: linear-gradient(90deg, #FF5E19, #EC5E52);*/
     }
   }
 }

@@ -214,7 +214,7 @@ export default {
     },
     invest() {
       this.$router.push({
-        name: 'DJSInvestFlow',
+        name: 'DJSInvestDetail',
         query: {
           projectNo: this.projectNo
         }

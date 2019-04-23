@@ -98,17 +98,37 @@
         </ul>
       </div>
     </div>
+    <Dialog :show.sync="userCompleteDialogOptions.show" :confirmText="userCompleteDialogOptions.confirmText" :onConfirm="confirmUserComplete">
+      <div>{{ userCompleteDialogOptions.msg }}</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 import BScroll from '@/components/BScroll/BScroll'
-import { amountInfo } from '@/api/djs/mine/mine'
+import Dialog from '@/components/Dialog/Alert'
+
 import { mapMutations, mapGetters } from 'vuex'
+import { Toast } from 'mint-ui'
+
+import { amountInfo } from '@/api/djs/mine/mine'
+import {
+  //getAlertInfoApi,
+  getUserCompleteInfoApi
+  // alertInfoAcceptApi
+} from '@/api/common/mine'
+import {
+  repeatInvestApi
+  // UpdateMessageApi
+} from '@/api/djs/mine/mine'
+
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    Dialog
   },
   mixins: [],
   data() {
@@ -116,7 +136,16 @@ export default {
       showModel: false,
       showAmount: true,
       showDownload: true,
-      amountInfo: {}
+      amountInfo: {},
+      routerName: '',
+      routerParams: '',
+      userCompleteDialogOptions: {
+        show: true,
+        msg: '123',
+        confirmText: 'queding'
+      },
+      repeatInvestUnreadMsgList: [],
+      repeatCouponRate: ''
     }
   },
   props: {},
@@ -134,18 +163,77 @@ export default {
       this.setPlatform('hyc')
       this.$router.push({ name: 'HYCUserCenter' })
     },
+    confirmUserComplete() {
+      this.$router.push({
+        name: this.routerName,
+        params: this.routerParams
+      })
+    },
+    getUserCompleteInfo() {
+      getUserCompleteInfoApi().then(res => {
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          // 复投弹窗在点击取消时，向cookie保存一个一天后过期的值。再次进入个人中心时，读取这个值，如果能拿的到说明不是第一次登陆，不显示
+          const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+          this.userCompleteDialogOptions.msg = data.message
+          switch (data.status) {
+            case 'OPEN_ACCOUNT':
+              this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              this.routerName = 'openAccountProgress'
+              break
+            case 'SET_PASSWORD':
+              this.userCompleteDialogOptions.confirmText = '设置交易密码'
+              this.routerName = 'openAccountProgress'
+              break
+            case 'SIGN_PROTOCOL':
+              this.userCompleteDialogOptions.confirmText = '签约'
+              this.routerName = 'openAccountProgress'
+              break
+            case 'EVALUATE':
+              this.userCompleteDialogOptions.confirmText = '风险评测'
+              this.routerName = 'riskTest'
+              break
+            default:
+              if (this.platform === 'djs' && !Cookie.get(key)) {
+                // 点金石复投弹窗
+                repeatInvestApi({
+                  userName: this.user.userName
+                }).then(res => {
+                  const data = res.data
+                  if (res.data.resultCode === '1') {
+                    this.repeatCouponRate = data.couponRate
+                  } else {
+                    Toast(res.data.resultMsg)
+                  }
+                  console.log()
+                })
+              } else {
+                // 汇有财逻辑
+              }
+          }
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+    },
     ...mapMutations({
       setPlatform: 'SET_PLATFORM'
     })
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'platform'])
   },
   created() {
     this.getAmountInfo()
+    this.getUserCompleteInfo()
   },
-  mounted() {},
-  destroyed() {}
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (['DJSInvestDetail', 'HYCInvestDetail'].includes(from.name)) {
+        vm.beforeRouterPath = from.fullPath
+      }
+    })
+  }
 }
 </script>
 

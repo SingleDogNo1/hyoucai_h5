@@ -121,7 +121,6 @@ import { reportTelephoneApi, getUnreadMsgApi } from '@/api/common/common'
 
 export default {
   name: 'index',
-  mixins: [],
   components: {
     BScroll
   },
@@ -137,8 +136,6 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
-  props: {},
-  watch: {},
   methods: {
     toMsgDetail() {
       if (!this.user) {
@@ -193,6 +190,7 @@ export default {
   created() {
     const $this = this
     ;(async function init() {
+      // 获取网站公告
       await getList({
         paramCode: 'WZGG'
       }).then(res => {
@@ -200,21 +198,25 @@ export default {
         if (res.data.resultCode === '1') {
           $this.noticeList = data.zxdtMtbdlist
           $this.$nextTick(() => {
-            new Swiper('.notice', { direction: 'vertical', autoplay: true })
+            new Swiper('.notice', {
+              direction: 'vertical',
+              autoplay: true,
+              loop: true
+            })
           })
         } else {
           Toast(res.data.resultMsg)
         }
       })
-
+      //获取首页新手标 && 热门标
       await getQualityList({
         userName: $this.user ? $this.user.userName : null
       }).then(res => {
         const data = res.data.data
         $this.noviceProjectList = data.noviceProjectList
-        $this.popularProjectList = data.popularProjectList
+        $this.popularProjectList = data.hycPopularProjectList
       })
-
+      // 获取举报电话
       await reportTelephoneApi().then(res => {
         if (res.data.resultCode === '1') {
           const data = res.data.data
@@ -229,14 +231,13 @@ export default {
     })()
   },
   mounted() {
-    if (this.user && this.user.user) {
+    if (this.user) {
       getUnreadMsgApi().then(res => {
         const data = res.data.data
         this.newNotice = data.haveUnreadMessage
       })
     }
-  },
-  destroyed() {}
+  }
 }
 </script>
 

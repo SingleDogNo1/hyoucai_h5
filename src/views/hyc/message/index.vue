@@ -1,31 +1,37 @@
 <template>
   <section>
-    <div class="module">
-      <h2>送您一张3.0%加息券</h2>
-      <p>已存入您的账户，立即使用加息15天！</p>
-      <span>2017.12.14 13:12:44</span>
-    </div>
-    <div class="module">
-      <h2>送您一个100元红包</h2>
-      <p>已存入您的账户，立即使用增加100元！</p>
-      <span>2017.12.14 13:12:44</span>
+    <div class="module" v-for="(item, index) in datas" :key="index">
+      <h2>{{ item.title }}</h2>
+      <p>{{ item.message }}</p>
+      <span>{{ item.createTime }}</span>
     </div>
   </section>
 </template>
 
 <script>
+import api from '@/api/hyc/message'
 export default {
   name: 'index',
   mixins: [],
   components: {},
   data() {
-    return {}
+    return {
+      datas: []
+    }
   },
   props: {},
   watch: {},
   methods: {},
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      platform: 'h5'
+    }
+    api.getSiteMessage(data).then(res => {
+      let data = res.data.data
+      this.datas = data.messageList
+    })
+  },
   mounted() {},
   destroyed() {}
 }
@@ -36,6 +42,7 @@ section {
   background: #eee;
   padding-top: 0.06rem;
   height: 100%;
+  overflow-y: scroll;
   .module {
     height: 1.38rem;
     width: 3.45rem;
@@ -54,7 +61,7 @@ section {
       color: #999999;
       font-family: PingFang-SC-Regular;
       padding-top: 0.15rem;
-      padding-bottom: 0.24rem;
+      padding-bottom: 0.1rem;
     }
     span {
       font-size: 0.11rem;

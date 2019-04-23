@@ -3,11 +3,11 @@
     <div class="form">
       <div class="row">
         <span class="title">收货人</span>
-        <span class="text"><input type="text" placeholder="姓名" v-model="consigneeName"></span>
+        <span class="text"><input type="text" placeholder="姓名" v-model="consigneeName"/></span>
       </div>
       <div class="row">
         <span class="title">联系电话</span>
-        <span class="text"><input type="tel" placeholder="11位手机号" v-model="consigneePhone" maxlength="11"></span>
+        <span class="text"><input type="tel" placeholder="11位手机号" v-model="consigneePhone" maxlength="11"/></span>
       </div>
       <div class="row">
         <span class="text"><textarea rows="2" placeholder="详细地址（例：街道/小区/门牌号）" v-model="address"></textarea></span>

@@ -3,19 +3,19 @@
     <div class="form">
       <div class="row">
         <span class="title">原密码</span>
-        <span class="text"><input type="password" v-model="oldPWD"></span>
+        <span class="text"><input type="password" v-model="oldPWD"/></span>
       </div>
       <div class="row">
         <span class="title">新密码</span>
-        <span class="text"><input type="password" v-model="newPWD"></span>
+        <span class="text"><input type="password" v-model="newPWD"/></span>
       </div>
       <div class="row">
         <span class="title">确认密码</span>
-        <span class="text"><input type="password" v-model="confirmPWD"></span>
+        <span class="text"><input type="password" v-model="confirmPWD"/></span>
       </div>
     </div>
     <div class="btn">
-      <button @click="updatePWD" :disabled="oldPWD.trim()===''||newPWD.trim()===''||confirmPWD.trim()===''">确认</button>
+      <button @click="updatePWD" :disabled="oldPWD.trim() === '' || newPWD.trim() === '' || confirmPWD.trim() === ''">确认</button>
     </div>
   </div>
 </template>

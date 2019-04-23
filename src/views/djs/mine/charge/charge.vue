@@ -11,7 +11,8 @@
                   <p>付款方式</p>
                   <input v-if="!isBankcardSupport" type="text" @input="bankCardInput" />
                   <span v-else>{{ bankCardInfo.cardNo | bankCardFilter }}</span>
-                  <div class="border-top-1px">{{ bankCardInfo.quota }}</div>
+                  <div class="border-top-1px" v-if="!isBankcardSupport">无支持充值银行卡</div>
+                  <div class="border-top-1px" v-else>{{ bankCardInfo.quota }}</div>
                 </dd>
               </dl>
             </li>
@@ -53,6 +54,10 @@
             <dt>如需变更银行卡请下载官方App</dt>
             <dd><router-link :to="{ name: '' }">下载App</router-link></dd>
           </dl>
+          <div class="no1-card">
+            <p>为了您的账户提现快速到账，请您绑定一类卡</p>
+            <div><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg">点击了解何为一类卡></a></div>
+          </div>
           <!--<mt-cell title="转账充值" is-link @click.native="toChargeTip"></mt-cell>-->
           <div class="tip border-top-1px">
             <button @click="submitCharge">提交</button>
@@ -427,10 +432,10 @@ export default {
     }
   },
   created() {
-    this.getBankCardNo()
-    this.personalAccount()
-    // this.userRechargePreVerify()
-    this.userAndBankInfo()
+    // this.getBankCardNo()
+    // this.personalAccount()
+    // // this.userRechargePreVerify()
+    // this.userAndBankInfo()
   },
   mounted() {},
   beforeRouteEnter(to, from, next) {
@@ -604,6 +609,18 @@ export default {
         }
       }
     }
+    .no1-card {
+      padding: 0.15rem;
+      font-size: $font-size-small-s;
+      p {
+        color: $color-button;
+      }
+      div {
+        a {
+          color: #f78458;
+        }
+      }
+    }
     /deep/ .mint-cell {
       height: 0.44rem;
       color: $color-text;
@@ -620,12 +637,12 @@ export default {
       }
     }
     .tip {
-      margin-top: 0.39rem;
-      padding: 0.16rem;
+      padding: 0.07rem 0.16rem;
       @include border-top-1px(#eee);
       font-size: $font-size-small-s;
       color: $color-text-s;
       background-color: #fff;
+      box-shadow: 0px 1px 0px 0px rgba(238, 238, 238, 1);
       div {
         margin-bottom: 0.08rem;
       }

@@ -105,7 +105,7 @@ export default {
       // 面对面扫一扫
       Indicator.open('加载中')
       getQRCode({
-        userName: 'djs752580gr'
+        userName: this.user.userName
       }).then(res => {
         Indicator.close()
         // console.log(res.data)

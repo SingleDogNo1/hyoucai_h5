@@ -57,10 +57,15 @@
           </li>
         </ul>
         <div class="tip">
-          <div>温馨提示</div>
-          <p>
-            在你申请提现前，请先在页面下方或“基本信息”账户信息页面绑定银行卡收到你的体现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致否则体现申请将不予受理。
+          <div class="no1-card">
+            <p>为了您的账户提现快速到账，请您绑定一类卡</p>
+            <div><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg">点击了解何为一类卡></a></div>
+          </div>
+          <div class="title">温馨提示</div>
+          <p>在你申请提现前，请先在页面下方或“基本信息”账户信息页面绑定银行卡收到你的体现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致否则体现申请将不予受理。
           </p>
+        </div>
+        <div class="btn-wrapper">
           <button @click="withDraw">确认提现</button>
         </div>
       </div>
@@ -73,9 +78,12 @@
         <mt-cell v-for="(item, index) in filterResult" :key="index" :title="item.name" :value="item.code" @click.native="selectItem(item)"> </mt-cell>
       </mt-search>
     </div>
-    <app-dialog :show.sync="showDialog" class="to-cash-dialog">
-      <div>{{ dialogDis }}</div> </app-dialog
-    >>
+    <app-dialog
+      :show.sync="showDialog"
+      class="to-cash-dialog"
+    >
+      <div>{{dialogDis}}</div>
+    </app-dialog>
   </div>
 </template>
 
@@ -577,9 +585,7 @@ export default {
         this.balance = data.banlance
       }
     })
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 
@@ -769,16 +775,32 @@ export default {
       }
     }
     .tip {
-      padding: 0.16rem;
+      padding: 0.07rem 0.16rem;
+      @include border-bottom-1px(#eee);
       font-size: $font-size-small-s;
       color: $color-text-s;
-      div {
+      .no1-card {
+        margin-bottom: 0.14rem;
+        font-size: $font-size-small-s;
+        p {
+          color: $color-button;
+        }
+        div {
+          a {
+            color: #f78458;
+          }
+        }
+      }
+      .title {
         margin-bottom: 0.08rem;
       }
+    }
+    .btn-wrapper {
+      padding: 0.07rem 0.15rem;
+      background-color: #fff;
       button {
         width: 100%;
         height: 0.44rem;
-        margin-top: 0.24rem;
         background-color: $color-button;
         color: #fff;
         font-size: $font-size-small;

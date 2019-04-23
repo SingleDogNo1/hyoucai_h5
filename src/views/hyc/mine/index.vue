@@ -4,55 +4,67 @@
       <div>
         <div class="statistics">
           <div class="total-count">
-            <p class="title">总资产(元)<span @click="showModel=true"></span></p>
-            <p class="content"><span v-if="showAmount">{{amountInfo.totalAmount}}</span><span v-else>****</span></p>
-            <span class="icon-hidden" :class="{'show':!showAmount,'hide':showAmount}"  @click="showAmountFn"></span>
+            <p class="title">总资产(元)<span @click="showModel = true"></span></p>
+            <p class="content">
+              <span v-if="showAmount">{{ amountInfo.totalAmount }}</span
+              ><span v-else>****</span>
+            </p>
+            <span class="icon-hidden" :class="{ show: !showAmount, hide: showAmount }" @click="showAmountFn"></span>
           </div>
-          <div class="other-counts" >
+          <div class="other-counts">
             <div>
               <p class="title">在投本金（元）</p>
-              <p class="content"><span v-if="showAmount">{{amountInfo.totalInvAmount}}</span><span v-else>****</span></p>
+              <p class="content">
+                <span v-if="showAmount">{{ amountInfo.totalInvAmount }}</span
+                ><span v-else>****</span>
+              </p>
             </div>
             <div>
               <p class="title">累积收益（元）</p>
-              <p class="content"><span v-if="showAmount">{{amountInfo.totalIncome}}</span><span v-else>****</span></p>
+              <p class="content">
+                <span v-if="showAmount">{{ amountInfo.totalIncome }}</span
+                ><span v-else>****</span>
+              </p>
             </div>
           </div>
         </div>
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image" @click="$router.push({name: 'HYCCouponList'})">
-                <img src="./coupon.png" alt="">
+              <div class="btn-image" @click="$router.push({ name: 'HYCCouponList' })">
+                <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>
             </div>
-            <div class="btn" @click="$router.push({name: 'HYCTransactionRecord'})">
+            <div class="btn" @click="$router.push({ name: 'HYCTransactionRecord' })">
               <div class="btn-image">
-                <img src="./record.png" alt="">
+                <img src="./record.png" alt="" />
               </div>
               <p>交易记录</p>
             </div>
-            <div class="btn" @click="$router.push({name: 'HYCBankCard'})">
+            <div class="btn" @click="$router.push({ name: 'HYCBankCard' })">
               <div class="btn-image">
-                <img src="./bankcard.png" alt="">
+                <img src="./bankcard.png" alt="" />
               </div>
               <p>银行卡</p>
             </div>
           </div>
           <div class="actions">
-            <div class="amount">可用金额(元) <span v-if="showAmount">{{amountInfo.banlance}}</span><span v-else>****</span></div>
+            <div class="amount">
+              可用金额(元) <span v-if="showAmount">{{ amountInfo.banlance }}</span
+              ><span v-else>****</span>
+            </div>
             <div class="action">
-              <input type="button" value="提现" >
-              <input type="button" value="充值" @click="$router.push({name: 'HYCCharge'})">
+              <input type="button" value="提现" />
+              <input type="button" value="充值" @click="$router.push({ name: 'HYCCharge' })" />
             </div>
           </div>
           <div class="links">
-            <div class="link" @click="$router.push({name: 'HYCInviteFriends'})">
+            <div class="link" @click="$router.push({ name: 'HYCInviteFriends' })">
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({name: 'HYCIRecommender'})">
+            <div class="link" @click="$router.push({ name: 'HYCIRecommender' })">
               <span>我的推荐人</span>
               <span></span>
             </div>
@@ -60,23 +72,23 @@
               <span>系统切换</span>
               <span></span>
             </div>
-            <div class="link" @click="$router.push({name:'Setting'})">
+            <div class="link" @click="$router.push({ name: 'Setting' })">
               <span>设置</span>
               <span></span>
             </div>
           </div>
           <div class="customer-service">
-            <span class="phone"  >客服热线 400-099-7979</span>
-            <span class="service-time">工作日：上午 9:00-12:00  下午13:00-18:00</span>
+            <span class="phone">客服热线 400-099-7979</span>
+            <span class="service-time">工作日：上午 9:00-12:00 下午13:00-18:00</span>
           </div>
         </div>
         <div class="download" v-if="showDownload">
-          <span><img src="./close.png" alt="" @click="showDownload =false">如需要查看资产详情，请下载官方App</span>
-          <input type="button" value="下载App" @click="$router.push({name: 'AppDownload'})">
+          <span><img src="./close.png" alt="" @click="showDownload = false" />如需要查看资产详情，请下载官方App</span>
+          <input type="button" value="下载App" @click="$router.push({ name: 'AppDownload' })" />
         </div>
       </div>
     </b-scroll>
-    <div class="model" v-if="showModel" @click="showModel=false">
+    <div class="model" v-if="showModel" @click="showModel = false">
       <div class="amount">
         <ul>
           <li>可用余额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>

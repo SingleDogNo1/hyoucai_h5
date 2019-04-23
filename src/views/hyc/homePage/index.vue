@@ -20,7 +20,7 @@
             <img src="./yysj.png" alt="" />
             <span>运营数据</span>
           </li>
-          <li @click="showTabs('DJSActivityCenter')">
+          <li @click="showTabs('HYCActivityCenter')">
             <img src="./hdtj.png" alt="" />
             <button>hot</button>
             <span>活动推荐</span>

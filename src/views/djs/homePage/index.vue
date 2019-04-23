@@ -195,7 +195,7 @@ export default {
         if (data.resultCode === '1') {
           $this.noticeList = data.zxdtMtbdlist
           $this.$nextTick(() => {
-            new Swiper('.notice', { direction: 'vertical' })
+            new Swiper('.notice', { direction: 'vertical', autoplay: true })
           })
         } else {
           Toast(data.resultMsg)

@@ -7,13 +7,16 @@ export function getInvestDetail(data) {
     url: '/collection/investDetail/2.0',
     method: 'post',
     data: Qs.stringify(data)
+    /*headers: {
+      version: '2.0'
+    }*/
   })
 }
 
 //债权列表
 export function getClaimList(data) {
   return axios({
-    url: '/BondProject',
+    url: '/collection/loanRecord',
     method: 'post',
     data: Qs.stringify(data)
   })

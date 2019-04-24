@@ -46,16 +46,16 @@
               ><i>锁定期结束</i>
             </li>
           </ul>
-          <div class="serve-info">
+          <div class="serve-info" v-if="investDetail.projectServiceEntity && investDetail.projectServiceEntity.length > 0">
             <span>服务</span>
             <div>
-              <a href="javascript:void(0);"> </a>
+              <a href="javascript:void(0);" v-for="(item, index) in investDetail.projectServiceEntity" :key="index">{{ item.serviceName }}</a>
             </div>
             <p @click="judge"><i class="iconfont icon-rightpage"></i></p>
           </div>
-          <div class="activity">
+          <div class="activity" v-if="activity.activityInfo">
             <span class="title">活动</span>
-            <span class="desc"></span>
+            <span class="desc">{{ activity.activityInfo }}</span>
             <p><i class="iconfont icon-rightpage"></i></p>
           </div>
         </section>
@@ -70,28 +70,23 @@
         <section class="serve-detail">
           <p class="tip">服务介绍</p>
           <p class="content">{{ investDetail.appDesc }}</p>
-          <ul>
-            <li>
+          <ul v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+            <li v-if="item.isShowPic === '1'">
               <img src="./images/icon_01.png" alt="" />
             </li>
             <li>
-              <h6></h6>
-              <p></p>
+              <h6>{{ item.serviceName }}</h6>
+              <p>{{ item.serviceMessage }}</p>
             </li>
           </ul>
-          <!--  <div class="risk_assess common">
+          <div class="risk_assess common">
             <p class="risk_title">项目风险评估及可能产生的风险结果</p>
-            <p class="risk_content">
-              根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。
-            </p>
+            <p class="risk_content">{{ investDetail.riskAppraisal }}</p>
           </div>
           <div class="lend_tip common">
             <p class="lend_title">出借人适当性管理提示</p>
-            <p class="lend_content">
-              1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；<br />
-              2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。
-            </p>
-          </div> -->
+            <p class="lend_content">{{ investDetail.riskManagementTip }}</p>
+          </div>
         </section>
         <section class="claims">
           <div class="claims_list">
@@ -102,9 +97,9 @@
             </p>
           </div>
           <table>
-            <tr>
-              <td></td>
-              <td></td>
+            <tr v-for="(item, index) in claimListData" :key="index">
+              <td>{{ item.borrowerUsername }}</td>
+              <td>{{ item.loanAmt }}</td>
               <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
             </tr>
           </table>
@@ -143,7 +138,7 @@
     <!-- 服务弹窗 -->
     <div v-if="showQuest" class="questDlgWrap" @click="showQuest = !showQuest">
       <div class="questDlg">
-        <span></span>
+        <span>{{ projectInfo.recentTips }}</span>
       </div>
     </div>
     <Dialog class="serve-dialog" :show.sync="serveDialog.show">
@@ -154,7 +149,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span>剩余可投万</span>
+        <span>剩余可投{{ projectInfo.showSurplusAmt }}</span>
       </div>
     </section>
   </div>
@@ -162,9 +157,9 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import { getInvestDetail } from '@/api/hyc/investDetail'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
+import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
 export default {
   name: 'index',
   components: {
@@ -177,45 +172,27 @@ export default {
       userName: getUser().userName,
       authorization: getAuth(),
       projectInfo: {
-        iconUrl: '', // icon图片链接
-        // investEndDay: '', // 募集倒计时(天)
-        // investEndTime: '', // 募集倒计时(时分秒)
         investRate: '', // 利率
         itemName: '', // 集合标项目名称
-        surplusAmt: '', // 剩余可投金额
+        showSurplusAmt: '', // 剩余可投金额
         investPeopleCount: '', // 已购人次
-        investPercent: 0, // 投资百分比
-        interestRate: '', // 结息方式
         minInvAmount: '', // 起投金额
-        maxInvTotalAmount: '', // 个人累计投资限额
-        status: 0, // nteger - 项目状态 1.未开启 2.已投X% 3.满标
-        balance: '', // 可用余额
-        maxInvAmount: '', // 单笔投资上限金额限制
-        projectType: '', // 项目名称
-        projectName: '',
-        loanMent: '', // 锁定期（单位） 例如： 30天 则本字段是'天'；3个月 则本字段是'个月'
-        assumptiveInvestDate,
-        assumptiveInterestDate,
-        assumptiveIncomeDate
+        assumptiveInvestDate: '', //投资完成
+        assumptiveInterestDate: '', //起息
+        assumptiveIncomeDate: '', //锁定期结束
+        projectServiceEntity: [] // 服务
       },
       investDetail: {
         appDesc: '', // 项目介绍
-        investTarget: '', // 投资目标
-        interestStartDate: '', // 产品起息时间描述
-        profitShare: '', // 利息分配
-        existSystem: '', // 退出机制
-        costdes: '', // 费用说明
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
-        riskManagementTip: '', // 出借人适当性管理提示
-        tailProject: '' // 是否是尾标(true : 尾标 false: 不是尾标)
+        riskManagementTip: '' // 出借人适当性管理提示
       },
-      creditListData: [], // 债权列表
-      investEndTimestamp: 0, // 募集倒计时
+      claimListData: [], //债权列表
       serveDialog: {
         show: false
       },
-      showQuest: false
-      // activity: '' //活动
+      showQuest: false,
+      activity: [] //活动
     }
   },
   methods: {
@@ -254,6 +231,13 @@ export default {
       let data = res.data.data
       this.projectInfo = data.projectInfo
       this.investDetail = data.investDetail
+      this.activity = data.activityInfoVos
+    })
+
+    postData.curPage = '1'
+    postData.maxLine = '3'
+    getClaimList(postData).then(res => {
+      this.claimListData = res.data.data.list
     })
   }
 }

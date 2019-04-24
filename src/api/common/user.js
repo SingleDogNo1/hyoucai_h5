@@ -27,3 +27,30 @@ export function queryAgreementCatalog(data) {
     data: qs.stringify(data)
   })
 }
+
+// 业务授权二合一协议
+export function investorsAuth(data) {
+  return request({
+    url: '/termsAuth/investorsAuth',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 查询签约协议以及签约状态
+export function queryKHAgreementList(data) {
+  return request({
+    url: '/extendApi/queryKHAgreementListNew',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 获取PDF地址
+export function getProtocolPdf(data) {
+  return request({
+    url: '/protocol/getProtocolPdf',
+    methos: 'post',
+    data: qs.stringify(data)
+  })
+}

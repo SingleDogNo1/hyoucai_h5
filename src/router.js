@@ -787,7 +787,7 @@ export default new Router({
           }
         },
         {
-          path: 'coupon.vue.vue',
+          path: 'message',
           name: 'HYCSiteMessage',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
           meta: {
@@ -816,6 +816,30 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/mine/toCash/toCash'),
           meta: {
             title: '提现'
+          }
+        },
+        {
+          path: 'investDetail',
+          name: 'HYCInvestDetail',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/investDetail'),
+          meta: {
+            title: '产品详情'
+          }
+        },
+        {
+          path: 'claimList',
+          name: 'HYCClaimList',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'HYCClaimDetail',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimDetail'),
+          meta: {
+            title: '债权详情'
           }
         }
       ]

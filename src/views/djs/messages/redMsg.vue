@@ -1,44 +1,68 @@
 <template>
-  <section>
-    <div class="commonList">
-      <div class="title">
+  <section v-if="datas.length > 0">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toRedDetail(item.id, item.amount)">
         <i class=""></i>
-        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
+        <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="commonList isRead">
-      <div class="title">
-        <i class=""></i>
-        <p>2000.00已存入您的账户，立即使用抵扣2000.00元</p>
-      </div>
-      <div class="more"><img src="./more_icon.png" /></div>
-    </div>
-    <div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
     </div>
   </section>
+  <NoData v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
+  </NoData>
 </template>
 
 <script>
-// import api from '@/api/djs/message'
-// import BScroll from '@/components/BScroll/BScroll'
-
+import api from '@/api/djs/message'
+import { getUser } from '@/assets/js/cache'
+import { getAuth } from '@/assets/js/utils'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
   components: {
-    // BScroll
+    NoData
   },
   data() {
-    return {}
+    return {
+      userName: getUser().userName,
+      authorization: getAuth(),
+      redShow: false, //是否已读
+      datas: [] //列表
+    }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    toRedDetail(id, amount) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'HBXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
+        this.$router.push({
+          name: 'RedMsgDetail',
+          query: { amount }
+        })
+      })
+    }
+  },
   computed: {},
-  created() {},
+  created() {
+    let data = {
+      userName: this.userName,
+      authorization: this.authorization
+    }
+    //红包消息接口
+    api.getRedPacketMessage(data).then(res => {
+      this.datas = res.data.message
+    })
+  },
   mounted() {},
   destroyed() {}
 }

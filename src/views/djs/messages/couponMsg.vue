@@ -1,39 +1,57 @@
 <template>
-  <section>
-    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="{ isRead: couponShow }">
-      <div class="title">
+  <section v-if="datas.length > 0">
+    <div class="commonList" v-for="(item, index) in datas" :key="index" :class="item.readStatus == 1 ? 'isRead' : ''">
+      <div class="title" @click="toCouponDetail(item.id, item.couponRate, item.validDays)">
         <i></i>
         <p>{{ item.msg }}</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <!--<div class="noData">
-      <p><img alt="" src="./noData.png" /></p>
-      <p>暂无消息</p>
-    </div>-->
   </section>
+  <NoData v-else class="noData">
+    <p><img alt="" src="./noData.png" /></p>
+    <p>暂无消息</p>
+  </NoData>
 </template>
 
 <script>
 import api from '@/api/djs/message'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
-
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   mixins: [],
-  components: {},
+  components: {
+    NoData
+  },
   data() {
     return {
       userName: getUser().userName,
       authorization: getAuth(),
       couponShow: false, //是否已读
-      datas: null //列表
+      datas: ''
     }
   },
   props: {},
   watch: {},
-  methods: {},
+  methods: {
+    toCouponDetail(id, couponRate, validDays) {
+      let param = {
+        id: id,
+        userName: this.userName,
+        authorization: this.authorization,
+        messageType: 'JXQXI'
+      }
+      api.getUpdateMessage(param).then(res => {
+        console.log(res)
+        this.$router.push({
+          name: 'CouponMsgDetail',
+          query: { couponRate, validDays }
+        })
+      })
+    }
+  },
   computed: {},
   created() {
     let data = {
@@ -45,9 +63,7 @@ export default {
       let data = res.data.message
       let couponUnReadData = data.couponUnRead
       let couponReadData = data.couponRead
-      if (couponUnReadData.length == 0) {
-        this.couponShow = true
-      }
+
       this.datas = couponReadData.concat(couponUnReadData)
     })
   },

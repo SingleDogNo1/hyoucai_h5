@@ -62,7 +62,8 @@
             <div><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg">点击了解何为一类卡></a></div>
           </div>
           <div class="title">温馨提示</div>
-          <p>在你申请提现前，请先在页面下方或“基本信息”账户信息页面绑定银行卡收到你的体现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致否则体现申请将不予受理。
+          <p>
+            在你申请提现前，请先在页面下方或“基本信息”账户信息页面绑定银行卡收到你的体现请求后，我们将在1个工作日（双休日或法定节假日顺延）处理你的提现申请，请你注意查收为保障你的账户资金安全，申请提现时，你选择的银行卡开户名必须与你汇有财网账户实名认证一致否则体现申请将不予受理。
           </p>
         </div>
         <div class="btn-wrapper">
@@ -78,11 +79,8 @@
         <mt-cell v-for="(item, index) in filterResult" :key="index" :title="item.name" :value="item.code" @click.native="selectItem(item)"> </mt-cell>
       </mt-search>
     </div>
-    <app-dialog
-      :show.sync="showDialog"
-      class="to-cash-dialog"
-    >
-      <div>{{dialogDis}}</div>
+    <app-dialog :show.sync="showDialog" class="to-cash-dialog">
+      <div>{{ dialogDis }}</div>
     </app-dialog>
   </div>
 </template>

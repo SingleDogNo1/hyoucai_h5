@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="download" v-if="showDownload">
-          <span><img src="./close.png" alt="" @click="showDownload = false" />如需要查看资产详情，请下载官方App</span>
+          <span><img src="./close.png" alt="" @click="closeDownload" />如需要查看资产详情，请下载官方App</span>
           <input type="button" value="下载App" @click="$router.push({ name: 'AppDownload' })" />
         </div>
       </div>
@@ -98,8 +98,25 @@
         </ul>
       </div>
     </div>
-    <Dialog :show.sync="userCompleteDialogOptions.show" :confirmText="userCompleteDialogOptions.confirmText" :onConfirm="confirmUserComplete">
+    <!-- 用户信息未完善弹窗 -->
+    <Dialog
+      :show.sync="userCompleteDialogOptions.show"
+      :confirmText="userCompleteDialogOptions.confirmText"
+      :title="userCompleteDialogOptions.title"
+      :onConfirm="confirmUserComplete"
+    >
       <div>{{ userCompleteDialogOptions.msg }}</div>
+    </Dialog>
+
+    <!-- 复投弹窗 -->
+    <Dialog class="auto-lend-dialog" :show.sync="repeatUnreadDialogOptions.show" :onConfirm="confirmRepeat" :onClose="closeRepeat">
+      <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"></mt-radio>
+      <p class="agre">自动出借服务条款></p>
+    </Dialog>
+
+    <!-- 全局错误弹窗(resultCode !== '1') -->
+    <Dialog :show="errDialogOptions.show">
+      <div>{{ errDialogOptions.errMsg }}</div>
     </Dialog>
   </div>
 </template>
@@ -114,15 +131,8 @@ import { mapMutations, mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 
 import { amountInfo } from '@/api/djs/mine/mine'
-import {
-  //getAlertInfoApi,
-  getUserCompleteInfoApi
-  // alertInfoAcceptApi
-} from '@/api/common/mine'
-import {
-  repeatInvestApi
-  // UpdateMessageApi
-} from '@/api/djs/mine/mine'
+import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
+import { repeatInvestApi, UpdateMessageApi } from '@/api/djs/mine/mine'
 
 export default {
   name: 'index',
@@ -137,15 +147,39 @@ export default {
       showAmount: true,
       showDownload: true,
       amountInfo: {},
-      routerName: '',
-      routerParams: '',
+      routerName: undefined,
+      routerParams: {},
       userCompleteDialogOptions: {
-        show: true,
-        msg: '123',
-        confirmText: 'queding'
+        // 用户信息未完善弹窗
+        show: false,
+        msg: '',
+        title: '汇有财温馨提示',
+        confirmText: '确定'
       },
       repeatInvestUnreadMsgList: [],
-      repeatCouponRate: ''
+      repeatCouponRate: null,
+      userCompleteIsOver: false, // getAlertInfo type === evaluate 为true，标识用户信息已完善
+      repeatUnreadDialogOptions: {
+        // 复投弹窗
+        show: false,
+        msg: ''
+      },
+      autoLendTypeRadio: [
+        {
+          label: '本金到期后自动出借',
+          value: '1'
+        },
+        {
+          label: '本息到期后自动出借',
+          value: '2'
+        }
+      ],
+      autoLendType: '1', // 1:本金到期后自动出借  2:本息到期后自动出借
+      errDialogOptions: {
+        // 错误弹窗（resultCode !== '1'）
+        show: false,
+        msg: ''
+      }
     }
   },
   props: {},
@@ -163,10 +197,67 @@ export default {
       this.setPlatform('hyc')
       this.$router.push({ name: 'HYCUserCenter' })
     },
+    closeDownload() {
+      this.showDownload = false
+      this.$refs.scrollRef.refresh()
+    },
     confirmUserComplete() {
-      this.$router.push({
-        name: this.routerName,
-        params: this.routerParams
+      if (this.userCompleteIsOver) {
+        // 用户信息完善，点击确认关闭提示弹窗
+        alertInfoAcceptApi({ type: 'evaluate' })
+      } else {
+        // 用户信息未完善，根据参数跳转到对应的页面完善信息
+        if (this.routerName) {
+          this.$router.push({
+            name: this.routerName,
+            params: this.routerParams
+          })
+        }
+      }
+    },
+    getAlertInfo() {
+      getAlertInfoApi().then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          console.log(data)
+          if (data.haveAlert) {
+            this.userCompleteDialogOptions.show = true
+            switch (data.type) {
+              case 'redPacket':
+                this.userCompleteDialogOptions.title = '您收到' + data.count + '个红包'
+                this.userCompleteDialogOptions.msg = data.count + '个红包已存入您的账户'
+                this.userCompleteDialogOptions.confirmText = '查看我的红包'
+                this.routerName = 'DJSCouponList'
+                break
+              case 'coupon':
+                this.userCompleteDialogOptions.title = '您收到' + data.count + '个加息券'
+                this.userCompleteDialogOptions.msg = data.count + '个加息券已存入您的账户'
+                this.userCompleteDialogOptions.confirmText = '查看我的加息券'
+                this.routerName = 'DJSCouponList'
+                break
+              case 'refund':
+                // TODO 没有我的出借，这段逻辑跳转到哪去
+                this.userCompleteDialogOptions.msg = `银行系统原因，您有${data.count}笔出借退款项未匹配成功，已退回`
+                this.userCompleteDialogOptions.confirmText = '去查看'
+                break
+              case 'refundBeforeDueDate':
+                this.userCompleteDialogOptions.title = '提前还款通知'
+                this.userCompleteDialogOptions.msg = data.message
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+                break
+              case 'evaluate':
+                // 用户信息已经完善，该标识设置为true
+                this.userCompleteIsOver = true
+                this.userCompleteDialogOptions.msg = data.message
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+                break
+              default:
+                this.userCompleteDialogOptions.title = '汇有财温馨提示'
+                this.userCompleteDialogOptions.msg = `您有${data.count}笔出借提前还款`
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+            }
+          }
+        }
       })
     },
     getUserCompleteInfo() {
@@ -179,18 +270,22 @@ export default {
           switch (data.status) {
             case 'OPEN_ACCOUNT':
               this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              this.userCompleteDialogOptions.show = true
               this.routerName = 'openAccountProgress'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'
+              this.userCompleteDialogOptions.show = true
               this.routerName = 'openAccountProgress'
               break
             case 'SIGN_PROTOCOL':
               this.userCompleteDialogOptions.confirmText = '签约'
+              this.userCompleteDialogOptions.show = true
               this.routerName = 'openAccountProgress'
               break
             case 'EVALUATE':
               this.userCompleteDialogOptions.confirmText = '风险评测'
+              this.userCompleteDialogOptions.show = true
               this.routerName = 'riskTest'
               break
             default:
@@ -201,7 +296,13 @@ export default {
                 }).then(res => {
                   const data = res.data
                   if (res.data.resultCode === '1') {
-                    this.repeatCouponRate = data.couponRate
+                    if (data.list.length > 0) {
+                      this.repeatCouponRate = data.couponRate
+                      this.repeatUnreadDialogOptions.show = true
+                      this.repeatInvestUnreadMsgList = res.data.list
+                    } else {
+                      this.getAlertInfo()
+                    }
                   } else {
                     Toast(res.data.resultMsg)
                   }
@@ -209,12 +310,34 @@ export default {
                 })
               } else {
                 // 汇有财逻辑
+                this.repeatUnreadDialogOptions.show = false
+                this.repeatInvestUnreadMsgList = []
+                this.getAlertInfo()
               }
           }
         } else {
           Toast(res.data.resultMsg)
         }
       })
+    },
+    confirmRepeat() {
+      this.repeatInvestUnreadMsgList.forEach(value => {
+        UpdateMessageApi({
+          invId: value.id,
+          userName: this.user.userName,
+          projectNo: value.projectNo,
+          repeatStatus: this.autoLendType
+        }).then(res => {
+          if (res.data.resultCode !== '1') {
+            this.errDialogOptions.show = true
+            this.errDialogOptions.msg = res.data.resultMsg
+          }
+        })
+      })
+    },
+    closeRepeat() {
+      const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
+      Cookie.set(key, 'down', { expires: 1 })
     },
     ...mapMutations({
       setPlatform: 'SET_PLATFORM'
@@ -480,6 +603,20 @@ export default {
       li {
         margin-bottom: 0.02rem;
       }
+    }
+  }
+  .auto-lend-dialog {
+    /deep/ .mint-cell-wrapper {
+      background-image: none;
+    }
+    /deep/ .mint-cell {
+      background-image: none;
+      min-height: 0.5rem;
+    }
+    .agre {
+      font-size: 0.13rem;
+      color: #666;
+      text-align: center;
     }
   }
 }

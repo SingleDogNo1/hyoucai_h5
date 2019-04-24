@@ -112,6 +112,14 @@ export default new Router({
               meta: {
                 title: '开通存管账户'
               }
+            },
+            {
+              path: 'sign',
+              name: 'signAgreement',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/SignAgreement'),
+              meta: {
+                title: '业务授权'
+              }
             }
           ]
         },

@@ -48,6 +48,13 @@ export default {
         return () => {}
       }
     },
+    // 点击右上角关闭执行的函数
+    onClose: {
+      type: Function,
+      default: () => {
+        return () => {}
+      }
+    },
     // 存在异常状态时点击确认，阻止触发关闭弹窗
     preventClose: {
       type: Boolean,
@@ -56,6 +63,7 @@ export default {
   },
   methods: {
     closeDialog() {
+      this.onClose()
       this.$emit('update:show', false)
     },
     confirmItem() {

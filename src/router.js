@@ -825,6 +825,22 @@ export default new Router({
           meta: {
             title: '产品详情'
           }
+        },
+        {
+          path: 'claimList',
+          name: 'HYCClaimList',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'HYCClaimDetail',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimDetail'),
+          meta: {
+            title: '债权详情'
+          }
         }
       ]
     }

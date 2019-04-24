@@ -91,18 +91,20 @@
         <section class="claims">
           <div class="claims_list">
             <h2>债权列表</h2>
-            <p @click="linkTo('DJSClaimList', { projectNo: projectNo })">
+            <p @click="linkTo('HYCClaimList', { productId: productId, itemId: itemId })">
               <span>全部</span>
               <span class="iconfont icon-rightpage"></span>
             </p>
           </div>
-          <table>
+          <table v-if="claimListData.length > 0">
             <tr v-for="(item, index) in claimListData" :key="index">
               <td>{{ item.borrowerUsername }}</td>
               <td>{{ item.loanAmt }}</td>
-              <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
+              <td @click="linkTo('HYCClaimDetail', { id: item.id })">详情</td>
             </tr>
           </table>
+
+          <NoData v-else></NoData>
         </section>
         <section class="manage-info">
           <p class="tip">服务介绍</p>
@@ -159,11 +161,15 @@
 import BScroll from '@/components/BScroll/BScroll'
 import { getUser } from '@/assets/js/cache'
 import { getAuth } from '@/assets/js/utils'
+import Dialog from '@/components/Dialog/Serve'
+import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    Dialog,
+    NoData
   },
   data() {
     return {
@@ -187,7 +193,7 @@ export default {
         riskAppraisal: '', // 项目风险评估及可能产生的风险结果
         riskManagementTip: '' // 出借人适当性管理提示
       },
-      claimListData: [], //债权列表
+      claimListData: {}, //债权列表
       serveDialog: {
         show: false
       },
@@ -236,6 +242,7 @@ export default {
 
     postData.curPage = '1'
     postData.maxLine = '3'
+    //债权列表
     getClaimList(postData).then(res => {
       this.claimListData = res.data.data.list
     })

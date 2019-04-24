@@ -31,10 +31,10 @@ export function investUserCountMsg(data) {
   })
 }
 
-// 获取个人账户信息
-export function getPersonalAccount(data) {
+// 债权详情
+export function getInternetInformation(data) {
   return axios({
-    url: '/PersonalAccount',
+    url: '/collection/loanDetail',
     method: 'post',
     data: Qs.stringify(data)
   })

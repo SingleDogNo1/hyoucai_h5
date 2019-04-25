@@ -86,8 +86,9 @@ section {
     color: #333333;
     margin-bottom: 0.06rem;
     border-radius: 0.05rem;
+    display: flex;
     .title {
-      float: left;
+      flex: 1;
       width: 70%;
       position: relative;
       padding-left: 0.15rem;
@@ -110,7 +111,7 @@ section {
     .more {
       display: flex;
       align-items: center;
-      float: right;
+      justify-content: flex-end;
       height: 0.4rem;
       img {
         height: 0.14rem;

@@ -1,7 +1,13 @@
 <template>
-  <BScroll class="claim_wrap">
-    <p></p>
-    <table class="claim_list" v-if="claimListData.length > 0">
+  <BScroll
+    class="claim_wrap"
+    ref="claimWrapper"
+    :probeType="BScrollOption.probeType"
+    :listen-scroll="BScrollOption.listenScroll"
+    :pullup="BScrollOption.pullup"
+    @scrollToEnd="scrollToEnd"
+  >
+    <table class="claim_list">
       <thead>
         <tr>
           <td>借款人/出让人</td>
@@ -17,24 +23,29 @@
         </tr>
       </tbody>
     </table>
-    <NoData v-else></NoData>
   </BScroll>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import { Toast, Indicator } from 'mint-ui'
 import { getClaimList } from '@/api/djs/investDetail'
-import NoData from '@/components/NoData/NoData'
 export default {
-  name: 'index',
+  name: 'DJSClaimList',
   components: {
-    BScroll,
-    NoData
+    BScroll
   },
   data() {
     return {
       projectNo: this.$route.query.projectNo,
-      claimListData: []
+      claimListData: [],
+      BScrollOption: {
+        probeType: 3,
+        listenScroll: true,
+        pullup: true
+      },
+      page: 1,
+      hasMore: true
     }
   },
   methods: {
@@ -43,16 +54,36 @@ export default {
         name: routerName,
         query: routerQuery
       })
+    },
+    getData() {
+      Indicator.open()
+      getClaimList({
+        projectNo: this.projectNo,
+        curPage: this.page
+      }).then(res => {
+        Indicator.close()
+        const [list, curPage, countPage] = [res.data.list, res.data.curPage, res.data.countPage]
+        if (!list.length) {
+          this.hasMore = false
+          Toast('没有更多数据了')
+        } else {
+          this.hasMore = parseInt(curPage) <= parseInt(countPage)
+        }
+        this.claimListData = [...this.claimListData, ...list]
+        this.$nextTick(() => {
+          this.$refs.claimWrapper.refresh()
+        })
+      })
+    },
+    scrollToEnd() {
+      if (this.hasMore) {
+        this.page++
+        this.getData()
+      }
     }
   },
   created() {
-    getClaimList({
-      projectNo: this.projectNo,
-      curPage: '1',
-      maxLine: 100
-    }).then(res => {
-      this.claimListData = res.data.list
-    })
+    this.getData()
   }
 }
 </script>
@@ -64,14 +95,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: scroll;
-  p {
-    height: 0.1rem;
-    background: #eee;
-  }
+  overflow: hidden;
+  height: 100%;
   .claim_list {
     flex: 1;
-    overflow: hidden;
     font-family: PingFangSC-Regular;
     border-collapse: collapse;
     border-spacing: 0;

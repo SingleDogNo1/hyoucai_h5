@@ -81,19 +81,6 @@
               <p>{{ item.serviceMessage }}</p>
             </li>
           </ul>
-          <!--  <div class="risk_assess common">
-            <p class="risk_title">项目风险评估及可能产生的风险结果</p>
-            <p class="risk_content">
-              根据借款人当前情况进行评估，借款人具有偿还贷款的能力，但不排除未来借款人因收入下降、过度举债等因素导致财务状况恶化，从而发生逾期的可能。
-            </p>
-          </div>
-          <div class="lend_tip common">
-            <p class="lend_title">出借人适当性管理提示</p>
-            <p class="lend_content">
-              1.该标的的每一个借款人在本平台借款余额未超过20万元，符合监管政策要求；<br />
-              2.出借人应根据自身的出借偏好和风险承受能力进行独立判断和作出决策，并自行承担资金出借的风险与责任，包括但不限于可能的本息损失。网贷有风险，出借需谨慎。
-            </p>
-          </div> -->
         </section>
         <section class="claims">
           <div class="claims_list">
@@ -130,11 +117,11 @@
             </ul>
           </div>
         </section>
-        <section class="risk_tips commonType">
+        <section class="risk_tips commonType" @click="$router.push({ name: 'DJSagreement', query: { agreementType: 'fxts' } })">
           <h2>风险告知书</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>
-        <section class="questions commonType">
+        <section class="questions commonType" @click="$router.push({ name: 'commonProblem' })">
           <h2>常见问题</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>
@@ -214,7 +201,7 @@ export default {
     },
     invest() {
       this.$router.push({
-        name: 'DJSInvestFlow',
+        name: 'DJSEasyLend',
         query: {
           projectNo: this.projectNo
         }

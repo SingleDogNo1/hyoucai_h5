@@ -1,7 +1,8 @@
 import request from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-function updateUserPsw(data) {
+// 修改登录密码
+export function updateUserPsw(data) {
   return request({
     url: '/UpdateUserPsw',
     method: 'post',
@@ -9,7 +10,8 @@ function updateUserPsw(data) {
   })
 }
 
-function queryMailingAddress(data) {
+// 查询收货地址
+export function queryMailingAddress(data) {
   return request({
     url: '/QueryMailingAddress',
     method: 'post',
@@ -17,7 +19,8 @@ function queryMailingAddress(data) {
   })
 }
 
-function saveMailingAddress(data) {
+// 保存收货地址
+export function saveMailingAddress(data) {
   return request({
     url: '/SaveMailingAddress',
     method: 'post',
@@ -28,7 +31,8 @@ function saveMailingAddress(data) {
   })
 }
 
-function userLogout(data) {
+// 用户登出
+export function userLogout(data) {
   return request({
     url: '/UserLogout',
     method: 'post',
@@ -36,9 +40,29 @@ function userLogout(data) {
   })
 }
 
-export {
-  updateUserPsw, // 修改登录密码
-  queryMailingAddress, // 查询收货地址
-  saveMailingAddress, // 保存收货地址
-  userLogout // 用户登出
+// 签约、开户等状态
+export function getUserCompleteInfoApi(data) {
+  return request({
+    url: 'user/userInfoCompleteNotice',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 签约、开户等状态
+export function getAlertInfoApi(data) {
+  return request({
+    url: 'alert/alertInfo',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 确认看到了弹窗（目前只有风险评测）
+export function alertInfoAcceptApi(data) {
+  return request({
+    url: 'alert/alertInfoAccept',
+    method: 'post',
+    data: qs.stringify(data)
+  })
 }

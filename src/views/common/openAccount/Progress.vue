@@ -59,7 +59,6 @@ export default {
     userInfoCompleteNoticeApi().then(res => {
       if (res.data.resultCode === '1') {
         this.status = res.data.data.status
-        Toast(res.data.data.coupon)
       } else {
         Toast(res.data.resultMsg)
       }

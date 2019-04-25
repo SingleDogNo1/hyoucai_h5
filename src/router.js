@@ -112,6 +112,14 @@ export default new Router({
               meta: {
                 title: '开通存管账户'
               }
+            },
+            {
+              path: 'sign',
+              name: 'signAgreement',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/SignAgreement'),
+              meta: {
+                title: '业务授权'
+              }
             }
           ]
         },
@@ -373,8 +381,8 @@ export default new Router({
           children: [
             {
               path: '',
-              name: 'DJSInvestFlow',
-              component: () => import(/* webpackChunkName: "DJSInvestFlow" */ '@/views/djs/investDetail/easyLend'),
+              name: 'DJSEasyLend',
+              component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail/easyLend'),
               meta: {
                 title: '授权出借'
               }

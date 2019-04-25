@@ -55,7 +55,7 @@
               ><span v-else>****</span>
             </div>
             <div class="action">
-              <input type="button" value="提现" />
+              <input type="button" value="提现" @click="$router.push({ name: 'HYCToCash' })" />
               <input type="button" value="充值" @click="$router.push({ name: 'HYCCharge' })" />
             </div>
           </div>
@@ -64,7 +64,7 @@
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({ name: 'HYCIRecommender' })">
+            <div class="link" @click="$router.push({ name: 'HYCRecommender' })">
               <span>我的推荐人</span>
               <span></span>
             </div>
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="download" v-if="showDownload">
-          <span><img src="./close.png" alt="" @click="showDownload = false" />如需要查看资产详情，请下载官方App</span>
+          <span><img src="./close.png" alt="" @click="closeDownLoad" />如需要查看资产详情，请下载官方App</span>
           <input type="button" value="下载App" @click="$router.push({ name: 'AppDownload' })" />
         </div>
       </div>
@@ -98,29 +98,50 @@
         </ul>
       </div>
     </div>
+
+    <!-- 用户信息未完善弹窗 -->
+    <Dialog
+      :show.sync="userCompleteDialogOptions.show"
+      :confirmText="userCompleteDialogOptions.confirmText"
+      :title="userCompleteDialogOptions.title"
+      :onConfirm="confirmUserComplete"
+    >
+      <div>{{ userCompleteDialogOptions.msg }}</div>
+    </Dialog>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
+import Dialog from '@/components/Dialog/Alert'
+
 import { amountInfo } from '@/api/hyc/mine/mine'
 import { mapMutations, mapGetters } from 'vuex'
+import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
+
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    Dialog
   },
-  mixins: [],
   data() {
     return {
       showModel: false,
       showAmount: true,
       showDownload: true,
-      amountInfo: {}
+      amountInfo: {},
+      routerName: undefined,
+      routerParams: {},
+      userCompleteDialogOptions: {
+        // 用户信息未完善弹窗
+        show: false,
+        msg: '',
+        title: '汇有财温馨提示',
+        confirmText: '确定'
+      }
     }
   },
-  props: {},
-  watch: {},
   methods: {
     showAmountFn() {
       this.showAmount = !this.showAmount
@@ -134,6 +155,100 @@ export default {
       this.setPlatform('djs')
       this.$router.push({ name: 'DJSUserCenter' })
     },
+    closeDownLoad() {
+      this.showDownload = false
+      this.$refs.scrollRef.refresh()
+    },
+    confirmUserComplete() {
+      if (this.userCompleteIsOver) {
+        // 用户信息完善，点击确认关闭提示弹窗
+        alertInfoAcceptApi({ type: 'evaluate' })
+      } else {
+        // 用户信息未完善，根据参数跳转到对应的页面完善信息
+        if (this.routerName) {
+          this.$router.push({
+            name: this.routerName,
+            params: this.routerParams
+          })
+        }
+      }
+    },
+    getUserCompleteInfo() {
+      getUserCompleteInfoApi().then(res => {
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          this.userCompleteDialogOptions.msg = data.message
+          switch (data.status) {
+            case 'OPEN_ACCOUNT':
+              this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              this.userCompleteDialogOptions.show = true
+              this.routerName = 'openAccountProgress'
+              break
+            case 'SET_PASSWORD':
+              this.userCompleteDialogOptions.confirmText = '设置交易密码'
+              this.userCompleteDialogOptions.show = true
+              this.routerName = 'openAccountProgress'
+              break
+            case 'SIGN_PROTOCOL':
+              this.userCompleteDialogOptions.confirmText = '签约'
+              this.userCompleteDialogOptions.show = true
+              this.routerName = 'openAccountProgress'
+              break
+            case 'EVALUATE':
+              this.userCompleteDialogOptions.confirmText = '风险评测'
+              this.userCompleteDialogOptions.show = true
+              this.routerName = 'riskTest'
+              break
+            default:
+              this.getAlertInfo()
+          }
+        }
+      })
+    },
+    getAlertInfo() {
+      getAlertInfoApi().then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          if (data.haveAlert) {
+            this.userCompleteDialogOptions.show = true
+            switch (data.type) {
+              case 'redPacket':
+                this.userCompleteDialogOptions.title = '您收到' + data.count + '个红包'
+                this.userCompleteDialogOptions.msg = data.count + '个红包已存入您的账户'
+                this.userCompleteDialogOptions.confirmText = '查看我的红包'
+                this.routerName = 'DJSCouponList'
+                break
+              case 'coupon':
+                this.userCompleteDialogOptions.title = '您收到' + data.count + '个加息券'
+                this.userCompleteDialogOptions.msg = data.count + '个加息券已存入您的账户'
+                this.userCompleteDialogOptions.confirmText = '查看我的加息券'
+                this.routerName = 'DJSCouponList'
+                break
+              case 'refund':
+                // TODO 没有我的出借，这段逻辑跳转到哪去
+                this.userCompleteDialogOptions.msg = `银行系统原因，您有${data.count}笔出借退款项未匹配成功，已退回`
+                this.userCompleteDialogOptions.confirmText = '去查看'
+                break
+              case 'refundBeforeDueDate':
+                this.userCompleteDialogOptions.title = '提前还款通知'
+                this.userCompleteDialogOptions.msg = data.message
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+                break
+              case 'evaluate':
+                // 用户信息已经完善，该标识设置为true
+                this.userCompleteIsOver = true
+                this.userCompleteDialogOptions.msg = data.message
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+                break
+              default:
+                this.userCompleteDialogOptions.title = '汇有财温馨提示'
+                this.userCompleteDialogOptions.msg = `您有${data.count}笔出借提前还款`
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+            }
+          }
+        }
+      })
+    },
     ...mapMutations({
       setPlatform: 'SET_PLATFORM'
     })
@@ -143,9 +258,8 @@ export default {
   },
   created() {
     this.getAmountInfo()
-  },
-  mounted() {},
-  destroyed() {}
+    this.getUserCompleteInfo()
+  }
 }
 </script>
 

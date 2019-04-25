@@ -1,48 +1,120 @@
 <template>
-  <section class="lend_record">
-    <div class="day01 day" v-for="(item, index) in lendRecordData" :key="index">
-      <h2>{{ item.timeGroup }}</h2>
-      <div class="menu">
-        <p>
-          <span>{{ item.userName }}</span
-          ><i>{{ item.invAmt }}</i>
-        </p>
-        <a>{{ item.invTime }}</a>
+  <BScroll
+    class="lend_record"
+    ref="scrollRef"
+    :probeType="BScrollOption.probeType"
+    :listen-scroll="BScrollOption.listenScroll"
+    :pullup="BScrollOption.pullup"
+    @scrollToEnd="scrollToEnd"
+  >
+    <section>
+      <div class="day" v-for="(lendRecord, index) in lendRecordList" :key="index">
+        <h2>{{ lendRecord.timeGroup }}</h2>
+        <div class="menu" v-for="(lendRecordItem, lendRecordIndex) in lendRecord.record" :key="lendRecordIndex">
+          <p>
+            <span>{{ lendRecordItem.userName }}</span>
+            <i>{{ lendRecordItem.invAmt }}</i>
+          </p>
+          <a>{{ lendRecordItem.invTime }}</a>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </BScroll>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
+
+import { Toast, Indicator } from 'mint-ui'
+
 import { investUserCountMsg } from '@/api/djs/investDetail'
 export default {
   name: 'index',
-  components: {},
+  components: {
+    BScroll
+  },
   data() {
     return {
       projectNo: this.$route.query.projectNo,
-      lendRecordData: {}
+      BScrollOption: {
+        probeType: 3,
+        listenScroll: true,
+        pullup: true
+      },
+      page: 1,
+      hasMore: true,
+      originData: [],
+      lendRecordList: []
     }
   },
-  methods: {},
+  methods: {
+    getData() {
+      Indicator.open()
+      investUserCountMsg({
+        projectNo: this.projectNo,
+        curPage: this.page
+      }).then(res => {
+        Indicator.close()
+        const [list, curPage, countPage] = [res.data.invUserList, res.data.curPage, res.data.countPage]
+        if (!list.length) {
+          this.hasMore = false
+          Toast('没有更多数据了')
+        } else {
+          this.hasMore = parseInt(curPage) <= parseInt(countPage)
+        }
+
+        this.originData = [...this.originData, ...list]
+
+        let timeGroups = [],
+          lendRecordList = []
+        this.originData.map(value => {
+          if (!timeGroups.includes(value.timeGroup)) {
+            timeGroups.push(value.timeGroup)
+          }
+        })
+        timeGroups.forEach(value => {
+          lendRecordList.push({
+            timeGroup: value,
+            record: []
+          })
+        })
+
+        this.originData.forEach(originValue => {
+          lendRecordList.forEach((value, index) => {
+            if (originValue.timeGroup === value.timeGroup) {
+              lendRecordList[index].record.push(originValue)
+            }
+          })
+        })
+
+        this.lendRecordList = lendRecordList
+
+        this.$nextTick(() => {
+          this.$refs.scrollRef.refresh()
+        })
+      })
+    },
+    scrollToEnd() {
+      if (this.hasMore) {
+        this.page++
+        this.getData()
+      }
+    }
+  },
   created() {
-    investUserCountMsg({
-      projectNo: this.projectNo,
-      curPage: '1',
-      maxLine: 100
-    }).then(res => {
-      this.lendRecordData = res.data.invUserList
-    })
+    this.getData()
   }
 }
 </script>
 
 <style lang="scss" scoped>
-section {
+.lend_record {
   background: #eee;
-  padding-top: 0.06rem;
   height: 100%;
-  overflow-y: scroll;
+  overflow: hidden;
+  > section {
+    padding-top: 0.06rem;
+  }
   .day {
     background: #fff;
     h2 {

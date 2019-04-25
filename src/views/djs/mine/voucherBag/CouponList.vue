@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="have" v-show="haveCard">
+    <BScroll class="have" v-show="haveCard">
       <!-- 待领取券包 -->
       <div
         class="coupon"
@@ -26,9 +26,9 @@
           <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
-          <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
-            <img src="./images/btn.png" alt />
-          </div>
+        </div>
+        <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
+          <img src="./images/btn.png" alt />
         </div>
       </div>
       <!-- 已领取券包 -->
@@ -59,7 +59,7 @@
           <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
         </div>
       </div>
-    </div>
+    </BScroll>
     <div class="nothing" v-show="!haveCard">
       <div class="no_img">
         <img src="./images/bg.png" alt />
@@ -73,8 +73,10 @@
 </template>
 
 <script>
+//
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
 import { mapGetters } from 'vuex'
+import BScroll from '@/components/BScroll/BScroll'
 export default {
   data() {
     return {
@@ -88,6 +90,9 @@ export default {
   },
   computed: {
     ...mapGetters(['user'])
+  },
+  components: {
+    BScroll
   },
   methods: {
     CouponPacketList() {
@@ -162,19 +167,20 @@ export default {
   font-family: PingFangSC-Regular;
   background: #f6f6f6;
   position: relative;
+  padding-bottom: 0.34rem;
   .have {
     overflow: auto;
     height: 100%;
     .coupon {
       margin-top: 0.1rem;
-      height: 1.02rem;
-      // display: flex;
-      background-size: 3.75rem 1.02rem;
+      display: flex;
+      background-repeat: no-repeat;
+      background-size: 3.75rem 100%;
+      position: relative;
+      padding-bottom: 0.1rem;
       .coupon_left {
         width: 1.2rem;
         margin-top: 0.18rem;
-        float: left;
-        padding: 0 0.2rem;
         .coupon_left_p {
           text-align: center;
           letter-spacing: 0.26px;
@@ -192,8 +198,8 @@ export default {
           font-size: 0.11rem;
           color: #999999;
           letter-spacing: 0.12px;
-        }
-        // .actives{
+          padding: 0 0.2rem;
+        } // .actives{
         //   width: .89rem;
         //   text-align: center;
         // }
@@ -202,8 +208,6 @@ export default {
         padding-left: 0.13rem;
         padding-right: 0.14rem;
         color: #333;
-        position: relative;
-        float: left;
         width: 2.55rem;
         .right_p1 {
           margin-top: 0.1rem;
@@ -218,20 +222,20 @@ export default {
         .right_p3 {
           color: #999;
         }
-        .coupon_right_btn {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 0.75rem;
-          height: 0.24rem;
-          img {
-            width: 100%;
-          }
-          // line-height: .24rem;
-          // background-color: #ec5e52;
-          // color: #fff;
-          // border-radius: .24rem 0 0 0;
-        }
+        // line-height: .24rem;
+        // background-color: #ec5e52;
+        // color: #fff;
+        // border-radius: .24rem 0 0 0;
+      }
+    }
+    .coupon_right_btn {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 0.75rem;
+      height: 0.24rem;
+      img {
+        width: 100%;
       }
     }
     .receive1 {

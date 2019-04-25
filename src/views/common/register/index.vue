@@ -181,18 +181,8 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              // switch (this.user.platformFlag) {
-              //   case '1':
-              //     window.location.href = '/djs/#/bankAccount/openAccount'
-              //     break
-              //   case '2':
-              //     window.location.href = '/hyc/#/bankAccount/openAccount'
-              //     break
-              //   default:
-              //     this.$router.push({ name: 'account' })
-              // }
               this.$router.push({
-                name: 'AppDownload'
+                name: 'remindOpenAccount'
               })
             } else {
               Toast(res.data.resultMsg)
@@ -350,14 +340,14 @@ input {
         background: $color-main;
       }
     }
-    .agre {
-      width: 3.45rem;
-      margin: 0.2rem auto 0;
-      font-size: 0.13rem;
-      color: #666;
-      span {
-        color: $color-main;
-      }
+  }
+  .agre {
+    width: 3.45rem;
+    margin: 0.2rem auto 0;
+    font-size: 0.13rem;
+    color: #666;
+    span {
+      color: $color-main;
     }
   }
 }

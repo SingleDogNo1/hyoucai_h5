@@ -8,7 +8,7 @@
     @scrollToEnd="scrollToEnd"
   >
     <section>
-      <div class="day01 day" v-for="(lendRecord, index) in lendRecordList" :key="index">
+      <div class="day" v-for="(lendRecord, index) in lendRecordList" :key="index">
         <h2>{{ lendRecord.timeGroup }}</h2>
         <div class="menu" v-for="(lendRecordItem, lendRecordIndex) in lendRecord.record" :key="lendRecordIndex">
           <p>

@@ -17,7 +17,7 @@ export default {
     totalTime: {
       // 重发倒计时时间
       type: Number,
-      default: 60
+      default: 90
     },
     disable: {
       // 组件禁用状态

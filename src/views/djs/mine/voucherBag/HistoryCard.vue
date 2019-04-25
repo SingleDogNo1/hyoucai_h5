@@ -112,14 +112,15 @@ export default {
   overflow: auto;
   .coupon {
     margin-top: 0.1rem;
-    height: 1.02rem;
+    // height: 1.02rem;
     display: flex;
     background: url(./images/historybg.png);
-    background-size: 3.75rem 1.02rem;
+    background-size: 3.75rem 100%;
+    padding-bottom: 0.1rem;
+    background-repeat: no-repeat;
     .coupon_left {
       width: 1.2rem;
       margin-top: 0.18rem;
-      padding: 0 0.2rem;
       .coupon_left_p {
         text-align: center;
         letter-spacing: 0.26px;
@@ -140,6 +141,7 @@ export default {
         color: #999999;
         letter-spacing: 0.12px;
         margin: 0 auto;
+        padding: 0 0.2rem;
       }
       .actives {
         width: 100%;

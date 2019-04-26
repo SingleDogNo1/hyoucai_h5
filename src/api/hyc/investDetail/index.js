@@ -4,12 +4,12 @@ import Qs from 'qs'
 // 出借详情
 export function getInvestDetail(data) {
   return axios({
-    url: '/collection/investDetail/2.0',
+    url: '/collection/investDetail',
     method: 'post',
-    data: Qs.stringify(data)
-    /*headers: {
+    data: Qs.stringify(data),
+    headers: {
       version: '2.0'
-    }*/
+    }
   })
 }
 
@@ -23,9 +23,9 @@ export function getClaimList(data) {
 }
 
 // 获取出借记录
-export function investUserCountMsg(data) {
+export function getInvestRecord(data) {
   return axios({
-    url: '/InvestUserCountMsg',
+    url: '/collection/investRecord',
     method: 'post',
     data: Qs.stringify(data)
   })

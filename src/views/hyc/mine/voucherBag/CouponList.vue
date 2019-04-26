@@ -77,6 +77,7 @@
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/hyc/coupon'
 import { mapGetters } from 'vuex'
 import BScroll from '@/components/BScroll/BScroll'
+import { Toast, Indicator } from 'mint-ui'
 export default {
   data() {
     return {
@@ -96,52 +97,68 @@ export default {
   },
   methods: {
     CouponPacketList() {
+      Indicator.open('加载中')
       CouponPacketList({ userName: this.user.userName, clientType: 'QD03' }).then(res => {
         // console.log(res.data.data.list)
-        let data = res.data.data.list
-        data.map(item => {
-          if (item.commonUse == 1) {
-            // 判断是否可共用
-            item.commonUse = '可'
-          } else {
-            item.commonUse = '不可'
-          }
-          item.msg = ''
-          let length = item.productTypes.length - 1
-          // console.log(length)
-          item.productTypes.map((items, index) => {
-            // 展开券的适用范围
-            if (index == length) {
-              item.msg += items.productTypeName
+        Indicator.close()
+        if (res.data.data.list.length) {
+          let data = res.data.data.list
+          data.map(item => {
+            if (item.commonUse == 1) {
+              // 判断是否可共用
+              item.commonUse = '可'
             } else {
-              item.msg += items.productTypeName + '、'
+              item.commonUse = '不可'
             }
+            item.msg = ''
+            let length = item.productTypes.length - 1
+            // console.log(length)
+            item.productTypes.map((items, index) => {
+              // 展开券的适用范围
+              if (index == length) {
+                item.msg += items.productTypeName
+              } else {
+                item.msg += items.productTypeName + '、'
+              }
+            })
+            if (item.status == 2) {
+              // 判断是否可领取
+              this.haveReceived.push(item)
+            } else {
+              this.unclaimed.push(item)
+            }
+            // console.log(this.haveReceived)
           })
-          if (item.status == 2) {
-            // 判断是否可领取
-            this.haveReceived.push(item)
-          } else {
-            this.unclaimed.push(item)
-          }
-          // console.log(this.haveReceived)
-        })
+        } else {
+          this.haveCard = false
+        }
       })
     },
     // 领取加息券
     receiveCoupon: function(id) {
       this.isShow1 = true
+      Indicator.open('加载中')
       let obj = {}
       obj.userName = this.user.userName
       obj.couponId = id
-      ReceiveCoupon(obj)
+      ReceiveCoupon(obj).then(res => {
+        Indicator.close()
+        Toast(res.data.resultMsg)
+        this.CouponPacketList()
+      })
     },
     // 领取红包
     receiveRedPacket: function(id) {
       this.isShow2 = true
+      Indicator.open('加载中')
       let obj = {}
       obj.userName = this.user.userName
       obj.redPacketId = id
-      ReceiveRedPacket(obj)
+      ReceiveRedPacket(obj).then(res => {
+        Indicator.close()
+        Toast(res.data.resultMsg)
+        this.CouponPacketList()
+      })
     },
     //去使用
     touse() {

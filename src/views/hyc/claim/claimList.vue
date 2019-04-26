@@ -7,22 +7,25 @@
     :pullup="BScrollOption.pullup"
     @scrollToEnd="scrollToEnd"
   >
-    <table class="claim_list">
-      <thead>
-        <tr>
-          <td>借款人/出让人</td>
-          <td>剩余可投/出让本息</td>
-          <td>债权详情</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in claimListData" :key="index">
-          <td>{{ item.borrowerUsername }}</td>
-          <td>{{ item.loanAmt }}</td>
-          <td @click="linkTo('HYCClaimDetail', { projectNo: item.projectNo, itemId: itemId })">详情</td>
-        </tr>
-      </tbody>
-    </table>
+    <div>
+      <table class="claim_list" v-if="claimListData.length > 0">
+        <thead>
+          <tr>
+            <td>借款人/出让人</td>
+            <td>剩余可投/出让本息</td>
+            <td>债权详情</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in claimListData" :key="index">
+            <td>{{ item.borrowerUsername }}</td>
+            <td>{{ item.loanAmt }}</td>
+            <td @click="linkTo('HYCClaimDetail', { projectNo: item.projectNo, itemId: itemId })">详情</td>
+          </tr>
+        </tbody>
+      </table>
+      <NoData v-else></NoData>
+    </div>
   </BScroll>
 </template>
 
@@ -30,10 +33,12 @@
 import BScroll from '@/components/BScroll/BScroll'
 import { Toast, Indicator } from 'mint-ui'
 import { getClaimList } from '@/api/hyc/investDetail'
+import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    NoData
   },
   data() {
     return {

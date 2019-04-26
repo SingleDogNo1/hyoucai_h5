@@ -863,6 +863,14 @@ export default new Router({
           meta: {
             title: '债权详情'
           }
+        },
+        {
+          path: 'lendRecord',
+          name: 'HYCLendRecord',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/hyc/lendRecord'),
+          meta: {
+            title: '出借记录'
+          }
         }
       ]
     }

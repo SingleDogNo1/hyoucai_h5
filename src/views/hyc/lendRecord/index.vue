@@ -30,7 +30,7 @@ import BScroll from '@/components/BScroll/BScroll'
 
 import { Toast, Indicator } from 'mint-ui'
 
-import { investUserCountMsg } from '@/api/djs/investDetail'
+import { getInvestRecord } from '@/api/hyc/investDetail'
 import NoData from '@/components/NoData/NoData'
 export default {
   name: 'index',
@@ -40,7 +40,8 @@ export default {
   },
   data() {
     return {
-      projectNo: this.$route.query.projectNo,
+      productId: this.$route.query.productId,
+      itemId: this.$route.query.itemId,
       BScrollOption: {
         probeType: 3,
         listenScroll: true,
@@ -55,12 +56,14 @@ export default {
   methods: {
     getData() {
       Indicator.open()
-      investUserCountMsg({
-        projectNo: this.projectNo,
+      getInvestRecord({
+        productId: this.productId,
+        itemId: this.itemId,
+        platform: 'h5',
         curPage: this.page
       }).then(res => {
         Indicator.close()
-        const [list, curPage, countPage] = [res.data.invUserList, res.data.curPage, res.data.countPage]
+        const [list, curPage, countPage] = [res.data.data.list, res.data.data.curPage, res.data.data.countPage]
         if (!list.length) {
           this.hasMore = false
           Toast('没有更多数据了')

@@ -1,8 +1,3 @@
-<!--
-  TODO
-  BScroll滚动影响按钮文字上下晃动
--->
-
 <template>
   <div class="invest-detail">
     <BScroll class="inner">
@@ -117,11 +112,11 @@
             </ul>
           </div>
         </section>
-        <section class="risk_tips commonType" @click="$router.push({ name: 'DJSagreement', query: { agreementType: 'fxts' } })">
+        <section class="risk_tips commonType" @click="linkTo('DJSagreement', { agreementType: 'fxts' })">
           <h2>风险告知书</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>
-        <section class="questions commonType" @click="$router.push({ name: 'commonProblem' })">
+        <section class="questions commonType" @click="linkTo('commonProblem')">
           <h2>常见问题</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>

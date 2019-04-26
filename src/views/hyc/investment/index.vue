@@ -74,7 +74,6 @@
 import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
-import Hyoucai from '@/assets/js/hyoucai'
 import { collectionApi, pageConfig, projectApi } from '@/api/hyc/investment'
 import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
@@ -123,7 +122,6 @@ export default {
       hasMore1: true,
       hasMore2: true,
       hasMore3: true,
-      authorization: Hyoucai.getItem('g_authorization'),
       yZhiJiHuaData: [],
       sanBiaoData: [],
       zQuanZhuanRang: [],
@@ -186,12 +184,19 @@ export default {
       if (item.status !== 2 && item.status !== 3) {
         if (this.type && this.showFiltered) {
           this.$router.push({
-            path: `/investment/investDetail/${item.projectNo}`,
-            query: { redPacketId: this.redPacketId, couponId: this.couponId }
+            name: 'HYCInvestDetail',
+            query: {
+              projectNo: item.projectNo,
+              redPacketId: this.redPacketId,
+              couponId: this.couponId
+            }
           })
         } else {
           this.$router.push({
-            path: `/investment/investDetail/${item.projectNo}`
+            name: 'HYCInvestDetail',
+            query: {
+              projectNo: item.projectNo
+            }
           })
         }
       }
@@ -238,19 +243,32 @@ export default {
       if (item.status !== 3) {
         if (this.type && this.showFiltered) {
           this.$router.push({
-            path: `/investment/planDetail/${item.productId}/item/${item.itemId}`,
-            query: { redPacketId: this.redPacketId, couponId: this.couponId }
+            name: 'HYCInvestDetail',
+            query: {
+              productId: item.productId,
+              itemId: item.itemId,
+              redPacketId: item.redPacketId,
+              couponId: item.couponId
+            }
           })
         } else {
-          if (item.itemId) {
+          if (item.projectType === 2) {
             // 集合标
             this.$router.push({
-              path: `/investment/planDetail/${item.productId}/item/${item.itemId}`
+              name: 'HYCInvestDetail',
+              query: {
+                productId: item.productId,
+                itemId: item.itemId
+              }
             })
-          } else {
+          }
+          if (item.projectType === 1) {
             // 债转标
             this.$router.push({
-              path: `/investment/planDetail/${item.productId}`
+              name: 'HYCInvestDetail',
+              query: {
+                productId: item.productId
+              }
             })
           }
         }

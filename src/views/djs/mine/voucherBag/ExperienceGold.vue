@@ -111,7 +111,7 @@ export default {
     //去使用
     goUse() {
       let data = {}
-      data.userName = '小狗'
+      data.userName = this.user.userName
       data.curPage = this.curPage
       // 获取产品列表
       collectionApi(data).then(res => {

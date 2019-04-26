@@ -519,6 +519,35 @@ export default {
             require('./reports/2018-Nov/11.jpg'),
             require('./reports/2018-Nov/12.jpg')
           ]
+        },
+        {
+          name: '2018年下半年',
+          poster: require('./reports/2018-lasthref/poster.png'),
+          images: [
+            require('./reports/2018-lasthref/1.png'),
+            require('./reports/2018-lasthref/2.png'),
+            require('./reports/2018-lasthref/3.png'),
+            require('./reports/2018-lasthref/4.png'),
+            require('./reports/2018-lasthref/5.png'),
+            require('./reports/2018-lasthref/6.png'),
+            require('./reports/2018-lasthref/7.png'),
+            require('./reports/2018-lasthref/8.png')
+          ]
+        },
+        {
+          name: '2019年第一季度',
+          poster: require('./reports/2019-01/poster.png'),
+          images: [
+            require('./reports/2019-01/1.png'),
+            require('./reports/2019-01/2.png'),
+            require('./reports/2019-01/3.png'),
+            require('./reports/2019-01/4.png'),
+            require('./reports/2019-01/5.png'),
+            require('./reports/2019-01/6.png'),
+            require('./reports/2019-01/7.png'),
+            require('./reports/2019-01/8.png'),
+            require('./reports/2019-01/9.png')
+          ]
         }
       ],
       PDFFlag: false, // 是否显示审计报告弹框

@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <b-scroll class="scroll">
+    <b-scroll class="scroll" ref="scrollRef" :probeType="probeType">
       <div class="info">
         <div>
           <div class="item">
@@ -186,7 +186,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import { getUser } from '@/assets/js/cache'
-import { getInternetInformation } from '@/api/hyc/investDetail'
+import { getLoanDetail, getInternetInformation, getBorrowerDetail } from '@/api/hyc/investDetail'
 import { Toast } from 'mint-ui'
 const CODE_OK = '1'
 export default {
@@ -197,6 +197,7 @@ export default {
   data() {
     return {
       projectNo: this.$route.query.projectNo,
+      productId: this.$route.query.productId,
       itemId: this.$route.query.itemId,
       userName: getUser().userName,
       showIdCardDialog: false,
@@ -241,21 +242,51 @@ export default {
     }
   },
 
-  methods: {},
+  methods: {
+    showInternetInfo() {
+      this.showInternetCreditInfo = true
+      this.getInternetInformation()
+      this.$nextTick(() => {
+        this.$refs.scrollRefInternetCreditInfo.refresh()
+      })
+    },
+
+    //互联网资信报告
+    getInternetInformation() {
+      getInternetInformation({
+        projectNo: this.projectNo
+      }).then(res => {
+        let resp = res.data
+        if (resp.resultCode === CODE_OK) {
+          this.internetCreditInfo = resp.data.internetInformationList
+        } else {
+          Toast(resp.resultMsg)
+        }
+      })
+    }
+  },
   created() {
     let postData = {
       projectNo: this.projectNo,
       itemId: this.itemId,
       userName: this.userName
     }
-    console.log(this.$route.query.projectNo)
-    getInternetInformation(postData).then(res => {
+    //优质计划-债权详情
+    getLoanDetail(postData).then(res => {
       let resp = res.data
       if (resp.resultCode === CODE_OK) {
-        this.internetCreditInfo = resp.data.internetInformationList
+        this.productDetail = resp.data
       } else {
         Toast(resp.resultMsg)
       }
+    })
+
+    //借款人详细信息
+    getBorrowerDetail({
+      projectNo: this.projectNo,
+      nameEncrypt: true
+    }).then(res => {
+      this.borrowerDetail = res.data.data
     })
   }
 }
@@ -285,11 +316,13 @@ export default {
       font-size: 0;
       /*margin-top: 0.52rem;*/
       background: #ffffff;
+
       .item {
         font-size: $font-size-small-s;
         margin-left: 0.15rem;
         padding: 0.16rem 0.15rem 0.16rem 0;
         border-bottom: 0.01rem solid #eeeeee;
+        display: flex;
         &:after {
           content: '';
           display: block;
@@ -299,7 +332,7 @@ export default {
           vertical-align: top;
           font-size: $font-size-small;
           font-weight: bold;
-          float: left;
+          flex: 1;
           width: 0.69rem;
           text-align: left;
           &.long {
@@ -307,7 +340,7 @@ export default {
           }
         }
         .right {
-          float: right;
+          justify-content: flex-end;
           width: 2.6rem;
           margin-left: 0.16rem;
           &.short {

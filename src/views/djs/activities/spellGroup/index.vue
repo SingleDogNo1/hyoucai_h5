@@ -104,7 +104,7 @@
             3、参与拼团用户，下载汇有财APP完成账户设置（含开通银行存管）后即获得10元现金红包，可提现哟。
           </p>
           <p>
-            4、1%返现奖励最高300元，于4月23日-4月29日发放。
+            4、1%返现奖励最高300元，于5月10日之前发放。
           </p>
           <p>
             5、加息券及1%返现奖励仅适用于客户首次出借奖励，且首次出借金额不低于2000元，呼朋唤友来参与拼团吧。
@@ -392,6 +392,40 @@ export default {
           })
         })
       })
+
+    const activityId = this.$route.query.activityId
+    const userName = this.$route.query.userName
+
+    // 如果是从h5活动列表进入的，用我们自己的分享逻辑
+    // 如果是直接进入活动详情，app用自己的分享功能
+    if (window.history.length > 1) {
+      const t = setInterval(() => {
+        if (window.DjsJsBridge && activityId) {
+          api
+            .getShareInfoApi({
+              id: activityId,
+              userName: userName
+            })
+            .then(res => {
+              if (res.data.resultCode === '1') {
+                const data = res.data
+                const params = {
+                  title: data.title,
+                  content: data.description,
+                  imgUrl: data.iconUrl,
+                  shareType: data.shareType,
+                  backPicUrl: data.backPicUrl,
+                  qrPicUrl: data.qrPicUrl,
+                  url: window.location.href
+                }
+                let shareInfo = JSON.stringify(params)
+                window.DjsJsBridge.getShareKey(shareInfo)
+                clearInterval(t)
+              }
+            })
+        }
+      }, 400)
+    }
   }
 }
 </script>

@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       // leaderInviteCode: this.$route.query.leaderInviteCode, // 团长邀请码
-      leaderInviteCode: 'd600018', // 郝总邀请码
+      leaderInviteCode: 'd600013', // 郝总邀请码
       groupId: 1 // 拼团活动Id
     }
   },

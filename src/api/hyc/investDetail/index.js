@@ -4,12 +4,21 @@ import Qs from 'qs'
 // 出借详情
 export function getInvestDetail(data) {
   return axios({
-    url: '/collection/investDetail/2.0',
+    url: '/collection/investDetail',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 获取个人账户信息
+export function getProjectDetail(data) {
+  return axios({
+    url: 'project/projectDetail',
     method: 'post',
     data: Qs.stringify(data)
-    /*headers: {
-      version: '2.0'
-    }*/
   })
 }
 
@@ -88,7 +97,7 @@ export function availableCouponApi(data) {
 // 用户投资
 export function investApi(data) {
   return axios({
-    url: 'InvestProject',
+    url: 'userInvest/invest',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
@@ -97,10 +106,10 @@ export function investApi(data) {
   })
 }
 
-// 到期自动复投
-export function expireRepeatApi(data) {
+// 获取个人账户信息
+export function getPersonalAccount(data) {
   return axios({
-    url: 'ExpireRepeat',
+    url: '/PersonalAccount',
     method: 'post',
     data: Qs.stringify(data)
   })

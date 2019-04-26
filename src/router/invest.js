@@ -426,6 +426,36 @@ export default [
         }
       },
       {
+        path: 'easyLend',
+        component: Empty,
+        children: [
+          {
+            path: '',
+            name: 'HYCEasyLend',
+            component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/hyc/investDetail/easyLend'),
+            meta: {
+              title: '授权出借'
+            }
+          },
+          {
+            path: 'coupon',
+            name: 'HYCLendChooseCoupon',
+            component: () => import('@/views/hyc/investDetail/coupon'),
+            meta: {
+              title: '选择加息券'
+            }
+          },
+          {
+            path: 'redpacket',
+            name: 'HYCLendChooseRedPacket',
+            component: () => import('@/views/hyc/investDetail/redpacket'),
+            meta: {
+              title: '选择红包'
+            }
+          }
+        ]
+      },
+      {
         path: 'claimList',
         name: 'HYCClaimList',
         component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimList'),

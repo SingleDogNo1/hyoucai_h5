@@ -59,7 +59,7 @@
             <p><i class="iconfont icon-rightpage"></i></p>
           </div>
         </section>
-        <section class="user-numbers" @click="linkTo('DJSLendRecord', { projectNo: projectNo })">
+        <section class="user-numbers" @click="linkTo('HYCLendRecord', { projectNo: projectNo })">
           <div class="number">
             <img src="./images/users_img.png" alt="" />
             <span>
@@ -123,11 +123,11 @@
             </ul>
           </div>
         </section>
-        <section class="risk_tips commonType">
+        <section class="risk_tips commonType" @click="linkTo('HYCagreement', { agreementType: 'fxts' })">
           <h2>风险告知书</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>
-        <section class="questions commonType">
+        <section class="questions commonType" @click="linkTo('commonProblem')">
           <h2>常见问题</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>
@@ -159,8 +159,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import { getUser } from '@/assets/js/cache'
-import { getAuth } from '@/assets/js/utils'
+import { mapGetters } from 'vuex'
 import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
@@ -175,8 +174,7 @@ export default {
     return {
       productId: this.$route.query.productId,
       itemId: this.$route.query.itemId,
-      userName: getUser().userName,
-      authorization: getAuth(),
+      projectNo: this.$route.query.projectNo,
       projectInfo: {
         investRate: '', // 利率
         itemName: '', // 集合标项目名称
@@ -201,6 +199,18 @@ export default {
       activity: [] //活动
     }
   },
+  computed: {
+    projectType() {
+      if (this.itemId && this.productId) {
+        return 2
+      } else if (this.productId) {
+        return 1
+      } else {
+        return 0
+      }
+    },
+    ...mapGetters(['user'])
+  },
   methods: {
     linkTo(routerName, routerQuery = {}) {
       this.$router.push({
@@ -218,9 +228,11 @@ export default {
     },
     invest() {
       this.$router.push({
-        name: 'DJSInvestFlow',
+        name: 'HYCEasyLend',
         query: {
-          projectNo: this.projectNo
+          productId: this.productId,
+          itemId: this.itemId,
+          projectType: this.projectType
         }
       })
     }
@@ -229,8 +241,7 @@ export default {
     let postData = {
       productId: this.productId,
       itemId: this.itemId,
-      userName: this.userName,
-      authorization: this.authorization
+      userName: this.user.userName
     }
     //出借详情
     getInvestDetail(postData).then(res => {

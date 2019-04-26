@@ -332,6 +332,22 @@ export default [
         }
       },
       {
+        path: 'historyCard',
+        name: 'HYCHistoryCard',
+        component: () => import(/* webpackChunkName: "HYCHistoryCard" */ '@/views/hyc/mine/voucherBag/HistoryCard'),
+        meta: {
+          title: '历史卡券'
+        }
+      },
+      {
+        path: 'couponList',
+        name: 'HYCCouponList',
+        component: () => import(/* webpackChunkName: "HYCCouponList" */ '@/views/hyc/mine/voucherBag/CouponList'),
+        meta: {
+          title: '券包'
+        }
+      },
+      {
         path: 'transfer_charge',
         name: 'HYCTransferCharge',
         component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),

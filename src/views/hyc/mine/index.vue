@@ -55,7 +55,7 @@
               ><span v-else>****</span>
             </div>
             <div class="action">
-              <input type="button" value="提现" />
+              <input type="button" value="提现" @click="$router.push({ name: 'HYCToCash' })" />
               <input type="button" value="充值" @click="$router.push({ name: 'HYCCharge' })" />
             </div>
           </div>
@@ -64,7 +64,7 @@
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({ name: 'HYCIRecommender' })">
+            <div class="link" @click="$router.push({ name: 'HYCRecommender' })">
               <span>我的推荐人</span>
               <span></span>
             </div>

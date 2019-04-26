@@ -381,7 +381,7 @@ export default new Router({
           children: [
             {
               path: '',
-              name: 'DJSInvestDetail',
+              name: 'DJSEasyLend',
               component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail/easyLend'),
               meta: {
                 title: '授权出借'

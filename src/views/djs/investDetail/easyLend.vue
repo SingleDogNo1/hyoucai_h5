@@ -63,8 +63,8 @@
             <label for="isCheck" @click="changeStatus" v-if="agreement.isSelect === '1'"></label>
             <div>
               <p>
-                {{ agreement.tipsBefore }}
-                <a :href="agreement.protocolUrl" class="agreement">{{ agreement.protocolName }}</a>
+                <span>{{ agreement.tipsBefore }}</span>
+                <a :href="agreement.protocolUrl | urlToh5" class="agreement">{{ agreement.protocolName }}</a>
               </p>
               <p>{{ agreement.tipsAfter }}</p>
             </div>
@@ -231,6 +231,11 @@ export default {
 
       // 判断投资按钮的可点击状态
       this.canILend = value - 0 >= this.investDetail.minInvAmt - 0
+    }
+  },
+  filters: {
+    urlToh5(value) {
+      return value.replace(/(\?mobile=1|&mobile=1)/, '')
     }
   },
   methods: {

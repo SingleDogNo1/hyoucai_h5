@@ -79,7 +79,7 @@
                   <li><p>历史年化收益率</p></li>
                 </ul>
                 <ul class="day">
-                  <li>{{ item.investMent }}</li>
+                  <li>{{ item.loanMent }}</li>
                   <li><p>锁定期</p></li>
                 </ul>
               </div>

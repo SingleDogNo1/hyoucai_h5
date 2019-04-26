@@ -129,7 +129,7 @@ export default {
               this.isShowDialog = true
             }
           })
-          //存在体验类产品isShowDialog为false 弹窗不现实 进入产品投资详情页
+          //存在体验类产品 进入产品投资详情页
           if (!this.isShowDialog) {
             this.$router.push({
               name: 'DJSInvestment'

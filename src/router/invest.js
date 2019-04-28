@@ -486,6 +486,14 @@ export default [
         meta: {
           title: '债权详情'
         }
+      },
+      {
+        path: 'LendRecord',
+        name: 'HYCLendRecord',
+        component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/hyc/lendRecord'),
+        meta: {
+          title: '出借记录'
+        }
       }
     ]
   }

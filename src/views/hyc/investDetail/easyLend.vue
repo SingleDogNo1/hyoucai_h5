@@ -43,7 +43,7 @@
           <li @click="chooseCoupon">
             <span>加息券</span>
             <div>
-              <p v-if="!checkedCoupon">{{ couponNum }}张</p>
+              <p v-if="!(checkedCoupon && checkedCoupon.id)">{{ couponNum }}张</p>
               <label v-else>{{ checkedCoupon.validDays }}天{{ checkedCoupon.couponRate }}%加息券</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
@@ -51,7 +51,7 @@
           <li @click="chooseRedPacket">
             <span>红包</span>
             <div>
-              <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
+              <p v-if="!(checkedRedPacket && checkedRedPacket.id)">{{ redPacketNum }}张</p>
               <label v-else>{{ checkedRedPacket.redPacketAmount }}元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
@@ -82,6 +82,39 @@
       </section>
     </div>
 
+    <!-- 未签约弹窗 && 未进行风险测评 -->
+    <Dialog class="sign-dialog" :show.sync="signAndRiskDialogOptions.show" :confirmText="signAndRiskDialogOptions.confirmText" :onConfirm="toSign">
+      <div>
+        <p>{{ signAndRiskDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
+
+    <!-- 出借手机乐成功弹窗 -->
+    <Dialog
+      class="sjl-dialog"
+      :show.sync="lendSJLSuccessDialogOptions.show"
+      :confirmText="lendSJLSuccessDialogOptions.confirmText"
+      :title="lendSJLSuccessDialogOptions.title"
+      :onConfirm="toAddress"
+    >
+      <div>
+        <p>{{ lendSJLSuccessDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
+
+    <!-- 出借普通产品成功弹窗 -->
+    <Dialog
+      class="sjl-dialog"
+      :show.sync="investDialogOptions.show"
+      :title="investDialogOptions.title"
+      :confirmText="investDialogOptions.confirmText"
+      :onConfirm="toInvestList"
+    >
+      <div>
+        <p>{{ investDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
+
     <!-- 风险测评弹窗 -->
     <Dialog
       class="risk-test-dialog"
@@ -103,6 +136,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
 import { Toast, Indicator } from 'mint-ui'
+import { getRetBaseURL, JumpJX } from '@/assets/js/utils'
 
 import { getProtocaol } from '@/api/hyc/invite'
 import {
@@ -110,8 +144,11 @@ import {
   getPersonalAccount, // 获取账户信息
   expectedIncome, // 计算预期收益
   couponPackageApi, // 查询可用红包加息券
-  investApi // 投资接口
+  investApi, // 投资接口
+  systemMaintenance // 查询系统是否维护
 } from '@/api/hyc/investDetail'
+// 查询用户信息完善接口
+import { userInfoCompleteNoticeApi } from '@/api/common/user'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -149,11 +186,30 @@ export default {
       investType: '', // 标的类型 普通 || 手机乐活动
       riskTestIsMax: '', // 风险测评类型是否达到最大
       riskTestDialogOptions: {
-        // 风险测评弹窗
+        // 风险测评有问题弹窗
         show: false,
         msg: '',
         title: '',
         confirmText: '重新评测'
+      },
+      signAndRiskDialogOptions: {
+        show: false,
+        msg: '你没签约',
+        confirmText: '去签约'
+      },
+      lendSJLSuccessDialogOptions: {
+        // 出借手机乐成功弹窗
+        show: false,
+        title: '',
+        msg: '出借手机乐成功弹窗',
+        confirmText: '填写地址'
+      },
+      investDialogOptions: {
+        // 出借普通产品成功弹窗
+        show: false,
+        title: '恭喜您，出借成功',
+        msg: '还有很多优质产品，总还有一款适合您',
+        confirmText: '查看更多'
       }
     }
   },
@@ -202,6 +258,21 @@ export default {
     }
   },
   methods: {
+    toSign() {
+      this.$router.push({
+        name: 'openAccountProgress'
+      })
+    },
+    toAddress() {
+      this.$router.push({
+        name: 'receiveAddress'
+      })
+    },
+    toInvestList() {
+      this.$router.push({
+        name: 'HYCInvestment'
+      })
+    },
     changeStatus() {
       this.agree = !this.agree
     },
@@ -262,46 +333,78 @@ export default {
     },
     invest() {
       if (this.canILend) {
-        investApi({
-          projectNo: this.projectNo ? this.projectNo : null,
-          itemId: this.itemId ? this.itemId : null,
-          invAmount: this.amount,
-          userName: this.user.userName,
-          userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-          userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
-          investSource: 'H5'
-        }).then(res => {
-          const data = res.data
-          if (data.resultCode === '1') {
-            this.cleanData()
-            this.autoLendSuccessDialogOptions.show = true
-            if (data.investType === 'SJLHD') {
-              // 手机乐活动
-              this.autoLendSuccessDialogOptions.msg = this.generalMsg
-              this.autoLendSuccessDialogOptions.confirmText = '去设置'
-            } else {
-              // 普通产品
-              this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
-              this.autoLendSuccessDialogOptions.confirmText = '查看更多'
-            }
-          } else if (data.resultCode === '90021') {
-            // 风险测评等级不符
-            this.riskTestDialogOptions.show = true
-            this.riskTestDialogOptions.title = '风险测评等级不符'
-            this.riskTestDialogOptions.msg = res.data.resultMsg
-            if (['JINX'].includes(data.data.evaluatingResult)) {
-              // 激进型
-              this.riskTestIsMax = true
-              this.riskTestDialogOptions.confirmText = '我知道了'
-            }
-          } else if (data.resultCode === '90022') {
-            // 风险测评过期
-            this.riskTestDialogOptions.show = true
-            this.riskTestDialogOptions.title = '风险测评过期'
-            this.riskTestDialogOptions.msg = res.data.resultMsg
-            this.riskTestIsMax = false
+        userInfoCompleteNoticeApi().then(completeNotice => {
+          const status = completeNotice.data.data.status
+          if (status === 'OPEN_ACCOUNT' || status === 'SET_PASSWORD') {
+            Toast('未开户，请先开户')
+            this.$router.push({
+              name: 'openAccountProgress'
+            })
           } else {
-            Toast(data.resultMsg)
+            systemMaintenance().then(res => {
+              if (res.data.resultCode === '60056') {
+                // 此时段为系统维护
+                this.investErrDialogOptions.show = true
+                this.investErrDialogOptions.msg = res.data.resultMsg
+              } else {
+                if (!this.agree) {
+                  Toast('请确认并同意《风险告知书》')
+                  return
+                }
+                switch (status) {
+                  case 'SIGN_PROTOCOL': // 未签约
+                    this.signAndRiskDialogOptions.show = true
+                    this.signAndRiskDialogOptions.msg = '你没签约'
+                    this.signAndRiskDialogOptions.confirmText = '去签约'
+                    break
+                  case 'EVALUATE':
+                    this.signAndRiskDialogOptions.show = true
+                    this.signAndRiskDialogOptions.msg = completeNotice.data.data.message
+                    this.signAndRiskDialogOptions.confirmText = '去评测'
+                    break
+                  case 'COMPLETE':
+                    investApi({
+                      projectNo: this.itemId ? this.itemId : null,
+                      invAmount: this.amount,
+                      userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
+                      userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+                      investSource: 'h5',
+                      forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
+                      retUrl: window.location.href
+                    }).then(res => {
+                      const data = res.data.data
+                      if (res.data.resultCode === '1') {
+                        if (data.type === '1') {
+                          JumpJX(data.redirectUrl, data.paramReq)
+                        } else {
+                          switch (data.investType) {
+                            case 'SJLHD':
+                              this.lendSJLSuccessDialogOptions.show = true
+                              this.lendSJLSuccessDialogOptions.msg = data.data.successInfo
+                              this.lendSJLSuccessDialogOptions.title = data.data.successTitle
+                              break
+                            case 'GENERAL':
+                              this.investDialogOptions.show = true
+                              break
+                          }
+                        }
+                      } else if (res.data.resultCode === '90021') {
+                        // 风险测评出借额度不够
+                      } else if (res.data.resultCode === '90022') {
+                        // 出借期限不够
+                      } else {
+                        /*
+                         * 90034：授权已过期
+                         * 90035：授权金额超限
+                         */
+                        this.investErrDialogOptions.show = true
+                        this.investErrDialogOptions.msg = res.data.resultMsg
+                      }
+                    })
+                    break
+                }
+              }
+            })
           }
         })
       }
@@ -328,7 +431,7 @@ export default {
       }).then(res => {
         const data = res.data.data
         $this.projectInfo = data.projectInfo
-        if ($this.amount >= data.minInvAmt) {
+        if ($this.amount - 0 >= data.projectInfo.minInvAmount - 0) {
           $this.canILend = true
         }
       })
@@ -354,7 +457,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (data.banlance < $this.projectInfo.minInvAmount) {
+          if (parseFloat(data.banlance) < parseFloat($this.projectInfo.minInvAmount - 0)) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }
@@ -363,9 +466,6 @@ export default {
       })
       await $this.getCouponPackage($this.amount)
     })()
-  },
-  beforeDestroy() {
-    // this.cleanData()
   }
 }
 </script>

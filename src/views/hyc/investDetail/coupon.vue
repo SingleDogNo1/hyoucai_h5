@@ -63,10 +63,12 @@ export default {
       this.$router.go(-1)
     },
     back() {
+      this.cleanCoupon()
       this.$router.go(-1)
     },
     ...mapMutations({
-      chooseCoupon: 'CHOOSE_HYC_COUPON'
+      chooseCoupon: 'CHOOSE_HYC_COUPON',
+      cleanCoupon: 'CLEAN_HYC_COUPON'
     })
   },
   created() {

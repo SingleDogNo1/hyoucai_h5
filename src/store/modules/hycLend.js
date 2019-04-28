@@ -11,9 +11,17 @@ const hycLend = {
       state.hycLendCoupon = coupon
       Cookies.set('hycLendCoupon', coupon)
     },
+    CLEAN_HYC_COUPON: state => {
+      state.hycLendCoupon = null
+      Cookies.remove('hycLendCoupon')
+    },
     CHOOSE_HYC_REDPACKET: (state, redPacket) => {
       state.hycLendRedPacket = redPacket
       Cookies.set('hycLendRedPacket', redPacket)
+    },
+    CLEAN_HYC_REDPACKET: state => {
+      state.hycLendRedPacket = null
+      Cookies.remove('hycLendRedPacket')
     },
     CLEAN_HYC_LEND_DATA: state => {
       state.hycEasyAmount = null

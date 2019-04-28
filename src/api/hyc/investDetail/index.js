@@ -102,10 +102,10 @@ export function investApi(data) {
   return axios({
     url: 'userInvest/invest',
     method: 'post',
-    data: Qs.stringify(data),
-    headers: {
-      version: '2.0'
-    }
+    data: Qs.stringify(data)
+    // headers: {
+    //   version: '2.0'
+    // }
   })
 }
 
@@ -115,5 +115,13 @@ export function getPersonalAccount(data) {
     url: '/PersonalAccount',
     method: 'post',
     data: Qs.stringify(data)
+  })
+}
+
+// 系统维护
+export function systemMaintenance() {
+  return axios({
+    url: 'collection/systemMaintenance',
+    method: 'post'
   })
 }

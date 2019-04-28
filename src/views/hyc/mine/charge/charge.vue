@@ -172,7 +172,7 @@ export default {
         retUrl: Hyoucai.getRetBaseURL() + path,
         forgotPwdUrl: forgetUrl,
         mobile: this.mobile,
-        platform: 'H5'
+        platform: 'h5'
       }
       api.rechargeApi(data).then(res => {
         let data = res.data

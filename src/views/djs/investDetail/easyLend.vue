@@ -298,7 +298,7 @@ export default {
           invAmount: this.amount,
           userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
           userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
-          investSource: 'H5'
+          investSource: 'h5'
         }).then(res => {
           const data = res.data
           if (data.resultCode === '1') {

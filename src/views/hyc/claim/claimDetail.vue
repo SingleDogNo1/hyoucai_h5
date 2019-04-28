@@ -185,7 +185,7 @@
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import { getUser } from '@/assets/js/cache'
+import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import { getLoanDetail, getInternetInformation, getBorrowerDetail, peopleLoanInfo } from '@/api/hyc/investDetail'
 
@@ -200,7 +200,6 @@ export default {
       projectNo: this.$route.query.projectNo,
       productId: this.$route.query.productId,
       itemId: this.$route.query.itemId,
-      userName: getUser().userName,
       showIdCardDialog: false,
       showFaceDialog: false,
       productDetail: {
@@ -263,7 +262,17 @@ export default {
           Toast(resp.resultMsg)
         }
       })
+    },
+    showPhoto(data) {
+      let imgWrapper = []
+      const [imgA, imgB] = [data.split(',')[0], data.split(',')[1]]
+      imgWrapper.push(imgA, imgB)
+      this.imgData = imgWrapper
+      this.showIdCardDialog = true
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
     let postData = {

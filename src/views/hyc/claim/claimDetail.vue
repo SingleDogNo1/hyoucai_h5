@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <b-scroll class="scroll" ref="scrollRef" :probeType="probeType">
+    <BScroll class="scroll" ref="scrollRef">
       <div class="info">
         <div>
           <div class="item">
@@ -179,15 +179,16 @@
           </div>
         </div>
       </div>
-    </b-scroll>
+    </BScroll>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import { getUser } from '@/assets/js/cache'
-import { getLoanDetail, getInternetInformation, getBorrowerDetail } from '@/api/hyc/investDetail'
 import { Toast } from 'mint-ui'
+import { getLoanDetail, getInternetInformation, getBorrowerDetail, peopleLoanInfo } from '@/api/hyc/investDetail'
+
 const CODE_OK = '1'
 export default {
   name: 'index',
@@ -202,7 +203,6 @@ export default {
       userName: getUser().userName,
       showIdCardDialog: false,
       showFaceDialog: false,
-      probeType: 3,
       productDetail: {
         projectName: '',
         loanMent: '',
@@ -288,6 +288,14 @@ export default {
     }).then(res => {
       this.borrowerDetail = res.data.data
     })
+
+    let productType = this.itemId && this.productId ? 2 : 1 // 同时有itemId和productId是集合标
+    peopleLoanInfo({
+      productId: this.projectNo,
+      productType: productType
+    }).then(res => {
+      this.postLoanSituation = res.data.data
+    })
   }
 }
 </script>
@@ -304,13 +312,8 @@ export default {
   opacity: 0;
 }
 .dialog {
-  /* position: fixed;*/
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 999;
-  background: #eee;
+  height: 100%;
+  overflow-y: scroll;
   .scroll {
     .info {
       font-size: 0;
@@ -394,6 +397,7 @@ export default {
           font-size: 0.15rem;
           color: #2b2b2b;
           margin-bottom: 0.08rem;
+          width: 0.69rem;
         }
         .btm {
           p {

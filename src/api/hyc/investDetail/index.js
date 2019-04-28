@@ -1,7 +1,7 @@
 import axios from '@/assets/js/requestHYC'
 import Qs from 'qs'
 
-// 出借详情
+// 优质计划-标的详情
 export function getInvestDetail(data) {
   return axios({
     url: '/collection/investDetail',
@@ -13,12 +13,15 @@ export function getInvestDetail(data) {
   })
 }
 
-// 获取个人账户信息
+// 散标-标的详情
 export function getProjectDetail(data) {
   return axios({
     url: 'project/projectDetail',
     method: 'post',
-    data: Qs.stringify(data)
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
@@ -73,7 +76,7 @@ export function couponPackageApi(data) {
 // 查询用户可用红包
 export function availableRedPacketApi(data) {
   return axios({
-    url: 'AvailableRedPacket',
+    url: 'redPacketAndCoupon/getAvailableRedPacket',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
@@ -85,7 +88,7 @@ export function availableRedPacketApi(data) {
 // 查询用户可用加息券
 export function availableCouponApi(data) {
   return axios({
-    url: 'AvailableCoupon',
+    url: 'redPacketAndCoupon/getAvailableCoupon',
     method: 'post',
     data: Qs.stringify(data),
     headers: {

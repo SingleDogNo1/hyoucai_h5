@@ -396,7 +396,7 @@ export default {
       }
     },
     ...mapMutations({
-      cleanData: 'CLEAN_LEND_DATA'
+      cleanData: 'CLEAN_DJS_LEND_DATA'
     })
   },
   created() {

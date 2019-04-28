@@ -9,7 +9,7 @@
               <span>%</span>
             </li>
             <li>
-              <h5>{{ projectInfo.projectName }}</h5>
+              <h5>{{ projectInfo.itemName }}</h5>
               <h6>锁定期{{ projectInfo.loanMentNumber }}天</h6>
             </li>
           </ul>
@@ -105,7 +105,13 @@ import Dialog from '@/components/Dialog/Alert'
 import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/hyc/invite'
-import { getInvestDetail, getProjectDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi } from '@/api/hyc/investDetail'
+import {
+  getInvestDetail, // 优质计划-投资详情
+  getPersonalAccount, // 获取账户信息
+  expectedIncome, // 计算预期收益
+  couponPackageApi, // 查询可用红包加息券
+  investApi // 投资接口
+} from '@/api/hyc/investDetail'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -126,7 +132,7 @@ export default {
       lendBtnMsg: '提交', // 投资按钮的内容
       canILend: false, // 投资按钮是否可点击
       agree: false, // 协议是否选中
-      amount: Cookie.get('djsLendAmount') ? Cookie.get('djsLendAmount') : '', // 投资金额
+      amount: Cookie.get('hycEasyAmount') ? Cookie.get('hycEasyAmount') : '', // 投资金额
       projectInfo: {},
       amountInfo: '', // 账户金额详情
       expectedIncome: '- -', // 预期收益
@@ -154,15 +160,14 @@ export default {
   computed: {
     ...mapGetters(['user']),
     ...mapState({
-      checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
-      checkedRedPacket: state => state.djsLend.djsLendRedPacket // 已选择的红包
+      checkedCoupon: state => state.hycLend.hycLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.hycLend.hycLendRedPacket // 已选择的红包
     })
   },
   watch: {
     amount(value) {
       // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
-      Cookie.set('djsLendAmount', value)
-
+      Cookie.set('hycEasyAmount', value)
       // 项目剩余可投和账户余额取小，得到可投资的极限金额
       const maxLendAmount =
         parseFloat(this.amountInfo.banlance) <= parseFloat(this.projectInfo.surplusAmt) ? this.amountInfo.banlance : this.projectInfo.surplusAmt
@@ -225,9 +230,10 @@ export default {
       this.$router.push({
         name: 'HYCLendChooseCoupon',
         params: {
-          projectNo: this.projectNo,
+          productId: this.productId,
           amount: this.amount,
-          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id,
+          couponId: this.checkedCoupon && this.checkedCoupon.id
         }
       })
     },
@@ -235,9 +241,10 @@ export default {
       this.$router.push({
         name: 'HYCLendChooseRedPacket',
         params: {
-          projectNo: this.projectNo,
+          productId: this.productId,
           amount: this.amount,
-          couponId: this.checkedCoupon && this.checkedCoupon.id
+          couponId: this.checkedCoupon && this.checkedCoupon.id,
+          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id
         }
       })
     },
@@ -272,12 +279,10 @@ export default {
               // 手机乐活动
               this.autoLendSuccessDialogOptions.msg = this.generalMsg
               this.autoLendSuccessDialogOptions.confirmText = '去设置'
-              this.autoLendSuccessType = 1
             } else {
               // 普通产品
               this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
               this.autoLendSuccessDialogOptions.confirmText = '查看更多'
-              this.autoLendSuccessType = 0
             }
           } else if (data.resultCode === '90021') {
             // 风险测评等级不符
@@ -301,49 +306,6 @@ export default {
         })
       }
     },
-    confirmAutoInvest() {
-      expireRepeatApi({
-        invId: this.invId,
-        projectNo: this.projectNo,
-        repeatStatus: this.autoLendType
-      }).then(res => {
-        const data = res.data
-        if (data.resultCode === '1') {
-          switch (this.investType) {
-            case 'GENERAL':
-              // 普通标
-              this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
-              this.autoLendSuccessType = 0
-              this.autoLendSuccessDialogOptions.confirmText = '查看更多'
-              break
-            case 'SJLHD':
-              // 手机乐活动
-              this.autoLendSuccessDialogOptions.msg = this.generalMsg
-              this.autoLendSuccessType = 1
-              this.autoLendSuccessDialogOptions.confirmText = '去设置'
-              break
-          }
-          this.autoLendSuccessDialogOptions.show = true
-        } else {
-          this.investErrDialogOptions.show = true
-          this.investErrDialogOptions.msg = data.resultMsg
-        }
-      })
-    },
-    confirmAutoLendSXS() {
-      switch (this.autoLendSuccessType) {
-        case 0:
-          this.$router.push({
-            name: 'DJSInvestment'
-          })
-          break
-        case 1:
-          this.$router.push({
-            name: 'receiveAddress'
-          })
-          break
-      }
-    },
     confirmRiskText() {
       if (!this.riskTestIsMax) {
         this.$router.push({
@@ -352,28 +314,24 @@ export default {
       }
     },
     ...mapMutations({
-      cleanData: 'CLEAN_LEND_DATA'
+      cleanData: 'CLEAN_HYC_LEND_DATA'
     })
   },
   created() {
     const $this = this
     ;(async function initData() {
-      if ($this.projectType !== '0') {
-        // 集合标 && 债转标详情
-        await getInvestDetail({
-          itemId: $this.itemId,
-          productId: $this.productId,
-          userName: $this.user.userName
-        }).then(res => {
-          const data = res.data.data
-          $this.projectInfo = data.projectInfo
-          if ($this.amount >= data.minInvAmt) {
-            $this.canILend = true
-          }
-        })
-      } else {
-        // 散标
-      }
+      // 集合标 && 债转标详情
+      await getInvestDetail({
+        itemId: $this.itemId,
+        productId: $this.productId,
+        userName: $this.user.userName
+      }).then(res => {
+        const data = res.data.data
+        $this.projectInfo = data.projectInfo
+        if ($this.amount >= data.minInvAmt) {
+          $this.canILend = true
+        }
+      })
 
       await getProtocaol({
         type: 'TZZF',
@@ -396,7 +354,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (data.banlance < $this.investDetail.minInvAmt) {
+          if (data.banlance < $this.projectInfo.minInvAmount) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }
@@ -406,10 +364,8 @@ export default {
       await $this.getCouponPackage($this.amount)
     })()
   },
-  mounted() {
-    getProjectDetail({
-      projectNo: 'BD20190125103936004109'
-    })
+  beforeDestroy() {
+    // this.cleanData()
   }
 }
 </script>

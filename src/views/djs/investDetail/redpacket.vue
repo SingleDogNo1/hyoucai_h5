@@ -65,7 +65,7 @@ export default {
       this.$router.go(-1)
     },
     ...mapMutations({
-      djsLendRedPacket: 'CHOOSE_REDPACKET'
+      djsLendRedPacket: 'CHOOSE_DJS_REDPACKET'
     })
   },
   created() {

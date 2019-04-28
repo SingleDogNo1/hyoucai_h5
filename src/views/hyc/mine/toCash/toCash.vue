@@ -252,7 +252,7 @@ export default {
         routeCode: this.type,
         retUrl: url,
         forgotPwdUrl: forgetUrl,
-        platform: 'H5'
+        platform: 'h5'
       }
       if (this.type === '2') {
         data.cardBankCnaps = this.cardBankCnaps

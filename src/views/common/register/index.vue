@@ -63,7 +63,7 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        registerFrom: 'H5'
+        registerFrom: 'h5'
       },
       inviteCode: undefined,
       recommendCode: undefined,

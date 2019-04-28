@@ -1,3 +1,7 @@
+<!--
+  @tips
+  左上角的红包类型，不可用display: none
+-->
 <template>
   <div class="item" @click="choose">
     <div class="left">
@@ -5,10 +9,10 @@
         <strong>{{ dataInfo.redPacketAmount }}</strong>
         <span>元</span>
       </header>
-      <footer v-if="dataInfo.commonUse === 1">可与加息券一起使用</footer>
+      <footer v-if="parseInt(dataInfo.commonUse) === 1">可与加息券一起使用</footer>
       <footer v-else>不可与加息券一起使用</footer>
-      <img class="type" v-if="dataInfo.secondType === 1" src="./dikou.png" alt="" />
-      <img class="type" v-else-if="dataInfo.secondType === 2" src="./touzi.png" alt="" />
+      <img class="type" v-if="parseInt(dataInfo.secondType) === 1" src="./dikou.png" alt="" />
+      <img class="type" v-else-if="parseInt(dataInfo.secondType) === 2" src="./touzi.png" alt="" />
     </div>
     <div class="right">
       <h4>起投金额：{{ dataInfo.investMinAmount }}元</h4>
@@ -99,6 +103,7 @@ export default {
       @include square(0.35rem);
       left: 0;
       top: 0;
+      display: none;
     }
   }
   .right {
@@ -133,6 +138,9 @@ export default {
     }
     .right {
       color: #333;
+    }
+    .type {
+      display: block;
     }
   }
 }

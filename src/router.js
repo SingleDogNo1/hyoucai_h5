@@ -273,6 +273,20 @@ export default new Router({
           meta: {
             title: '地址管理'
           }
+        },
+        {
+          path: 'activity',
+          component: Empty,
+          children: [
+            {
+              path: 'prizeDraw',
+              component: () => import(/* webpackChunkName: "Activity" */ '@/views/common/activities/prizeDraw')
+            },
+            {
+              path: 'spellTeam',
+              component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
+            }
+          ]
         }
       ]
     },

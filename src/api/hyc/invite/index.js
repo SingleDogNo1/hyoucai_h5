@@ -27,3 +27,12 @@ export function saveInviteCode(data) {
     data: qs.stringify(data)
   })
 }
+
+// 获取协议
+export function getProtocaol(data) {
+  return request({
+    url: 'extendApi/queryAgreementCatalog',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

@@ -65,6 +65,7 @@ export default {
 
 .notice {
   height: 100%;
+  overflow: hidden;
   .notice_scroll {
     height: 100%;
     .wrapper {

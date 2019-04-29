@@ -69,7 +69,7 @@ export default {
       this.$router.go(-1)
     },
     ...mapMutations({
-      chooseCoupon: 'CHOOSE_COUPON'
+      chooseCoupon: 'CHOOSE_DJS_COUPON'
     })
   },
   created() {

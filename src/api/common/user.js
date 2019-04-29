@@ -50,7 +50,16 @@ export function queryKHAgreementList(data) {
 export function getProtocolPdf(data) {
   return request({
     url: '/protocol/getProtocolPdf',
-    methos: 'post',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 实名认证
+export function realNameApi(data) {
+  return request({
+    url: 'RealNameCertification',
+    method: 'post',
     data: qs.stringify(data)
   })
 }

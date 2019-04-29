@@ -31,9 +31,9 @@ $axios.interceptors.response.use(
       Toast(response.data.resultMsg)
       setTimeout(() => {
         Hyoucai.removeAll()
-        Router.push({
-          name: 'loginRegister'
-        })
+        // Router.push({
+        //   name: 'loginRegister'
+        // })
       }, 2000)
     }
     return response

@@ -422,7 +422,8 @@ export default {
         }
       })
       await getPersonalAccount({
-        userName: $this.user.userName
+        userName: $this.user.userName,
+        projectNo: $this.projectNo
       }).then(res => {
         const data = res.data
         $this.amountInfo = data

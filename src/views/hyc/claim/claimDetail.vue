@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <BScroll class="scroll" ref="scrollRef">
+    <BScroll class="scroll" ref="scrollRef" :probeType="probeType">
       <div class="info">
         <div>
           <div class="item">
@@ -180,6 +180,24 @@
         </div>
       </div>
     </BScroll>
+    <IdCardDialog v-if="imgData" :showDialog="showIdCardDialog" :imgData="imgData" @close="closeIdCard"> </IdCardDialog>
+    <FaceDialog v-if="faceData" :showDialog="showFaceDialog" :imgData="faceData" @close="closeFace"> </FaceDialog>
+    <transition name="fade">
+      <div v-show="showInternetCreditInfo" class="internetInfo_wrapper">
+        <div class="model" @click="showInternetCreditInfo = false"></div>
+        <div class="internetInfo_wrapper_inn">
+          <span @click="showInternetCreditInfo = false">×</span>
+          <b-scroll class="scroll" ref="scrollRefInternetCreditInfo">
+            <div>
+              <dl v-for="(item, index) in internetCreditInfo" :key="index">
+                <dt>{{ item.key }}</dt>
+                <dd>{{ item.value }}</dd>
+              </dl>
+            </div>
+          </b-scroll>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -188,12 +206,15 @@ import BScroll from '@/components/BScroll/BScroll'
 import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 import { getLoanDetail, getInternetInformation, getBorrowerDetail, peopleLoanInfo } from '@/api/hyc/investDetail'
-
+import IdCardDialog from '@/components/Dialog/ProDetailDialog'
+import FaceDialog from '@/components/Dialog/FaceDialog'
 const CODE_OK = '1'
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    IdCardDialog,
+    FaceDialog
   },
   data() {
     return {
@@ -202,6 +223,7 @@ export default {
       itemId: this.$route.query.itemId,
       showIdCardDialog: false,
       showFaceDialog: false,
+      probeType: 3,
       productDetail: {
         projectName: '',
         loanMent: '',
@@ -242,12 +264,33 @@ export default {
   },
 
   methods: {
+    showPhoto(data) {
+      let imgWrapper = []
+      const [imgA, imgB] = [data.split(',')[0], data.split(',')[1]]
+      imgWrapper.push(imgA, imgB)
+      this.imgData = imgWrapper
+      this.showIdCardDialog = true
+    },
+    showFace(data) {
+      this.faceData = data
+      this.showFaceDialog = true
+    },
+    showSign(data) {
+      window.location.href = data
+    },
     showInternetInfo() {
       this.showInternetCreditInfo = true
       this.getInternetInformation()
       this.$nextTick(() => {
         this.$refs.scrollRefInternetCreditInfo.refresh()
+        this.$refs.scrollRef.refresh()
       })
+    },
+    closeFace() {
+      this.showFaceDialog = false
+    },
+    closeIdCard() {
+      this.showIdCardDialog = false
     },
 
     //互联网资信报告
@@ -262,49 +305,41 @@ export default {
           Toast(resp.resultMsg)
         }
       })
-    },
-    showPhoto(data) {
-      let imgWrapper = []
-      const [imgA, imgB] = [data.split(',')[0], data.split(',')[1]]
-      imgWrapper.push(imgA, imgB)
-      this.imgData = imgWrapper
-      this.showIdCardDialog = true
     }
   },
   computed: {
     ...mapGetters(['user'])
   },
   created() {
-    let postData = {
-      projectNo: this.projectNo,
-      itemId: this.itemId,
-      userName: this.userName
-    }
-    //优质计划-债权详情
-    getLoanDetail(postData).then(res => {
-      let resp = res.data
-      if (resp.resultCode === CODE_OK) {
-        this.productDetail = resp.data
-      } else {
-        Toast(resp.resultMsg)
-      }
-    })
-
-    //借款人详细信息
-    getBorrowerDetail({
-      projectNo: this.projectNo,
-      nameEncrypt: true
-    }).then(res => {
-      this.borrowerDetail = res.data.data
-    })
-
+    const $this = this
     let productType = this.itemId && this.productId ? 2 : 1 // 同时有itemId和productId是集合标
-    peopleLoanInfo({
-      productId: this.projectNo,
-      productType: productType
-    }).then(res => {
-      this.postLoanSituation = res.data.data
-    })
+    async function setData() {
+      try {
+        await getLoanDetail({
+          projectNo: $this.projectNo,
+          itemId: $this.itemId,
+          productId: $this.productId
+        }).then(res => {
+          $this.productDetail = res.data.data
+        })
+        await getBorrowerDetail({
+          projectNo: $this.projectNo,
+          nameEncrypt: true
+        }).then(res => {
+          $this.borrowerDetail = res.data.data
+        })
+        await peopleLoanInfo({
+          productId: $this.projectNo,
+          productType: productType
+        }).then(res => {
+          $this.postLoanSituation = res.data.data
+        })
+        await $this.$refs.scrollRef.refresh()
+      } catch (e) {
+        throw e
+      }
+    }
+    setData()
   }
 }
 </script>
@@ -321,20 +356,28 @@ export default {
   opacity: 0;
 }
 .dialog {
+  /*  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 999;*/
   height: 100%;
-  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #eee;
   .scroll {
+    flex: 1;
+    overflow: hidden;
     .info {
       font-size: 0;
-      /*margin-top: 0.52rem;*/
       background: #ffffff;
-
       .item {
         font-size: $font-size-small-s;
         margin-left: 0.15rem;
         padding: 0.16rem 0.15rem 0.16rem 0;
         border-bottom: 0.01rem solid #eeeeee;
-        display: flex;
         &:after {
           content: '';
           display: block;
@@ -344,7 +387,7 @@ export default {
           vertical-align: top;
           font-size: $font-size-small;
           font-weight: bold;
-          flex: 1;
+          float: left;
           width: 0.69rem;
           text-align: left;
           &.long {
@@ -352,7 +395,7 @@ export default {
           }
         }
         .right {
-          justify-content: flex-end;
+          float: right;
           width: 2.6rem;
           margin-left: 0.16rem;
           &.short {
@@ -406,7 +449,6 @@ export default {
           font-size: 0.15rem;
           color: #2b2b2b;
           margin-bottom: 0.08rem;
-          width: 0.69rem;
         }
         .btm {
           p {
@@ -438,7 +480,6 @@ export default {
   left: 0;
   margin: auto;
   z-index: 999;
-  /*  overflow-y: scroll;*/
   .model {
     position: absolute;
     top: 0;

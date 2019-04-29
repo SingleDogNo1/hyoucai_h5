@@ -63,6 +63,29 @@ export default [
         ]
       },
       {
+        path: 'realNameAuth',
+        name: 'realNameAuthProgress',
+        component: () => import(/* webpackChunkName: "realNameAuth" */ '@/views/common/realNameAuth/progress'),
+        children: [
+          {
+            path: 'name',
+            name: 'realNameAuthCheckName',
+            component: () => import('@/views/common/realNameAuth/name'),
+            meta: {
+              title: '开通存管账户'
+            }
+          },
+          {
+            path: 'card',
+            name: 'realNameAuthBindCard',
+            component: () => import('@/views/common/realNameAuth/card'),
+            meta: {
+              title: '开通存管账户'
+            }
+          }
+        ]
+      },
+      {
         path: 'forgetpwd',
         name: 'forgetPWD',
         component: () => import(/* webpackChunkName: "forgetpwd" */ '@/views/common/forgetPWD'),

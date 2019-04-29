@@ -362,9 +362,14 @@ export default {
   bottom: 0;
   right: 0;
   z-index: 999;*/
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: #eee;
   .scroll {
-    height: 100%;
+    flex: 1;
+    overflow: hidden;
     .info {
       font-size: 0;
       background: #ffffff;

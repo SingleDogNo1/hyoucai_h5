@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <BScroll class="scroll" ref="scrollRef">
+    <BScroll class="scroll" ref="scrollRef" :probeType="probeType">
       <div class="info">
         <div>
           <div class="item">
@@ -223,6 +223,7 @@ export default {
       itemId: this.$route.query.itemId,
       showIdCardDialog: false,
       showFaceDialog: false,
+      probeType: 3,
       productDetail: {
         projectName: '',
         loanMent: '',
@@ -282,6 +283,7 @@ export default {
       this.getInternetInformation()
       this.$nextTick(() => {
         this.$refs.scrollRefInternetCreditInfo.refresh()
+        this.$refs.scrollRef.refresh()
       })
     },
     closeFace() {
@@ -309,36 +311,35 @@ export default {
     ...mapGetters(['user'])
   },
   created() {
-    let postData = {
-      projectNo: this.projectNo,
-      itemId: this.itemId,
-      userName: this.userName
-    }
-    //优质计划-债权详情
-    getLoanDetail(postData).then(res => {
-      let resp = res.data
-      if (resp.resultCode === CODE_OK) {
-        this.productDetail = resp.data
-      } else {
-        Toast(resp.resultMsg)
-      }
-    })
-
-    //借款人详细信息
-    getBorrowerDetail({
-      projectNo: this.projectNo,
-      nameEncrypt: true
-    }).then(res => {
-      this.borrowerDetail = res.data.data
-    })
-
+    const $this = this
     let productType = this.itemId && this.productId ? 2 : 1 // 同时有itemId和productId是集合标
-    peopleLoanInfo({
-      productId: this.projectNo,
-      productType: productType
-    }).then(res => {
-      this.postLoanSituation = res.data.data
-    })
+    async function setData() {
+      try {
+        await getLoanDetail({
+          projectNo: $this.projectNo,
+          itemId: $this.itemId,
+          productId: $this.productId
+        }).then(res => {
+          $this.productDetail = res.data.data
+        })
+        await getBorrowerDetail({
+          projectNo: $this.projectNo,
+          nameEncrypt: true
+        }).then(res => {
+          $this.borrowerDetail = res.data.data
+        })
+        await peopleLoanInfo({
+          productId: $this.projectNo,
+          productType: productType
+        }).then(res => {
+          $this.postLoanSituation = res.data.data
+        })
+        await $this.$refs.scrollRef.refresh()
+      } catch (e) {
+        throw e
+      }
+    }
+    setData()
   }
 }
 </script>
@@ -363,7 +364,7 @@ export default {
   z-index: 999;*/
   background: #eee;
   .scroll {
-    height: calc(100% - 0.44rem);
+    height: 100%;
     .info {
       font-size: 0;
       background: #ffffff;

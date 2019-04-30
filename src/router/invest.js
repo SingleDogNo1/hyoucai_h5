@@ -117,6 +117,14 @@ export default [
         }
       },
       {
+        path: 'support_bank',
+        name: 'DJSSupportBank',
+        component: () => import(/* webpackChunkName: "DJSSupportBank" */ '@/views/djs/supportBank/supportBank'),
+        meta: {
+          title: '支持銀行列表'
+        }
+      },
+      {
         path: 'notice',
         component: Empty,
         children: [

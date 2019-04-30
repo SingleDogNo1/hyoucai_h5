@@ -182,7 +182,7 @@ export default {
               let user = res.data.data
               this.setUser(user)
               this.$router.push({
-                name: 'remindOpenAccount'
+                name: 'realNameAuth'
               })
             } else {
               Toast(res.data.resultMsg)

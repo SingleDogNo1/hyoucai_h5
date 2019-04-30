@@ -115,7 +115,7 @@
       </div>
     </Dialog>
 
-    <!-- 风险测评弹窗 -->
+    <!-- 风险测评有问题弹窗 -->
     <Dialog
       class="risk-test-dialog"
       :show.sync="riskTestDialogOptions.show"
@@ -163,7 +163,6 @@ export default {
     return {
       productId: this.$route.query.productId,
       itemId: this.$route.query.itemId,
-      projectNo: this.$route.query.projectNo, // 标的号
       projectType: this.$route.query.projectType, // 0-散标 1-债转 2-集合标
       protocolData: [], // 协议数据
       lendBtnMsg: '提交', // 投资按钮的内容
@@ -182,8 +181,6 @@ export default {
         show: false,
         msg: ''
       },
-      invId: -1, // 投资记录id
-      investType: '', // 标的类型 普通 || 手机乐活动
       riskTestIsMax: '', // 风险测评类型是否达到最大
       riskTestDialogOptions: {
         // 风险测评有问题弹窗
@@ -390,8 +387,24 @@ export default {
                         }
                       } else if (res.data.resultCode === '90021') {
                         // 风险测评出借额度不够
+                        this.riskTestDialogOptions.show = true
+                        this.riskTestDialogOptions.title = '风险测评等级不符'
+                        this.riskTestDialogOptions.msg = res.data.resultMsg
+
+                        if (['JINX'].includes(res.data.data.evaluatingResult)) {
+                          this.riskTestDialogOptions.confirmText = '我知道了'
+                          this.riskTestIsMax = true
+                        }
                       } else if (res.data.resultCode === '90022') {
                         // 出借期限不够
+                        this.riskTestDialogOptions.show = true
+                        this.riskTestDialogOptions.title = '风险测评出借期限不够'
+                        this.riskTestDialogOptions.msg = res.data.resultMsg
+
+                        if (['JINX'].includes(res.data.data.evaluatingResult)) {
+                          this.riskTestDialogOptions.confirmText = '我知道了'
+                          this.riskTestIsMax = true
+                        }
                       } else {
                         /*
                          * 90034：授权已过期

@@ -60,10 +60,31 @@ export default {
   created() {
     let data = {
       userName: this.user.userName,
+      platform: 'h5',
       readStatus: '0'
     }
+    api.getUnReadMessage(data).then(res => {
+      let data = res.data.message
+      let tasteGoldMessageUnRead = data.tasteGoldMessageUnRead
+      let couponMessageUnRead = data.couponMessageUnRead
+      let repeatMsgUnRead = data.repeatMsgUnRead
+      let redPacketMessageUnRead = data.redPacketMessageUnRead
+
+      if (tasteGoldMessageUnRead == '1') {
+        this.tasteShow = true
+      }
+      if (couponMessageUnRead == '1') {
+        this.couponShow = true
+      }
+      if (repeatMsgUnRead == '1') {
+        this.repeatShow = true
+      }
+      if (redPacketMessageUnRead == '1') {
+        this.redShow = true
+      }
+    })
     //加息券未读消息中心接口
-    api.getCouponUnreadCount(data).then(res => {
+    /* api.getCouponUnreadCount(data).then(res => {
       let data = res.data.message
       let couponUnReadCount = data.couponUnRead.length
       if (couponUnReadCount > 0) {
@@ -91,7 +112,7 @@ export default {
       if (repeatUnReadCount > 0) {
         this.repeatShow = true
       }
-    })
+    })*/
   },
   mounted() {},
   destroyed() {}

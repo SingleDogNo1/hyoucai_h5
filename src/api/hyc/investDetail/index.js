@@ -1,15 +1,27 @@
 import axios from '@/assets/js/requestHYC'
 import Qs from 'qs'
 
-// 出借详情
+// 优质计划-标的详情
 export function getInvestDetail(data) {
   return axios({
-    url: '/collection/investDetail/2.0',
+    url: '/collection/investDetail',
     method: 'post',
-    data: Qs.stringify(data)
-    /*headers: {
+    data: Qs.stringify(data),
+    headers: {
       version: '2.0'
-    }*/
+    }
+  })
+}
+
+// 散标-标的详情
+export function getProjectDetail(data) {
+  return axios({
+    url: 'project/projectDetail',
+    method: 'post',
+    data: Qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
@@ -22,17 +34,17 @@ export function getClaimList(data) {
   })
 }
 
-// 获取出借记录
-export function investUserCountMsg(data) {
+// 获取投资记录
+export function getInvestRecord(data) {
   return axios({
-    url: '/InvestUserCountMsg',
+    url: '/collection/investRecord',
     method: 'post',
     data: Qs.stringify(data)
   })
 }
 
 // 债权详情
-export function getInternetInformation(data) {
+export function getLoanDetail(data) {
   return axios({
     url: '/collection/loanDetail',
     method: 'post',
@@ -40,10 +52,10 @@ export function getInternetInformation(data) {
   })
 }
 
-// 预期收益计算
-export function expectedIncome(data) {
+// 互联网资信报告
+export function getInternetInformation(data) {
   return axios({
-    url: 'ExpectedIncome',
+    url: '/auditInfo/internetInformation',
     method: 'post',
     data: Qs.stringify(data)
   })
@@ -64,7 +76,7 @@ export function couponPackageApi(data) {
 // 查询用户可用红包
 export function availableRedPacketApi(data) {
   return axios({
-    url: 'AvailableRedPacket',
+    url: 'redPacketAndCoupon/getAvailableRedPacket',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
@@ -76,7 +88,7 @@ export function availableRedPacketApi(data) {
 // 查询用户可用加息券
 export function availableCouponApi(data) {
   return axios({
-    url: 'AvailableCoupon',
+    url: 'redPacketAndCoupon/getAvailableCoupon',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
@@ -88,19 +100,45 @@ export function availableCouponApi(data) {
 // 用户投资
 export function investApi(data) {
   return axios({
-    url: 'InvestProject',
+    url: 'userInvest/invest',
     method: 'post',
-    data: Qs.stringify(data),
-    headers: {
-      version: '2.0'
-    }
+    data: Qs.stringify(data)
+    // headers: {
+    //   version: '2.0'
+    // }
   })
 }
 
-// 到期自动复投
-export function expireRepeatApi(data) {
+// 获取个人账户信息
+export function getPersonalAccount(data) {
   return axios({
-    url: 'ExpireRepeat',
+    url: '/PersonalAccount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 系统维护
+export function systemMaintenance() {
+  return axios({
+    url: 'collection/systemMaintenance',
+    method: 'post'
+  })
+}
+
+// 借款人详细信息
+export function getBorrowerDetail(data) {
+  return axios({
+    url: '/jxLoanPeopleInfo/detail',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 贷后情况
+export function peopleLoanInfo(data) {
+  return axios({
+    url: '/collection/peopleLoanInfo',
     method: 'post',
     data: Qs.stringify(data)
   })

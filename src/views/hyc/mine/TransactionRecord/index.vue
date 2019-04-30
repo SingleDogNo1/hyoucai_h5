@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { Toast, Indicator } from 'mint-ui' //tabItem
+import { Toast, Indicator } from 'mint-ui'
 import { getUserTransaction } from '@/api/hyc/transaction'
 import { mapGetters } from 'vuex'
 import Loading from '@/components/Loading/Loading'

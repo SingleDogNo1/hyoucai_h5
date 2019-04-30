@@ -64,7 +64,7 @@ export default {
   methods: {
     couponPacketHistory() {
       couponPacketHistory({ userName: this.user.userName }).then(res => {
-        // console.log(res.data.vouchers)
+        // console.log(res.data)
         let data = res.data.vouchers // 历史卡券
         if (data) {
           //存在历史卡券
@@ -74,12 +74,16 @@ export default {
             } else {
               item.commonUse = '不可'
             }
-            item.projectTypes.map(items => {
+            item.msg = ''
+            // console.log(item.projectTypes)
+            let length = item.projectTypes.length - 1
+            // console.log(length)
+            item.projectTypes.map((items, index) => {
               // 展开券的适用范围
-              if ((couponList = item.projectTypes.length)) {
-                item.msg = items.projectTypeName
+              if (index == length) {
+                item.msg += items.projectTypeName
               } else {
-                item.msg = items.projectTypeName + '、'
+                item.msg += items.projectTypeName + '、'
               }
             })
             switch (item.status) {

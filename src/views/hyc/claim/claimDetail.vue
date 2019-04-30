@@ -1,6 +1,6 @@
 <template>
   <div class="dialog">
-    <b-scroll class="scroll">
+    <BScroll class="scroll" ref="scrollRef" :probeType="probeType">
       <div class="info">
         <div>
           <div class="item">
@@ -179,26 +179,48 @@
           </div>
         </div>
       </div>
-    </b-scroll>
+    </BScroll>
+    <IdCardDialog v-if="imgData" :showDialog="showIdCardDialog" :imgData="imgData" @close="closeIdCard"> </IdCardDialog>
+    <FaceDialog v-if="faceData" :showDialog="showFaceDialog" :imgData="faceData" @close="closeFace"> </FaceDialog>
+    <transition name="fade">
+      <div v-show="showInternetCreditInfo" class="internetInfo_wrapper">
+        <div class="model" @click="showInternetCreditInfo = false"></div>
+        <div class="internetInfo_wrapper_inn">
+          <span @click="showInternetCreditInfo = false">×</span>
+          <b-scroll class="scroll" ref="scrollRefInternetCreditInfo">
+            <div>
+              <dl v-for="(item, index) in internetCreditInfo" :key="index">
+                <dt>{{ item.key }}</dt>
+                <dd>{{ item.value }}</dd>
+              </dl>
+            </div>
+          </b-scroll>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import { getUser } from '@/assets/js/cache'
-import { getInternetInformation } from '@/api/hyc/investDetail'
+import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
+import { getLoanDetail, getInternetInformation, getBorrowerDetail, peopleLoanInfo } from '@/api/hyc/investDetail'
+import IdCardDialog from '@/components/Dialog/ProDetailDialog'
+import FaceDialog from '@/components/Dialog/FaceDialog'
 const CODE_OK = '1'
 export default {
   name: 'index',
   components: {
-    BScroll
+    BScroll,
+    IdCardDialog,
+    FaceDialog
   },
   data() {
     return {
       projectNo: this.$route.query.projectNo,
+      productId: this.$route.query.productId,
       itemId: this.$route.query.itemId,
-      userName: getUser().userName,
       showIdCardDialog: false,
       showFaceDialog: false,
       probeType: 3,
@@ -241,22 +263,83 @@ export default {
     }
   },
 
-  methods: {},
-  created() {
-    let postData = {
-      projectNo: this.projectNo,
-      itemId: this.itemId,
-      userName: this.userName
+  methods: {
+    showPhoto(data) {
+      let imgWrapper = []
+      const [imgA, imgB] = [data.split(',')[0], data.split(',')[1]]
+      imgWrapper.push(imgA, imgB)
+      this.imgData = imgWrapper
+      this.showIdCardDialog = true
+    },
+    showFace(data) {
+      this.faceData = data
+      this.showFaceDialog = true
+    },
+    showSign(data) {
+      window.location.href = data
+    },
+    showInternetInfo() {
+      this.showInternetCreditInfo = true
+      this.getInternetInformation()
+      this.$nextTick(() => {
+        this.$refs.scrollRefInternetCreditInfo.refresh()
+        this.$refs.scrollRef.refresh()
+      })
+    },
+    closeFace() {
+      this.showFaceDialog = false
+    },
+    closeIdCard() {
+      this.showIdCardDialog = false
+    },
+
+    //互联网资信报告
+    getInternetInformation() {
+      getInternetInformation({
+        projectNo: this.projectNo
+      }).then(res => {
+        let resp = res.data
+        if (resp.resultCode === CODE_OK) {
+          this.internetCreditInfo = resp.data.internetInformationList
+        } else {
+          Toast(resp.resultMsg)
+        }
+      })
     }
-    console.log(this.$route.query.projectNo)
-    getInternetInformation(postData).then(res => {
-      let resp = res.data
-      if (resp.resultCode === CODE_OK) {
-        this.internetCreditInfo = resp.data.internetInformationList
-      } else {
-        Toast(resp.resultMsg)
+  },
+  computed: {
+    ...mapGetters(['user'])
+  },
+  created() {
+    const $this = this
+    let productType = this.itemId && this.productId ? 2 : 1 // 同时有itemId和productId是集合标
+    async function setData() {
+      try {
+        await getLoanDetail({
+          projectNo: $this.projectNo,
+          itemId: $this.itemId,
+          productId: $this.productId
+        }).then(res => {
+          $this.productDetail = res.data.data
+        })
+        await getBorrowerDetail({
+          projectNo: $this.projectNo,
+          nameEncrypt: true
+        }).then(res => {
+          $this.borrowerDetail = res.data.data
+        })
+        await peopleLoanInfo({
+          productId: $this.projectNo,
+          productType: productType
+        }).then(res => {
+          $this.postLoanSituation = res.data.data
+        })
+        await $this.$refs.scrollRef.refresh()
+      } catch (e) {
+        throw e
       }
-    })
+    }
+    setData()
   }
 }
 </script>
@@ -273,17 +356,22 @@ export default {
   opacity: 0;
 }
 .dialog {
-  /* position: fixed;*/
+  /*  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  z-index: 999;
+  z-index: 999;*/
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background: #eee;
   .scroll {
+    flex: 1;
+    overflow: hidden;
     .info {
       font-size: 0;
-      /*margin-top: 0.52rem;*/
       background: #ffffff;
       .item {
         font-size: $font-size-small-s;
@@ -392,7 +480,6 @@ export default {
   left: 0;
   margin: auto;
   z-index: 999;
-  /*  overflow-y: scroll;*/
   .model {
     position: absolute;
     top: 0;

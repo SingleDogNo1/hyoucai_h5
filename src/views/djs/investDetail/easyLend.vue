@@ -298,7 +298,7 @@ export default {
           invAmount: this.amount,
           userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
           userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
-          investSource: 'H5'
+          investSource: 'h5'
         }).then(res => {
           const data = res.data
           if (data.resultCode === '1') {
@@ -396,7 +396,7 @@ export default {
       }
     },
     ...mapMutations({
-      cleanData: 'CLEAN_LEND_DATA'
+      cleanData: 'CLEAN_DJS_LEND_DATA'
     })
   },
   created() {
@@ -422,7 +422,8 @@ export default {
         }
       })
       await getPersonalAccount({
-        userName: $this.user.userName
+        userName: $this.user.userName,
+        projectNo: $this.projectNo
       }).then(res => {
         const data = res.data
         $this.amountInfo = data

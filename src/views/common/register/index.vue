@@ -63,7 +63,7 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        registerFrom: 'H5'
+        registerFrom: 'h5'
       },
       inviteCode: undefined,
       recommendCode: undefined,
@@ -182,7 +182,7 @@ export default {
               let user = res.data.data
               this.setUser(user)
               this.$router.push({
-                name: 'remindOpenAccount'
+                name: 'realNameAuth'
               })
             } else {
               Toast(res.data.resultMsg)

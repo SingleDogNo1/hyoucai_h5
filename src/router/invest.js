@@ -340,6 +340,22 @@ export default [
         }
       },
       {
+        path: 'historyCard',
+        name: 'HYCHistoryCard',
+        component: () => import(/* webpackChunkName: "HYCHistoryCard" */ '@/views/hyc/mine/voucherBag/HistoryCard'),
+        meta: {
+          title: '历史卡券'
+        }
+      },
+      {
+        path: 'couponList',
+        name: 'HYCCouponList',
+        component: () => import(/* webpackChunkName: "HYCCouponList" */ '@/views/hyc/mine/voucherBag/CouponList'),
+        meta: {
+          title: '券包'
+        }
+      },
+      {
         path: 'transfer_charge',
         name: 'HYCTransferCharge',
         component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),
@@ -434,6 +450,36 @@ export default [
         }
       },
       {
+        path: 'easyLend',
+        component: Empty,
+        children: [
+          {
+            path: '',
+            name: 'HYCEasyLend',
+            component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/hyc/investDetail/easyLend'),
+            meta: {
+              title: '授权出借'
+            }
+          },
+          {
+            path: 'coupon',
+            name: 'HYCLendChooseCoupon',
+            component: () => import('@/views/hyc/investDetail/coupon'),
+            meta: {
+              title: '选择加息券'
+            }
+          },
+          {
+            path: 'redpacket',
+            name: 'HYCLendChooseRedPacket',
+            component: () => import('@/views/hyc/investDetail/redpacket'),
+            meta: {
+              title: '选择红包'
+            }
+          }
+        ]
+      },
+      {
         path: 'claimList',
         name: 'HYCClaimList',
         component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimList'),
@@ -447,6 +493,14 @@ export default [
         component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimDetail'),
         meta: {
           title: '债权详情'
+        }
+      },
+      {
+        path: 'LendRecord',
+        name: 'HYCLendRecord',
+        component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/hyc/lendRecord'),
+        meta: {
+          title: '出借记录'
         }
       }
     ]

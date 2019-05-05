@@ -117,6 +117,14 @@ export default [
         }
       },
       {
+        path: 'support_bank',
+        name: 'DJSSupportBank',
+        component: () => import(/* webpackChunkName: "DJSSupportBank" */ '@/views/djs/supportBank/supportBank'),
+        meta: {
+          title: '支持銀行列表'
+        }
+      },
+      {
         path: 'notice',
         component: Empty,
         children: [
@@ -332,6 +340,22 @@ export default [
         }
       },
       {
+        path: 'historyCard',
+        name: 'HYCHistoryCard',
+        component: () => import(/* webpackChunkName: "HYCHistoryCard" */ '@/views/hyc/mine/voucherBag/HistoryCard'),
+        meta: {
+          title: '历史卡券'
+        }
+      },
+      {
+        path: 'couponList',
+        name: 'HYCCouponList',
+        component: () => import(/* webpackChunkName: "HYCCouponList" */ '@/views/hyc/mine/voucherBag/CouponList'),
+        meta: {
+          title: '券包'
+        }
+      },
+      {
         path: 'transfer_charge',
         name: 'HYCTransferCharge',
         component: () => import(/* webpackChunkName: "HYCTransferCharge" */ '@/views/hyc/TransferCharge'),
@@ -469,6 +493,14 @@ export default [
         component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimDetail'),
         meta: {
           title: '债权详情'
+        }
+      },
+      {
+        path: 'LendRecord',
+        name: 'HYCLendRecord',
+        component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/hyc/lendRecord'),
+        meta: {
+          title: '出借记录'
         }
       }
     ]

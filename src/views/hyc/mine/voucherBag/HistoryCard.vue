@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { couponPacketHistory } from '@/api/djs/coupon'
+import { couponPacketHistory } from '@/api/hyc/coupon'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -64,8 +64,8 @@ export default {
   methods: {
     couponPacketHistory() {
       couponPacketHistory({ userName: this.user.userName }).then(res => {
-        // console.log(res.data)
-        let data = res.data.vouchers // 历史卡券
+        // console.log(res.data.data)
+        let data = res.data.data.list // 历史卡券
         if (data) {
           //存在历史卡券
           data.map(item => {
@@ -75,15 +75,15 @@ export default {
               item.commonUse = '不可'
             }
             item.msg = ''
-            // console.log(item.projectTypes)
-            let length = item.projectTypes.length - 1
+            // console.log(item.productTypes)
+            let length = item.productTypes.length - 1
             // console.log(length)
-            item.projectTypes.map((items, index) => {
+            item.productTypes.map((items, index) => {
               // 展开券的适用范围
               if (index == length) {
-                item.msg += items.projectTypeName
+                item.msg += items.productTypeName
               } else {
-                item.msg += items.projectTypeName + '、'
+                item.msg += items.productTypeName + '、'
               }
             })
             switch (item.status) {
@@ -156,7 +156,7 @@ export default {
       }
     }
     .coupon_right {
-      padding-left: 0.03rem;
+      padding-left: 0.1rem;
       padding-right: 0.14rem;
       width: 2.55rem;
       .right_p1 {

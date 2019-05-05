@@ -69,6 +69,15 @@ function getUpdateMessage(data) {
     data: qs.stringify(data)
   })
 }
+
+//未读信息标识
+function getUnReadMessage(data) {
+  return request({
+    url: '/UnReadMessage/2.0',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
 export default {
   getCouponUnreadCount, // 加息券未读消息
   getRedPacketCount, //红包消息
@@ -77,5 +86,6 @@ export default {
   getCouponMessage, //加息券消息中心接口
   getUpdateMessage, //消息标记成已读接口
   getRedPacketMessage, //红包消息接口
-  getRepeatMessage //复投消息接口
+  getRepeatMessage, //复投消息接口
+  getUnReadMessage
 }

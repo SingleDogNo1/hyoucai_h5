@@ -74,7 +74,7 @@
 
 <script>
 //
-import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/djs/coupon'
+import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/hyc/coupon'
 import { mapGetters } from 'vuex'
 import BScroll from '@/components/BScroll/BScroll'
 import { Toast, Indicator } from 'mint-ui'
@@ -99,10 +99,10 @@ export default {
     CouponPacketList() {
       Indicator.open('加载中')
       CouponPacketList({ userName: this.user.userName, clientType: 'QD03' }).then(res => {
+        // console.log(res.data.data.list)
         Indicator.close()
-        // console.log(res.data.vouchers)
-        if (res.data.vouchers.length) {
-          let data = res.data.vouchers
+        if (res.data.data.list.length) {
+          let data = res.data.data.list
           data.map(item => {
             if (item.commonUse == 1) {
               // 判断是否可共用
@@ -111,14 +111,14 @@ export default {
               item.commonUse = '不可'
             }
             item.msg = ''
-            let length = item.projectTypes.length - 1
+            let length = item.productTypes.length - 1
             // console.log(length)
-            item.projectTypes.map((items, index) => {
+            item.productTypes.map((items, index) => {
               // 展开券的适用范围
               if (index == length) {
-                item.msg += items.projectTypeName
+                item.msg += items.productTypeName
               } else {
-                item.msg += items.projectTypeName + '、'
+                item.msg += items.productTypeName + '、'
               }
             })
             if (item.status == 2) {
@@ -127,6 +127,7 @@ export default {
             } else {
               this.unclaimed.push(item)
             }
+            // console.log(this.haveReceived)
           })
         } else {
           this.haveCard = false
@@ -162,13 +163,13 @@ export default {
     //去使用
     touse() {
       this.$router.push({
-        name: 'DJSInvestment'
+        name: 'HYCInvestment'
       })
     },
     //查看历史卡券
     seeHistoryCard() {
       this.$router.push({
-        name: 'DJSHistoryCard'
+        name: 'HYCHistoryCard'
       })
     }
   }

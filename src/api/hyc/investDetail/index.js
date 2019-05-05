@@ -34,17 +34,17 @@ export function getClaimList(data) {
   })
 }
 
-// 获取出借记录
-export function investUserCountMsg(data) {
+// 获取投资记录
+export function getInvestRecord(data) {
   return axios({
-    url: '/InvestUserCountMsg',
+    url: '/collection/investRecord',
     method: 'post',
     data: Qs.stringify(data)
   })
 }
 
 // 债权详情
-export function getInternetInformation(data) {
+export function getLoanDetail(data) {
   return axios({
     url: '/collection/loanDetail',
     method: 'post',
@@ -52,10 +52,10 @@ export function getInternetInformation(data) {
   })
 }
 
-// 预期收益计算
-export function expectedIncome(data) {
+// 互联网资信报告
+export function getInternetInformation(data) {
   return axios({
-    url: 'ExpectedIncome',
+    url: '/auditInfo/internetInformation',
     method: 'post',
     data: Qs.stringify(data)
   })
@@ -123,5 +123,23 @@ export function systemMaintenance() {
   return axios({
     url: 'collection/systemMaintenance',
     method: 'post'
+  })
+}
+
+// 借款人详细信息
+export function getBorrowerDetail(data) {
+  return axios({
+    url: '/jxLoanPeopleInfo/detail',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 贷后情况
+export function peopleLoanInfo(data) {
+  return axios({
+    url: '/collection/peopleLoanInfo',
+    method: 'post',
+    data: Qs.stringify(data)
   })
 }

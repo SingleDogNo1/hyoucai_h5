@@ -100,7 +100,7 @@
             <tr v-for="(item, index) in claimListData" :key="index">
               <td>{{ item.borrowerUsername }}</td>
               <td>{{ item.loanAmt }}</td>
-              <td @click="linkTo('HYCClaimDetail', { id: item.id })">详情</td>
+              <td @click="linkTo('HYCClaimDetail', { projectNo: item.projectNo, productId: productId, itemId: itemId })">详情</td>
             </tr>
           </table>
 

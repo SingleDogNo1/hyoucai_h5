@@ -349,6 +349,11 @@ export default new Router({
               path: 'spell-group',
               name: 'DJSSpellGroupAct',
               component: () => import(/* webpackChunkName: "DJSSpellGroupAct" */ '@/views/djs/activities/spellGroup')
+            },
+            {
+              path: 'king',
+              name: 'DJSKing',
+              component: () => import(/* webpackChunkName: "DJSKing" */ '@/views/djs/activities/king')
             }
           ]
         }

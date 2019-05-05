@@ -291,10 +291,10 @@ export default {
           let list = resp.data.list
           let curPage = resp.data.curPage
           let countPage = resp.data.countPage
-          list[0]['status'] = 1
-          list[0]['remainingSeconds'] = 5555
-          list[0]['investEndTimestamp'] = 55555
-          list[0]['investPercent'] = 3
+          // list[0]['status'] = 1
+          // list[0]['remainingSeconds'] = 5555
+          // list[0]['investEndTimestamp'] = 55555
+          // list[0]['investPercent'] = 3
           this.yZhiJiHuaDataCompute = [...this.yZhiJiHuaDataCompute, ...list]
           this.countDown('yZhiJiHua', this.yZhiJiHuaData, this.yZhiJiHuaDataCompute)
           this.refresh()

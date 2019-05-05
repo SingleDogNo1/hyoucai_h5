@@ -2,7 +2,7 @@
 import Activity from '@/layout/activity.vue'
 import Empty from '@/layout/empty.vue'
 
-export default [
+const router = [
   {
     path: '/d',
     component: Activity,
@@ -60,6 +60,11 @@ export default [
             path: 'spell-group',
             name: 'DJSSpellGroupAct',
             component: () => import(/* webpackChunkName: "DJSSpellGroupAct" */ '@/views/djs/activities/spellGroup')
+          },
+          {
+            path: 'king',
+            name: 'DJSKing',
+            component: () => import(/* webpackChunkName: "DJSKing" */ '@/views/djs/activities/king')
           }
         ]
       }
@@ -89,3 +94,5 @@ export default [
     ]
   }
 ]
+
+export default router

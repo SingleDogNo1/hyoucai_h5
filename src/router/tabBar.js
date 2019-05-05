@@ -1,7 +1,7 @@
 // 首页 && 出借 && 我的 一级带tab-bar的路由
 import TabBar from '@/layout/tabBar.vue'
 
-export default [
+const router = [
   {
     path: '/d',
     component: TabBar,
@@ -45,3 +45,5 @@ export default [
     ]
   }
 ]
+
+export default router

@@ -48,10 +48,10 @@ export default {
         identityNo: this.idCard,
         identityType: 1
       }).then(res => {
-        const data = res.data
         if (res.data.resultCode === '1') {
-          // TODO 实名成功怎么办
-          console.log(data)
+          this.$router.push({
+            name: 'realNameAuthBindCard'
+          })
         } else {
           Toast(res.data.resultMsg)
         }

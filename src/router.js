@@ -246,6 +246,11 @@ export default new Router({
               path: 'king',
               name: 'DJSKing',
               component: () => import(/* webpackChunkName: "DJSKing" */ '@/views/djs/activities/king')
+            },
+            {
+              path: 'may-recommend',
+              name: 'DJSMayRecommend',
+              component: () => import(/* webpackChunkName: "DJSMayRecommend" */ '@/views/djs/activities/mayRecommend')
             }
           ]
         }

@@ -7,7 +7,7 @@
             <div class="item-l">
               <span>{{ projectInfo.itemName }}</span>
             </div>
-            <div class="item-r">
+            <div class="item-r" v-if="projectInfo.isShowEnableAmt == 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ projectInfo.showSurplusAmt }}</span>
             </div>
@@ -151,7 +151,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span>剩余可投{{ projectInfo.showSurplusAmt }}</span>
+        <span v-if="projectInfo.isShowEnableAmt == 1">剩余可投{{ projectInfo.showSurplusAmt }}</span>
       </div>
     </section>
   </div>
@@ -179,6 +179,7 @@ export default {
       projectInfo: {
         investRate: '', // 利率
         itemName: '', // 集合标项目名称
+        isShowEnableAmt: '', //是否显示剩余可投金额 0不显示 1显示
         showSurplusAmt: '', // 剩余可投金额
         investPeopleCount: '', // 已购人次
         minInvAmount: '', // 起投金额

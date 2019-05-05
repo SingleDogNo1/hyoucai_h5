@@ -7,7 +7,7 @@
             <div class="item-l">
               <span>{{ investDetail.projectName }}</span>
             </div>
-            <div class="item-r">
+            <div class="item-r" v-if="investDetail.isShowEnableAmt == 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ investDetail.surplusAmount }}万</span>
             </div>
@@ -140,7 +140,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span>剩余可投{{ investDetail.surplusAmount }}万</span>
+        <span v-if="investDetail.isShowEnableAmt == 1">剩余可投{{ investDetail.surplusAmount }}万</span>
       </div>
     </section>
   </div>
@@ -165,6 +165,7 @@ export default {
       investDetail: {
         projectServiceEntity: [], // 服务
         projectName: '', //产品名称
+        isShowEnableAmt: '', //是否显示剩余可投金额 0不显示 1显示
         surplusAmount: '', //剩余可投
         investRate: '', //年化收益
         recentShow: '', //近期表现

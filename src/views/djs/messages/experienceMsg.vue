@@ -72,8 +72,9 @@ export default {
     getData() {
       Indicator.open()
       api
-        .getTasteGoldCount({
+        .getTasteGoldMsg({
           userName: this.user.userName,
+          platform: 'h5',
           curPage: this.page
         })
         .then(res => {

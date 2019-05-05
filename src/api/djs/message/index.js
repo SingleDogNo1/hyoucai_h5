@@ -1,36 +1,15 @@
 import request from '@/assets/js/requestDJS'
 import qs from 'qs'
 
-//加息券未读消息中心接口
-function getCouponUnreadCount(data) {
+//未读信息标识
+function getUnReadMessage(data) {
   return request({
-    url: '/CouponUnreadMessage',
+    url: '/UnReadMessage',
     method: 'post',
-    data: qs.stringify(data)
-  })
-}
-//红包消息接口
-function getRedPacketCount(data) {
-  return request({
-    url: '/RedPacketMessage',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
-//体验金消息接口
-function getTasteGoldCount(data) {
-  return request({
-    url: '/tasteGoldMessage',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
-//复投消息接口
-function getRepeatUnreadCount(data) {
-  return request({
-    url: '/RepeatUnreadMessage',
-    method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
@@ -39,7 +18,10 @@ function getCouponMessage(data) {
   return request({
     url: '/CouponMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
@@ -48,19 +30,36 @@ function getRedPacketMessage(data) {
   return request({
     url: '/RedPacketMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+//体验金消息接口
+function getTasteGoldMsg(data) {
+  return request({
+    url: '/tasteGoldMessage',
+    method: 'post',
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
 //复投消息中心接口
-function getRepeatMessage(data) {
+function getRepeatMsg(data) {
   return request({
-    url: '/RepeatMessage',
+    url: '/RepeatMsg',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
-
 //消息标记成已读接口
 function getUpdateMessage(data) {
   return request({
@@ -70,22 +69,11 @@ function getUpdateMessage(data) {
   })
 }
 
-//未读信息标识
-function getUnReadMessage(data) {
-  return request({
-    url: '/UnReadMessage/2.0',
-    method: 'post',
-    data: qs.stringify(data)
-  })
-}
 export default {
-  getCouponUnreadCount, // 加息券未读消息
-  getRedPacketCount, //红包消息
-  getTasteGoldCount, //体验金消息
-  getRepeatUnreadCount, //复投消息
+  getUnReadMessage, //未读信息标识获取
   getCouponMessage, //加息券消息中心接口
-  getUpdateMessage, //消息标记成已读接口
   getRedPacketMessage, //红包消息接口
-  getRepeatMessage, //复投消息接口
-  getUnReadMessage
+  getTasteGoldMsg, //体验金消息接口
+  getRepeatMsg, //复投消息接口
+  getUpdateMessage //消息标记成已读接口
 }

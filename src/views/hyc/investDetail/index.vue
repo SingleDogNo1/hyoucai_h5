@@ -163,6 +163,7 @@ import { mapGetters } from 'vuex'
 import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
+import { getUserCompleteInfoApi } from '@/api/common/mine'
 export default {
   name: 'index',
   components: {
@@ -227,12 +228,37 @@ export default {
       this.showQuest = true
     },
     invest() {
-      this.$router.push({
-        name: 'HYCEasyLend',
-        query: {
-          productId: this.productId,
-          itemId: this.itemId,
-          projectType: this.projectType
+      this.getUserCompleteInfo()
+    },
+    getUserCompleteInfo() {
+      getUserCompleteInfoApi().then(res => {
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          switch (data.status) {
+            case 'OPEN_ACCOUNT':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'SET_PASSWORD':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'SIGN_PROTOCOL':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'EVALUATE':
+              this.$router.push({ name: 'riskTest' })
+              break
+            default:
+              this.$router.push({
+                name: 'HYCEasyLend',
+                query: {
+                  productId: this.productId,
+                  itemId: this.itemId,
+                  projectType: this.projectType
+                }
+              })
+          }
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     }

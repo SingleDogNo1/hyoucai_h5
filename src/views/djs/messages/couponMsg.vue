@@ -74,16 +74,12 @@ export default {
       api
         .getCouponMessage({
           userName: this.user.userName,
+          platform: 'h5',
           curPage: this.page
         })
         .then(res => {
           Indicator.close()
-          let data = res.data.message
-          let couponUnReadData = data.couponUnRead
-          let couponReadData = data.couponRead
-          let list = couponReadData.concat(couponUnReadData)
-          let curPage = res.data.curPage
-          let countPage = res.data.countPag
+          const [list, curPage, countPage] = [res.data.message, res.data.curPage, res.data.countPage]
           if (!list.length) {
             this.hasMore = false
             Toast('没有更多数据了')

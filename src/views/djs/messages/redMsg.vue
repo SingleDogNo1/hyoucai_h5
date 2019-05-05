@@ -75,6 +75,7 @@ export default {
       api
         .getRedPacketMessage({
           userName: this.user.userName,
+          platform: 'h5',
           curPage: this.page
         })
         .then(res => {

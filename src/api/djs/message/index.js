@@ -4,45 +4,60 @@ import qs from 'qs'
 //未读信息标识
 function getUnReadMessage(data) {
   return request({
-    url: '/UnReadMessage/2.0',
+    url: '/UnReadMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
 //加息券消息中心接口
 function getCouponMessage(data) {
   return request({
-    url: '/CouponMessage/2.0',
+    url: '/CouponMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
 //红包消息中心接口
 function getRedPacketMessage(data) {
   return request({
-    url: '/RedPacketMessage/2.0',
+    url: '/RedPacketMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
 //体验金消息接口
 function getTasteGoldMsg(data) {
   return request({
-    url: '/tasteGoldMessage/2.0',
+    url: '/tasteGoldMessage',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 
 //复投消息中心接口
 function getRepeatMsg(data) {
   return request({
-    url: '/RepeatMsg/2.0',
+    url: '/RepeatMsg',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 //消息标记成已读接口

@@ -20,7 +20,7 @@
           <tr v-for="(item, index) in claimListData" :key="index">
             <td>{{ item.ownBondName }}</td>
             <td>{{ item.totalBondAmt }}</td>
-            <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
+            <td @click="linkTo('DJSClaimDetail', { appNo: item.appNo })">详情</td>
           </tr>
         </tbody>
       </table>

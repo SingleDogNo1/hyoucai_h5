@@ -49,7 +49,6 @@ import { Toast } from 'mint-ui'
 
 export default {
   name: 'card',
-  mixins: [],
   components: {
     BScroll,
     SMSBtn
@@ -65,8 +64,6 @@ export default {
       smsCode: ''
     }
   },
-  props: {},
-  watch: {},
   methods: {
     sendSMSCode() {
       this.captchaIns && this.captchaIns.popUp()
@@ -96,7 +93,6 @@ export default {
       console.log(111)
     }
   },
-  computed: {},
   created() {
     // 初始化滑块弹出层
     window.initNECaptcha(

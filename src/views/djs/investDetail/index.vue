@@ -89,7 +89,7 @@
             <tr v-for="(item, index) in creditListData" :key="index">
               <td>{{ item.name }}</td>
               <td>{{ item.amount }}</td>
-              <td @click="linkTo('DJSClaimDetail', { id: item.id })">详情</td>
+              <td @click="linkTo('DJSClaimDetail', { appNo: item.appNo })">详情</td>
             </tr>
           </table>
 

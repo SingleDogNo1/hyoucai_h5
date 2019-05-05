@@ -71,18 +71,13 @@ export default {
     getData() {
       Indicator.open()
       api
-        .getRepeatMessage({
+        .getRepeatMsg({
           userName: this.user.userName,
           curPage: this.page
         })
         .then(res => {
           Indicator.close()
-          let data = res.data.message
-          let repeatUnReadData = data.repeatUnRead
-          let repeatReadData = data.repeatRead
-          let list = repeatReadData.concat(repeatUnReadData)
-          let curPage = res.data.curPage
-          let countPage = res.data.countPag
+          const [list, curPage, countPage] = [res.data.message, res.data.curPage, res.data.countPage]
 
           if (!list.length) {
             this.hasMore = false

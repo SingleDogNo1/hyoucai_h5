@@ -83,36 +83,6 @@ export default {
         this.redShow = true
       }
     })
-    //加息券未读消息中心接口
-    /* api.getCouponUnreadCount(data).then(res => {
-      let data = res.data.message
-      let couponUnReadCount = data.couponUnRead.length
-      if (couponUnReadCount > 0) {
-        this.couponShow = true
-      }
-    })
-    //红包消息接口
-    api.getRedPacketCount(data).then(res => {
-      let data = res.data.message
-      if (data.length > 0) {
-        this.redShow = true
-      }
-    })
-    //体验金消息接口
-    api.getTasteGoldCount(data).then(res => {
-      let data = res.data.message
-      if (data.length > 0) {
-        this.tasteShow = true
-      }
-    })
-    //复投消息接口
-    api.getRepeatUnreadCount(data).then(res => {
-      let data = res.data.message
-      let repeatUnReadCount = data.repeatUnRead.length
-      if (repeatUnReadCount > 0) {
-        this.repeatShow = true
-      }
-    })*/
   },
   mounted() {},
   destroyed() {}

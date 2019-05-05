@@ -7,7 +7,7 @@
             <div class="item-l">
               <span>{{ projectInfo.itemName }}</span>
             </div>
-            <div class="item-r">
+            <div class="item-r" v-if="projectInfo.isShowEnableAmt == 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ projectInfo.showSurplusAmt }}</span>
             </div>
@@ -151,7 +151,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span>剩余可投{{ projectInfo.showSurplusAmt }}</span>
+        <span v-if="projectInfo.isShowEnableAmt == 1">剩余可投{{ projectInfo.showSurplusAmt }}</span>
       </div>
     </section>
   </div>
@@ -163,6 +163,7 @@ import { mapGetters } from 'vuex'
 import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
+import { getUserCompleteInfoApi } from '@/api/common/mine'
 export default {
   name: 'index',
   components: {
@@ -178,6 +179,7 @@ export default {
       projectInfo: {
         investRate: '', // 利率
         itemName: '', // 集合标项目名称
+        isShowEnableAmt: '', //是否显示剩余可投金额 0不显示 1显示
         showSurplusAmt: '', // 剩余可投金额
         investPeopleCount: '', // 已购人次
         minInvAmount: '', // 起投金额
@@ -227,12 +229,37 @@ export default {
       this.showQuest = true
     },
     invest() {
-      this.$router.push({
-        name: 'HYCEasyLend',
-        query: {
-          productId: this.productId,
-          itemId: this.itemId,
-          projectType: this.projectType
+      this.getUserCompleteInfo()
+    },
+    getUserCompleteInfo() {
+      getUserCompleteInfoApi().then(res => {
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          switch (data.status) {
+            case 'OPEN_ACCOUNT':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'SET_PASSWORD':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'SIGN_PROTOCOL':
+              this.$router.push({ name: 'openAccountProgress' })
+              break
+            case 'EVALUATE':
+              this.$router.push({ name: 'riskTest' })
+              break
+            default:
+              this.$router.push({
+                name: 'HYCEasyLend',
+                query: {
+                  productId: this.productId,
+                  itemId: this.itemId,
+                  projectType: this.projectType
+                }
+              })
+          }
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     }

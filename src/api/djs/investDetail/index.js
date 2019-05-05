@@ -22,6 +22,15 @@ export function getClaimList(data) {
   })
 }
 
+//债权详情
+export function getClaimDetail(data) {
+  return axios({
+    url: '/BondMsg',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
 // 获取出借记录
 export function investUserCountMsg(data) {
   return axios({

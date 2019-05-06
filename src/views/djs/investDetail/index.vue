@@ -684,8 +684,8 @@ export default {
       background-size: 100%;
       width: 3rem;
       position: absolute;
-      left: 3.5%;
-      top: 31%;
+      left: 0.38rem;
+      top: 2.1rem;
       text-align: center;
       z-index: 1;
       span {

@@ -10,62 +10,21 @@
         <div class="step" :class="{ active: ['signAgreement'].includes($route.name) }">业务授权</div>
       </div>
     </div>
-    <router-view v-if="status"></router-view>
+    <router-view></router-view>
   </BScroll>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
-import { userInfoCompleteNoticeApi } from '@/api/common/user'
-import { Toast } from 'mint-ui'
 
 export default {
-  name: '',
+  name: 'openAccountProgress',
   components: {
     BScroll
-  },
-  data() {
-    return {
-      status: ''
-    }
-  },
-  watch: {
-    status(newVal) {
-      let temp = {
-        OPEN_ACCOUNT: 'openAccount',
-        SET_PASSWORD: 'openAccount',
-        SIGN_PROTOCOL: 'signAgreement',
-        EVALUATE: 'signAgreement',
-        COMPLETE: 'signAgreement'
-      }
-      this.$router.push({
-        name: temp[newVal],
-        query: { entrance: this.$route.query.entrance }
-      })
-    }
-  },
-  computed: {
-    headerTitle() {
-      let temp = {
-        openAccount: '开通银行存管账户',
-        setTradePWD: '设置交易密码',
-        signAgreement: '业务授权'
-      }
-      return temp[this.$route.name]
-    }
-  },
-  methods: {},
-  created() {
-    userInfoCompleteNoticeApi().then(res => {
-      if (res.data.resultCode === '1') {
-        this.status = res.data.data.status
-      } else {
-        Toast(res.data.resultMsg)
-      }
-    })
   }
 }
 </script>
+
 <style scoped lang="scss">
 @import '../../../assets/css/theme';
 @import '../../../assets/css/mixins';

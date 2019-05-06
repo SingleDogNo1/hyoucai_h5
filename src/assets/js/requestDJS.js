@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Router from '@/router'
+import Router from '@/router/router'
 import Hyoucai from '@/assets/js/hyoucai'
 import { getAuth } from './utils'
 

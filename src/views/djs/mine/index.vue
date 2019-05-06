@@ -271,17 +271,17 @@ export default {
             case 'OPEN_ACCOUNT':
               this.userCompleteDialogOptions.confirmText = '开通存管账户'
               this.userCompleteDialogOptions.show = true
-              this.routerName = 'openAccountProgress'
+              this.routerName = 'openAccount'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'
               this.userCompleteDialogOptions.show = true
-              this.routerName = 'openAccountProgress'
+              this.routerName = 'openAccount'
               break
             case 'SIGN_PROTOCOL':
               this.userCompleteDialogOptions.confirmText = '签约'
               this.userCompleteDialogOptions.show = true
-              this.routerName = 'openAccountProgress'
+              this.routerName = 'signAgreement'
               break
             case 'EVALUATE':
               this.userCompleteDialogOptions.confirmText = '风险评测'

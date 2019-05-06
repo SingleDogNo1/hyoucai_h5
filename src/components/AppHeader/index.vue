@@ -16,8 +16,7 @@ export default {
       title: this.$route.meta.title,
       cancel: this.$route.meta.cancel,
       // 首页不显示标题（首页当做是和app一样处理）
-      // TODO 目前登录注册输入手机号页当成首页在使用，后期需求会更改首页
-      isAppTitle: this.$route.name === 'home' ? true : this.$route.query.mobile,
+      isAppTitle: this.$route.query.mobile,
       // 标题右边的可操作的按钮标题
       handle: this.$route.meta.handle ? this.$route.meta.handle : ''
     }
@@ -39,15 +38,8 @@ export default {
   },
   watch: {
     $route(to) {
-      switch (to.name) {
-        case 'home':
-          this.title = to.meta.title
-          this.isAppTitle = true
-          break
-        default:
-          this.title = to.meta.title
-          this.isAppTitle = to.query.mobile
-      }
+      this.title = to.meta.title
+      this.isAppTitle = to.query.mobile
     }
   }
 }

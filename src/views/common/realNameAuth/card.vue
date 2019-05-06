@@ -8,11 +8,12 @@
             <span>¥</span>
             <input type="text" placeholder="请输入充值金额（100元起）" v-model="amount" />
           </div>
+          <p class="amount-err">{{ amountErrMsg }}</p>
         </div>
         <div class="form">
           <div class="block">
             <span>姓名</span>
-            <input type="text" v-model="name" placeholder="请输入姓名" disabled />
+            <input type="text" :value="`${user.realName.substr(0, 1)}**`" placeholder="请输入姓名" disabled />
           </div>
           <div class="block">
             <span>银行卡号</span>
@@ -43,13 +44,16 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import SMSBtn from '@/components/smsBtn'
+import { mapGetters } from 'vuex'
+
 import { captchaId } from '@/assets/js/const'
+
 import { isMobile, isBankCard, isMobCode } from '@/assets/js/regular'
+import { rechargeApiDirectPayServer, queryCardInfo } from '@/api/djs/mine/charge'
 import { Toast } from 'mint-ui'
 
 export default {
   name: 'card',
-  mixins: [],
   components: {
     BScroll,
     SMSBtn
@@ -62,25 +66,45 @@ export default {
       name: '***',
       bankCard: '',
       mobile: '',
-      smsCode: ''
+      smsCode: '',
+      bankCode: '',
+      amountErrMsg: ''
     }
   },
-  props: {},
-  watch: {},
+  computed: {
+    ...mapGetters(['user'])
+  },
+  watch: {
+    amount(value) {
+      if (value !== '' && value - 0 < 100) {
+        this.amountErrMsg = '充值金额最少100元起'
+      } else {
+        this.amountErrMsg = ''
+      }
+    }
+  },
   methods: {
     sendSMSCode() {
       this.captchaIns && this.captchaIns.popUp()
     },
     getSmsCode() {
-      console.log(1)
       this.$refs.smsBtn.countDown()
+      queryCardInfo({
+        bankCardNum: this.bankCard
+      }).then(res => {
+        this.bankCode = res.data.bankCode
+      })
     },
     toSupportBank() {
       this.$router.push({
-        name: 'supportBanks'
+        name: 'DJSSupportBank'
       })
     },
     bindCard() {
+      if (!this.amount) {
+        Toast('请输入充值金额')
+        return
+      }
       if (!isBankCard(this.bankCard)) {
         Toast('请输入正确的银行卡号')
         return
@@ -93,10 +117,24 @@ export default {
         Toast('请输入正确的验证码')
         return
       }
-      console.log(111)
+      rechargeApiDirectPayServer({
+        amount: this.amount,
+        userName: this.user.userName,
+        bankCardNum: this.bankCard,
+        bankCode: this.bankCode,
+        mobileNo: this.mobile,
+        rechargeType: 'KQAP',
+        whichSetp: 'val',
+        validCode: this.smsCode
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          Toast('绑定成功')
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
     }
   },
-  computed: {},
   created() {
     // 初始化滑块弹出层
     window.initNECaptcha(
@@ -137,16 +175,18 @@ input {
     height: calc(100% - 0.56rem);
     overflow: hidden;
     .amount-wrapper {
-      padding: 0.16rem 0.15rem 0.1rem;
+      padding: 0.16rem 0 0.1rem;
       background: #ffffff;
       margin-bottom: 0.08rem;
       h6 {
         font-size: 0.13rem;
+        padding: 0 0.15rem;
         color: #999;
         line-height: 0.18rem;
         margin-bottom: 0.1rem;
       }
       .amount {
+        padding: 0 0.15rem;
         display: flex;
         justify-content: space-between;
         span {
@@ -159,6 +199,14 @@ input {
           font-size: 0.15rem;
           padding-left: 0.05rem;
         }
+      }
+      .amount-err {
+        margin-top: 0.05rem;
+        background: #ec5e52;
+        line-height: 2;
+        color: #fff;
+        font-size: 0.1rem;
+        padding: 0 0.15rem;
       }
     }
     .form {

@@ -143,3 +143,12 @@ export function peopleLoanInfo(data) {
     data: Qs.stringify(data)
   })
 }
+
+// 预期收益计算
+export function expectedIncome(data) {
+  return axios({
+    url: 'ExpectedIncome',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

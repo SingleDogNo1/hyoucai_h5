@@ -1,6 +1,6 @@
 import Empty from '@/layout/empty.vue'
 
-export default [
+const router = [
   {
     path: '/d',
     component: Empty,
@@ -42,3 +42,5 @@ export default [
     ]
   }
 ]
+
+export default router

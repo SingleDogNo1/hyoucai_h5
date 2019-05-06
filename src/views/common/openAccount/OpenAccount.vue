@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { Toast } from 'mint-ui'
+import { Toast, Indicator } from 'mint-ui'
 
 import { AppToast } from '@/assets/js/Toast'
 import { isChName, isIdcard } from '@/assets/js/regular'
@@ -140,33 +140,38 @@ export default {
     }
   },
   created() {
-    queryAgreementCatalog({ type: 'KH' }).then(res => {
-      if (res.data.resultCode === '1') {
-        this.agreements = res.data.data.result
-      } else {
-        Toast(res.data.resultMsg)
-      }
-    })
-    getBasicInfo().then(res => {
-      if (res.data.resultCode === '1') {
-        const data = res.data.data
-        this.isOpenAccount = data.isOpenAccount
-        if (!data.isOpenAccount) {
-          // 未开户
-          this.mobile = res.data.data.mobile
-          this.mobileDisable = res.data.data.isMobileEdit === '0'
+    Indicator.open()
+    const $this = this
+    ;(async function initPage() {
+      await queryAgreementCatalog({ type: 'KH' }).then(res => {
+        if (res.data.resultCode === '1') {
+          $this.agreements = res.data.data.result
         } else {
-          // 已开户未设置交易密码
-
-          this.name = data.name
-          this.nameDisabled = true
-          this.idCard = data.identityNo
-          this.IDCardDisabled = true
-          this.mobile = res.data.data.mobile
-          this.mobileDisable = res.data.data.isMobileEdit === '0'
+          Toast(res.data.resultMsg)
         }
-      }
-    })
+      })
+
+      await getBasicInfo().then(res => {
+        Indicator.close()
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          $this.isOpenAccount = data.isOpenAccount
+          if (!data.isOpenAccount) {
+            // 未开户
+            $this.mobile = res.data.data.mobile
+            $this.mobileDisable = res.data.data.isMobileEdit === '0'
+          } else {
+            // 已开户未设置交易密码
+            $this.name = data.name
+            $this.nameDisabled = true
+            $this.idCard = data.identityNo
+            $this.IDCardDisabled = true
+            $this.mobile = res.data.data.mobile
+            $this.mobileDisable = res.data.data.isMobileEdit === '0'
+          }
+        }
+      })
+    })()
   }
 }
 </script>

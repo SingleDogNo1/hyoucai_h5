@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     sign(url) {
-      // TODO url === 'termsAuth/investorsAuth' 可以是不完整的地址吗
       let params = {
         retUrl: `${getRetBaseURL()}/open-account/sign`,
         forgotPwdUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`

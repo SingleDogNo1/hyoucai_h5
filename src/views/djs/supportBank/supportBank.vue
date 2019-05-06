@@ -7,19 +7,19 @@
             <div class="border-bottom-1px">
               <dl>
                 <!--<dt><img :src="item.iconUrl" alt=""></dt>-->
-                <dd>{{item.bankName}}</dd>
+                <dd>{{ item.bankName }}</dd>
               </dl>
               <div class="info">
                 <dl>
-                  <dt>{{item.onceLimit}}</dt>
+                  <dt>{{ item.onceLimit }}</dt>
                   <dd>单笔限额</dd>
                 </dl>
                 <dl>
-                  <dt>{{item.dayLimit}}</dt>
+                  <dt>{{ item.dayLimit }}</dt>
                   <dd>单日限额</dd>
                 </dl>
                 <dl>
-                  <dt>{{item.monthLimit}}</dt>
+                  <dt>{{ item.monthLimit }}</dt>
                   <dd>单月限额</dd>
                 </dl>
               </div>

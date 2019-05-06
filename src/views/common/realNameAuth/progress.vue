@@ -3,12 +3,12 @@
     <section>
       <div class="progress">
         <div class="line">
-          <div class="ball" :class="{ active: true }"></div>
-          <div class="ball" :class="{ active: ['signAgreement'].includes($route.name) }"></div>
+          <div class="ball" :class="{ active: ['realNameAuthCheckName', 'realNameAuthBindCard'].includes($route.name) }"></div>
+          <div class="ball" :class="{ active: ['realNameAuthBindCard'].includes($route.name) }"></div>
         </div>
         <div class="steps">
-          <div class="step" :class="{ active: true }">实名</div>
-          <div class="step" :class="{ active: ['signAgreement'].includes($route.name) }">绑卡</div>
+          <div class="step" :class="{ active: ['realNameAuthCheckName', 'realNameAuthBindCard'].includes($route.name) }">实名</div>
+          <div class="step" :class="{ active: ['realNameAuthBindCard'].includes($route.name) }">绑卡</div>
         </div>
       </div>
       <div class="flow">
@@ -19,18 +19,21 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  name: '',
-  components: {},
-  data() {
-    return {
-      status: ''
-    }
+  name: 'realNameProgress',
+  computed: {
+    ...mapGetters(['user'])
   },
-  watch: {},
-  computed: {},
-  methods: {},
-  created() {}
+  created() {
+    if (!this.user) {
+      // TODO 未登录跳转到登录
+      // this.$router.push({
+      //   name: 'loginRegister'
+      // })
+    }
+  }
 }
 </script>
 <style scoped lang="scss">

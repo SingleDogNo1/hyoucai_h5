@@ -68,8 +68,12 @@ export default {
 
 .pageContainer {
   width: 100%;
-  /* TODO 目前这一页当做首页用，没有导航条，后期需求补上之后这一页加上导航条，修改 $navBarHeight: 0; */
-  $navBarHeight: 0.44rem;
+  /*
+    这一页有导航条，$navBarHeight: 0;
+    没有导航条，$navBarHeight: 0.44rem
+   */
+  // $navBarHeight: 0.44rem;
+  $navBarHeight: 0;
   box-sizing: border-box;
   &.home {
     padding-top: 0.2rem + $navBarHeight;

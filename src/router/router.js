@@ -16,6 +16,13 @@ Vue.use(Router)
 
 export default new Router({
   base: process.env.BASE_URL,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/',
@@ -35,22 +42,3 @@ export default new Router({
     ...helpCenterRouter
   ]
 })
-
-console.log([
-  {
-    path: '/',
-    component: Empty,
-    children: [
-      {
-        path: '',
-        name: 'differPlatform',
-        component: () => import(/* webpackChunkName: "differPlatform" */ '@/views/common/differPlatform')
-      }
-    ]
-  },
-  ...tabBarRouter,
-  ...publicRouter,
-  ...activityRouter,
-  ...investRouter,
-  ...helpCenterRouter
-])

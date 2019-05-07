@@ -110,21 +110,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/css/theme';
+@import '../../../assets/css/mixins';
 .claimDetail {
   background: #eee;
   font-family: PingFangSC-Regular;
   p {
-    height: 10px;
+    height: 0.1rem;
     background: #eee;
   }
   .info {
     background: #fff;
     h2 {
-      font-size: 15px;
+      font-size: 0.15rem;
       color: #333333;
-      letter-spacing: 0.18px;
-      padding: 15px 0 14px 14.5px;
-      border-bottom: 1px solid #e8e8e8;
+      padding: 0.15rem 0 0.14rem 0.145rem;
+      @include border-bottom-1px(#e8e8e8);
     }
     table {
       border-collapse: collapse;
@@ -136,34 +137,32 @@ export default {
 
         td {
           span {
-            font-size: 13px;
+            font-size: 0.13rem;
             color: #666666;
-            letter-spacing: 0.16px;
           }
           i {
-            font-size: 13px;
+            font-size: 0.13rem;
             color: #333333;
-            letter-spacing: 0.16px;
           }
         }
         &:nth-of-type(1) td {
-          padding: 12px 0 9px 15px;
+          padding: 0.12rem 0 0.09rem 0.15rem;
         }
         &:nth-of-type(2) td {
-          padding: 0px 0 9px 15px;
+          padding: 0 0 0.09rem 0.15rem;
         }
         &:nth-of-type(n + 3) td {
-          padding: 0px 0 15px 15px;
+          padding: 0 0 0.15rem 0.15rem;
         }
       }
     }
   }
   .lender_info {
-    height: 150px;
-    margin-bottom: 10px;
+    height: 1.5rem;
+    margin-bottom: 0.1rem;
   }
   .loan_info {
-    height: 296px;
+    height: 2.96rem;
   }
 }
 </style>

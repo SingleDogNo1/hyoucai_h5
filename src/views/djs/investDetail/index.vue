@@ -499,6 +499,7 @@ export default {
             display: block;
             font-size: 0.13rem;
             color: #999;
+            width: 3rem;
           }
         }
       }

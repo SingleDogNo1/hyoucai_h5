@@ -2,7 +2,8 @@
   <div class="investment" ref="investment">
     <mt-navbar v-model="selected" v-if="user">
       <template v-for="(item, index) in cataList">
-        <mt-tab-item v-if="item.isDisplay === '1'" class="tab_item" :id="item.id" :key="index"> {{ item.modelName }} </mt-tab-item>
+        <mt-tab-item v-if="item.isDisplay === '1'" class="tab_item" :id="item.id" :key="index"> {{ item.modelName }}
+        </mt-tab-item>
       </template>
     </mt-navbar>
     <div class="tab-container-wrapper" ref="tabContainer">
@@ -26,7 +27,7 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt="" /></dt>
+                <dt><img src="./image/cunguan.png" alt=""/></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>
@@ -52,7 +53,7 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt="" /></dt>
+                <dt><img src="./image/cunguan.png" alt=""/></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>
@@ -181,23 +182,29 @@ export default {
     },
     // 散标
     selectSanBiaoItem(item) {
-      if (item.status !== 2 && item.status !== 3) {
-        if (this.type && this.showFiltered) {
-          this.$router.push({
-            name: 'HYCInvestDetail',
-            query: {
-              projectNo: item.projectNo,
-              redPacketId: this.redPacketId,
-              couponId: this.couponId
-            }
-          })
-        } else {
-          this.$router.push({
-            name: 'HYCInvestDetail',
-            query: {
-              projectNo: item.projectNo
-            }
-          })
+      if (!this.user) {
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        if (item.status !== 2 && item.status !== 3) {
+          if (this.type && this.showFiltered) {
+            this.$router.push({
+              name: 'HYCInvestDetail',
+              query: {
+                projectNo: item.projectNo,
+                redPacketId: this.redPacketId,
+                couponId: this.couponId
+              }
+            })
+          } else {
+            this.$router.push({
+              name: 'HYCInvestDetail',
+              query: {
+                projectNo: item.projectNo
+              }
+            })
+          }
         }
       }
     },
@@ -240,36 +247,42 @@ export default {
     },
     // 优质计划
     selectYZhiJiHuaItem(item) {
-      if (item.status !== 3) {
-        if (this.type && this.showFiltered) {
-          this.$router.push({
-            name: 'HYCInvestDetail',
-            query: {
-              productId: item.productId,
-              itemId: item.itemId,
-              redPacketId: item.redPacketId,
-              couponId: item.couponId
-            }
-          })
-        } else {
-          if (item.projectType === 2) {
-            // 集合标
+      if (!this.user) {
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        if (item.status !== 3) {
+          if (this.type && this.showFiltered) {
             this.$router.push({
               name: 'HYCInvestDetail',
               query: {
                 productId: item.productId,
-                itemId: item.itemId
+                itemId: item.itemId,
+                redPacketId: item.redPacketId,
+                couponId: item.couponId
               }
             })
-          }
-          if (item.projectType === 1) {
-            // 债转标
-            this.$router.push({
-              name: 'HYCInvestDetail',
-              query: {
-                productId: item.productId
-              }
-            })
+          } else {
+            if (item.projectType === 2) {
+              // 集合标
+              this.$router.push({
+                name: 'HYCInvestDetail',
+                query: {
+                  productId: item.productId,
+                  itemId: item.itemId
+                }
+              })
+            }
+            if (item.projectType === 1) {
+              // 债转标
+              this.$router.push({
+                name: 'HYCInvestDetail',
+                query: {
+                  productId: item.productId
+                }
+              })
+            }
           }
         }
       }

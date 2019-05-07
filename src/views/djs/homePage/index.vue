@@ -214,8 +214,7 @@ export default {
       })
       await reportTelephoneApi().then(res => {
         if (res.data.resultCode === '1') {
-          const data = res.data.data
-          $this.reportTel = data
+          $this.reportTel = res.data.data
         } else {
           Toast(res.data.resultMsg)
         }

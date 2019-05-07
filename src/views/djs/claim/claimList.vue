@@ -104,7 +104,6 @@ export default {
   height: 100%;
   .claim_list {
     flex: 1;
-    font-family: PingFangSC-Regular;
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;

@@ -2,8 +2,7 @@
   <div class="investment" ref="investment">
     <mt-navbar v-model="selected" v-if="user">
       <template v-for="(item, index) in cataList">
-        <mt-tab-item v-if="item.isDisplay === '1'" class="tab_item" :id="item.id" :key="index"> {{ item.modelName }}
-        </mt-tab-item>
+        <mt-tab-item v-if="item.isDisplay === '1'" class="tab_item" :id="item.id" :key="index"> {{ item.modelName }} </mt-tab-item>
       </template>
     </mt-navbar>
     <div class="tab-container-wrapper" ref="tabContainer">
@@ -27,7 +26,7 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt=""/></dt>
+                <dt><img src="./image/cunguan.png" alt="" /></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>
@@ -53,7 +52,7 @@
                 </li>
               </ul>
               <dl class="tips">
-                <dt><img src="./image/cunguan.png" alt=""/></dt>
+                <dt><img src="./image/cunguan.png" alt="" /></dt>
                 <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
               </dl>
             </div>

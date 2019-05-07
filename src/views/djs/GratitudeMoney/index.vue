@@ -92,10 +92,8 @@ export default {
             if (!list.length) {
               this.hasMore = false
               Toast('暂无数据')
-            } else if (curPage >= countPage) {
-              this.hasMore = false
             } else {
-              this.hasMore = true
+              this.hasMore = curPage < countPage
             }
             this.referers = [...this.referers, ...list]
             this.$nextTick(() => {

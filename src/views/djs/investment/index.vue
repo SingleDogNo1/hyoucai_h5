@@ -1,50 +1,46 @@
 <template>
-  <div class="investment" ref="investment">
-    <div class="tab-container-wrapper" ref="tabContainer">
-      <b-scroll
-        class="scroll"
-        ref="scrollRef1"
-        :data="yZhiJiHuaDataCompute"
-        :pullup="pullup"
-        :touchend="touchend"
-        :listenScroll="listenScroll"
-        @scroll="scroll"
-        @scrollToEnd="scrollToEnd1"
-        @pulldownTouchend="pulldownTouchend"
-      >
-        <div>
-          <div class="top">
-            <div class="inn">
-              <em>新手专享</em>
-              <div class="wrapper">
-                <dl>
-                  <dt>16.0<span>&nbsp;%</span></dt>
-                  <dd>历史年化收益率</dd>
-                </dl>
-                <dl>
-                  <dt>30天锁定期</dt>
-                  <dd>2000元起投</dd>
-                </dl>
-              </div>
-              <button v-if="user">立即赚钱</button>
-              <button v-else>注册 / 登录</button>
-              <span>您还剩余 50000.00元 新手额度</span>
-            </div>
+  <b-scroll
+    class="scroll"
+    ref="scrollRef1"
+    :data="yZhiJiHuaDataCompute"
+    :pullup="pullup"
+    :touchend="touchend"
+    :listenScroll="listenScroll"
+    @scroll="scroll"
+    @scrollToEnd="scrollToEnd1"
+    @pulldownTouchend="pulldownTouchend"
+  >
+    <div>
+      <div class="top">
+        <div class="inn">
+          <em>新手专享</em>
+          <div class="wrapper">
+            <dl>
+              <dt>16.0<span>&nbsp;%</span></dt>
+              <dd>历史年化收益率</dd>
+            </dl>
+            <dl>
+              <dt>30天锁定期</dt>
+              <dd>2000元起投</dd>
+            </dl>
           </div>
-          <ul>
-            <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item.projectNo)">
-              <investment-item :itemData="item"></investment-item>
-            </li>
-            <no-data v-if="!yZhiJiHuaData.length"></no-data>
-          </ul>
-          <dl class="tips">
-            <dt><img src="./image/cunguan.png" alt="" /></dt>
-            <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
-          </dl>
+          <button v-if="user">立即赚钱</button>
+          <button v-else>注册 / 登录</button>
+          <span>您还剩余 50000.00元 新手额度</span>
         </div>
-      </b-scroll>
+      </div>
+      <ul>
+        <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item.projectNo)">
+          <investment-item :itemData="item"></investment-item>
+        </li>
+        <no-data v-if="!yZhiJiHuaData.length"></no-data>
+      </ul>
+      <dl class="tips">
+        <dt><img src="./image/cunguan.png" alt="" /></dt>
+        <dd>账户资金安全由江西银行和人寿财险共同保障</dd>
+      </dl>
     </div>
-  </div>
+  </b-scroll>
 </template>
 
 <script>
@@ -70,9 +66,9 @@ function initTime(t = 0) {
   if (d > 0) {
     result += d + '天'
   }
-  result += h.toString().padStart(2, 0) + ':'
-  result += i.toString().padStart(2, 0) + ':'
-  result += s.toString().padStart(2, 0)
+  result += h.toString().padStart(2, '0') + ':'
+  result += i.toString().padStart(2, '0') + ':'
+  result += s.toString().padStart(2, '0')
   return result
 }
 
@@ -141,10 +137,8 @@ export default {
           if (!list.length) {
             this.hasMore1 = false
             Toast('无记录')
-          } else if (curPage >= countPage) {
-            this.hasMore1 = false
           } else {
-            this.hasMore1 = true
+            this.hasMore1 = curPage < countPage
           }
         } else {
           Toast(resp.resultMsg)
@@ -237,154 +231,137 @@ export default {
 @import '../../../assets/css/theme.scss';
 @import '../../../assets/css/mixins.scss';
 
-.investment {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0.49rem;
-  left: 0;
-  margin: auto;
-  font-size: 0;
-  .tab-container-wrapper {
-    height: 100%;
-  }
-  .scroll {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    overflow: hidden;
-    .top {
-      margin: 0 auto;
-      padding: 0.2rem 0;
-      background-color: #fff;
-      .inn {
-        position: relative;
-        width: 92%;
-        height: 1.77rem;
-        margin: 0 auto;
-        padding: 0.16rem 0.16rem 0.08rem;
-        box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
-        border-radius: 0.04rem;
-        background-color: #fff;
-        text-align: center;
-        em {
-          display: inline-block;
-          position: absolute;
-          right: 0;
-          top: 0;
-          width: 0.7rem;
-          height: 0.22rem;
-          line-height: 0.22rem;
-          color: #fff;
-          font-size: $font-size-small-ss;
-          text-align: center;
-          background-image: url('./image/ranctangel.png');
-          background-size: 100% 100%;
-        }
-        .wrapper {
-          display: flex;
-          padding-left: 0.2rem;
-          font-size: 0;
-          dl {
-            flex: 1;
-            dd {
-              font-size: $font-size-small-s;
-              color: $color-text-s;
-            }
-            &:nth-of-type(1) {
-              text-align: center;
-              dt {
-                font-size: 0.33rem;
-                color: $color-button;
-                span {
-                  font-size: 0.15rem;
-                }
-              }
-            }
-            &:nth-of-type(2) {
-              position: relative;
-              dt {
-                position: absolute;
-                bottom: 0.3rem;
-                left: 10%;
-                font-size: $font-size-small;
-                color: $color-text-b;
-              }
-              dd {
-                position: absolute;
-                left: 10%;
-                bottom: 0;
-                padding: 0.03rem 0.05rem;
-                color: #ab917c;
-                font-size: $font-size-small-ss;
-                background-color: #efefef;
-              }
-            }
-          }
-        }
-        button {
-          display: block;
-          width: 100%;
-          height: 0.4rem;
-          margin: 0.26rem 0 0.07rem;
-          background-color: $color-button;
-          color: #fff;
-          font-size: 0.16rem;
-          border-radius: 0.04rem;
-        }
-        span {
-          color: #333;
-          font-size: $font-size-small-s;
-          text-align: center;
-        }
-      }
-    }
-    ul {
-      li {
-        position: relative;
-        background-color: #fff;
-        &:first-child {
-          /deep/ .prod_item {
-            .cata_title {
-              margin-top: 0;
-            }
-          }
-        }
-      }
-    }
-    .tips {
-      text-align: center;
-      font-size: 0;
-      padding: 0.09rem 0;
-      dt,
-      dd {
-        display: inline-block;
-        vertical-align: top;
-      }
-      dt {
-        width: 0.13rem;
-        margin-right: 0.05rem;
-        margin-top: 0.02rem;
-      }
-      dd {
-        font-size: $font-size-small-s;
-        color: #999;
-      }
-    }
-    .all_prods {
-      display: block;
+.scroll {
+  height: 100%;
+  overflow: hidden;
+  .top {
+    margin: 0 auto;
+    padding: 0.2rem 0;
+    background-color: #fff;
+    .inn {
+      position: relative;
       width: 92%;
-      height: 0.44rem;
-      margin: 0.32rem auto 0;
+      height: 1.77rem;
+      margin: 0 auto;
+      padding: 0.16rem 0.16rem 0.08rem;
+      box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
       border-radius: 0.04rem;
-      background-color: $color-button;
-      font-size: $font-size-small;
-      color: #fff;
+      background-color: #fff;
       text-align: center;
+      em {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0.7rem;
+        height: 0.22rem;
+        line-height: 0.22rem;
+        color: #fff;
+        font-size: $font-size-small-ss;
+        text-align: center;
+        background-image: url('./image/ranctangel.png');
+        background-size: 100% 100%;
+      }
+      .wrapper {
+        display: flex;
+        padding-left: 0.2rem;
+        font-size: 0;
+        dl {
+          flex: 1;
+          dd {
+            font-size: $font-size-small-s;
+            color: $color-text-s;
+          }
+          &:nth-of-type(1) {
+            text-align: center;
+            dt {
+              font-size: 0.33rem;
+              color: $color-button;
+              span {
+                font-size: 0.15rem;
+              }
+            }
+          }
+          &:nth-of-type(2) {
+            position: relative;
+            dt {
+              position: absolute;
+              bottom: 0.3rem;
+              left: 10%;
+              font-size: $font-size-small;
+              color: $color-text-b;
+            }
+            dd {
+              position: absolute;
+              left: 10%;
+              bottom: 0;
+              padding: 0.03rem 0.05rem;
+              color: #ab917c;
+              font-size: $font-size-small-ss;
+              background-color: #efefef;
+            }
+          }
+        }
+      }
+      button {
+        display: block;
+        width: 100%;
+        height: 0.4rem;
+        margin: 0.26rem 0 0.07rem;
+        background-color: $color-button;
+        color: #fff;
+        font-size: 0.16rem;
+        border-radius: 0.04rem;
+      }
+      span {
+        color: #333;
+        font-size: $font-size-small-s;
+        text-align: center;
+      }
     }
+  }
+  ul {
+    li {
+      position: relative;
+      background-color: #fff;
+      &:first-child {
+        /deep/ .prod_item {
+          .cata_title {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+  }
+  .tips {
+    text-align: center;
+    font-size: 0;
+    padding: 0.09rem 0;
+    dt,
+    dd {
+      display: inline-block;
+      vertical-align: top;
+    }
+    dt {
+      width: 0.13rem;
+      margin-right: 0.05rem;
+      margin-top: 0.02rem;
+    }
+    dd {
+      font-size: $font-size-small-s;
+      color: #999;
+    }
+  }
+  .all_prods {
+    display: block;
+    width: 92%;
+    height: 0.44rem;
+    margin: 0.32rem auto 0;
+    border-radius: 0.04rem;
+    background-color: $color-button;
+    font-size: $font-size-small;
+    color: #fff;
+    text-align: center;
   }
 }
 </style>

@@ -114,7 +114,6 @@ export default {
 @import '../../../assets/css/mixins';
 .claimDetail {
   background: #eee;
-  font-family: PingFangSC-Regular;
   p {
     height: 0.1rem;
     background: #eee;

@@ -143,11 +143,12 @@ export default {
             letter-spacing: 0.0018rem;
             height: 0.21rem;
             padding: 0.15rem 0 0 0.15rem;
+            display: flex;
             span {
-              float: left;
+              flex: 1;
             }
             i {
-              float: right;
+              justify-content: flex-end;
               margin-right: 0.15rem;
             }
           }

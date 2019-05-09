@@ -53,13 +53,18 @@
             </div>
             <p @click="judge"><i class="iconfont icon-rightpage"></i></p>
           </div>
+          <div class="activity">
+            <span class="title">募集倒计时</span>
+            <span class="time">{{investEndTimestamp | timeFormatDet}}</span>
+            <p><i class="iconfont icon-rightpage"></i></p>
+          </div>
           <div class="activity" v-if="activity.activityInfo">
             <span class="title">活动</span>
             <span class="desc">{{ activity.activityInfo }}</span>
             <p><i class="iconfont icon-rightpage"></i></p>
           </div>
         </section>
-        <section class="user-numbers" @click="linkTo('HYCLendRecord', { projectNo: projectNo })">
+        <section class="user-numbers" @click="linkTo('HYCLendRecord', { productId: productId, itemId: itemId })">
           <div class="number">
             <img src="./images/users_img.png" alt="" />
             <span>
@@ -70,7 +75,7 @@
         <section class="serve-detail">
           <p class="tip">服务介绍</p>
           <p class="content">{{ investDetail.appDesc }}</p>
-          <ul v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+          <ul v-for="(item, index) in projectServiceEntity" :key="index">
             <li v-if="item.isShowPic === '1'">
               <img src="./images/icon_01.png" alt="" />
             </li>
@@ -79,14 +84,6 @@
               <p>{{ item.serviceMessage }}</p>
             </li>
           </ul>
-          <div class="risk_assess common">
-            <p class="risk_title">项目风险评估及可能产生的风险结果</p>
-            <p class="risk_content">{{ investDetail.riskAppraisal }}</p>
-          </div>
-          <div class="lend_tip common">
-            <p class="lend_title">出借人适当性管理提示</p>
-            <p class="lend_content">{{ investDetail.riskManagementTip }}</p>
-          </div>
         </section>
         <section class="claims">
           <div class="claims_list">
@@ -164,6 +161,7 @@ import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
+import { timeFormatDet } from '@/assets/js/utils'
 export default {
   name: 'index',
   components: {
@@ -185,8 +183,7 @@ export default {
         minInvAmount: '', // 起投金额
         assumptiveInvestDate: '', //投资完成
         assumptiveInterestDate: '', //起息
-        assumptiveIncomeDate: '', //锁定期结束
-        projectServiceEntity: [] // 服务
+        assumptiveIncomeDate: '' //锁定期结束
       },
       investDetail: {
         appDesc: '', // 项目介绍
@@ -198,7 +195,9 @@ export default {
         show: false
       },
       showQuest: false,
-      activity: [] //活动
+      activity: [], //活动
+      investEndTimestamp: 0, // 募集倒计时
+      projectServiceEntity: [] // 服务
     }
   },
   computed: {
@@ -212,6 +211,14 @@ export default {
       }
     },
     ...mapGetters(['user'])
+  },
+  watch: {
+    investEndTimestamp(newVal) {
+      // 募集倒计时等于0，强制剩余可投显示为0
+      if (newVal <= 0) {
+        this.projectInfo.showSurplusAmt = '0元'
+      }
+    }
   },
   methods: {
     linkTo(routerName, routerQuery = {}) {
@@ -262,6 +269,23 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
+    },
+    countdownInvestEndTimestamp(investEndTimestamp) {
+      // 开启倒计时
+      this.investEndTimestamp = investEndTimestamp
+      let t = setInterval(() => {
+        if (this.investEndTimestamp >= 1) {
+          this.investEndTimestamp--
+        } else {
+          clearInterval(t)
+        }
+      }, 1000)
+    }
+  },
+  filters: {
+    timeFormatDet,
+    changeProductId(val, productId) {
+      return val.replace(/{[0-9]*}/, productId)
     }
   },
   created() {
@@ -275,7 +299,10 @@ export default {
       let data = res.data.data
       this.projectInfo = data.projectInfo
       this.investDetail = data.investDetail
+      this.projectServiceEntity = data.projectServiceEntity
       this.activity = data.activityInfoVos
+      let investEndTimestamp = res.data.data.projectInfo.investEndTimestamp
+      if (investEndTimestamp > 0) this.countdownInvestEndTimestamp(investEndTimestamp)
     })
 
     postData.curPage = '1'
@@ -462,12 +489,18 @@ export default {
         height: 0.53rem;
         padding: 0.16rem 0.15rem;
         font-size: 0.15rem;
+        display: flex;
+        flex-direction: row;
         .title {
           color: #999;
+          flex: 1;
         }
         .desc {
           color: #ec5e52;
           margin-left: 0.16rem;
+        }
+        .time {
+          justify-content: flex-end;
         }
         p {
           float: right;

@@ -318,7 +318,8 @@ export default {
         await getLoanDetail({
           projectNo: $this.projectNo,
           itemId: $this.itemId,
-          productId: $this.productId
+          productId: $this.productId,
+          platform: 'h5'
         }).then(res => {
           $this.productDetail = res.data.data
         })

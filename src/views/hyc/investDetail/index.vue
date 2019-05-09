@@ -53,6 +53,11 @@
             </div>
             <p @click="judge"><i class="iconfont icon-rightpage"></i></p>
           </div>
+          <div class="activity">
+            <span class="title">募集倒计时</span>
+            <span class="time">{{investEndTimestamp | timeFormatDet}}</span>
+            <p><i class="iconfont icon-rightpage"></i></p>
+          </div>
           <div class="activity" v-if="activity.activityInfo">
             <span class="title">活动</span>
             <span class="desc">{{ activity.activityInfo }}</span>
@@ -156,6 +161,7 @@ import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
+import { timeFormatDet } from '@/assets/js/utils'
 export default {
   name: 'index',
   components: {
@@ -190,6 +196,7 @@ export default {
       },
       showQuest: false,
       activity: [], //活动
+      investEndTimestamp: 0, // 募集倒计时
       projectServiceEntity: [] // 服务
     }
   },
@@ -204,6 +211,14 @@ export default {
       }
     },
     ...mapGetters(['user'])
+  },
+  watch: {
+    investEndTimestamp(newVal) {
+      // 募集倒计时等于0，强制剩余可投显示为0
+      if (newVal <= 0) {
+        this.projectInfo.showSurplusAmt = '0元'
+      }
+    }
   },
   methods: {
     linkTo(routerName, routerQuery = {}) {
@@ -254,6 +269,23 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
+    },
+    countdownInvestEndTimestamp(investEndTimestamp) {
+      // 开启倒计时
+      this.investEndTimestamp = investEndTimestamp
+      let t = setInterval(() => {
+        if (this.investEndTimestamp >= 1) {
+          this.investEndTimestamp--
+        } else {
+          clearInterval(t)
+        }
+      }, 1000)
+    }
+  },
+  filters: {
+    timeFormatDet,
+    changeProductId(val, productId) {
+      return val.replace(/{[0-9]*}/, productId)
     }
   },
   created() {
@@ -269,6 +301,8 @@ export default {
       this.investDetail = data.investDetail
       this.projectServiceEntity = data.projectServiceEntity
       this.activity = data.activityInfoVos
+      let investEndTimestamp = res.data.data.projectInfo.investEndTimestamp
+      if (investEndTimestamp > 0) this.countdownInvestEndTimestamp(investEndTimestamp)
     })
 
     postData.curPage = '1'
@@ -455,12 +489,18 @@ export default {
         height: 0.53rem;
         padding: 0.16rem 0.15rem;
         font-size: 0.15rem;
+        display: flex;
+        flex-direction: row;
         .title {
           color: #999;
+          flex: 1;
         }
         .desc {
           color: #ec5e52;
           margin-left: 0.16rem;
+        }
+        .time {
+          justify-content: flex-end;
         }
         p {
           float: right;

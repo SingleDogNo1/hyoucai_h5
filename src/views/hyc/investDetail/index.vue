@@ -64,7 +64,7 @@
             <p><i class="iconfont icon-rightpage"></i></p>
           </div>
         </section>
-        <section class="user-numbers" @click="linkTo('HYCLendRecord', { projectNo: projectNo })">
+        <section class="user-numbers" @click="linkTo('HYCLendRecord', { productId: productId, itemId: itemId })">
           <div class="number">
             <img src="./images/users_img.png" alt="" />
             <span>

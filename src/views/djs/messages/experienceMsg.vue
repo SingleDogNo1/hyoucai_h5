@@ -64,7 +64,7 @@ export default {
       api.getUpdateMessage(param).then(res => {
         console.log(res)
         this.$router.push({
-          name: 'ExperienceMsgDetail',
+          name: 'DJSExperienceMsgDetail',
           query: { amount, days }
         })
       })

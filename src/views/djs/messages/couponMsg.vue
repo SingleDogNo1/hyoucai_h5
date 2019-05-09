@@ -64,7 +64,7 @@ export default {
       api.getUpdateMessage(param).then(res => {
         console.log(res)
         this.$router.push({
-          name: 'CouponMsgDetail',
+          name: 'DJSCouponMsgDetail',
           query: { couponRate, validDays }
         })
       })

@@ -63,7 +63,7 @@ export default {
       api.getUpdateMessage(param).then(res => {
         console.log(res)
         this.$router.push({
-          name: 'RepeatMsgDetail',
+          name: 'DJSRepeatMsgDetail',
           query: { invOverDate }
         })
       })

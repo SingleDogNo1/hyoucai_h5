@@ -1,27 +1,27 @@
 <template>
   <section>
-    <div class="commonList" @click="linkTo('CouponMsg')">
+    <div class="commonList" @click="linkTo('DJSCouponMsg')">
       <div class="title">
         <i v-if="couponShow"></i>
         <p>加息券消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList" @click="linkTo('RedMsg')">
+    <div class="commonList" @click="linkTo('DJSRedMsg')">
       <div class="title">
         <i v-if="redShow" class="red_dot"></i>
         <p>红包消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList" @click="linkTo('ExperienceMsg')">
+    <div class="commonList" @click="linkTo('DJSExperienceMsg')">
       <div class="title">
         <i v-if="tasteShow"></i>
         <p>体验金消息</p>
       </div>
       <div class="more"><img src="./more_icon.png" /></div>
     </div>
-    <div class="commonList" @click="linkTo('RepeatMsg')">
+    <div class="commonList" @click="linkTo('DJSRepeatMsg')">
       <div class="title">
         <i v-if="repeatShow" class="repeat_dot"></i>
         <p>复投提醒消息</p>

@@ -1,4 +1,3 @@
-// 双平台共用路由
 import Layout from '@/layout/layout.vue'
 import Empty from '@/layout/empty.vue'
 
@@ -10,7 +9,7 @@ const router = [
       {
         path: 'login-register',
         name: 'loginRegister',
-        component: () => import(/* webpackChunkName: "login" */ '@/views/common/loginRegister'),
+        component: () => import(/* webpackChunkName: "loginRegister" */ '@/views/common/loginRegister'),
         meta: {
           title: '登录'
         }
@@ -42,7 +41,7 @@ const router = [
       {
         path: 'open-account',
         name: 'openAccountProgress',
-        component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/Progress'),
+        component: () => import(/* webpackChunkName: "openAccountProgress" */ '@/views/common/openAccount/Progress'),
         children: [
           {
             path: 'open',
@@ -55,7 +54,7 @@ const router = [
           {
             path: 'sign',
             name: 'signAgreement',
-            component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/SignAgreement'),
+            component: () => import(/* webpackChunkName: "signAgreement" */ '@/views/common/openAccount/SignAgreement'),
             meta: {
               title: '业务授权'
             }
@@ -65,12 +64,12 @@ const router = [
       {
         path: 'realNameAuth',
         name: 'realNameAuthProgress',
-        component: () => import(/* webpackChunkName: "realNameAuth" */ '@/views/common/realNameAuth/progress'),
+        component: () => import(/* webpackChunkName: "realNameAuthProgress" */ '@/views/common/realNameAuth/progress'),
         children: [
           {
             path: 'name',
             name: 'realNameAuthCheckName',
-            component: () => import('@/views/common/realNameAuth/name'),
+            component: () => import(/* webpackChunkName: "realNameAuthCheckName" */ '@/views/common/realNameAuth/name'),
             meta: {
               title: '开通存管账户'
             }
@@ -78,7 +77,7 @@ const router = [
           {
             path: 'card',
             name: 'realNameAuthBindCard',
-            component: () => import('@/views/common/realNameAuth/card'),
+            component: () => import(/* webpackChunkName: "realNameAuthBindCard" */ '@/views/common/realNameAuth/card'),
             meta: {
               title: '开通存管账户'
             }
@@ -88,7 +87,7 @@ const router = [
       {
         path: 'forgetpwd',
         name: 'forgetPWD',
-        component: () => import(/* webpackChunkName: "forgetpwd" */ '@/views/common/forgetPWD'),
+        component: () => import(/* webpackChunkName: "forgetPWD" */ '@/views/common/forgetPWD'),
         meta: {
           title: '忘记密码'
         }
@@ -96,7 +95,7 @@ const router = [
       {
         path: 'risk-test',
         name: 'riskTest',
-        component: () => import(/* webpackChunkName: "risk-test" */ '@/views/common/RiskTest/RiskTest'),
+        component: () => import(/* webpackChunkName: "riskTest" */ '@/views/common/RiskTest/RiskTest'),
         meta: {
           title: '风险测评'
         }
@@ -104,7 +103,7 @@ const router = [
       {
         path: 'about-us',
         name: 'AboutUs',
-        component: () => import(/* webpackChunkName: "about-us" */ '@/views/common/AboutUs/AboutUs'),
+        component: () => import(/* webpackChunkName: "AboutUs" */ '@/views/common/AboutUs/AboutUs'),
         meta: {
           title: '关于汇有财'
         }
@@ -172,6 +171,7 @@ const router = [
           }
         ]
       },
+      // TODO 可用银行卡列表已拆分两端，汇有财端给app用的还是旧地址/support_bank，下一次app迭代再把这个地址替换成/h/support_bank,把这个路由删掉
       {
         path: 'support_banks',
         name: 'supportBanks',
@@ -183,7 +183,7 @@ const router = [
       {
         path: 'archival',
         name: 'ArchivalInfo',
-        component: () => import(/* webpackChunkName: "archival" */ '@/views/common/ArchivalInfo'),
+        component: () => import(/* webpackChunkName: "ArchivalInfo" */ '@/views/common/ArchivalInfo'),
         meta: {
           title: '资金存管'
         }
@@ -205,6 +205,7 @@ const router = [
         }
       },
       {
+        // TODO 下载app落地页没有标题？
         path: 'download',
         name: 'AppDownload',
         component: () => import(/* webpackChunkName: "AppDownload" */ '@/views/common/Download'),
@@ -223,7 +224,7 @@ const router = [
       {
         path: 'setting/loginPassword',
         name: 'loginPassword',
-        component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/modifyPWD.vue'),
+        component: () => import(/* webpackChunkName: "loginPassword" */ '@/views/common/Setting/modifyPWD.vue'),
         meta: {
           title: '修改登录密码'
         }
@@ -231,7 +232,7 @@ const router = [
       {
         path: 'setting/receiveAddress',
         name: 'receiveAddress',
-        component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/receiveAddress'),
+        component: () => import(/* webpackChunkName: "receiveAddress" */ '@/views/common/Setting/receiveAddress'),
         meta: {
           title: '地址管理'
         }
@@ -242,10 +243,12 @@ const router = [
         children: [
           {
             path: 'prizeDraw',
-            component: () => import(/* webpackChunkName: "Activity" */ '@/views/common/activities/prizeDraw')
+            name: 'prizeDraw',
+            component: () => import(/* webpackChunkName: "prizeDraw" */ '@/views/common/activities/prizeDraw')
           },
           {
             path: 'spellTeam',
+            name: 'spellTeam',
             component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
           }
         ]

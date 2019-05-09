@@ -120,7 +120,7 @@
             </ul>
           </div>
         </section>
-        <section class="risk_tips commonType" @click="linkTo('HYCagreement', { agreementType: 'fxts' })">
+        <section class="risk_tips commonType" @click="linkTo('HYCAgreement', { agreementType: 'fxts' })">
           <h2>风险告知书</h2>
           <p><i class="iconfont icon-rightpage"></i></p>
         </section>

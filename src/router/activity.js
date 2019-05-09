@@ -1,4 +1,3 @@
-// 首页 && 出借 && 我的 一级带tab-bar的路由
 import Activity from '@/layout/activity.vue'
 import Empty from '@/layout/empty.vue'
 
@@ -14,12 +13,12 @@ const router = [
           {
             path: 'mateact',
             name: 'DJSmateAct',
-            component: () => import(/* webpackChunkName: "DJSmateAct" */ '@/views/djs/activities/mateact/mateact')
+            component: () => import(/* webpackChunkName: "DJSMateAct" */ '@/views/djs/activities/mateact/mateact')
           },
           {
             path: 'coupon',
             name: 'DJScoupon',
-            component: () => import(/* webpackChunkName: "DJScouponAct" */ '@/views/djs/activities/coupon/index')
+            component: () => import(/* webpackChunkName: "DJSCouponAct" */ '@/views/djs/activities/coupon/index')
           },
           {
             path: 'gold',
@@ -34,22 +33,22 @@ const router = [
           {
             path: 'womensday',
             name: 'womensDay',
-            component: () => import(/* webpackChunkName: "womensDayAct" */ '@/views/djs/activities/womensDay/index')
+            component: () => import(/* webpackChunkName: "womenDayAct" */ '@/views/djs/activities/womensDay/index')
           },
           {
             path: 'inviteact',
             name: 'DJSinviteAct',
-            component: () => import(/* webpackChunkName: "DJSinviteAct" */ '@/views/djs/activities/inviteact')
+            component: () => import(/* webpackChunkName: "DJSInviteAct" */ '@/views/djs/activities/inviteact')
           },
           {
             path: 'yearact',
             name: 'DJSyearAct',
-            component: () => import(/* webpackChunkName: "DJSyearAct" */ '@/views/djs/activities/yearact')
+            component: () => import(/* webpackChunkName: "DJSYearAct" */ '@/views/djs/activities/yearact')
           },
           {
             path: 'yearact_2',
             name: 'DJSyearAct_2',
-            component: () => import(/* webpackChunkName: "DJSyearAct_2" */ '@/views/djs/activities/yearact_2')
+            component: () => import(/* webpackChunkName: "DJSYearAct_2" */ '@/views/djs/activities/yearact_2')
           },
           {
             path: '3000',
@@ -83,16 +82,15 @@ const router = [
         path: 'activity',
         component: Empty,
         children: [
-          // mate手机乐
           {
             path: 'mateact',
             name: 'HYCmateAct',
-            component: () => import(/* webpackChunkName: "HYCmateAct" */ '@/views/hyc/activities/mateact/mateact')
+            component: () => import(/* webpackChunkName: "HYCMateAct" */ '@/views/hyc/activities/mateact/mateact')
           },
           {
             path: 'anni-cashback',
             name: 'sixthAnniCashback',
-            component: () => import(/* webpackChunkName: "sixthAnniCashback" */ '@/views/hyc/activities/sixthAnniversary/index')
+            component: () => import(/* webpackChunkName: "sixthAnniCashBack" */ '@/views/hyc/activities/sixthAnniversary/index')
           }
         ]
       }

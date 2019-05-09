@@ -70,7 +70,7 @@
         <section class="serve-detail">
           <p class="tip">服务介绍</p>
           <p class="content">{{ investDetail.appDesc }}</p>
-          <ul v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
+          <ul v-for="(item, index) in projectServiceEntity" :key="index">
             <li v-if="item.isShowPic === '1'">
               <img src="./images/icon_01.png" alt="" />
             </li>
@@ -79,14 +79,6 @@
               <p>{{ item.serviceMessage }}</p>
             </li>
           </ul>
-          <div class="risk_assess common">
-            <p class="risk_title">项目风险评估及可能产生的风险结果</p>
-            <p class="risk_content">{{ investDetail.riskAppraisal }}</p>
-          </div>
-          <div class="lend_tip common">
-            <p class="lend_title">出借人适当性管理提示</p>
-            <p class="lend_content">{{ investDetail.riskManagementTip }}</p>
-          </div>
         </section>
         <section class="claims">
           <div class="claims_list">
@@ -185,8 +177,7 @@ export default {
         minInvAmount: '', // 起投金额
         assumptiveInvestDate: '', //投资完成
         assumptiveInterestDate: '', //起息
-        assumptiveIncomeDate: '', //锁定期结束
-        projectServiceEntity: [] // 服务
+        assumptiveIncomeDate: '' //锁定期结束
       },
       investDetail: {
         appDesc: '', // 项目介绍
@@ -198,7 +189,8 @@ export default {
         show: false
       },
       showQuest: false,
-      activity: [] //活动
+      activity: [], //活动
+      projectServiceEntity: [] // 服务
     }
   },
   computed: {
@@ -275,6 +267,7 @@ export default {
       let data = res.data.data
       this.projectInfo = data.projectInfo
       this.investDetail = data.investDetail
+      this.projectServiceEntity = data.projectServiceEntity
       this.activity = data.activityInfoVos
     })
 

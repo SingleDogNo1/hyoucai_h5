@@ -581,7 +581,7 @@ export default new Router({
         },
         {
           path: 'couponMsg',
-          name: 'CouponMsg',
+          name: 'DJSCouponMsg',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsg'),
           meta: {
             title: '加息券消息'
@@ -589,7 +589,7 @@ export default new Router({
         },
         {
           path: 'couponMsgDetail',
-          name: 'CouponMsgDetail',
+          name: 'DJSCouponMsgDetail',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsgDetail'),
           meta: {
             title: '加息券消息'
@@ -597,7 +597,7 @@ export default new Router({
         },
         {
           path: 'redMsg',
-          name: 'RedMsg',
+          name: 'DJSRedMsg',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsg'),
           meta: {
             title: '红包消息'
@@ -605,7 +605,7 @@ export default new Router({
         },
         {
           path: 'redMsgDetail',
-          name: 'RedMsgDetail',
+          name: 'DJSRedMsgDetail',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsgDetail'),
           meta: {
             title: '红包消息'
@@ -613,7 +613,7 @@ export default new Router({
         },
         {
           path: 'repeatMsg',
-          name: 'RepeatMsg',
+          name: 'DJSRepeatMsg',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsg'),
           meta: {
             title: '复投提醒消息'
@@ -621,7 +621,7 @@ export default new Router({
         },
         {
           path: 'repeatMsgDetail',
-          name: 'RepeatMsgDetail',
+          name: 'DJSRepeatMsgDetail',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsgDetail'),
           meta: {
             title: '复投消息'
@@ -629,7 +629,7 @@ export default new Router({
         },
         {
           path: 'experienceMsg',
-          name: 'ExperienceMsg',
+          name: 'DJSExperienceMsg',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsg'),
           meta: {
             title: '体验金消息'
@@ -637,7 +637,7 @@ export default new Router({
         },
         {
           path: 'experienceMsgDetail',
-          name: 'ExperienceMsgDetail',
+          name: 'DJSExperienceMsgDetail',
           component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsgDetail'),
           meta: {
             title: '体验金消息'
@@ -734,7 +734,7 @@ export default new Router({
         // 协议
         {
           path: 'agreement',
-          name: 'HYCagreement',
+          name: 'HYCAgreement',
           component: () => import(/* webpackChunkName: "HYCagreement" */ '@/views/hyc/Agreements'),
           meta: {
             title: '协议'

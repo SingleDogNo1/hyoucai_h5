@@ -192,7 +192,7 @@ export default {
     },
     toAgreement() {
       this.$router.push({
-        name: 'HYCagreement',
+        name: 'HYCAgreement',
         query: {
           agreementType: 'zcxy'
         }

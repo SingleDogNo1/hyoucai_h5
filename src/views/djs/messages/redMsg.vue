@@ -65,7 +65,7 @@ export default {
       api.getUpdateMessage(param).then(res => {
         console.log(res)
         this.$router.push({
-          name: 'RedMsgDetail',
+          name: 'DJSRedMsgDetail',
           query: { amount }
         })
       })

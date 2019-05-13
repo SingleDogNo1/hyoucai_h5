@@ -5,8 +5,11 @@
         <div class="huge">
           <ul>
             <li>
-              <span>{{ investDetail.investRate }}</span>
-              <span>%</span>
+              <span>{{ investDetail.basicsInvestRate }}</span>
+              <span class="pre">%</span>
+              <label v-if="investDetail.activityInvestRate">+</label>
+              <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
+              <span class="pre" v-if="investDetail.activityInvestRate">%</span>
             </li>
             <li>
               <h5>{{ investDetail.projectName }}</h5>
@@ -473,9 +476,16 @@ export default {
           color: #ffffff;
           font-size: 0.15rem;
           span {
-            &:first-child {
-              font-size: 0.36rem;
+            font-size: 0.36rem;
+            &.pre {
+              font-size: 0.15rem;
             }
+          }
+          label {
+            font-size: 0.18rem;
+          }
+          em {
+            font-size: 0.18rem;
           }
           h5 {
             font-size: 0.15rem;

@@ -14,8 +14,11 @@
           </div>
           <div class="pro-info-middle">
             <span>历史平均年化收益率</span><br />
-            <strong>{{ projectInfo.investRate }}</strong
-            ><span class="per">%</span>
+            <em class="common">{{ investDetail.basicsInvestRate }}</em>
+            <span class="per">%</span>
+            <label v-if="investDetail.activityInvestRate">+</label>
+            <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
+            <span class="per" v-if="investDetail.activityInvestRate">%</span>
             <p>
               <i>{{ projectInfo.recentShow }}</i>
               <img @click="showQuestDlg()" src="./images/quest.png" alt="" />
@@ -373,9 +376,18 @@ export default {
           color: #ec5e52;
           font-size: 0.13rem;
         }
-        strong {
-          font-size: 0.46rem;
+        label {
           color: #ec5e52;
+          font-size: 0.26rem;
+        }
+        em {
+          color: #ec5e52;
+          &.common {
+            font-size: 0.46rem;
+          }
+          &.act {
+            font-size: 0.3rem;
+          }
         }
         p {
           @include cube(1.7rem, 0.24rem);

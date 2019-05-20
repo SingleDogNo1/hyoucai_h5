@@ -59,7 +59,6 @@
           <div class="activity">
             <span class="title">募集倒计时</span>
             <span class="time">{{investEndTimestamp | timeFormatDet}}</span>
-            <p><i class="iconfont icon-rightpage"></i></p>
           </div>
           <div class="activity" v-if="activity.activityInfo">
             <span class="title">活动</span>

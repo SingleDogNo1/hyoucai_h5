@@ -241,6 +241,16 @@ export default new Router({
               path: 'spell-group',
               name: 'DJSSpellGroupAct',
               component: () => import(/* webpackChunkName: "DJSSpellGroupAct" */ '@/views/djs/activities/spellGroup')
+            },
+            {
+              path: 'king',
+              name: 'DJSKing',
+              component: () => import(/* webpackChunkName: "DJSKing" */ '@/views/djs/activities/king')
+            },
+            {
+              path: 'may-recommend',
+              name: 'DJSMayRecommend',
+              component: () => import(/* webpackChunkName: "DJSMayRecommend" */ '@/views/djs/activities/mayRecommend')
             }
           ]
         }

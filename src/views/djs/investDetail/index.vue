@@ -7,7 +7,7 @@
             <div class="item-l">
               <span>{{ investDetail.projectName }}</span>
             </div>
-            <div class="item-r" v-if="investDetail.isShowEnableAmt == 1">
+            <div class="item-r" v-if="parseInt(investDetail.isShowEnableAmt) === 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ investDetail.surplusAmount }}万</span>
             </div>
@@ -16,9 +16,9 @@
             <span>历史平均年化收益率</span><br />
             <em class="common">{{ investDetail.basicsInvestRate }}</em>
             <span class="per">%</span>
-            <label v-if="investDetail.activityInvestRate">+</label>
-            <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
-            <span class="per" v-if="investDetail.activityInvestRate">%</span>
+            <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>
+            <em class="act" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{ investDetail.activityInvestRate }}</em>
+            <span class="per" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">%</span>
             <p>
               <i>{{ investDetail.recentShow }}</i>
               <img @click="showQuestDlg()" src="./images/quest.png" alt="" />

@@ -13,10 +13,10 @@
       </div>
       <div class="item_info">
         <dl>
-          <dt v-if="itemData.investRate">
-            <i>{{ parseFloat(itemData.investRate).toFixed(2) }}</i>
+          <dt>
+            <i>{{ parseFloat(itemData.basicsInvestRate).toFixed(2) }}</i>
             <span>%</span>
-            <em v-if="itemData.showInterestRates && itemData.showInterestRates.includes('+')">+{{ itemData.showInterestRates.split('+')[1] }}</em>
+            <em v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">+{{ itemData.activityInvestRate }}%</em>
           </dt>
           <dd>历史平均年化收益率</dd>
         </dl>

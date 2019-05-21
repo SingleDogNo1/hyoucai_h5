@@ -7,9 +7,9 @@
             <li>
               <span>{{ investDetail.basicsInvestRate }}</span>
               <span class="pre">%</span>
-              <label v-if="investDetail.activityInvestRate">+</label>
-              <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
-              <span class="pre" v-if="investDetail.activityInvestRate">%</span>
+              <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>
+              <em class="act"  v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{ investDetail.activityInvestRate }}</em>
+              <span class="pre"  v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">%</span>
             </li>
             <li>
               <h5>{{ investDetail.projectName }}</h5>

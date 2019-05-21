@@ -7,18 +7,18 @@
             <div class="item-l">
               <span>{{ projectInfo.itemName }}</span>
             </div>
-            <div class="item-r" v-if="projectInfo.isShowEnableAmt == 1">
+            <div class="item-r" v-if="parseInt(projectInfo.isShowEnableAmt) === 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ projectInfo.showSurplusAmt }}</span>
             </div>
           </div>
           <div class="pro-info-middle">
             <span>历史平均年化收益率</span><br />
-            <em class="common">{{ investDetail.basicsInvestRate }}</em>
+            <em class="common">{{ projectInfo.basicsInvestRate }}</em>
             <span class="per">%</span>
-            <label v-if="investDetail.activityInvestRate">+</label>
-            <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
-            <span class="per" v-if="investDetail.activityInvestRate">%</span>
+            <label v-if="projectInfo.activityInvestRate">+</label>
+            <em class="act" v-if="projectInfo.activityInvestRate">{{ projectInfo.activityInvestRate }}</em>
+            <span class="per" v-if="projectInfo.activityInvestRate">%</span>
             <p>
               <i>{{ projectInfo.recentShow }}</i>
               <img @click="showQuestDlg()" src="./images/quest.png" alt="" />

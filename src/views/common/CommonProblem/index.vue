@@ -126,7 +126,6 @@ export default {
   },
   methods: {
     toggleItems(arr, index) {
-      alert(1)
       let time = null
       clearTimeout(time)
       if (arr[index].flag_plus) {

@@ -62,7 +62,7 @@
             </div>
             <div class="item" v-for="(item, index) in commonQuestions" :key="index">
               <div class="inn border-bottom-1px">
-                <div class="question" @tap="toggleItems(commonQuestions, index)">
+                <div class="question" @click="toggleItems(commonQuestions, index)">
                   <span>Q：</span>
                   <em>{{ item.question }}</em>
                   <transition name="rotate-min">

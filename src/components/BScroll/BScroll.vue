@@ -67,10 +67,7 @@ export default {
         return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|LABEL|DIV)$/ }
       }
     },
-    eventPassthrough: {
-      type: String,
-      default: 'horizontal'
-    }
+    eventPassthrough: 'horizontal'
   },
   watch: {
     data() {
@@ -169,4 +166,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

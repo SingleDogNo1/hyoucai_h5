@@ -41,6 +41,10 @@ export function uuid() {
  * @param status {number} 为0时只读一次，不会每秒倒计时
  * @param callback {function} 成功回调
  * @callback data
+ * @example
+ * timeCountDown(1000, 1, data => {
+ *   console.log(data)
+ * })
  */
 export function timeCountDown(t, status = 0, callback = () => {}) {
   let d = (t - (t % 86400)) / 86400

@@ -188,10 +188,10 @@ export default {
         if (res && res.data && res.data.resultCode === '1') {
           switch (res.data.prizeKey) {
             case '1':
-              this.reward = this.rewards[0]
+              this.reward = this.rewards[2]
               break
             case '2':
-              this.reward = this.rewards[2]
+              this.reward = this.rewards[0]
               break
             case '3':
               this.reward = this.rewards[7]

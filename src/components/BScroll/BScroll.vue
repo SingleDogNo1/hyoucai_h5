@@ -14,10 +14,11 @@ export default {
     return {}
   },
   props: {
-    // 传入的数据
     data: {
       type: Array,
-      default: null
+      default: function() {
+        return []
+      }
     },
     probeType: {
       type: Number,

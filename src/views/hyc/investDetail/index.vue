@@ -7,15 +7,18 @@
             <div class="item-l">
               <span>{{ projectInfo.itemName }}</span>
             </div>
-            <div class="item-r" v-if="projectInfo.isShowEnableAmt == 1">
+            <div class="item-r" v-if="parseInt(projectInfo.isShowEnableAmt) === 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ projectInfo.showSurplusAmt }}</span>
             </div>
           </div>
           <div class="pro-info-middle">
             <span>历史平均年化收益率</span><br />
-            <strong>{{ projectInfo.investRate }}</strong
-            ><span class="per">%</span>
+            <em class="common">{{ projectInfo.basicsInvestRate }}</em>
+            <span class="per">%</span>
+            <label v-if="projectInfo.activityInvestRate">+</label>
+            <em class="act" v-if="projectInfo.activityInvestRate">{{ projectInfo.activityInvestRate }}</em>
+            <span class="per" v-if="projectInfo.activityInvestRate">%</span>
             <p>
               <i>{{ projectInfo.recentShow }}</i>
               <img @click="showQuestDlg()" src="./images/quest.png" alt="" />
@@ -372,9 +375,18 @@ export default {
           color: #ec5e52;
           font-size: 0.13rem;
         }
-        strong {
-          font-size: 0.46rem;
+        label {
           color: #ec5e52;
+          font-size: 0.26rem;
+        }
+        em {
+          color: #ec5e52;
+          &.common {
+            font-size: 0.46rem;
+          }
+          &.act {
+            font-size: 0.3rem;
+          }
         }
         p {
           @include cube(1.7rem, 0.24rem);

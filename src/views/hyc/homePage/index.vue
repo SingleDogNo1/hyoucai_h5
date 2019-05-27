@@ -40,8 +40,9 @@
           <h6>新手专享</h6>
           <button>新手专享</button>
           <div class="rate">
-            <span>{{ item.investRate }}</span>
+            <span>{{ item.basicsInvestRate }}</span>
             <span>%</span>
+            <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
@@ -73,8 +74,9 @@
               <div class="left">
                 <ul class="rate">
                   <li>
-                    <span>{{ item.investRate }}</span>
+                    <span>{{ item.basicsInvestRate }}</span>
                     <span>%</span>
+                    <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
                   </li>
                   <li><p>历史年化收益率</p></li>
                 </ul>

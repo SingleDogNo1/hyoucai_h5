@@ -12,8 +12,8 @@
         </p>
         <div class="prize-container">
           <div :class="{ active: current % 8 === 0 }" class="item prize">
-            <img src="./priceDraw/Mate20.png" alt="" style="height:0.45rem;" />
-            <span>Mate20RS<br />保时捷手机</span>
+            <img src="./priceDraw/HuaWeiP30.png" alt="" style="height:0.45rem;" />
+            <span>华为P30 <br />8+64GB</span>
           </div>
           <div :class="{ active: current % 8 === 1 }" class="item prize">
             <span>谢谢参与</span>
@@ -23,8 +23,8 @@
             <span>iPhone Xs Max 256G 金色</span>
           </div>
           <div :class="{ active: current % 8 === 7 }" class="item prize">
-            <img src="./priceDraw/JD1666.png" alt="" style="height:0.315rem;" />
-            <span style="margin-top:0.1rem;">1666元京东E卡</span>
+            <img src="./priceDraw/JD888.png" alt="" style="height:0.315rem;" />
+            <span style="margin-top:0.1rem;">888元京东E卡</span>
           </div>
           <div class="item btn" :class="{ disabled: !canDraw }">
             <img src="./priceDraw/drawBtn.png" alt="" @click="getReward" />
@@ -33,15 +33,15 @@
             <span>谢谢参与</span>
           </div>
           <div :class="{ active: current % 8 === 6 }" class="item prize">
-            <img src="./priceDraw/JD666.png" alt="" style="height:0.315rem;" />
-            <span style="margin-top:0.1rem;">666元京东E卡</span>
+            <img src="./priceDraw/JD260.png" alt="" style="height:0.315rem;" />
+            <span style="margin-top:0.1rem;">260元京东E卡</span>
           </div>
           <div :class="{ active: current % 8 === 5 }" class="item prize">
             <span>谢谢参与</span>
           </div>
           <div :class="{ active: current % 8 === 4 }" class="item prize">
-            <img src="./priceDraw/gifts.png" alt="" style="height:0.45rem;" />
-            <span>汇通六周年大礼包</span>
+            <img src="./priceDraw/JD200.png" alt="" style="height:0.45rem;" />
+            <span>200元京东E卡</span>
           </div>
         </div>
       </div>
@@ -79,24 +79,24 @@
           <h3 class="congratulation" v-else>恭喜您中奖了</h3>
           <div class="reward" v-if="isGetReward">
             <div v-if="reward.key === 0">
-              <img src="./priceDraw/Mate20.png" alt="" />
-              <p>HUAWEI Mate20RS 保时捷手机</p>
+              <img src="./priceDraw/HuaWeiP30.png" alt="" />
+              <p>华为P30 8+64GB</p>
             </div>
             <div v-if="reward.key === 2">
               <img src="./priceDraw/XS.png" alt="" />
               <p>iPhone Xs Max 256G 金色</p>
             </div>
             <div v-if="reward.key === 4">
-              <img src="./priceDraw/gifts.png" alt="" style=" margin-bottom: 0" />
-              <p>汇通六周年大礼包</p>
+              <img src="./priceDraw/JD200.png" alt="" style=" margin-bottom: 0" />
+              <p>200元京东E卡</p>
             </div>
             <div v-if="reward.key === 6">
-              <img src="./priceDraw/JD666.png" alt="" />
-              <p>666元京东E卡</p>
+              <img src="./priceDraw/JD260.png" alt="" />
+              <p>260元京东E卡</p>
             </div>
             <div v-if="reward.key === 7">
-              <img src="./priceDraw/JD1666.png" alt="" />
-              <p>1666元京东E卡</p>
+              <img src="./priceDraw/JD888.png" alt="" />
+              <p>888元京东E卡</p>
             </div>
           </div>
           <div class="no-reward" v-else></div>
@@ -136,14 +136,14 @@ export default {
   data() {
     return {
       rewards: [
-        { key: 0, name: 'Mate20RS 保时捷手机' },
+        { key: 0, name: '华为P30 8+64GB' },
         { key: 1, name: '谢谢参与' },
         { key: 2, name: 'iPhone Xs Max 256G 金色' },
         { key: 3, name: '谢谢参与' },
-        { key: 4, name: '汇通六周年大礼包' },
+        { key: 4, name: '200元京东E卡' },
         { key: 5, name: '谢谢参与' },
-        { key: 6, name: '666元京东E卡' },
-        { key: 7, name: '1666元京东E卡' }
+        { key: 6, name: '260元京东E卡' },
+        { key: 7, name: '888元京东E卡' }
       ],
       reward: 1,
       current: -1, // 当前走过的步数
@@ -188,10 +188,10 @@ export default {
         if (res && res.data && res.data.resultCode === '1') {
           switch (res.data.prizeKey) {
             case '1':
-              this.reward = this.rewards[0]
+              this.reward = this.rewards[2]
               break
             case '2':
-              this.reward = this.rewards[2]
+              this.reward = this.rewards[0]
               break
             case '3':
               this.reward = this.rewards[7]

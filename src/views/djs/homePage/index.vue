@@ -35,6 +35,7 @@
               </div>
             </div>
           </div>
+          <p @click="showTabs('DJSNoticeList')">更多</p>
         </div>
         <div class="newbie" v-for="(item, index) in noviceProjectList" :key="index">
           <h6>新手专享</h6>
@@ -346,6 +347,12 @@ export default {
           text-overflow: ellipsis;
         }
       }
+    }
+    p {
+      color: #333;
+      padding-right: 0.1rem;
+      margin-left: auto;
+      line-height: 0.4rem;
     }
   }
   .newbie {

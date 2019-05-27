@@ -18,7 +18,8 @@ module.exports = {
     }
   },
   chainWebpack: config => {
-    if (process.env.VUE_APP_RUNTIME_ENV === 'production') {
+    // if (process.env.VUE_APP_RUNTIME_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
       const imagesRule = config.module.rule('images')
       imagesRule.uses.clear()
       imagesRule

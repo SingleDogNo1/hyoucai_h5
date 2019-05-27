@@ -101,8 +101,9 @@ section {
     font-size: 0.13rem;
     color: #333333;
     padding-left: 0.15rem;
+    justify-content: flex-end;
     .title {
-      float: left;
+      flex: 1;
       width: 70%;
       position: relative;
       i {
@@ -131,7 +132,7 @@ section {
     .more {
       display: flex;
       align-items: center;
-      float: right;
+      justify-content: flex-end;
       height: 0.5rem;
       img {
         height: 0.14rem;

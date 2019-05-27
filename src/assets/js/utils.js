@@ -154,3 +154,19 @@ export let browser = {
   })(),
   language: (navigator.browserLanguage || navigator.language).toLowerCase()
 }
+
+// 募集倒计时
+export function timeFormatDet(t) {
+  let d = (t - (t % 86400)) / 86400
+  let h = ((t - (t % 3600)) / 3600) % 24
+  let i = ((t - (t % 60)) / 60) % 60
+  let s = t % 60
+  let result = ''
+  if (d > 0) {
+    result += d + '天'
+  }
+  result += h < 10 ? '0' + h + ':' : h + ':'
+  result += i < 10 ? '0' + i + ':' : i + ':'
+  result += s < 10 ? '0' + s : s
+  return result
+}

@@ -969,7 +969,6 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      debugger
       switch (this.type) {
         case 'fxts':
           this.text = '风险告知书'

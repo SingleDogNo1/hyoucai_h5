@@ -15,7 +15,7 @@ const $axios = axios.create({
 })
 $axios.interceptors.request.use(
   function(config) {
-    if (getAuth()) {
+    if (!Router.app.$route.query.t && getAuth()) {
       config.headers['authorization'] = getAuth()
     }
     return config

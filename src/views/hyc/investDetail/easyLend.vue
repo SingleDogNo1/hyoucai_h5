@@ -5,11 +5,11 @@
         <div class="huge">
           <ul>
             <li>
-              <span>{{ investDetail.basicsInvestRate }}</span>
+              <span>{{ projectInfo.basicsInvestRate }}</span>
               <span class="pre">%</span>
-              <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>
-              <em class="act" v-if="investDetail.activityInvestRate">{{ investDetail.activityInvestRate }}</em>
-              <span class="pre" v-if="investDetail.activityInvestRate">%</span>
+              <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>
+              <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}</em>
+              <span class="pre" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">%</span>
             </li>
             <li>
               <h5>{{ projectInfo.itemName }}</h5>

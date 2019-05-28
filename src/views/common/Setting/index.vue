@@ -20,6 +20,10 @@
     <Confirm :show.sync="showDialog" :onConfirm="doLogout" title="温馨提示" confirmText="确认">
       您确认要退出登录？
     </Confirm>
+    <div class="download" v-if="showDownload">
+      <span><img src="./close.png" alt="" @click="closeDownload" />如需要查看资产详情，请下载官方App</span>
+      <input type="button" value="下载App" @click="$router.push({ name: 'AppDownload' })" />
+    </div>
   </div>
 </template>
 
@@ -31,7 +35,8 @@ export default {
   name: 'index',
   data() {
     return {
-      showDialog: false
+      showDialog: false,
+      showDownload: true
     }
   },
   components: { Confirm },
@@ -49,6 +54,10 @@ export default {
           this.logout()
         }
       })
+    },
+    closeDownload() {
+      this.showDownload = false
+      this.$refs.scrollRef.refresh()
     },
     ...mapActions(['logout'])
   },
@@ -99,6 +108,32 @@ export default {
       height: 100%;
       background: #fff;
       font-size: 0.15rem;
+    }
+  }
+  .download {
+    display: flex;
+    align-items: center;
+    height: 0.52rem;
+    padding: 0 0.15rem;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0.1rem;
+    img {
+      width: 0.15rem;
+      height: 0.15rem;
+      margin-right: 0.08rem;
+    }
+    span {
+      font-size: 0.13rem;
+      color: #999999;
+    }
+    input {
+      background: #ec5e52;
+      border-radius: 4px;
+      color: #fff;
+      width: 0.72rem;
+      height: 0.3rem;
+      margin-left: 0.1rem;
     }
   }
 }

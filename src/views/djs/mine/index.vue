@@ -55,7 +55,7 @@
               <span v-else>****</span>
             </div>
             <div class="action">
-              <input type="button" value="提现" />
+              <input type="button" value="提现" @click="$router.push({ name: 'DJSToCash' })" />
               <input type="button" value="充值" @click="$router.push({ name: 'DJSCharge' })" />
             </div>
           </div>

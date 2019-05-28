@@ -271,8 +271,7 @@ const router = [
         name: 'DJSCharge',
         component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
         meta: {
-          title: '充值',
-          cancel: '取消'
+          title: '充值'
         }
       },
       {

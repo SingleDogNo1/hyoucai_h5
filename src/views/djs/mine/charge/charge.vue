@@ -432,10 +432,10 @@ export default {
     }
   },
   created() {
-    // this.getBankCardNo()
-    // this.personalAccount()
+    this.getBankCardNo()
+    this.personalAccount()
     // // this.userRechargePreVerify()
-    // this.userAndBankInfo()
+    this.userAndBankInfo()
   },
   mounted() {},
   beforeRouteEnter(to, from, next) {

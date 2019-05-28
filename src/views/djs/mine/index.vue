@@ -31,7 +31,8 @@
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">
+              <!--<div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">-->
+              <div class="btn-image" @click="jumpTo('DJSCouponList')">
                 <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>
@@ -209,6 +210,9 @@ export default {
       amountInfo().then(res => {
         this.amountInfo = res.data
       })
+    },
+    jumpTo(router_name) {
+      console.log(router_name)
     },
     switchSystem() {
       this.setPlatform('hyc')

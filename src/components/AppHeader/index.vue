@@ -21,6 +21,11 @@ export default {
       handle: this.$route.meta.handle ? this.$route.meta.handle : ''
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      console.log(to, from)
+    })
+  },
   methods: {
     goBack() {
       if (window.DjsJsBridge) {

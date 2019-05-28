@@ -11,24 +11,6 @@
     @pulldownTouchend="pulldownTouchend"
   >
     <div>
-      <div class="top">
-        <div class="inn">
-          <em>新手专享</em>
-          <div class="wrapper">
-            <dl>
-              <dt>16.0<span>&nbsp;%</span></dt>
-              <dd>历史年化收益率</dd>
-            </dl>
-            <dl>
-              <dt>30天锁定期</dt>
-              <dd>2000元起投</dd>
-            </dl>
-          </div>
-          <button v-if="user">立即赚钱</button>
-          <button v-else>注册 / 登录</button>
-          <span>您还剩余 50000.00元 新手额度</span>
-        </div>
-      </div>
       <ul>
         <li v-for="(item, index) in yZhiJiHuaData" :key="index" @click="selectYZhiJiHuaItem(item.projectNo)">
           <investment-item :itemData="item"></investment-item>

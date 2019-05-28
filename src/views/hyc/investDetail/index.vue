@@ -16,9 +16,9 @@
             <span>历史平均年化收益率</span><br />
             <em class="common">{{ projectInfo.basicsInvestRate }}</em>
             <span class="per">%</span>
-            <label v-if="projectInfo.activityInvestRate">+</label>
-            <em class="act" v-if="projectInfo.activityInvestRate">{{ projectInfo.activityInvestRate }}</em>
-            <span class="per" v-if="projectInfo.activityInvestRate">%</span>
+            <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>
+            <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}</em>
+            <span class="per" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">%</span>
             <p>
               <i>{{ projectInfo.recentShow }}</i>
               <img @click="showQuestDlg()" src="./images/quest.png" alt="" />
@@ -150,7 +150,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span v-if="projectInfo.isShowEnableAmt == 1">剩余可投{{ projectInfo.showSurplusAmt }}</span>
+        <span v-if="parseInt(projectInfo.isShowEnableAmt) === 1">剩余可投{{ projectInfo.showSurplusAmt }}</span>
       </div>
     </section>
   </div>
@@ -246,13 +246,13 @@ export default {
         if (res.data.resultCode === '1') {
           switch (data.status) {
             case 'OPEN_ACCOUNT':
-              this.$router.push({ name: 'openAccountProgress' })
+              this.$router.push({ name: 'openAccount' })
               break
             case 'SET_PASSWORD':
-              this.$router.push({ name: 'openAccountProgress' })
+              this.$router.push({ name: 'openAccount' })
               break
             case 'SIGN_PROTOCOL':
-              this.$router.push({ name: 'openAccountProgress' })
+              this.$router.push({ name: 'signAgreement' })
               break
             case 'EVALUATE':
               this.$router.push({ name: 'riskTest' })

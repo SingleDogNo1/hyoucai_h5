@@ -142,8 +142,10 @@ export default {
       obj.couponId = id
       ReceiveCoupon(obj).then(res => {
         Indicator.close()
-        Toast(res.data.resultMsg)
         this.CouponPacketList()
+        if (res.data.resultCode !== '1') {
+          Toast(res.data.resultMsg)
+        }
       })
     },
     // 领取红包

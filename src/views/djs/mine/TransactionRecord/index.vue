@@ -193,8 +193,8 @@ export default {
         curPage: page
       }
       if (
-        (txType === 'TXCZ' && this.chargeData.length === 0) ||
-        (txType === 'TXTX' && this.toCashData.length === 0) ||
+        (txType === 'XSCC' && this.chargeData.length === 0) ||
+        (txType === 'ZJQX' && this.toCashData.length === 0) ||
         (txType === 'TXQT' && this.otherData.length === 0) ||
         this.allData.length === 0
       ) {

@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="have" v-show="haveCard">
+    <div class="have" v-if="!haveCard">
       <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
         <div class="coupon_left">
           <p class="coupon_left_p">
@@ -35,19 +35,19 @@
         </div>
       </div>
     </div>
-    <div class="nothing" v-show="!haveCard">
-      <div class="no_img">
-        <img src="./images/bg.png" alt />
-      </div>
-      <p class="no_txt">暂无红包加息券</p>
-    </div>
+    <NoData type="historyCoupon" v-else></NoData>
   </div>
 </template>
 
 <script>
 import { couponPacketHistory } from '@/api/djs/coupon'
 import { mapGetters } from 'vuex'
+import NoData from '@/components/NoData/NoData'
+
 export default {
+  components: {
+    NoData
+  },
   data() {
     return {
       haveCard: true, // 是否有历史卡券

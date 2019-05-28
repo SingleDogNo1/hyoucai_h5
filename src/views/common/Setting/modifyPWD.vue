@@ -3,15 +3,15 @@
     <div class="form">
       <div class="row">
         <span class="title">原密码</span>
-        <span class="text"><input type="password" v-model="oldPWD"/></span>
+        <span class="text"><input type="password" v-model="oldPWD" placeholder=""/></span>
       </div>
       <div class="row">
         <span class="title">新密码</span>
-        <span class="text"><input type="password" v-model="newPWD"/></span>
+        <span class="text"><input type="password" v-model="newPWD" placeholder="" /></span>
       </div>
       <div class="row">
         <span class="title">确认密码</span>
-        <span class="text"><input type="password" v-model="confirmPWD"/></span>
+        <span class="text"><input type="password" v-model="confirmPWD" placeholder="" /></span>
       </div>
     </div>
     <div class="btn">
@@ -48,7 +48,11 @@ export default {
         Toast('两次密码输入不一致，请重新输入')
         return false
       }
-      updateUserPsw({ userName: this.user.nickname, oldPassWord: this.oldPWD, newPassWord: this.confirmPWD }).then(res => {
+      updateUserPsw({
+        userName: this.user.userName,
+        oldPassWord: this.oldPWD,
+        newPassWord: this.confirmPWD
+      }).then(res => {
         if (res.data.resultCode === '1') {
           Toast('修改成功')
           window.setTimeout(() => {

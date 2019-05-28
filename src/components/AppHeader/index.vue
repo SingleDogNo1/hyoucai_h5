@@ -26,6 +26,7 @@ export default {
       if (window.DjsJsBridge) {
         // 可能会调用app方法
       } else {
+        console.log(this.$route)
         this.$router.go(-1)
       }
     },
@@ -45,4 +46,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

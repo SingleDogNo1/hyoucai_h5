@@ -427,7 +427,6 @@ export default {
     ul {
       display: flex;
       justify-content: space-around;
-      justify-content: space-evenly;
       li {
         $height: 0.4rem;
         @include cube(1.5rem, $height);

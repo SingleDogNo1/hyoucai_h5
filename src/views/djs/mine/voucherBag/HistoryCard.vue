@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="have" v-if="!haveCard">
+    <div class="have" v-if="haveCard">
       <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
         <div class="coupon_left">
           <p class="coupon_left_p">

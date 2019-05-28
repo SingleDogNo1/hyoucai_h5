@@ -6,24 +6,24 @@
           <div class="total-count">
             <p class="title">总资产(元)<span @click="showModel = true"></span></p>
             <p class="content">
-              <span v-if="showAmount">{{ amountInfo.totalAmount }}</span
-              ><span v-else>****</span>
+              <span v-if="showAmount">{{ amountInfo.totalAmount }}</span>
+              <span v-else>****</span>
             </p>
-            <span class="icon-hidden" :class="{ show: !showAmount, hide: showAmount }" @click="showAmountFn"></span>
+            <span class="icon-hidden" :class="{ show: showAmount, hide: !showAmount }" @click="showAmountFn"></span>
           </div>
           <div class="other-counts">
             <div>
               <p class="title">在投本金（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.totalInvAmount }}</span
-                ><span v-else>****</span>
+                <span v-if="showAmount">{{ amountInfo.totalInvAmount }}</span>
+                <span v-else>****</span>
               </p>
             </div>
             <div>
               <p class="title">累积收益（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.totalIncome }}</span
-                ><span v-else>****</span>
+                <span v-if="showAmount">{{ amountInfo.totalIncome }}</span>
+                <span v-else>****</span>
               </p>
             </div>
           </div>
@@ -51,8 +51,8 @@
           </div>
           <div class="actions">
             <div class="amount">
-              可用金额(元) <span v-if="showAmount">{{ amountInfo.banlance }}</span
-              ><span v-else>****</span>
+              可用金额(元) <span v-if="showAmount">{{ amountInfo.banlance }}</span>
+              <span v-else>****</span>
             </div>
             <div class="action">
               <input type="button" value="提现" @click="$router.push({ name: 'HYCToCash' })" />
@@ -91,10 +91,26 @@
     <div class="model" v-if="showModel" @click="showModel = false">
       <div class="amount">
         <ul>
-          <li>可用余额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
-          <li>在投本金(元) <span v-if="showAmount">200000000.00</span><span v-else>****</span></li>
-          <li>待收利息(元) <span v-if="showAmount">4.50</span><span v-else>****</span></li>
-          <li>冻结金额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
+          <li>
+            <span>可用余额(元) </span>
+            <span v-if="showAmount">{{amountInfo.banlance}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>在投本金(元) </span>
+            <span v-if="showAmount">{{amountInfo.waitBackPrincipal}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>待收利息(元) </span>
+            <span v-if="showAmount">{{amountInfo.waitBackInterest}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>冻结金额(元) </span>
+            <span v-if="showAmount">{{amountInfo.freezeAmount}}</span>
+            <span v-else>****</span>
+          </li>
         </ul>
       </div>
     </div>

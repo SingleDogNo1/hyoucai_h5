@@ -14,6 +14,7 @@ import { Toast } from 'mint-ui'
 import { isMobile } from '@/assets/js/regular'
 import { isExistUser } from '@/api/common/register'
 import { mapMutations } from 'vuex'
+import Cookie from 'js-cookie'
 
 export default {
   name: 'home',
@@ -22,7 +23,7 @@ export default {
       title: '汇有财',
       isAppTitle: this.$route.query.mobile,
       mobile: '',
-      mediasource: this.$route.query.mediasource // 推荐码参数
+      mediasource: Cookie.get('app-invite-code') // 推荐码参数
     }
   },
   methods: {

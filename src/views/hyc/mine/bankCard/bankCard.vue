@@ -98,7 +98,7 @@ export default {
         dd {
           margin-top: 0.23rem;
           margin-left: 0.32rem;
-          font-size: $font-size-large-xxx;
+          font-size: 0.22rem;
           color: #fff;
         }
       }

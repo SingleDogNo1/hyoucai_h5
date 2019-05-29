@@ -5,15 +5,15 @@
         <span class="head-txt">全部</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 2 }" @click="clickGetRecord(2, 'XSCC', null, page2)">
+      <div class="head-box" :class="{ actives: flag == 2 }" @click="clickGetRecordCzTx(2, 'XSCC', null, page2)">
         <span class="head-txt">充值</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 3 }" @click="clickGetRecord(3, 'ZJQX', null, page3)">
+      <div class="head-box" :class="{ actives: flag == 3 }" @click="clickGetRecordCzTx(3, 'ZJQX', null, page3)">
         <span class="head-txt">提现</span>
         <span class="head-line"></span>
       </div>
-      <div class="head-box" :class="{ actives: flag == 4 }" @click="clickGetRecord(4, 'TXQT', null, page4)">
+      <div class="head-box" :class="{ actives: flag == 4 }" @click="clickGetRecord(4, 'qt', null, page4)">
         <span class="head-txt">其他</span>
         <span class="head-line"></span>
       </div>
@@ -23,7 +23,7 @@
         <b-scroll
           class="scroll"
           ref="scrollRef1"
-          :data="allData"
+          :data="chargeData"
           :beforeScroll="beforeScrollData"
           @beforeScroll="beforeScroll"
           :pullup="pullup"
@@ -32,7 +32,9 @@
           @scroll="scroll"
           @scrollToEnd="scrollToEnd1"
           @pulldownTouchend="pulldownTouchend"
+
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in allData" :key="index">
             <div class="body-left">
@@ -45,6 +47,7 @@
           </div>
           <loading v-show="hasMore1"></loading>
           <no-data v-if="!allData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 2">
@@ -61,6 +64,7 @@
           @scrollToEnd="scrollToEnd2"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in chargeData" :key="index">
             <div class="body-left">
@@ -73,6 +77,7 @@
           </div>
           <loading v-show="hasMore2"></loading>
           <no-data v-if="!chargeData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 3">
@@ -89,6 +94,7 @@
           @scrollToEnd="scrollToEnd3"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in toCashData" :key="index">
             <div class="body-left">
@@ -101,6 +107,7 @@
           </div>
           <loading v-show="hasMore3"></loading>
           <no-data v-if="!toCashData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 4">
@@ -117,6 +124,7 @@
           @scrollToEnd="scrollToEnd4"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in otherData" :key="index">
             <div class="body-left">
@@ -129,6 +137,7 @@
           </div>
           <loading v-show="hasMore4"></loading>
           <no-data v-if="!otherData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
     </div>
@@ -137,7 +146,7 @@
 
 <script>
 import { Toast, Indicator } from 'mint-ui' //tabItem
-import { getUserTransaction } from '@/api/djs/transaction'
+import { getUserTransaction, getTranByCzTxList } from '@/api/djs/transaction'
 import { mapGetters } from 'vuex'
 import Loading from '@/components/Loading/Loading'
 import BScroll from '@/components/BScroll/BScroll'
@@ -187,18 +196,12 @@ export default {
       let data = {
         userName: this.user.userName,
         timeType: 'SYLX',
-        // tranType:'XSCC'
         txType: txType,
         txDate: txDate,
         curPage: page,
         maxline: 10
       }
-      if (
-        (txType === 'XSCC' && this.chargeData.length === 0) ||
-        (txType === 'ZJQX' && this.toCashData.length === 0) ||
-        (txType === 'TXQT' && this.otherData.length === 0) ||
-        this.allData.length === 0
-      ) {
+      if ((txType === 'qt' && this.otherData.length === 0) || this.allData.length === 0) {
         // 有分页点击tab时，只有之前没有数据才发请求。否则，不发
         Indicator.open('加载中')
         getUserTransaction(data).then(res => {
@@ -210,31 +213,7 @@ export default {
             let list = resp.list
             let countPage = resp.countPage
             let curPage = resp.curPage
-            if (txType === 'XSCC') {
-              // 充值
-              if (!list.length) {
-                this.hasMore2 = false
-                Toast('无记录')
-                return
-              } else if (curPage >= countPage) {
-                this.hasMore2 = false
-              } else {
-                this.hasMore2 = true
-              }
-              this.chargeData = this.chargeData.concat(list)
-            } else if (txType === 'ZJQX') {
-              // 提现
-              if (!list.length) {
-                this.hasMore3 = false
-                Toast('无记录')
-                return
-              } else if (curPage >= countPage) {
-                this.hasMore3 = false
-              } else {
-                this.hasMore3 = true
-              }
-              this.toCashData = this.toCashData.concat(list)
-            } else if (txType === 'TXQT') {
+            if (txType === 'qt') {
               if (!list.length) {
                 this.hasMore4 = false
                 Toast('无记录')
@@ -263,6 +242,63 @@ export default {
         })
       }
     },
+    clickGetRecordCzTx(val, tranType, txDate, page) {
+      this.flag = val
+      let data = {
+        userName: this.user.userName,
+        timeType: 'SYLX',
+        tranType: tranType,
+        txDate: txDate,
+        curPage: page,
+        maxline: 10
+      }
+      if (
+        (tranType === 'XSCC' && this.chargeData.length === 0) ||
+        (tranType === 'ZJQX' && this.toCashData.length === 0) ||
+        this.allData.length === 0
+      ) {
+        // 有分页点击tab时，只有之前没有数据才发请求。否则，不发
+        Indicator.open('加载中')
+        getTranByCzTxList(data).then(res => {
+          Indicator.close()
+          let resp = res.data
+          // console.log(resp)
+          if (resp.resultCode == 1) {
+            // console.log(resp.data)
+            let list = resp.list
+            let countPage = resp.countPage
+            let curPage = resp.curPage
+            if (tranType === 'XSCC') {
+              // 充值
+              if (!list.length) {
+                this.hasMore2 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore2 = false
+              } else {
+                this.hasMore2 = true
+              }
+              this.chargeData = this.chargeData.concat(list)
+            } else if (tranType === 'ZJQX') {
+              // 提现
+              if (!list.length) {
+                this.hasMore3 = false
+                Toast('无记录')
+                return
+              } else if (curPage >= countPage) {
+                this.hasMore3 = false
+              } else {
+                this.hasMore3 = true
+              }
+              this.toCashData = this.toCashData.concat(list)
+            }
+          } else {
+            Toast(resp.resultMsg)
+          }
+        })
+      }
+    },
     // 上拉加载数据
     scrollGetRecord(txType, txDate, page) {
       let data = {
@@ -277,25 +313,7 @@ export default {
         let resp = res.data
         if (resp.resultCode == 1) {
           let list = resp.list
-          if (txType === 'TXCZ') {
-            if (!list.length) {
-              this.hasMore2 = false
-              Toast('没有更多')
-              return
-            } else {
-              this.hasMore2 = true
-            }
-            this.chargeData = this.chargeData.concat(list)
-          } else if (txType === 'TXTX') {
-            if (!list.length) {
-              this.hasMore3 = false
-              Toast('没有更多')
-              return
-            } else {
-              this.hasMore3 = true
-            }
-            this.toCashData = this.toCashData.concat(list)
-          } else if (txType === 'TXQT') {
+          if (txType === 'qt') {
             if (!list.length) {
               this.hasMore4 = false
               Toast('没有更多')
@@ -313,6 +331,44 @@ export default {
               this.hasMore1 = true
             }
             this.allData = this.allData.concat(list)
+          }
+        } else {
+          Toast(resp.resultMsg)
+        }
+      })
+    },
+    // 上拉加载数据--充值提现
+    scrollGetRecordCzTx(tranType, txDate, page) {
+      let data = {
+        userName: this.user.userName,
+        timeType: 'SYLX',
+        tranType: tranType,
+        txDate: txDate,
+        curPage: page,
+        maxline: 10
+      }
+      getTranByCzTxList(data).then(res => {
+        let resp = res.data
+        if (resp.resultCode == 1) {
+          let list = resp.list
+          if (tranType === 'XSCC') {
+            if (!list.length) {
+              this.hasMore2 = false
+              Toast('没有更多')
+              return
+            } else {
+              this.hasMore2 = true
+            }
+            this.chargeData = this.chargeData.concat(list)
+          } else if (tranType === 'ZJQX') {
+            if (!list.length) {
+              this.hasMore3 = false
+              Toast('没有更多')
+              return
+            } else {
+              this.hasMore3 = true
+            }
+            this.toCashData = this.toCashData.concat(list)
           }
         } else {
           Toast(resp.resultMsg)
@@ -356,7 +412,7 @@ export default {
         return
       }
       this.page2++
-      this.scrollGetRecord('TXCZ', null, this.page2)
+      this.scrollGetRecordCzTx('XSCC', null, this.page2)
     },
     scrollToEnd3() {
       // 上拉到底部，加载更多
@@ -365,7 +421,7 @@ export default {
         return
       }
       this.page3++
-      this.scrollGetRecord('TXTX', null, this.page3)
+      this.scrollGetRecordCzTx('ZJQX', null, this.page3)
     },
     scrollToEnd4() {
       // 上拉到底部，加载更多
@@ -374,7 +430,7 @@ export default {
         return
       }
       this.page4++
-      this.scrollGetRecord('TXQT', null, this.page4)
+      this.scrollGetRecord('qt', null, this.page4)
     },
     beforeScroll() {
       this.$emit('beforeScroll')

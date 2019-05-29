@@ -68,7 +68,7 @@
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
             </div>
           </div>
           <loading v-show="hasMore2"></loading>
@@ -96,7 +96,7 @@
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
             </div>
           </div>
           <loading v-show="hasMore3"></loading>
@@ -124,7 +124,7 @@
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
+              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
             </div>
           </div>
           <loading v-show="hasMore4"></loading>
@@ -193,8 +193,8 @@ export default {
         curPage: page
       }
       if (
-        (txType === 'TXCZ' && this.chargeData.length === 0) ||
-        (txType === 'TXTX' && this.toCashData.length === 0) ||
+        (txType === 'XSCC' && this.chargeData.length === 0) ||
+        (txType === 'ZJQX' && this.toCashData.length === 0) ||
         (txType === 'TXQT' && this.otherData.length === 0) ||
         this.allData.length === 0
       ) {
@@ -272,7 +272,7 @@ export default {
       getUserTransaction(data).then(res => {
         let resp = res.data
         if (resp.resultCode == 1) {
-          let list = resp.data.list
+          let list = resp.list
           if (txType === 'TXCZ') {
             if (!list.length) {
               this.hasMore2 = false
@@ -405,7 +405,7 @@ export default {
   filters: {
     plusFilter(data) {
       let result = data
-      if (data.indexOf('-') === -1) {
+      if (data.toString().indexOf('-') === -1) {
         result = '+' + data
       }
       return result

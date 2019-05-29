@@ -5,17 +5,17 @@
     </div>
     <div class="information">
       <div class="information_top">
-        <p class="information_p">
-          <span class="information_txt">感谢金</span>
-          <span class="information_number">2400元</span>
-        </p>
+        <!--<p class="information_p">-->
+          <!--<span class="information_txt">感谢金</span>-->
+          <!--<span class="information_number">2400元</span>-->
+        <!--</p>-->
         <p class="information_p">
           <span class="information_txt">我推荐的人</span>
           <span class="information_number">{{ recommend }}人</span>
         </p>
       </div>
       <div class="go_look" @click="showDetail">
-        <img src="./images/lookbtn.png" alt />
+        <img src="./images/lookbtn.png" alt="" />
       </div>
     </div>
     <div class="recommendation_code">
@@ -109,13 +109,12 @@ export default {
     border-radius: 0.08rem;
     width: 3.45rem;
     height: 1.61rem;
-    margin: 0 auto;
-    margin-top: 0.08rem;
+    margin: 0.08rem auto 0;
     .information_top {
       padding-top: 0.24rem;
       display: flex;
+      justify-content: center;
       .information_p {
-        width: 50%;
         text-align: center;
         .information_txt {
           display: block;

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { queryMailingAddress, saveMailingAddress } from '@/api/common/mine'
+import { queryMailingAddress, saveHYCMailingAddress, saveDJSMailingAddress } from '@/api/common/mine'
 import { mapGetters } from 'vuex'
 import { Toast, Indicator } from 'mint-ui'
 
@@ -32,27 +32,46 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'platform'])
   },
   methods: {
     saveAddress() {
       Indicator.open()
-      saveMailingAddress({
-        userName: this.user.nickname,
-        consigneeName: this.consigneeName,
-        consigneePhone: this.consigneePhone,
-        address: this.address
-      }).then(res => {
-        Indicator.close()
-        if (res.data.resultCode === '1') {
-          Toast('地址保存成功')
-          window.setTimeout(() => {
-            this.$router.go(-1)
-          }, 3000)
-        } else {
-          Toast(res.data.resultMsg)
-        }
-      })
+      if (this.platform === 'djs') {
+        saveDJSMailingAddress({
+          userName: this.user.userName,
+          consigneeName: this.consigneeName,
+          consigneePhone: this.consigneePhone,
+          address: this.address
+        }).then(res => {
+          Indicator.close()
+          if (res.data.resultCode === '1') {
+            Toast('地址保存成功')
+            window.setTimeout(() => {
+              this.$router.go(-1)
+            }, 3000)
+          } else {
+            Toast(res.data.resultMsg)
+          }
+        })
+      } else {
+        saveHYCMailingAddress({
+          userName: this.user.userName,
+          consigneeName: this.consigneeName,
+          consigneePhone: this.consigneePhone,
+          address: this.address
+        }).then(res => {
+          Indicator.close()
+          if (res.data.resultCode === '1') {
+            Toast('地址保存成功')
+            window.setTimeout(() => {
+              this.$router.go(-1)
+            }, 3000)
+          } else {
+            Toast(res.data.resultMsg)
+          }
+        })
+      }
     }
   },
   created() {

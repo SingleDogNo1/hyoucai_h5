@@ -6,24 +6,24 @@
           <div class="total-count">
             <p class="title">总资产(元)<span @click="showModel = true"></span></p>
             <p class="content">
-              <span v-if="showAmount">{{ amountInfo.totalAmount }}</span
-              ><span v-else>****</span>
+              <span v-if="showAmount">{{ amountInfo.totalAmount }}</span>
+              <span v-else>****</span>
             </p>
-            <span class="icon-hidden" :class="{ show: !showAmount, hide: showAmount }" @click="showAmountFn"></span>
+            <span class="icon-hidden" :class="{ show: showAmount, hide: !showAmount }" @click="showAmountFn"></span>
           </div>
           <div class="other-counts">
             <div>
               <p class="title">在投本金（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span
-                ><span v-else>****</span>
+                <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
+                <span v-else>****</span>
               </p>
             </div>
             <div>
               <p class="title">累积收益（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.totalIncome }}</span
-                ><span v-else>****</span>
+                <span v-if="showAmount">{{ amountInfo.totalIncome }}</span>
+                <span v-else>****</span>
               </p>
             </div>
           </div>
@@ -31,7 +31,8 @@
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">
+              <!--<div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">-->
+              <div class="btn-image" @click="jumpTo('DJSCouponList')">
                 <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>
@@ -51,8 +52,8 @@
           </div>
           <div class="actions">
             <div class="amount">
-              可用金额(元) <span v-if="showAmount">{{ amountInfo.banlance }}</span
-              ><span v-else>****</span>
+              可用金额(元) <span v-if="showAmount">{{ amountInfo.banlance }}</span>
+              <span v-else>****</span>
             </div>
             <div class="action">
               <input type="button" value="提现" @click="$router.push({ name: 'DJSToCash' })" />
@@ -64,7 +65,7 @@
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({ name: 'DJSIRecommender' })">
+            <div class="link" @click="$router.push({ name: 'DJSRecommender' })">
               <span>我的推荐人</span>
               <span></span>
             </div>
@@ -91,10 +92,26 @@
     <div class="model" v-if="showModel" @click="showModel = false">
       <div class="amount">
         <ul>
-          <li>可用余额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
-          <li>在投本金(元) <span v-if="showAmount">200000000.00</span><span v-else>****</span></li>
-          <li>待收利息(元) <span v-if="showAmount">4.50</span><span v-else>****</span></li>
-          <li>冻结金额(元) <span v-if="showAmount">0.00</span><span v-else>****</span></li>
+          <li>
+            <span>可用余额(元) </span>
+            <span v-if="showAmount">{{amountInfo.banlance}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>在投本金(元) </span>
+            <span v-if="showAmount">{{amountInfo.waitBackPrincipal}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>待收利息(元) </span>
+            <span v-if="showAmount">{{amountInfo.waitBackInterest}}</span>
+            <span v-else>****</span>
+          </li>
+          <li>
+            <span>冻结金额(元) </span>
+            <span v-if="showAmount">{{amountInfo.freezeAmount}}</span>
+            <span v-else>****</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -149,6 +166,7 @@ export default {
       amountInfo: {},
       routerName: undefined,
       routerParams: {},
+      userStatus: null,
       userCompleteDialogOptions: {
         // 用户信息未完善弹窗
         show: false,
@@ -193,6 +211,9 @@ export default {
         this.amountInfo = res.data
       })
     },
+    jumpTo(router_name) {
+      console.log(router_name)
+    },
     switchSystem() {
       this.setPlatform('hyc')
       this.$router.push({ name: 'HYCUserCenter' })
@@ -207,19 +228,24 @@ export default {
         alertInfoAcceptApi({ type: 'evaluate' })
       } else {
         // 用户信息未完善，根据参数跳转到对应的页面完善信息
-        if (this.routerName) {
-          this.$router.push({
-            name: this.routerName,
-            params: this.routerParams
-          })
-        }
+        alertInfoAcceptApi({ type: this.userStatus }).then(res => {
+          if (res.data.resultCode === '1') {
+            if (this.routerName) {
+              this.$router.push({
+                name: this.routerName,
+                params: this.routerParams
+              })
+            }
+          } else {
+            Toast(res.data.resultMsg)
+          }
+        })
       }
     },
     getAlertInfo() {
       getAlertInfoApi().then(res => {
         if (res.data.resultCode === '1') {
           const data = res.data.data
-          console.log(data)
           if (data.haveAlert) {
             this.userCompleteDialogOptions.show = true
             switch (data.type) {
@@ -227,34 +253,43 @@ export default {
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个红包'
                 this.userCompleteDialogOptions.msg = data.count + '个红包已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的红包'
+                this.userStatus = 'redPacket'
                 this.routerName = 'DJSCouponList'
                 break
               case 'coupon':
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个加息券'
                 this.userCompleteDialogOptions.msg = data.count + '个加息券已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的加息券'
+                this.userStatus = 'coupon'
+                this.routerName = 'DJSCouponList'
+                break
+              case 'redCoupon':
+                this.userCompleteDialogOptions.msg = '您当前有未使用红包/加息券！'
+                this.userCompleteDialogOptions.confirmText = '立即查看'
+                this.userStatus = 'redCoupon'
                 this.routerName = 'DJSCouponList'
                 break
               case 'refund':
-                // TODO 没有我的出借，这段逻辑跳转到哪去
                 this.userCompleteDialogOptions.msg = `银行系统原因，您有${data.count}笔出借退款项未匹配成功，已退回`
                 this.userCompleteDialogOptions.confirmText = '去查看'
+                this.userStatus = 'refund'
+
+                // TODO 没有我的出借，这段逻辑跳转到哪去
+                // this.routerName = 'DJSCouponList'
                 break
               case 'refundBeforeDueDate':
                 this.userCompleteDialogOptions.title = '提前还款通知'
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'
+                this.userStatus = 'refundBeforeDueDate'
                 break
               case 'evaluate':
                 // 用户信息已经完善，该标识设置为true
                 this.userCompleteIsOver = true
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'
+                this.userStatus = 'evaluate'
                 break
-              default:
-                this.userCompleteDialogOptions.title = '汇有财温馨提示'
-                this.userCompleteDialogOptions.msg = `您有${data.count}笔出借提前还款`
-                this.userCompleteDialogOptions.confirmText = '我知道了'
             }
           }
         }

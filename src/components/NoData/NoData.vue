@@ -2,6 +2,7 @@
   <div class="__no__data">
     <section>
       <div v-if="type === 'data'" class="data"></div>
+      <div v-if="type === 'historyCoupon'" class="history-coupon"></div>
       <!--<div v-if="type === 'event'" class="event"></div>
       <div v-if="type === 'redpacket'" class="redpacket"></div>
       <div v-if="type === 'coupon'" class="coupon"></div>
@@ -13,6 +14,7 @@
     <p v-if="type === 'event'" class="event">暂无活动信息</p>
     <p v-if="type === 'redpacket'" class="redpacket">暂无红包</p>
     <p v-if="type === 'coupon'" class="coupon">暂无加息券</p>
+    <p v-if="type === 'historyCoupon'">暂无红包加息券</p>
     <p v-if="type === 'coupon.vue.vue'" class="message">暂时没有新消息</p>
     <p v-if="type === 'notice'" class="notice">暂无公告消息</p>
     <div v-if="type === 'network'" class="network">
@@ -28,13 +30,14 @@ export default {
   props: {
     type: {
       /*
-       * type === 'data'       没有数据(default)
-       * type === 'event'       这里空空如也（活动中心没有数据）
-       * type === 'redpacket'  没有红包
-       * type === 'coupon'     没有加息券
-       * type === 'message'    没有新消息
-       * type === 'notice'     没有公告
-       * type === 'network'    没有网络
+       * type === 'data'            没有数据(default)
+       * type === 'event'           这里空空如也（活动中心没有数据）
+       * type === 'redpacket'       没有红包
+       * type === 'coupon'          没有加息券
+       * type === 'message'         没有新消息
+       * type === 'notice'          没有公告
+       * type === 'network'         没有网络
+       * type === 'historyCoupon'   没有红包加息券
        */
       type: String,
       default: 'data'
@@ -66,7 +69,7 @@ export default {
     div {
       margin: 0 auto 0.08rem;
       background-size: 100% 100%;
-      $list: data, event, redpacket, coupon, message, notice, network;
+      $list: data, event, redpacket, coupon, message, notice, network, history-coupon;
       @each $item in $list {
         &.#{$item} {
           @include cube(1.23rem, 1.22rem);
@@ -79,8 +82,8 @@ export default {
   }
   p,
   div {
-    font-size: 0.13rem;
-    color: $color-text;
+    font-size: 0.15rem;
+    color: #999;
     text-align: center;
   }
   button {

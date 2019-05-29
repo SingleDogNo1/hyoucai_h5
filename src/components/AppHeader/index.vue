@@ -21,11 +21,17 @@ export default {
       handle: this.$route.meta.handle ? this.$route.meta.handle : ''
     }
   },
+  beforeRouteEnter(to, from, next) {
+    next(() => {
+      console.log(to, from)
+    })
+  },
   methods: {
     goBack() {
       if (window.DjsJsBridge) {
         // 可能会调用app方法
       } else {
+        console.log(this.$route)
         this.$router.go(-1)
       }
     },
@@ -45,4 +51,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

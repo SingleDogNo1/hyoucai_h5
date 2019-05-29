@@ -43,7 +43,7 @@ export default {
   methods: {
     getBankCard() {
       userBankCardList().then(res => {
-        if (res.data.resultCode === ERR_OK) {
+        if (res.data.resultCode == '1') {
           if (res.data.list[0]) {
             this.bankCardInfo = res.data.list[0]
             let cardNo = this.bankCardInfo.cardNo

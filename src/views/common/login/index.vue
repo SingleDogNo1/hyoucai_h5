@@ -109,7 +109,6 @@ export default {
         passWord: btoa(this.password)
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data.data)
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.registerMobile)

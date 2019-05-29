@@ -46,7 +46,10 @@ export default {
         if (res.data.resultCode === ERR_OK) {
           if (res.data.data) {
             this.bankCardInfo = res.data.data
-            this.bankCardInfo.showCardNo = plusStar(this.bankCardInfo.cardNo, 0, this.bankCardInfo.cardNo.length - 4).replace(/....(?!$)/g, '$& ')
+            let cardNo = this.bankCardInfo.cardNo
+            let remainder = cardNo.length % 4
+            remainder = remainder === 0 ? 4 : remainder
+            this.bankCardInfo.showCardNo = plusStar(cardNo, 0, cardNo.length - remainder).replace(/....(?!$)/g, '$& ')
           }
         } else {
           Toast(res.data.resultMsg)

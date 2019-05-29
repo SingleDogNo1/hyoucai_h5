@@ -3,25 +3,26 @@
     <div class="image">
       <img src="./images/invite-banner.png" alt />
     </div>
-    <div class="recommendation_code" v-show="!hasRecommender">
-      <input class="txt" placeholder="请输入推荐人推荐码" v-model="newRecommendCode" />
+    <div v-if="hasRecommender">
+      <div class="recommendation_code actives">
+        <p class="txt">我的推荐人</p>
+        <p class="txt bottom">{{ myReferrer }}</p>
+      </div>
+      <div class="btns">
+        <button class="btn scan" @click="scan">
+          <img src="./images/scan.png" alt />
+        </button>
+      </div>
     </div>
-    <div class="recommendation_code actives" v-show="hasRecommender">
-      <p class="txt">我的推荐人</p>
-      <p class="txt bottom">{{ myReferrer }}</p>
-    </div>
-    <div class="btn" v-show="!hasRecommender">
-      <button class="confirm" @click="saveInviteCode">
-        <img src="./images/confirm.png" alt />
-      </button>
-    </div>
-    <div class="btns" v-show="hasRecommender">
-      <button class="btn scan" @click="scan">
-        <img src="./images/scan.png" alt />
-      </button>
-      <!-- <button class="btn share">
-        <img src="./images/scan.png" alt>
-      </button>-->
+    <div v-else>
+      <div class="recommendation_code">
+        <input class="txt" placeholder="请输入推荐人推荐码" v-model="newRecommendCode" />
+      </div>
+      <div class="btn">
+        <button class="confirm" @click="saveInviteCode">
+          <img src="./images/confirm.png" alt />
+        </button>
+      </div>
     </div>
     <Dialog class="dialog" :show="showDialog" :onConfirm="onConfirm" :showCloseBtn="false">{{ msgDialog }}</Dialog>
     <AppDialog :show-dialog="dialogOption.show" :QRCode="QRCode" :show-close-btn="dialogOption.showClose" @close="closeItem"></AppDialog>
@@ -49,7 +50,6 @@ export default {
       showDialog: false, // 提示弹窗
       msgDialog: '请输入推荐码', // 提示弹窗内容
       newRecommendCode: '', // 输入推荐吗
-      newReferrer: '', // 新添加推荐码对应的姓名
       myReferrer: '' // 我的推荐人
     }
   },
@@ -64,13 +64,12 @@ export default {
         this.showDialog = true
       } else {
         Indicator.open('加载中')
-        saveInviteCode({ recommendCode: this.newRecommendCode }).then(res => {
+        saveInviteCode({ inviteCode: this.newRecommendCode }).then(res => {
           Indicator.close()
           // console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
-            this.newReferrer = data.data.name
-            this.showDialog = true
+            this.userInviteInfo()
           } else {
             Toast(data.resultMsg)
           }
@@ -89,10 +88,10 @@ export default {
       }).then(res => {
         Indicator.close()
         let data = res.data
-        if (data.resultMsg == 'SUCCESS') {
+        if (data.resultCode == '1') {
           if (data.recommendName) {
             this.hasRecommender = true
-            this.recommendName = data.recommendName
+            this.myReferrer = data.recommendName
           } else {
             this.hasRecommender = false
           }
@@ -108,8 +107,7 @@ export default {
         userName: this.user.userName
       }).then(res => {
         Indicator.close()
-        // console.log(res.data)
-        this.QRCode = res.data.qrPicUrl //二维码图片地址
+        this.QRCode = res.data.qrPicUrl // 二维码图片地址
         this.dialogOption.show = true
       })
     },
@@ -123,7 +121,6 @@ export default {
   },
   mounted() {
     this.userInviteInfo()
-    // console.log(this.user.realName)
   }
 }
 </script>
@@ -133,8 +130,6 @@ export default {
   font-family: PingFangSC-Regular;
   background: #321ed1;
   height: 100%;
-  // display: flex;
-  // justify-content: center;
   .image {
     height: 2.66rem;
   }
@@ -175,9 +170,7 @@ export default {
   }
   .actives {
     text-align: center;
-    padding-left: 0;
-    padding-top: 0.24rem;
-    padding-bottom: 0.36rem;
+    padding: 0.24rem 0 0.33rem;
     .txt {
       line-height: 0.21rem;
     }

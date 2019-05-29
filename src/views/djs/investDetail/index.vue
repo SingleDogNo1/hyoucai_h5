@@ -37,14 +37,14 @@
           <ul>
             <li class="li-one"><span>...</span><i>募集期</i></li>
             <li>
-              <span>{{ investDetail.endData }}</span
+              <span>{{ investDetail.toDate }}</span
               ><i>投资完成</i>
             </li>
             <li>
               <span>{{ investDetail.breathDate }}</span
               ><i>起息</i>
             </li>
-            <li><span>2019-02-28</span><i>锁定期结束</i></li>
+            <li><span>{{ investDetail.endData }}</span><i>锁定期结束</i></li>
           </ul>
           <div class="serve-info" v-if="investDetail.projectServiceEntity && investDetail.projectServiceEntity.length > 0">
             <span>服务</span>

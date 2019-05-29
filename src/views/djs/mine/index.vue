@@ -514,9 +514,14 @@ export default {
         input[type='button'] {
           width: 0.58rem;
           height: 0.28rem;
+          margin-left: 0.1rem;
           border: 0.01rem solid #999;
           border-radius: 0.04rem;
-          margin-left: 0.1rem;
+          color: #999;
+          &:nth-of-type(2) {
+            color: #ec5e52;
+            border-color: #ec5e52;
+          }
         }
       }
       .links {

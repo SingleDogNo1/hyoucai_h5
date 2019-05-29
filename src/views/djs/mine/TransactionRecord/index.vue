@@ -36,7 +36,7 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in allData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.tranDesc }}</span>
+              <span class="body-txt">{{ item.tranTypeName }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
@@ -64,7 +64,7 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in chargeData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.tranDesc }}</span>
+              <span class="body-txt">{{ item.tranTypeName }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
@@ -92,7 +92,7 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in toCashData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.tranDesc }}</span>
+              <span class="body-txt">{{ item.tranTypeName }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
@@ -120,7 +120,7 @@
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in otherData" :key="index">
             <div class="body-left">
-              <span class="body-txt">{{ item.tranDesc }}</span>
+              <span class="body-txt">{{ item.tranTypeName }}</span>
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
@@ -186,11 +186,12 @@ export default {
       this.flag = val
       let data = {
         userName: this.user.userName,
-        timeType: 'ODLX',
+        timeType: 'SYLX',
         // tranType:'XSCC'
         txType: txType,
         txDate: txDate,
-        curPage: page
+        curPage: page,
+        maxline: 10
       }
       if (
         (txType === 'XSCC' && this.chargeData.length === 0) ||
@@ -265,9 +266,12 @@ export default {
     // 上拉加载数据
     scrollGetRecord(txType, txDate, page) {
       let data = {
+        userName: this.user.userName,
+        timeType: 'SYLX',
         txType: txType,
         txDate: txDate,
-        curPage: page
+        curPage: page,
+        maxline: 10
       }
       getUserTransaction(data).then(res => {
         let resp = res.data

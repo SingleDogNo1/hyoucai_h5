@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['registerMobile', 'errorNum'])
+    ...mapGetters(['registerMobile', 'errorNum', 'platform'])
   },
   filters: {
     splitTelNum: function(value) {
@@ -122,6 +122,13 @@ export default {
               this.setPlatform('hyc')
               this.loginSuccess('HYCUserCenter')
               break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
+              break
           }
         } else {
           Toast(res.data.resultMsg)
@@ -147,6 +154,13 @@ export default {
             case '2':
               this.setPlatform('hyc')
               this.loginSuccess('HYCUserCenter')
+              break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
               break
           }
         } else {

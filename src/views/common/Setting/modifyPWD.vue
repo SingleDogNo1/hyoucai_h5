@@ -2,16 +2,13 @@
   <div class="pwd-container">
     <div class="form">
       <div class="row">
-        <span class="title">原密码</span>
-        <span class="text"><input type="password" v-model="oldPWD" placeholder=""/></span>
+        <input type="password" v-model="oldPWD" placeholder="原密码"/>
       </div>
       <div class="row">
-        <span class="title">新密码</span>
-        <span class="text"><input type="password" v-model="newPWD" placeholder="" /></span>
+        <input type="password" v-model="newPWD" placeholder="新密码" />
       </div>
       <div class="row">
-        <span class="title">确认密码</span>
-        <span class="text"><input type="password" v-model="confirmPWD" placeholder="" /></span>
+        <input type="password" v-model="confirmPWD" placeholder="确认密码" />
       </div>
     </div>
     <div class="btn">
@@ -68,6 +65,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+input::placeholder {
+  color: #ccc;
+}
+
 .pwd-container {
   font-size: 0.15rem;
   height: 100%;
@@ -83,17 +84,9 @@ export default {
       height: 0.5rem;
       line-height: 0.5rem;
       border-bottom: 0.01rem solid #e8e8e8;
-      .title {
-        padding: 0 0.15rem 0 0;
-        color: #ccc;
-      }
-      .text {
-        flex: 1;
-        input {
-          width: 100%;
-          height: 100%;
-          /*text-align: right;*/
-        }
+      input {
+        width: 100%;
+        height: 100%;
       }
       &:last-child {
         border-bottom: none;

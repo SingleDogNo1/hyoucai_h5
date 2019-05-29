@@ -28,7 +28,7 @@
             <p class="right_p2">适用范围：{{ item.msg }}</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
-          <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
+          <div class="coupon_right_btn" @click="receiveIt(item)">
             <img src="./images/btn.png" alt="" />
           </div>
         </div>
@@ -135,19 +135,21 @@ export default {
       })
     },
     // 领取加息券
-    receiveCoupon: function(id) {
+    receiveCoupon(id) {
       Indicator.open('加载中')
       let obj = {}
       obj.userName = this.user.userName
       obj.couponId = id
       ReceiveCoupon(obj).then(res => {
         Indicator.close()
-        Toast(res.data.resultMsg)
         this.CouponPacketList()
+        if (res.data.resultCode !== '1') {
+          Toast(res.data.resultMsg)
+        }
       })
     },
     // 领取红包
-    receiveRedPacket: function(id) {
+    receiveRedPacket(id) {
       Indicator.open('加载中')
       let obj = {}
       obj.userName = this.user.userName
@@ -159,6 +161,17 @@ export default {
         }
         this.CouponPacketList()
       })
+    },
+    receiveIt(item) {
+      const [voucherType, id] = [item.voucherType, item.id]
+      switch (voucherType) {
+        case 'VT01': // 加息券
+          this.receiveCoupon(id)
+          break
+        case 'VT02': // 红包
+          this.receiveRedPacket(id)
+          break
+      }
     },
     //去使用
     touse() {

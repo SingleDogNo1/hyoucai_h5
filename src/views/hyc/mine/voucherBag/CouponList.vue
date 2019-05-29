@@ -1,64 +1,66 @@
 <template>
   <div class="box">
     <BScroll class="have" v-show="haveCard">
-      <!-- 待领取券包 -->
-      <div
-        class="coupon"
-        v-for="(item, index) in unclaimed"
-        :key="index + 'a'"
-        :class="[
-          { receive1: item.voucherType == 'VT01' }, //加息券
-          { receive2: item.secondType == 1 }, //抵扣红包
-          { receive2_1: item.secondType == 2 } //投资红包
+      <section>
+        <!-- 待领取券包 -->
+        <div
+          class="coupon"
+          v-for="(item, index) in unclaimed"
+          :key="index + 'a'"
+          :class="[
+          { receive1: item.voucherType === 'VT01' }, //加息券
+          { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
+          { receive2_1: parseInt(item.secondType) === 2 } //投资红包
         ]"
-      >
-        <div class="coupon_left">
-          <p class="coupon_left_p">
-            <span class="number">{{ item.voucherFaceValue }}</span>
-            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
-            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
-          </p>
-          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
-          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
+        >
+          <div class="coupon_left">
+            <p class="coupon_left_p">
+              <span class="number">{{ item.voucherFaceValue }}</span>
+              <span class="txt" v-if="item.voucherType !== 'VT01'">元</span>
+              <span class="txt" v-else>%</span>
+            </p>
+            <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+            <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
+          </div>
+          <div class="coupon_right">
+            <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
+            <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+            <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
+          <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
+            <img src="./images/btn.png" alt />
+          </div>
         </div>
-        <div class="coupon_right">
-          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
-          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：{{ item.msg }}</p>
-          <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
-        </div>
-        <div class="coupon_right_btn" @click="receiveCoupon(item.id)">
-          <img src="./images/btn.png" alt />
-        </div>
-      </div>
-      <!-- 已领取券包 -->
-      <div
-        class="coupon"
-        v-for="(item, index) in haveReceived"
-        :key="index + 'b'"
-        @click="touse()"
-        :class="[
-          { receive1: item.voucherType == 'VT01' }, //加息券
-          { receive2: item.secondType == 1 }, //抵扣红包
-          { receive2_1: item.secondType == 2 } //投资红包
+        <!-- 已领取券包 -->
+        <div
+          class="coupon"
+          v-for="(item, index) in haveReceived"
+          :key="index + 'b'"
+          @click="touse()"
+          :class="[
+          { receive1: item.voucherType === 'VT01' }, //加息券
+          { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
+          { receive2_1: parseInt(item.secondType) === 2 } //投资红包
         ]"
-      >
-        <div class="coupon_left">
-          <p class="coupon_left_p">
-            <span class="number">{{ item.voucherFaceValue }}</span>
-            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
-            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
-          </p>
-          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
-          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
+        >
+          <div class="coupon_left">
+            <p class="coupon_left_p">
+              <span class="number">{{ item.voucherFaceValue }}</span>
+              <span class="txt" v-if="item.voucherType !== 'VT01'">元</span>
+              <span class="txt" v-else>%</span>
+            </p>
+            <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+            <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
+          </div>
+          <div class="coupon_right">
+            <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
+            <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+            <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
         </div>
-        <div class="coupon_right">
-          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
-          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
-          <p class="right_p2">适用范围：{{ item.msg }}</p>
-          <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
-        </div>
-      </div>
+      </section>
     </BScroll>
     <div class="nothing" v-show="!haveCard">
       <div class="no_img">
@@ -73,11 +75,11 @@
 </template>
 
 <script>
-//
 import { CouponPacketList, ReceiveCoupon, ReceiveRedPacket } from '@/api/hyc/coupon'
 import { mapGetters } from 'vuex'
 import BScroll from '@/components/BScroll/BScroll'
 import { Toast, Indicator } from 'mint-ui'
+
 export default {
   data() {
     return {
@@ -98,36 +100,34 @@ export default {
   methods: {
     CouponPacketList() {
       Indicator.open('加载中')
-      CouponPacketList({ userName: this.user.userName, clientType: 'QD03' }).then(res => {
-        // console.log(res.data.data.list)
+      CouponPacketList({
+        userName: this.user.userName,
+        clientType: 'QD03'
+      }).then(res => {
+        const data = res.data.data
         Indicator.close()
-        if (res.data.data.list.length) {
-          let data = res.data.data.list
-          data.map(item => {
-            if (item.commonUse == 1) {
-              // 判断是否可共用
-              item.commonUse = '可'
-            } else {
-              item.commonUse = '不可'
-            }
+        if (data.list.length) {
+          this.haveReceived = []
+          this.unclaimed = []
+          let list = data.list
+          list.map(item => {
+            item.commonUse = parseInt(item.commonUse) === 1 ? '可' : '不可'
             item.msg = ''
             let length = item.productTypes.length - 1
-            // console.log(length)
             item.productTypes.map((items, index) => {
               // 展开券的适用范围
-              if (index == length) {
+              if (index === length) {
                 item.msg += items.productTypeName
               } else {
                 item.msg += items.productTypeName + '、'
               }
             })
-            if (item.status == 2) {
+            if (parseInt(item.status) === 2) {
               // 判断是否可领取
               this.haveReceived.push(item)
             } else {
               this.unclaimed.push(item)
             }
-            // console.log(this.haveReceived)
           })
         } else {
           this.haveCard = false
@@ -135,28 +135,30 @@ export default {
       })
     },
     // 领取加息券
-    receiveCoupon: function(id) {
-      this.isShow1 = true
+    receiveCoupon(id) {
       Indicator.open('加载中')
-      let obj = {}
-      obj.userName = this.user.userName
-      obj.couponId = id
-      ReceiveCoupon(obj).then(res => {
+      ReceiveCoupon({
+        userName: this.user.userName,
+        couponId: id
+      }).then(res => {
         Indicator.close()
-        Toast(res.data.resultMsg)
+        if (res.data.resultCode !== '1') {
+          Toast(res.data.resultMsg)
+        }
         this.CouponPacketList()
       })
     },
     // 领取红包
-    receiveRedPacket: function(id) {
-      this.isShow2 = true
+    receiveRedPacket(id) {
       Indicator.open('加载中')
-      let obj = {}
-      obj.userName = this.user.userName
-      obj.redPacketId = id
-      ReceiveRedPacket(obj).then(res => {
+      ReceiveRedPacket({
+        userName: this.user.userName,
+        redPacketId: id
+      }).then(res => {
         Indicator.close()
-        Toast(res.data.resultMsg)
+        if (res.data.resultCode !== '1') {
+          Toast(res.data.resultMsg)
+        }
         this.CouponPacketList()
       })
     },
@@ -182,9 +184,7 @@ export default {
 .box {
   height: 100%;
   position: relative;
-  font-family: PingFangSC-Regular;
   background: #f6f6f6;
-  position: relative;
   padding-bottom: 0.34rem;
   .have {
     overflow: auto;

@@ -64,7 +64,7 @@ export default {
     retUrl() {
       const index = window.location.href.indexOf('#')
       const baseURL = window.location.href.substr(0, index + 1)
-      return baseURL + '/open-account'
+      return baseURL + '/open-account/open'
     },
     continueFlag() {
       return this.name && this.mobile && this.idCard && this.agree

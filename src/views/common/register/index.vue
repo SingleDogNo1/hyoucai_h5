@@ -14,10 +14,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="inviteCode !== ''" v-model="inviteCode" placeholder="输入推荐码(选填)" />
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="recommendCode" v-model="recommendCode" placeholder="输入推荐码(选填)" />
       </div>
       <input
         :class="[
@@ -47,6 +47,7 @@ import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
 import { userLogin } from '@/api/common/login'
+import Cookie from 'js-cookie'
 
 export default {
   name: 'register',
@@ -208,10 +209,10 @@ export default {
         this.cpm = res.data.data.cpm === 'true'
         this.tjm = res.data.data.tjm === 'true'
         if (this.cpm) {
-          this.inviteCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+          this.inviteCode = Cookie.get('app-invite-code') ? Cookie.get('app-invite-code') : undefined
         }
         if (this.tjm) {
-          this.recommendCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+          this.recommendCode = Cookie.get('app-invite-code') ? Cookie.get('app-invite-code') : undefined
         }
       }
     })

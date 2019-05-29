@@ -1,4 +1,5 @@
 import request from '@/assets/js/requestHYC'
+import requestDJS from '@/assets/js/requestDJS'
 import qs from 'qs'
 
 // 修改登录密码
@@ -20,8 +21,20 @@ export function queryMailingAddress(data) {
 }
 
 // 保存收货地址
-export function saveMailingAddress(data) {
+export function saveHYCMailingAddress(data) {
   return request({
+    url: '/SaveMailingAddress',
+    method: 'post',
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
+  })
+}
+
+// 保存收货地址
+export function saveDJSMailingAddress(data) {
+  return requestDJS({
     url: '/SaveMailingAddress',
     method: 'post',
     data: qs.stringify(data),

@@ -8,6 +8,7 @@
 <script>
 import { showFlag } from '@/api/common/common'
 import { mapMutations } from 'vuex'
+import Cookie from 'js-cookie'
 
 export default {
   name: 'differPlatform',
@@ -17,6 +18,10 @@ export default {
     })
   },
   created() {
+    if (this.$route.query.mediasource) {
+      Cookie.set('app-invite-code', this.$route.query.mediasource)
+    }
+
     showFlag().then(res => {
       const data = res.data
       if (res.data.resultCode === '1') {

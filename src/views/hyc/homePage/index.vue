@@ -234,7 +234,7 @@ export default {
     })()
   },
   mounted() {
-    if (this.user) {
+    if (this.user && this.user.userName) {
       getUnreadMsgApi().then(res => {
         const data = res.data.data
         this.newNotice = data.haveUnreadMessage

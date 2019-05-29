@@ -228,9 +228,8 @@ export default {
     })()
   },
   mounted() {
-    if (this.user && this.user.user) {
+    if (this.user && this.user.userName) {
       getUnreadMsgApi().then(res => {
-        console.log(res.data)
         const data = res.data.data
         this.newNotice = data.haveUnreadMessage
       })

@@ -1,19 +1,19 @@
 <template>
-  <div class="box">
+  <BScroll class="box">
     <div class="have" v-show="haveCard">
       <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
         <div class="coupon_left">
           <p class="coupon_left_p">
             <span class="number">{{ item.voucherFaceValue }}</span>
-            <span class="txt" v-show="item.voucherType != 'VT01'">元</span>
-            <span class="txt" v-show="item.voucherType == 'VT01'">%</span>
+            <span class="txt" v-if="item.voucherType !== 'VT01'">元</span>
+            <span class="txt" v-else>%</span>
           </p>
-          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
-          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
+          <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
-          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
@@ -24,12 +24,12 @@
             <span class="number">{{ item.voucherFaceValue }}</span>
             <span class="txt">元</span>
           </p>
-          <p class="coupon_left_txt" v-show="item.voucherType != 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
-          <p class="coupon_left_txt" v-show="item.voucherType == 'VT01'">{{ item.commonUse }}与红包一起使用</p>
+          <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
+          <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
         </div>
         <div class="coupon_right">
-          <p class="right_p1" v-show="item.voucherType != 'VT01'">起投金额：{{ item.amountMin }}元</p>
-          <p class="right_p1" v-show="item.voucherType == 'VT01'">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
+          <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
           <p class="right_p2">适用范围：{{ item.msg }}</p>
           <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
         </div>
@@ -41,13 +41,18 @@
       </div>
       <p class="no_txt">暂无红包加息券</p>
     </div>
-  </div>
+  </BScroll>
 </template>
 
 <script>
 import { couponPacketHistory } from '@/api/hyc/coupon'
 import { mapGetters } from 'vuex'
+import BScroll from '@/components/BScroll/BScroll'
+
 export default {
+  components: {
+    BScroll
+  },
   data() {
     return {
       haveCard: true, // 是否有历史卡券

@@ -436,7 +436,7 @@ export default {
       }
       if (this.progress === 'bank') {
         this.showSelector = false
-        this.progress === 'bank'
+        this.progress = 'bank'
       }
     },
     showProvince() {

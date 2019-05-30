@@ -183,7 +183,7 @@ export default {
               let user = res.data.data
               this.setUser(user)
               this.$router.push({
-                name: 'realNameAuth'
+                name: 'realNameAuthCheckName'
               })
             } else {
               Toast(res.data.resultMsg)

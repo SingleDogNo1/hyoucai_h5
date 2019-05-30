@@ -613,12 +613,11 @@ export default {
     justify-content: center;
     align-items: center;
     div {
+      @include radiusCube(0.32rem);
       font-size: 0.3rem;
       text-align: center;
-      padding: 0.05rem;
-      color: #333;
-      border: 1px solid #333;
-      border-radius: 50%;
+      color: #fff;
+      border: 0.01rem solid #fff;
       margin-top: 0.15rem;
     }
   }

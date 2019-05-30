@@ -139,7 +139,7 @@
             <ul>
               <li>
                 <p>在职人数：</p>
-                <span>129</span>
+                <span>99</span>
               </li>
               <li>
                 <p>上线时间：</p>

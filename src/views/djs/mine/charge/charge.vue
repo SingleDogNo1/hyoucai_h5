@@ -137,7 +137,7 @@ export default {
         common: ''
       },
       dialogTitle: '汇有才温馨提示',
-      showDialog: true,
+      showDialog: false,
       chargeErrText: '充值成功',
       confirmText: '我知道了',
       isBankcardSupport: false, // 快钱是否支持用户当前银行卡
@@ -307,7 +307,7 @@ export default {
         if (data.resultCode === ERR_OK) {
           this.showDialog = true
           this.dialogTitle = '充值中'
-          this.chargeErrText = '预计15s内到账，请您耐心等候。'
+          this.chargeErrText = '预计15s内到账，请您耐心等候'
         } else {
           Toast(data.resultMsg)
         }

@@ -55,6 +55,7 @@ import { isMobile } from '@/assets/js/regular'
 import Hyoucai from '@/assets/js/hyoucai'
 import { AppToast } from '@/assets/js/Toast'
 import AppDialog from '@/components/Dialog/Alert'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -84,8 +85,6 @@ export default {
         strikeAmount: '',
         userName: ''
       },
-      userName: Hyoucai.getItem('userInfo').userName,
-      authorization: Hyoucai.getItem('g_authorization'),
       showDialog: false,
       confirmType: 0,
       dialogTitle: '友情提示',
@@ -141,8 +140,7 @@ export default {
         return false
       }
       let data = {
-        userName: this.userName,
-        authorization: this.authorization,
+        userName: this.user,
         bankCode: this.bankCardInfo.bankCode,
         amount: this.amount
       }
@@ -166,8 +164,7 @@ export default {
       }
       let forgetUrl = Hyoucai.getRetBaseURL() + '/mine'
       let data = {
-        userName: this.userName,
-        authorization: this.authorization,
+        userName: this.user,
         txAmount: this.amount,
         retUrl: Hyoucai.getRetBaseURL() + path,
         forgotPwdUrl: forgetUrl,
@@ -232,6 +229,9 @@ export default {
     refresh() {
       this.$refs.scrollRef.refresh()
     }
+  },
+  computed: {
+    ...mapGetters(['user'])
   },
   created() {
     this.getBankCardQuery()

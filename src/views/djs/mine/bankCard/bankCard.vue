@@ -28,6 +28,7 @@
 import { Toast } from 'mint-ui'
 import { userBankCardList } from '@/api/djs/mine/bankCard'
 import { plusStar } from '@/assets/js/utils'
+const ERR_OK = '1'
 export default {
   components: {},
   data() {
@@ -42,11 +43,13 @@ export default {
   methods: {
     getBankCard() {
       userBankCardList().then(res => {
-        if (res.data.resultCode == '1') {
+        if (res.data.resultCode == ERR_OK) {
           if (res.data.list[0]) {
             this.bankCardInfo = res.data.list[0]
             let cardNo = this.bankCardInfo.cardNo
-            this.bankCardInfo.showCardNo = plusStar(cardNo, 0, cardNo.length - 4).replace(/....(?!$)/g, '$& ')
+            let remainder = cardNo.length % 4
+            remainder = remainder === 0 ? 4 : remainder
+            this.bankCardInfo.showCardNo = plusStar(cardNo, 0, cardNo.length - remainder).replace(/....(?!$)/g, '$& ')
           }
         } else {
           Toast(res.data.resultMsg)
@@ -98,7 +101,7 @@ export default {
         dd {
           margin-top: 0.23rem;
           margin-left: 0.32rem;
-          font-size: $font-size-large-xxx;
+          font-size: 0.22rem;
           color: #fff;
         }
       }

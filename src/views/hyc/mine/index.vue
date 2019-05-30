@@ -149,6 +149,7 @@ export default {
       amountInfo: {},
       routerName: undefined,
       routerParams: {},
+      userStatus: null,
       userCompleteDialogOptions: {
         // 用户信息未完善弹窗
         show: false,
@@ -181,12 +182,16 @@ export default {
         alertInfoAcceptApi({ type: 'evaluate' })
       } else {
         // 用户信息未完善，根据参数跳转到对应的页面完善信息
-        if (this.routerName) {
-          this.$router.push({
-            name: this.routerName,
-            params: this.routerParams
-          })
-        }
+        alertInfoAcceptApi({ type: this.userStatus }).then(res => {
+          if (res.data.resultCode === '1') {
+            if (this.routerName) {
+              this.$router.push({
+                name: this.routerName,
+                params: this.routerParams
+              })
+            }
+          }
+        })
       }
     },
     getUserCompleteInfo() {
@@ -232,34 +237,43 @@ export default {
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个红包'
                 this.userCompleteDialogOptions.msg = data.count + '个红包已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的红包'
-                this.routerName = 'DJSCouponList'
+                this.userStatus = 'redPacket'
+                this.routerName = 'HYCCouponList'
                 break
               case 'coupon':
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个加息券'
                 this.userCompleteDialogOptions.msg = data.count + '个加息券已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的加息券'
-                this.routerName = 'DJSCouponList'
+                this.userStatus = 'coupon'
+                this.routerName = 'HYCCouponList'
+                break
+              case 'redCoupon':
+                this.userCompleteDialogOptions.msg = '您当前有未使用红包/加息券！'
+                this.userCompleteDialogOptions.confirmText = '立即查看'
+                this.userStatus = 'redCoupon'
+                this.routerName = 'HYCCouponList'
                 break
               case 'refund':
-                // TODO 没有我的出借，这段逻辑跳转到哪去
                 this.userCompleteDialogOptions.msg = `银行系统原因，您有${data.count}笔出借退款项未匹配成功，已退回`
                 this.userCompleteDialogOptions.confirmText = '去查看'
+                this.userStatus = 'refund'
+
+                // TODO 没有我的出借，这段逻辑跳转到哪去
+                // this.routerName = 'HYCCouponList'
                 break
               case 'refundBeforeDueDate':
                 this.userCompleteDialogOptions.title = '提前还款通知'
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'
+                this.userStatus = 'refundBeforeDueDate'
                 break
               case 'evaluate':
                 // 用户信息已经完善，该标识设置为true
                 this.userCompleteIsOver = true
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'
+                this.userStatus = 'evaluate'
                 break
-              default:
-                this.userCompleteDialogOptions.title = '汇有财温馨提示'
-                this.userCompleteDialogOptions.msg = `您有${data.count}笔出借提前还款`
-                this.userCompleteDialogOptions.confirmText = '我知道了'
             }
           }
         }
@@ -397,9 +411,14 @@ export default {
         input[type='button'] {
           width: 0.58rem;
           height: 0.28rem;
+          margin-left: 0.1rem;
           border: 0.01rem solid #999;
           border-radius: 0.04rem;
-          margin-left: 0.1rem;
+          color: #999;
+          &:nth-of-type(2) {
+            color: #ec5e52;
+            border-color: #ec5e52;
+          }
         }
       }
       .links {

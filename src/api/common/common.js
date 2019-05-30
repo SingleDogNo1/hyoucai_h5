@@ -27,3 +27,12 @@ export function getUnreadMsgApi(data) {
     data: qs.stringify(data)
   })
 }
+
+// 开屏获取信息接口
+export function openScreenMsgApi(data) {
+  return request({
+    url: 'OpenScreenMsg',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

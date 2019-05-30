@@ -108,6 +108,9 @@
         </footer>
       </div>
     </BScroll>
+    <div class="dialog">
+
+    </div>
   </div>
 </template>
 
@@ -116,7 +119,7 @@ import { mapGetters } from 'vuex'
 import Swiper from 'swiper'
 import { getList, getQualityList } from '@/api/djs/homepage'
 import { Toast } from 'mint-ui'
-import { reportTelephoneApi, getUnreadMsgApi } from '@/api/common/common'
+import { reportTelephoneApi, getUnreadMsgApi, openScreenMsgApi } from '@/api/common/common'
 import BScroll from '@/components/BScroll/BScroll'
 
 export default {
@@ -127,6 +130,7 @@ export default {
   },
   data() {
     return {
+      openScreenDialog: false, // 是否显示开屏弹窗
       newNotice: false, // 是否有新公告
       noticeList: [], // 公告列表
       noviceProjectList: [], // 新手专享产品列表
@@ -234,6 +238,10 @@ export default {
         this.newNotice = data.haveUnreadMessage
       })
     }
+    openScreenMsgApi().then(res => {
+      console.log(res)
+      this.open
+    })
   }
 }
 </script>

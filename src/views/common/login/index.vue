@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['registerMobile', 'errorNum'])
+    ...mapGetters(['registerMobile', 'errorNum', 'platform'])
   },
   filters: {
     splitTelNum: function(value) {
@@ -109,7 +109,6 @@ export default {
         passWord: btoa(this.password)
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data.data)
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.registerMobile)
@@ -122,6 +121,13 @@ export default {
             case '2':
               this.setPlatform('hyc')
               this.loginSuccess('HYCUserCenter')
+              break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
               break
           }
         } else {
@@ -148,6 +154,13 @@ export default {
             case '2':
               this.setPlatform('hyc')
               this.loginSuccess('HYCUserCenter')
+              break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
               break
           }
         } else {

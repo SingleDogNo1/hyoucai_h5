@@ -39,7 +39,7 @@
           </div>
         </div>
       </b-scroll>
-      <app-dialog :showDialog="showDialog" :confirmType="confirmType" :title="dialogTitle" @close="closeDialog" @ensure="closeDialog">
+      <app-dialog :showDialog="showDialog" :confirmType="confirmType" :title="dialogTitle">
         <p class="dialog-content">{{ chargeErrText }}</p>
       </app-dialog>
     </div>
@@ -164,7 +164,7 @@ export default {
       } else {
         path = '/mine'
       }
-      let forgetUrl = Hyoucai.getRetBaseURL() + '/personal_info'
+      let forgetUrl = Hyoucai.getRetBaseURL() + '/mine'
       let data = {
         userName: this.userName,
         authorization: this.authorization,
@@ -231,9 +231,6 @@ export default {
     },
     refresh() {
       this.$refs.scrollRef.refresh()
-    },
-    closeDialog() {
-      this.showDialog = false
     }
   },
   created() {

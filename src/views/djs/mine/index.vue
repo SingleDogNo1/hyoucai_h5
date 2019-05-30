@@ -31,9 +31,9 @@
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <!--<div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">-->
+              <div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">
               <!-- TODO 点击授权 -->
-              <div class="btn-image" @click="jumpTo('DJSCouponList')">
+              <!--<div class="btn-image" @click="jumpTo('DJSCouponList')">-->
                 <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>

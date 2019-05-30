@@ -134,26 +134,40 @@ export default {
         display: flex;
         &:first-child {
           justify-content: center;
+          .item {
+            width: 1.5rem;
+            margin-bottom: 0.24rem;
+            h3 {
+              @include radiusCube(0.68rem);
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              margin-bottom: 0.16rem;
+              box-sizing: border-box;
+              line-height: 0.19rem;
+              background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
+            }
+          }
         }
         &:last-child {
           justify-content: space-between;
-        }
-      }
-      .item {
-        width: 1.5rem;
-        margin-bottom: 0.24rem;
-        &:nth-child(odd) {
-          margin-right: 0.22rem;
-        }
-        h3 {
-          @include radiusCube(0.68rem);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          margin-bottom: 0.16rem;
-          box-sizing: border-box;
-          line-height: 0.19rem;
-          background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
+          .item {
+            width: 1.5rem;
+            margin-bottom: 0.24rem;
+            &:nth-child(odd) {
+              margin-right: 0.22rem;
+            }
+            h3 {
+              @include radiusCube(0.68rem);
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              margin-bottom: 0.16rem;
+              box-sizing: border-box;
+              line-height: 0.19rem;
+              background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
+            }
+          }
         }
       }
     }

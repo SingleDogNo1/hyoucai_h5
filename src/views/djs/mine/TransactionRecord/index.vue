@@ -516,7 +516,7 @@ export default {
       .scroll {
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        overflow: auto;
         .body-box {
           height: 0.7rem;
           border-bottom: 0.01rem solid #e8e8e8;

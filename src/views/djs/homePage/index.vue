@@ -108,8 +108,9 @@
         </footer>
       </div>
     </BScroll>
-    <div class="dialog">
-
+    <div class="dialog" v-if="openScreenDialog">
+      <img :src="openScreenData.picUrl" @click="locationTo(openScreenData.jumpUrl)" alt="">
+      <div class="iconfont icon-guanbi" @click="openScreenDialog = false"></div>
     </div>
   </div>
 </template>
@@ -131,6 +132,7 @@ export default {
   data() {
     return {
       openScreenDialog: false, // 是否显示开屏弹窗
+      openScreenData: {}, // 开屏页数据
       newNotice: false, // 是否有新公告
       noticeList: [], // 公告列表
       noviceProjectList: [], // 新手专享产品列表
@@ -154,6 +156,9 @@ export default {
           name: 'DJSSiteMessage'
         })
       }
+    },
+    locationTo(url) {
+      window.location.href = url
     },
     showTabs(router_name) {
       this.$router.push({
@@ -239,8 +244,13 @@ export default {
       })
     }
     openScreenMsgApi().then(res => {
-      console.log(res)
-      this.open
+      const data = res.data.data
+      if (res.data.resultCode === '1') {
+        this.openScreenData = data
+        if (data.adStatus === '1') {
+          this.openScreenDialog = true
+        }
+      }
     })
   }
 }
@@ -588,6 +598,28 @@ export default {
       color: #999999;
       text-align: center;
       line-height: 0.24rem;
+    }
+  }
+
+  .dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div {
+      font-size: 0.3rem;
+      text-align: center;
+      padding: 0.05rem;
+      color: #333;
+      border: 1px solid #333;
+      border-radius: 50%;
+      margin-top: 0.15rem;
     }
   }
 }

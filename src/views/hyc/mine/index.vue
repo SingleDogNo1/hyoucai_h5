@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <b-scroll class="scroll" ref="scrollRef">
+    <b-scroll v-if="amountInfo" class="scroll" ref="scrollRef">
       <div>
         <div class="statistics">
           <div class="total-count">
@@ -68,7 +68,7 @@
               <span>我的推荐人</span>
               <span></span>
             </div>
-            <div class="link" @click="switchSystem" v-if="user.platformFlag === '3'">
+            <div class="link" @click="switchSystem" v-if="user && user.platformFlag === '3'">
               <span>系统切换</span>
               <span></span>
             </div>
@@ -146,7 +146,7 @@ export default {
       showModel: false,
       showAmount: true,
       showDownload: true,
-      amountInfo: {},
+      amountInfo: null,
       routerName: undefined,
       routerParams: {},
       userStatus: null,

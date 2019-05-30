@@ -31,8 +31,12 @@ export default {
       if (window.DjsJsBridge) {
         // 可能会调用app方法
       } else {
-        console.log(this.$route)
-        this.$router.go(-1)
+        const back_router_name = this.$route.meta.backTo
+        if (back_router_name) {
+          this.$router.push({ name: back_router_name })
+        } else {
+          this.$router.go(-1)
+        }
       }
     },
     setTitle() {

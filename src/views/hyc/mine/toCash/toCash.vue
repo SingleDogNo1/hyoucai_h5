@@ -246,7 +246,7 @@ export default {
         return
       }
       let url = Hyoucai.getRetBaseURL() + '/mine'
-      let forgetUrl = Hyoucai.getRetBaseURL() + '/personal_info'
+      let forgetUrl = Hyoucai.getRetBaseURL() + '/mine'
       let data = {
         txAmount: this.amount,
         routeCode: this.type,
@@ -508,7 +508,7 @@ export default {
   height: 100%;
   top: 0.44rem;
   font-size: $font-size-small-s;
-  background-color: #efefef;
+  background-color: #f9f9f9;
   .scroll {
     width: 100%;
     height: 100%;

@@ -47,7 +47,7 @@
             <li>
               <label for="smsCode">验证码</label>
               <input type="text" id="smsCode" placeholder="请输入短信验证码" v-model="smsCode" />
-              <sms-btn class="sms-btn" @getSMSCode="getSmsCode"></sms-btn>
+              <sms-btn class="sms-btn" ref="smsBtn" :totalTime="60" @getSMSCode="getSmsCode"></sms-btn>
             </li>
           </ul>
           <dl class="download-wrapper">
@@ -64,7 +64,7 @@
           </div>
         </div>
       </b-scroll>
-      <app-dialog :title="dialogTitle" :show.sync="showDialog">
+      <app-dialog :title="dialogTitle" :show.sync="showDialog" :confirmText="confirmText" :onConfirm="confirmCharged">
         <p class="dialog-content">{{ chargeErrText }}</p>
       </app-dialog>
     </div>
@@ -137,8 +137,9 @@ export default {
         common: ''
       },
       dialogTitle: '汇有才温馨提示',
-      showDialog: false,
+      showDialog: true,
       chargeErrText: '充值成功',
+      confirmText: '我知道了',
       isBankcardSupport: false, // 快钱是否支持用户当前银行卡
       retUrl: '' // 银行跳转回来的页面，这里主要是为了从出借详情过来的，因为还要在跳转回去
     }
@@ -167,6 +168,7 @@ export default {
       userAndBankInfo().then(res => {
         if (res.data.userInfo.cardNo) {
           this.$set(this.bankCardInfo, 'idCard', res.data.userInfo.identityNo)
+          // this.bankCardInfo.idCard = res.data.userInfo.identityNo
           this.userRechargePreVerify()
         }
       })
@@ -231,6 +233,7 @@ export default {
         AppToast.empty('reservedMobile')
         return false
       }
+      this.$refs.smsBtn.countDown()
       let data = {
         amount: this.amount,
         userName: this.userName,
@@ -414,33 +417,30 @@ export default {
         let data = res.data
         if (data.resultCode === ERR_OK) {
           this.bankCardInfo = data.list[0]
+          this.userAndBankInfo()
           this.bankCardInfo.showRealName = plusStar(this.bankCardInfo.accountName, 0, 1)
-          // let nos = JSON.parse(JSON.stringify(this.bankCardInfo.cardNo))
-          // let len = nos.length
-          // this.bankCardNo = nos.substring(0, 4) + '*******' + nos.substring(len - 4, len)
-          // this.getBasicInfo()
         } else {
           Toast(data.resultMsg)
         }
       })
     },
     confirmCharged() {
-      this.retUrl ? getRetBaseURL() + this.retUrl : this.$router.push({ name: 'overview' })
-    },
-    closeDialog() {
-      this.showDialog = false
+      this.retUrl ? (window.location.href = getRetBaseURL() + this.retUrl) : this.$router.push({ name: 'DJSUserCenter' })
+      // if (this.retUrl) {
+      //   window.location.href = getRetBaseURL() + this.retUrl
+      // } else {
+      //   this.$router.push({ name: 'DJSUserCenter' })
+      // }
+      // this.$router.go(-1)
     }
   },
   created() {
     this.getBankCardNo()
     this.personalAccount()
-    // // this.userRechargePreVerify()
-    this.userAndBankInfo()
   },
-  mounted() {},
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (from.name === 'easyDetail') {
+      if (from.name === 'easyLend') {
         vm.retUrl = from.fullPath
       }
     })

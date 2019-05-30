@@ -21,17 +21,17 @@
         </div>
         <ul class="bottom">
           <li>
-            <div class="border-bottom-1px">
+            <div class="border-bottom-1px" @click="showProvince">
               <span>开户地区</span>
-              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="areaName" />
-              <em @click="showProvince"></em>
+              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" disabled @focus="focusScroll" type="text" v-model="areaName" />
+              <em></em>
             </div>
           </li>
           <li>
-            <div class="border-bottom-1px">
+            <div class="border-bottom-1px" @click="showBank">
               <span>开户网点</span>
-              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" @focus="focusScroll" type="text" v-model="bankName" />
-              <em @click="showBank"></em>
+              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" disabled @focus="focusScroll" type="text" v-model="bankName" />
+              <em></em>
             </div>
           </li>
           <li>
@@ -51,8 +51,8 @@
           <li>
             <div class="border-bottom-1px">
               <span>验证</span>
-              <input placeholder="请输入验证码" ref="cardBankCnapsInput" @focus="focusScroll" type="number" />
-              <div class="sms-wrapper"><sms-btn text="获取验证码" @getSMSCode="getSmsCode"></sms-btn></div>
+              <input placeholder="请输入验证码" ref="cardBankCnapsInput" v-model="smsCode" @focus="focusScroll" type="number" />
+              <div class="sms-wrapper"><sms-btn ref="smsBtn" text="获取验证码" @getSMSCode="getSmsCode"></sms-btn></div>
             </div>
           </li>
         </ul>
@@ -79,7 +79,7 @@
         <mt-cell v-for="(item, index) in filterResult" :key="index" :title="item.name" :value="item.code" @click.native="selectItem(item)"> </mt-cell>
       </mt-search>
     </div>
-    <app-dialog :show.sync="showDialog" class="to-cash-dialog">
+    <app-dialog :show.sync="showDialog" class="to-cash-dialog" :onConfirm="confirmCharged">
       <div>{{ dialogDis }}</div>
     </app-dialog>
   </div>
@@ -222,6 +222,7 @@ export default {
         Toast('输入正确的联行号！')
         return
       }
+      this.$refs.smsBtn.countDown()
       let data = {
         userName: this.userName,
         mobileNo: this.bankCardInfo.mobile,
@@ -282,9 +283,6 @@ export default {
         if (resultCode === ERR_OK) {
           this.showDialog = true
           this.dialogDis = '我们将在1个工作日内处理您的提现申请，请您耐心等候。'
-          setTimeout(() => {
-            this.$router.push({ name: 'overview' })
-          }, 1000)
         } else {
           Toast(resultMsg)
         }
@@ -566,6 +564,9 @@ export default {
       if (browser.versions.android) {
         this.$refs.scrollRef.scrollTo(0, -220)
       }
+    },
+    confirmCharged() {
+      this.$router.push({ name: 'DJSUserCenter' })
     }
   },
   computed: {
@@ -594,7 +595,7 @@ export default {
   height: 100%;
   top: 0.44rem;
   font-size: $font-size-small-s;
-  background-color: #efefef;
+  background-color: #f9f9f9;
   .scroll {
     width: 100%;
     height: 100%;
@@ -639,6 +640,22 @@ export default {
           float: left;
           input {
             font-size: 0.28rem;
+          }
+          input::-webkit-input-placeholder {
+            /* WebKit browsers */
+            color: #c6c6cb;
+          }
+          input:-moz-placeholder {
+            /* Mozilla Firefox 4 to 18 */
+            color: #c6c6cb;
+          }
+          input::-moz-placeholder {
+            /* Mozilla Firefox 19+ */
+            color: #c6c6cb;
+          }
+          input:-ms-input-placeholder {
+            /* Internet Explorer 10+ */
+            color: #c6c6cb;
           }
           &:first-child {
             width: 0.15rem;
@@ -763,6 +780,10 @@ export default {
               background-color: $color-button;
               /deep/ .btnArea {
                 line-height: 0.28rem;
+                border-radius: 0.04rem;
+                &.disable {
+                  background-color: #999;
+                }
                 input {
                   color: #fff;
                 }

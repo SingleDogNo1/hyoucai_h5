@@ -31,18 +31,18 @@
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image" @click="$router.push({ name: 'HYCCouponList' })">
+              <div class="btn-image" @click="jumpTo('HYCCouponList')">
                 <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>
             </div>
-            <div class="btn" @click="$router.push({ name: 'HYCTransactionRecord' })">
+            <div class="btn" @click="jumpTo('HYCTransactionRecord')">
               <div class="btn-image">
                 <img src="./record.png" alt="" />
               </div>
               <p>交易记录</p>
             </div>
-            <div class="btn" @click="$router.push({ name: 'HYCBankCard' })">
+            <div class="btn" @click="jumpTo('HYCBankCard')">
               <div class="btn-image">
                 <img src="./bankcard.png" alt="" />
               </div>
@@ -55,8 +55,8 @@
               <span v-else>****</span>
             </div>
             <div class="action">
-              <input type="button" value="提现" @click="$router.push({ name: 'HYCToCash' })" />
-              <input type="button" value="充值" @click="$router.push({ name: 'HYCCharge' })" />
+              <input type="button" value="提现" @click="jumpTo('HYCToCash')" />
+              <input type="button" value="充值" @click="jumpTo('HYCCharge')" />
             </div>
           </div>
           <div class="links">
@@ -150,6 +150,7 @@ export default {
       routerName: undefined,
       routerParams: {},
       userStatus: null,
+      userCompleteFlag: null,
       userCompleteDialogOptions: {
         // 用户信息未完善弹窗
         show: false,
@@ -167,6 +168,39 @@ export default {
       amountInfo().then(res => {
         this.amountInfo = res.data.data
       })
+    },
+    jumpTo(router_name) {
+      /*
+        OPEN_ACCOUNT: 未开户
+        SET_PASSWORD: 未设置交易密码
+        REAL_NAME: 未实名开户
+        BANK_CARD: 未绑卡
+        SIGN_PROTOCOL: 未签署协议
+        EVALUATE: 未做风险评测
+        COMPLETE: 所有信息已完善
+      */
+      switch (this.userCompleteFlag) {
+        case 'OPEN_ACCOUNT':
+          this.$router.push({ name: 'openAccount' })
+          break
+        case 'SET_PASSWORD':
+          this.$router.push({ name: 'openAccount' })
+          break
+        case 'REAL_NAME':
+          this.$router.push({ name: 'realNameAuthCheckName' })
+          break
+        case 'BANK_CARD':
+          this.$router.push({ name: 'realNameAuthBindCard' })
+          break
+        case 'SIGN_PROTOCOL':
+          this.$router.push({ name: 'signAgreement' })
+          break
+        case 'EVALUATE':
+          this.$router.push({ name: 'riskTest' })
+          break
+        default:
+          this.$router.push({ name: router_name })
+      }
     },
     switchSystem() {
       this.setPlatform('djs')
@@ -198,6 +232,7 @@ export default {
       getUserCompleteInfoApi().then(res => {
         const data = res.data.data
         if (res.data.resultCode === '1') {
+          this.userCompleteFlag = data.status
           this.userCompleteDialogOptions.msg = data.message
           switch (data.status) {
             case 'OPEN_ACCOUNT':

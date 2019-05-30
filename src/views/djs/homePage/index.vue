@@ -420,9 +420,23 @@ export default {
       font-size: 0.17rem;
       color: #ec5e52;
       text-align: center;
-      span:first-child {
-        font-size: 0.37rem;
-        line-height: 0.52rem;
+      span {
+        &:first-child {
+          font-size: 0.37rem;
+          line-height: 0.52rem;
+        }
+        &.extra {
+          display: inline-block;
+          vertical-align: bottom;
+          width: 0.55rem;
+          height: 0.28rem;
+          line-height: 0.23rem;
+          font-size: $font-size-small-s;
+          color: #fff;
+          text-align: center;
+          background-image: url('./activeIcon.png');
+          background-size: contain;
+        }
       }
     }
     p {
@@ -541,6 +555,18 @@ export default {
               font-size: 0.16rem;
               &:first-child {
                 font-size: 0.26rem;
+              }
+              &.extra {
+                display: inline-block;
+                vertical-align: bottom;
+                width: 0.55rem;
+                height: 0.28rem;
+                line-height: 0.23rem;
+                font-size: $font-size-small-s;
+                color: #fff;
+                text-align: center;
+                background-image: url('./activeIcon.png');
+                background-size: contain;
               }
             }
           }

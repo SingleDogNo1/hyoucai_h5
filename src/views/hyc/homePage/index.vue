@@ -54,26 +54,6 @@
           <input type="button" :value="user ? '立即赚钱' : '注册 / 登录'" @click="handleInvest(item.projectNo)" />
           <div class="tips">{{ item.projectTips }}</div>
         </div>
-
-        <div class="newbie">
-          <h6>新手专享</h6>
-          <button>新手专享</button>
-          <div class="rate">
-            <span>10</span>
-            <span>%</span>
-            <span class="extra">+9%</span>
-          </div>
-          <p>历史年化收益率</p>
-          <ul class="tags">
-            <li>加上考</li>
-            <li>加上考</li>
-            <li>加上考</li>
-          </ul>
-          <input type="button" :value="user ? '立即赚钱' : '注册 / 登录'" />
-          <div class="tips">ashdskaadhasjkdhaks</div>
-        </div>
-
-
         <div class="hot-wrapper" v-if="popularProjectList">
           <div class="title">
             <p>热门推荐</p>

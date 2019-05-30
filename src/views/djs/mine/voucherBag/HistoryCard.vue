@@ -1,7 +1,7 @@
 <template>
-  <BScroll class="box">
-    <section>
-      <div class="have" v-if="haveCard">
+  <div class="history">
+    <BScroll  v-if="haveCard" class="box">
+      <section>
         <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
           <div class="coupon_left">
             <p class="coupon_left_p">
@@ -35,10 +35,10 @@
             <p class="right_p2">有效期至：{{ item.validUseEndTime }}</p>
           </div>
         </div>
-      </div>
-      <NoData type="historyCoupon" v-else></NoData>
-    </section>
-  </BScroll>
+      </section>
+    </BScroll>
+    <NoData class="empty" type="historyCoupon" v-else></NoData>
+  </div>
 </template>
 
 <script>
@@ -103,17 +103,27 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/theme.scss';
 @import '../../../../assets/css/mixins.scss';
+
+.history {
+  height: 100%;
+}
 .box {
   height: 100%;
   position: relative;
   background: #f6f6f6;
-  overflow: auto;
+  overflow: hidden;
+  > section {
+    padding-top: 0.1rem;
+  }
   .coupon {
-    margin-top: 0.1rem;
     display: flex;
     background: url(./images/historybg.png) no-repeat;
     background-size: 3.75rem 100%;
     padding-bottom: 0.1rem;
+    margin-bottom: 0.1rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
     .coupon_left {
       width: 1.2rem;
       margin-top: 0.18rem;
@@ -163,30 +173,6 @@ export default {
         color: #999999;
         letter-spacing: 0.12px;
       }
-    }
-  }
-  .nothing {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 1.36rem;
-    .no_img {
-      height: 0.83rem;
-      width: 1.5rem;
-      margin: 0 auto;
-      img {
-        width: 100%;
-      }
-    }
-    .no_txt {
-      text-align: center;
-      font-size: 0.15rem;
-      color: #999999;
-      letter-spacing: 0;
-      margin-top: 0.32rem;
     }
   }
 }

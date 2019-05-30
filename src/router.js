@@ -24,6 +24,10 @@ export default new Router({
           }
         },
         {
+          path: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/hyc/calculator')
+        },
+        {
           path: 'login',
           name: 'userLogin',
           component: () => import(/* webpackChunkName: "login" */ '@/views/common/login'),

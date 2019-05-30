@@ -35,6 +35,10 @@ export default new Router({
           path: '',
           name: 'differPlatform',
           component: () => import(/* webpackChunkName: "differPlatform" */ '@/views/common/differPlatform')
+        },
+        {
+          path: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/hyc/calculator')
         }
       ]
     },

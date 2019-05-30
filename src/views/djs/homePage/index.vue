@@ -43,7 +43,7 @@
           <div class="rate">
             <span>{{ item.basicsInvestRate }}</span>
             <span>%</span>
-            <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+            <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
@@ -77,7 +77,7 @@
                   <li>
                     <span>{{ item.basicsInvestRate }}</span>
                     <span>%</span>
-                    <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+                    <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
                   </li>
                   <li><p>历史年化收益率</p></li>
                 </ul>

@@ -72,7 +72,7 @@
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
+              <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter}}元</span>
             </div>
           </div>
           <loading v-show="hasMore2"></loading>
@@ -102,7 +102,7 @@
               <span class="body-date">{{ item.createTime }}</span>
             </div>
             <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
+              <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter}}元</span>
             </div>
           </div>
           <loading v-show="hasMore3"></loading>

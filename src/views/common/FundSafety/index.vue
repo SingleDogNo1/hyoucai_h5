@@ -10,7 +10,8 @@
         <p class="content">
           汇有财基于移动互联网及大数据技术进行风控创新，广泛采集多维度信息及用户授权数据进行交叉比对，通过自动化征信体系和反欺诈系统，实现智能决策，并以云技术数据处理中心提供强大数据支撑。
         </p>
-        <div class="items">
+        <!-- TODO 迎检修改，之后有可能会恢复（放开这一段，删除下一段） -->
+        <!--<div class="items">
           <div class="item">
             <h3>信息<br />安全</h3>
             <p>通过国家公安部监制信息安全等级保护三级安全备案，获得《信息系统安全等级保护三级认证》</p>
@@ -27,6 +28,25 @@
             <h3>数据<br />安全</h3>
             <p>所有涉及汇有财网站数据皆收到SSL数据加密，能够有效防范来自外界的恶意网络攻击。</p>
           </div>
+        </div>-->
+
+        <div class="items">
+          <section>
+            <div class="item">
+              <h3>信息<br />安全</h3>
+              <p>通过国家公安部监制信息安全等级保护三级安全备案，获得《信息系统安全等级保护三级认证》</p>
+            </div>
+          </section>
+          <section>
+            <div class="item">
+              <h3>交易<br />安全</h3>
+              <p>正式接入电子存证、上线电子签章，令每一笔借贷交易受到法律保护，有效保障用户的合法权益。</p>
+            </div>
+            <div class="item">
+              <h3>数据<br />安全</h3>
+              <p>所有涉及汇有财网站数据皆收到SSL数据加密，能够有效防范来自外界的恶意网络攻击。</p>
+            </div>
+          </section>
         </div>
       </div>
     </b-scroll>
@@ -79,11 +99,46 @@ export default {
       width: 3.15rem;
       margin: 0 auto 0.24rem;
     }
+    /* TODO 和上一段html同步修改，放开这一段删除下一段 */
+    /*.items {
+      width: 3.22rem;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      .item {
+        width: 1.5rem;
+        margin-bottom: 0.24rem;
+        &:nth-child(odd) {
+          margin-right: 0.22rem;
+        }
+        h3 {
+          @include radiusCube(0.68rem);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-bottom: 0.16rem;
+          box-sizing: border-box;
+          line-height: 0.19rem;
+          background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
+        }
+      }
+    }*/
+
     .items {
       width: 3.22rem;
       margin: 0 auto;
       display: flex;
       flex-wrap: wrap;
+      section {
+        width: 100%;
+        display: flex;
+        &:first-child {
+          justify-content: center;
+        }
+        &:last-child {
+          justify-content: space-between;
+        }
+      }
       .item {
         width: 1.5rem;
         margin-bottom: 0.24rem;

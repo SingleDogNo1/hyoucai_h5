@@ -7,7 +7,7 @@
             <div class="item-l">
               <span>{{ investDetail.projectName }}</span>
             </div>
-            <div class="item-r" v-if="parseInt(investDetail.isShowEnableAmt) === 1">
+            <div class="item-r" v-if="parseInt(investDetail.isSurplusShow) === 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ investDetail.surplusAmount }}万</span>
             </div>
@@ -143,7 +143,7 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span v-if="investDetail.isShowEnableAmt == 1">剩余可投{{ investDetail.surplusAmount }}万</span>
+        <span v-if="investDetail.isSurplusShow == 1">剩余可投{{ investDetail.surplusAmount }}万</span>
       </div>
     </section>
   </div>

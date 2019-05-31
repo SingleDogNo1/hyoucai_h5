@@ -10,7 +10,6 @@
         <p class="content">
           汇有财基于移动互联网及大数据技术进行风控创新，广泛采集多维度信息及用户授权数据进行交叉比对，通过自动化征信体系和反欺诈系统，实现智能决策，并以云技术数据处理中心提供强大数据支撑。
         </p>
-        <!-- TODO 迎检修改，之后有可能会恢复（放开这一段，删除下一段） -->
         <div class="items">
           <div class="item">
             <h3>信息<br />安全</h3>
@@ -80,7 +79,6 @@ export default {
       width: 3.15rem;
       margin: 0 auto 0.24rem;
     }
-    /* TODO 和上一段html同步修改，放开这一段删除下一段 */
     .items {
       width: 3.22rem;
       margin: 0 auto;
@@ -104,54 +102,6 @@ export default {
         }
       }
     }
-
-    /*.items {
-      width: 3.22rem;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      section {
-        width: 100%;
-        display: flex;
-        &:first-child {
-          justify-content: center;
-          .item {
-            width: 1.5rem;
-            margin-bottom: 0.24rem;
-            h3 {
-              @include radiusCube(0.68rem);
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              margin-bottom: 0.16rem;
-              box-sizing: border-box;
-              line-height: 0.19rem;
-              background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
-            }
-          }
-        }
-        &:last-child {
-          justify-content: space-between;
-          .item {
-            width: 1.5rem;
-            margin-bottom: 0.24rem;
-            &:nth-child(odd) {
-              margin-right: 0.22rem;
-            }
-            h3 {
-              @include radiusCube(0.68rem);
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              margin-bottom: 0.16rem;
-              box-sizing: border-box;
-              line-height: 0.19rem;
-              background-image: linear-gradient(-180deg, #ff9736, #ff5e19);
-            }
-          }
-        }
-      }
-    }*/
   }
 }
 </style>

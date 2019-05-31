@@ -18,7 +18,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span>{{ investDetail.surplusAmount }}万</span>
+            <span>{{ investDetail.surplusAmount }}元</span>
           </p>
         </div>
         <div class="amount-block">

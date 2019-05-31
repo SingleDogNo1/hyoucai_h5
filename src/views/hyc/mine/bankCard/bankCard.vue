@@ -19,7 +19,7 @@
     </div>
     <dl class="download-wrapper">
       <dt>如需变更银行卡请下载官方App</dt>
-      <dd><router-link :to="{ name: '' }">下载App</router-link></dd>
+      <dd><router-link :to="{ name: 'AppDownload' }">下载App</router-link></dd>
     </dl>
   </div>
 </template>

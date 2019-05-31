@@ -43,7 +43,7 @@
           <div class="rate">
             <span>{{ item.basicsInvestRate }}</span>
             <span>%</span>
-            <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+            <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
@@ -77,7 +77,7 @@
                   <li>
                     <span>{{ item.basicsInvestRate }}</span>
                     <span>%</span>
-                    <span v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+                    <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
                   </li>
                   <li><p>历史年化收益率</p></li>
                 </ul>
@@ -108,8 +108,9 @@
         </footer>
       </div>
     </BScroll>
-    <div class="dialog">
-
+    <div class="dialog" v-if="openScreenDialog">
+      <img :src="openScreenData.picUrl" @click="locationTo(openScreenData.jumpUrl)" alt="">
+      <div class="iconfont icon-guanbi" @click="openScreenDialog = false"></div>
     </div>
   </div>
 </template>
@@ -131,6 +132,7 @@ export default {
   data() {
     return {
       openScreenDialog: false, // 是否显示开屏弹窗
+      openScreenData: {}, // 开屏页数据
       newNotice: false, // 是否有新公告
       noticeList: [], // 公告列表
       noviceProjectList: [], // 新手专享产品列表
@@ -154,6 +156,9 @@ export default {
           name: 'DJSSiteMessage'
         })
       }
+    },
+    locationTo(url) {
+      window.location.href = url
     },
     showTabs(router_name) {
       this.$router.push({
@@ -239,8 +244,13 @@ export default {
       })
     }
     openScreenMsgApi().then(res => {
-      console.log(res)
-      this.open
+      const data = res.data.data
+      if (res.data.resultCode === '1') {
+        this.openScreenData = data
+        if (data.adStatus === '1') {
+          this.openScreenDialog = true
+        }
+      }
     })
   }
 }
@@ -410,9 +420,23 @@ export default {
       font-size: 0.17rem;
       color: #ec5e52;
       text-align: center;
-      span:first-child {
-        font-size: 0.37rem;
-        line-height: 0.52rem;
+      span {
+        &:first-child {
+          font-size: 0.37rem;
+          line-height: 0.52rem;
+        }
+        &.extra {
+          display: inline-block;
+          vertical-align: bottom;
+          width: 0.55rem;
+          height: 0.28rem;
+          line-height: 0.23rem;
+          font-size: $font-size-small-s;
+          color: #fff;
+          text-align: center;
+          background-image: url('./activeIcon.png');
+          background-size: contain;
+        }
       }
     }
     p {
@@ -532,6 +556,18 @@ export default {
               &:first-child {
                 font-size: 0.26rem;
               }
+              &.extra {
+                display: inline-block;
+                vertical-align: bottom;
+                width: 0.55rem;
+                height: 0.28rem;
+                line-height: 0.23rem;
+                font-size: $font-size-small-s;
+                color: #fff;
+                text-align: center;
+                background-image: url('./activeIcon.png');
+                background-size: contain;
+              }
             }
           }
           .day {
@@ -588,6 +624,27 @@ export default {
       color: #999999;
       text-align: center;
       line-height: 0.24rem;
+    }
+  }
+
+  .dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div {
+      @include radiusCube(0.32rem);
+      font-size: 0.3rem;
+      text-align: center;
+      color: #fff;
+      border: 0.01rem solid #fff;
+      margin-top: 0.15rem;
     }
   }
 }

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { queryMailingAddress, saveHYCMailingAddress, saveDJSMailingAddress } from '@/api/common/mine'
+import { queryHYCMailingAddress, queryDJSMailingAddress, saveHYCMailingAddress, saveDJSMailingAddress } from '@/api/common/mine'
 import { mapGetters } from 'vuex'
 import { Toast, Indicator } from 'mint-ui'
 
@@ -76,14 +76,27 @@ export default {
   },
   created() {
     Indicator.open()
-    queryMailingAddress({ userName: this.user.nickname }).then(res => {
-      Indicator.close()
-      if (res.data.resultCode === '1') {
-        this.address = res.data.data.address
-        this.consigneeName = res.data.data.consigneeName
-        this.consigneePhone = res.data.data.consigneePhone
-      }
-    })
+    if (this.platform === 'djs') {
+      queryDJSMailingAddress({ userName: this.user.userName }).then(res => {
+        Indicator.close()
+        const data = res.data
+        if (res.data.resultCode === '1') {
+          this.address = data.address
+          this.consigneeName = data.consigneeName
+          this.consigneePhone = data.consigneePhone
+        }
+      })
+    } else {
+      queryHYCMailingAddress({ userName: this.user.userName }).then(res => {
+        Indicator.close()
+        const data = res.data.data
+        if (res.data.resultCode === '1') {
+          this.address = data.address
+          this.consigneeName = data.consigneeName
+          this.consigneePhone = data.consigneePhone
+        }
+      })
+    }
   }
 }
 </script>

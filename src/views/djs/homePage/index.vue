@@ -108,9 +108,9 @@
         </footer>
       </div>
     </BScroll>
-    <div class="dialog" v-if="openScreenDialog">
+    <div class="dialog" v-if="openScreenDialog && !closeOpenScreen">
       <img :src="openScreenData.picUrl" @click="locationTo(openScreenData.jumpUrl)" alt="">
-      <div class="iconfont icon-guanbi" @click="openScreenDialog = false"></div>
+      <div class="iconfont icon-guanbi" @click="closeOpenScreenDialog"></div>
     </div>
   </div>
 </template>
@@ -132,6 +132,7 @@ export default {
   data() {
     return {
       openScreenDialog: false, // 是否显示开屏弹窗
+      closeOpenScreen: sessionStorage.getItem('closeOpenScreen'), // 用户过开屏弹窗，默认不存在，用户关闭过为true
       openScreenData: {}, // 开屏页数据
       newNotice: false, // 是否有新公告
       noticeList: [], // 公告列表
@@ -197,6 +198,10 @@ export default {
       this.$router.push({
         name: 'DJSInvestment'
       })
+    },
+    closeOpenScreenDialog() {
+      this.openScreenDialog = false
+      sessionStorage.setItem('closeOpenScreen', 'true')
     }
   },
   created() {

@@ -102,6 +102,7 @@ section {
     color: #333333;
     padding-left: 0.15rem;
     justify-content: flex-end;
+    display: flex;
     .title {
       flex: 1;
       width: 70%;
@@ -115,7 +116,7 @@ section {
         border-radius: 50%;
         background-color: #ef5c52;
         top: 42%;
-        left: 26%;
+        left: 20%;
         -webkit-transform: translateY(-50%);
         -moz-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
@@ -123,10 +124,10 @@ section {
         transform: translateY(-50%);
       }
       .red_dot {
-        left: 21%;
+        left: 16%;
       }
       .repeat_dot {
-        left: 31%;
+        left: 24%;
       }
     }
     .more {

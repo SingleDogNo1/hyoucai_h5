@@ -179,10 +179,10 @@ export default {
       */
       switch (this.userCompleteFlag) {
         case 'OPEN_ACCOUNT':
-          this.$router.push({ name: 'openAccount' })
+          this.$router.push({ name: 'remindOpenAccount' })
           break
         case 'SET_PASSWORD':
-          this.$router.push({ name: 'openAccount' })
+          this.$router.push({ name: 'remindOpenAccount' })
           break
         case 'REAL_NAME':
           this.$router.push({ name: 'realNameAuthCheckName' })
@@ -232,12 +232,12 @@ export default {
             case 'OPEN_ACCOUNT':
               this.userCompleteDialogOptions.confirmText = '开通存管账户'
               this.userCompleteDialogOptions.show = true
-              this.routerName = 'openAccount'
+              this.routerName = 'remindOpenAccount'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'
               this.userCompleteDialogOptions.show = true
-              this.routerName = 'openAccount'
+              this.routerName = 'remindOpenAccount'
               break
             case 'SIGN_PROTOCOL':
               this.userCompleteDialogOptions.confirmText = '签约'

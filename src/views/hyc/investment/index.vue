@@ -74,7 +74,7 @@
 import { Toast, Indicator } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import InvestmentItem from '@/components/InvestmentItem/InvestmentItem'
-import { collectionApi, pageConfig, projectApi } from '@/api/hyc/investment'
+import { collectionApi, pageConfig, projectApi, getProductDetail } from '@/api/hyc/investment'
 import NoData from '@/components/NoData/NoData'
 import { mapGetters } from 'vuex'
 
@@ -251,39 +251,51 @@ export default {
           name: 'loginRegister'
         })
       } else {
-        if (item.status !== 3) {
-          if (this.type && this.showFiltered) {
-            this.$router.push({
-              name: 'HYCInvestDetail',
-              query: {
-                productId: item.productId,
-                itemId: item.itemId,
-                redPacketId: item.redPacketId,
-                couponId: item.couponId
+        getProductDetail({
+          itemId: item.itemId,
+          productId: item.productId
+        }).then(res => {
+          if (res.data.resultCode === '1') {
+            if (item.status !== 3) {
+              if (this.type && this.showFiltered) {
+                this.$router.push({
+                  name: 'HYCInvestDetail',
+                  query: {
+                    productId: item.productId,
+                    itemId: item.itemId,
+                    redPacketId: item.redPacketId,
+                    couponId: item.couponId
+                  }
+                })
+              } else {
+                if (item.projectType === 2) {
+                  // 集合标
+                  this.$router.push({
+                    name: 'HYCInvestDetail',
+                    query: {
+                      productId: item.productId,
+                      itemId: item.itemId
+                    }
+                  })
+                }
+                if (item.projectType === 1) {
+                  // 债转标
+                  this.$router.push({
+                    name: 'HYCInvestDetail',
+                    query: {
+                      productId: item.productId
+                    }
+                  })
+                }
               }
-            })
+            }
           } else {
-            if (item.projectType === 2) {
-              // 集合标
-              this.$router.push({
-                name: 'HYCInvestDetail',
-                query: {
-                  productId: item.productId,
-                  itemId: item.itemId
-                }
-              })
-            }
-            if (item.projectType === 1) {
-              // 债转标
-              this.$router.push({
-                name: 'HYCInvestDetail',
-                query: {
-                  productId: item.productId
-                }
-              })
-            }
+            Toast({
+              message: res.data.resultMsg,
+              position: 'middle'
+            })
           }
-        }
+        })
       }
     },
     getYZhiJiHuaList() {

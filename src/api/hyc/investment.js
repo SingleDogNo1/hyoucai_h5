@@ -75,14 +75,13 @@ function getProjectDetail(data, authorization) {
   })
 }
 
-function getProductDetail(data, authorization) {
+function getProductDetail(data) {
   return axios({
     url: 'collection/investDetail',
     method: 'post',
     data: Qs.stringify(data),
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-      authorization: authorization
+      version: '2.0'
     }
   })
 }

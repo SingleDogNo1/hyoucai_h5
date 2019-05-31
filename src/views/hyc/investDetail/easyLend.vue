@@ -281,10 +281,11 @@ export default {
       expectedIncome({
         invAmount: this.amount,
         investRate: this.projectInfo.investRate,
-        invDays: this.projectInfo.loanMentNumber,
         couponRate: this.checkedCoupon ? this.checkedCoupon.couponRate : null,
-        validDays: this.checkedCoupon ? this.checkedCoupon.validDays : null,
-        redpacketID: this.checkedRedPacket ? this.checkedRedPacket.id : null
+        productId: this.productId,
+        validDays: this.checkedCoupon ? this.checkedCoupon.validDays : null
+        // invDays: this.projectInfo.loanMentNumber,
+        // redpacketID: this.checkedRedPacket ? this.checkedRedPacket.id : null,
       }).then(res => {
         if (res.data.resultCode === '1') {
           const data = res.data.data

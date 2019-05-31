@@ -246,10 +246,10 @@ export default {
         if (res.data.resultCode === '1') {
           switch (data.status) {
             case 'OPEN_ACCOUNT':
-              this.$router.push({ name: 'openAccount' })
+              this.$router.push({ name: 'remindOpenAccount' })
               break
             case 'SET_PASSWORD':
-              this.$router.push({ name: 'openAccount' })
+              this.$router.push({ name: 'remindOpenAccount' })
               break
             case 'SIGN_PROTOCOL':
               this.$router.push({ name: 'signAgreement' })

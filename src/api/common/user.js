@@ -6,7 +6,10 @@ export function userInfoCompleteNoticeApi(data) {
   return request({
     url: 'user/userInfoCompleteNotice',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 

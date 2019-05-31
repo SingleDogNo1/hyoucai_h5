@@ -89,7 +89,7 @@
     <!-- 复投弹窗 -->
     <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest">
       <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
-      <p class="agre">自动出借服务条款></p>
+      <p class="agre" @click="$router.push({ name: 'DJSagreement', query: {agreementType: 'zdtz'} })">自动出借服务条款></p>
     </Dialog>
 
     <!-- 自动出借设置成功弹窗 -->

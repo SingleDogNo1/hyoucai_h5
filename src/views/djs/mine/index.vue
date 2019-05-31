@@ -144,7 +144,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
 import { mapMutations, mapGetters } from 'vuex'
-import { Toast } from 'mint-ui'
+import { Indicator, Toast } from 'mint-ui'
 
 import { amountInfo } from '@/api/djs/mine/mine'
 import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
@@ -403,8 +403,13 @@ export default {
     ...mapGetters(['user', 'platform'])
   },
   created() {
-    this.getAmountInfo()
-    this.getUserCompleteInfo()
+    const $this = this
+    Indicator.open()
+    ;(async function render() {
+      await $this.getAmountInfo()
+      await $this.getUserCompleteInfo()
+      await Indicator.close()
+    })()
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

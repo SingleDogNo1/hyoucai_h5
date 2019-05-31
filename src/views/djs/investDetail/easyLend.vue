@@ -18,14 +18,15 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span>{{ investDetail.surplusAmount }}元</span>
+            <span v-if="investDetail.surplusAmount / 10000 > 1">{{(investDetail.surplusAmount / 10000).toFixed(2) }}万</span>
+            <span v-else>{{ investDetail.surplusAmount }}元</span>
           </p>
         </div>
         <div class="amount-block">
           <h6>投标金额</h6>
           <section>
             <div>¥</div>
-            <input type="number" placeholder="请输入金额" v-model="amount" />
+            <input type="number" :placeholder="investDetail.minInvAmt + '元起投，单笔限额' + investDetail.singleLimit + '元'" v-model="amount" />
           </section>
           <p class="err-msg">{{ errMsg }}</p>
           <div class="ctrl">
@@ -62,15 +63,15 @@
         </ul>
         <div class="agree">
           <div v-for="(agreement, index) in protocolData" :key="index">
-            <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.isSelect === '1'" />
-            <label for="isCheck" @click="changeStatus" v-if="agreement.isSelect === '1'"></label>
-            <div>
-              <p>
-                <span>{{ agreement.tipsBefore }}</span>
-                <a :href="agreement.protocolUrl | urlToh5" class="agreement">{{ agreement.protocolName }}</a>
+            <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.checkBox" />
+            <label for="isCheck" @click="changeStatus" v-if="agreement.isChecked"></label>
+            <section>
+              <p v-for="(item, index2) in agreement.list" :key="index2">
+                <span>{{ item.description1 }}</span>
+                <a :href="item.showUrl | urlToh5" class="agreement">{{ item.name }}</a>
+              <span>{{ item.description2 }}</span>
               </p>
-              <p>{{ agreement.tipsAfter }}</p>
-            </div>
+            </section>
           </div>
         </div>
       </section>
@@ -216,7 +217,7 @@ export default {
       this.lendAllFlag = value === maxLendAmount
 
       // 对比输入金额和可用金额case
-      if (value - 0 < this.investDetail.minInvAmt - 0) {
+      if (value !== '' && value - 0 < this.investDetail.minInvAmt - 0) {
         this.errMsg = '申购金额需' + this.investDetail.minInvAmt + '元起'
       } else if (value - 0 === maxLendAmount) {
         this.errMsg = '已经到极限了'
@@ -418,8 +419,9 @@ export default {
         type: 'TZJE'
       }).then(res => {
         if (res.data.resultCode === '1') {
-          $this.protocolData = res.data.protocolData
-          $this.agree = res.data.protocolData[0].isSelect === '1'
+          const data = res.data.data
+          $this.protocolData = data.result
+          $this.agree = data.result[0].isChecked
         } else {
           Toast(res.data.resultMsg)
         }
@@ -461,7 +463,7 @@ export default {
     flex: 1;
     overflow: hidden;
     .huge {
-      @include cube(100%, 1.2rem);
+      @include cube(100%, auto);
       margin-bottom: 0.08rem;
       background-color: #ec5e52;
       padding: 0 0.15rem;
@@ -532,7 +534,7 @@ export default {
         input {
           flex: 1;
           padding: 0.08rem 0;
-          font-size: 0.18rem;
+          font-size: 0.15rem;
           &::placeholder {
             color: #999;
           }
@@ -577,8 +579,8 @@ export default {
           background: #ffffff;
           border: 0.01rem solid #333;
           &.active {
-            border: 0.01rem solid #ace;
-            color: #ace;
+            border: 0.01rem solid #ec5e52;
+            color: #ec5e52;
           }
         }
       }
@@ -642,6 +644,9 @@ export default {
       }
       input:checked + label:before {
         border: 0.05rem solid $color-button;
+      }
+      section {
+        line-height: 1.7;
       }
       .agreement {
         color: $color-button;

@@ -42,6 +42,9 @@ export function getProtocaol(data) {
   return request({
     url: 'obtainProtocol',
     method: 'post',
+    headers: {
+      version: '2.0'
+    },
     data: qs.stringify(data)
   })
 }

@@ -133,6 +133,7 @@ import Dialog from '@/components/Dialog/Alert'
 
 import { amountInfo } from '@/api/hyc/mine/mine'
 import { mapMutations, mapGetters } from 'vuex'
+import { Indicator, Toast } from 'mint-ui'
 import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
 
 export default {
@@ -215,6 +216,8 @@ export default {
                 params: this.routerParams
               })
             }
+          } else {
+            Toast(res.data.resultMsg)
           }
         })
       }
@@ -249,6 +252,8 @@ export default {
             default:
               this.getAlertInfo()
           }
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     },
@@ -302,6 +307,8 @@ export default {
                 break
             }
           }
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     },
@@ -313,8 +320,13 @@ export default {
     ...mapGetters(['user'])
   },
   created() {
-    this.getAmountInfo()
-    this.getUserCompleteInfo()
+    Indicator.open()
+    const $this = this
+    ;(async function render() {
+      await $this.getAmountInfo()
+      await $this.getUserCompleteInfo()
+      await Indicator.close()
+    })()
   }
 }
 </script>

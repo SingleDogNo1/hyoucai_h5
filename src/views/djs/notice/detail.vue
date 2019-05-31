@@ -73,23 +73,28 @@ export default {
     .wrapper {
       width: 100%;
       padding: 0.24rem 4% 0;
+      text-align: center;
       h2 {
-        font-size: $font-size-medium-x;
-        color: $color-text-b;
+        font-size: 0.19rem;
+        color: #333;
         word-break: break-all;
+        text-align: center;
+        font-family: PingFangSC-Semibold;
       }
       div {
         margin: 0.08rem auto 0.27rem;
         font-size: $font-size-small-s;
-        color: $color-text-s;
+        color: #999;
       }
       /deep/ article {
         p {
           margin-bottom: 0.16rem;
           line-height: 0.24rem;
+          font-size: 0.15rem;
+          color: #333;
+          width: 3.27rem;
+          margin: auto;
           text-align: left;
-          font-size: $font-size-small !important;
-          color: $color-text-b;
         }
       }
     }

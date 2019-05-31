@@ -18,7 +18,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span>{{ projectInfo.showSurplusAmt }}</span>
+            <span>{{ projectInfo.showSurplusAmt }}元</span>
           </p>
         </div>
         <div class="amount-block">

@@ -60,11 +60,11 @@
             </div>
           </div>
           <div class="links">
-            <div class="link" @click="$router.push({ name: 'DJSInviteFriends' })">
+            <div class="link" @click="jumpTo('DJSInviteFriends')">
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({ name: 'DJSRecommender' })">
+            <div class="link" @click="jumpTo('DJSRecommender')">
               <span>我的推荐人</span>
               <span></span>
             </div>
@@ -216,9 +216,6 @@ export default {
         SET_PASSWORD: 未设置交易密码
         REAL_NAME: 未实名开户
         BANK_CARD: 未绑卡
-        SIGN_PROTOCOL: 未签署协议
-        EVALUATE: 未做风险评测
-        COMPLETE: 所有信息已完善
       */
       switch (this.userCompleteFlag) {
         case 'OPEN_ACCOUNT':
@@ -232,12 +229,6 @@ export default {
           break
         case 'BANK_CARD':
           this.$router.push({ name: 'realNameAuthBindCard' })
-          break
-        case 'SIGN_PROTOCOL':
-          this.$router.push({ name: 'signAgreement' })
-          break
-        case 'EVALUATE':
-          this.$router.push({ name: 'riskTest' })
           break
         default:
           this.$router.push({ name: router_name })

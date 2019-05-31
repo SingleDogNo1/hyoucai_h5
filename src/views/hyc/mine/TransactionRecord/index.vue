@@ -33,6 +33,7 @@
           @scrollToEnd="scrollToEnd1"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in allData" :key="index">
             <div class="body-left">
@@ -45,6 +46,7 @@
           </div>
           <loading v-show="hasMore1"></loading>
           <no-data v-if="!allData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 2">
@@ -61,6 +63,7 @@
           @scrollToEnd="scrollToEnd2"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in chargeData" :key="index">
             <div class="body-left">
@@ -73,6 +76,7 @@
           </div>
           <loading v-show="hasMore2"></loading>
           <no-data v-if="!chargeData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 3">
@@ -89,6 +93,7 @@
           @scrollToEnd="scrollToEnd3"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in toCashData" :key="index">
             <div class="body-left">
@@ -101,6 +106,7 @@
           </div>
           <loading v-show="hasMore3"></loading>
           <no-data v-if="!toCashData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
       <div class="tab_container" v-if="flag == 4">
@@ -117,6 +123,7 @@
           @scrollToEnd="scrollToEnd4"
           @pulldownTouchend="pulldownTouchend"
         >
+          <div>
           <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
           <div class="body-box" v-for="(item, index) in otherData" :key="index">
             <div class="body-left">
@@ -129,6 +136,7 @@
           </div>
           <loading v-show="hasMore4"></loading>
           <no-data v-if="!otherData.length"></no-data>
+          </div>
         </b-scroll>
       </div>
     </div>

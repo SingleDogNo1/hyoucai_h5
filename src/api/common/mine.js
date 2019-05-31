@@ -11,9 +11,18 @@ export function updateUserPsw(data) {
   })
 }
 
-// 查询收货地址
-export function queryMailingAddress(data) {
+// 查询收货地址(汇有财)
+export function queryHYCMailingAddress(data) {
   return request({
+    url: '/QueryMailingAddress',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}
+
+// 查询收货地址(点金石)
+export function queryDJSMailingAddress(data) {
+  return requestDJS({
     url: '/QueryMailingAddress',
     method: 'post',
     data: qs.stringify(data)

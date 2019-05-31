@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <b-scroll class="scroll" ref="scrollRef">
+    <b-scroll v-if="amountInfo" class="scroll" ref="scrollRef">
       <div>
         <div class="statistics">
           <div class="total-count">
@@ -31,20 +31,18 @@
         <div class="main">
           <div class="buttons">
             <div class="btn">
-              <div class="btn-image" @click="$router.push({ name: 'DJSCouponList' })">
-              <!-- TODO 点击授权 -->
-              <!--<div class="btn-image" @click="jumpTo('DJSCouponList')">-->
+              <div class="btn-image" @click="jumpTo('DJSCouponList')">
                 <img src="./coupon.png" alt="" />
               </div>
               <p>券包</p>
             </div>
-            <div class="btn" @click="$router.push({ name: 'DJSTransactionRecord' })">
+            <div class="btn" @click="jumpTo('DJSTransactionRecord')">
               <div class="btn-image">
                 <img src="./record.png" alt="" />
               </div>
               <p>交易记录</p>
             </div>
-            <div class="btn" @click="$router.push({ name: 'DJSBankCard' })">
+            <div class="btn" @click="jumpTo('DJSBankCard')">
               <div class="btn-image">
                 <img src="./bankcard.png" alt="" />
               </div>
@@ -57,20 +55,20 @@
               <span v-else>****</span>
             </div>
             <div class="action">
-              <input type="button" value="提现" @click="$router.push({ name: 'DJSToCash' })" />
-              <input type="button" value="充值" @click="$router.push({ name: 'DJSCharge' })" />
+              <input type="button" value="提现" @click="jumpTo('DJSToCash')" />
+              <input type="button" value="充值" @click="jumpTo('DJSCharge')" />
             </div>
           </div>
           <div class="links">
-            <div class="link" @click="$router.push({ name: 'DJSInviteFriends' })">
+            <div class="link" @click="jumpTo('DJSInviteFriends')">
               <span>邀请好友</span>
               <span>大家有钱一起赚</span>
             </div>
-            <div class="link" @click="$router.push({ name: 'DJSRecommender' })">
+            <div class="link" @click="jumpTo('DJSRecommender')">
               <span>我的推荐人</span>
               <span></span>
             </div>
-            <div class="link" @click="switchSystem" v-if="user.platformFlag === '3'">
+            <div class="link" @click="switchSystem" v-if="user && user.platformFlag === '3'">
               <span>系统切换</span>
               <span></span>
             </div>
@@ -146,7 +144,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
 import { mapMutations, mapGetters } from 'vuex'
-import { Toast } from 'mint-ui'
+import { Indicator, Toast } from 'mint-ui'
 
 import { amountInfo } from '@/api/djs/mine/mine'
 import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
@@ -158,16 +156,16 @@ export default {
     BScroll,
     Dialog
   },
-  mixins: [],
   data() {
     return {
       showModel: false,
       showAmount: true,
       showDownload: true,
-      amountInfo: {},
+      amountInfo: null,
       routerName: undefined,
       routerParams: {},
       userStatus: null,
+      userCompleteFlag: null,
       userCompleteDialogOptions: {
         // 用户信息未完善弹窗
         show: false,
@@ -213,7 +211,28 @@ export default {
       })
     },
     jumpTo(router_name) {
-      console.log(router_name)
+      /*
+        OPEN_ACCOUNT: 未开户
+        SET_PASSWORD: 未设置交易密码
+        REAL_NAME: 未实名开户
+        BANK_CARD: 未绑卡
+      */
+      switch (this.userCompleteFlag) {
+        case 'OPEN_ACCOUNT':
+          this.$router.push({ name: 'openAccount' })
+          break
+        case 'SET_PASSWORD':
+          this.$router.push({ name: 'openAccount' })
+          break
+        case 'REAL_NAME':
+          this.$router.push({ name: 'realNameAuthCheckName' })
+          break
+        case 'BANK_CARD':
+          this.$router.push({ name: 'realNameAuthBindCard' })
+          break
+        default:
+          this.$router.push({ name: router_name })
+      }
     },
     switchSystem() {
       this.setPlatform('hyc')
@@ -300,6 +319,7 @@ export default {
       getUserCompleteInfoApi().then(res => {
         const data = res.data.data
         if (res.data.resultCode === '1') {
+          this.userCompleteFlag = data.status
           // 复投弹窗在点击取消时，向cookie保存一个一天后过期的值。再次进入个人中心时，读取这个值，如果能拿的到说明不是第一次登陆，不显示
           const key = `repeat-key-${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
           this.userCompleteDialogOptions.msg = data.message
@@ -383,8 +403,13 @@ export default {
     ...mapGetters(['user', 'platform'])
   },
   created() {
-    this.getAmountInfo()
-    this.getUserCompleteInfo()
+    const $this = this
+    Indicator.open()
+    ;(async function render() {
+      await $this.getAmountInfo()
+      await $this.getUserCompleteInfo()
+      await Indicator.close()
+    })()
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

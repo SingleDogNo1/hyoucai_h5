@@ -42,6 +42,7 @@ const router = [
         path: 'open-account',
         name: 'openAccountProgress',
         component: () => import(/* webpackChunkName: "openAccountProgress" */ '@/views/common/openAccount/Progress'),
+        redirect: 'open-account/open',
         children: [
           {
             path: 'open',

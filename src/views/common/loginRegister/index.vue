@@ -59,6 +59,18 @@ export default {
         this.$refs.container.style.top = '0'
       }
     })
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      switch (from.name) {
+        case 'DJSUserCenter':
+          vm.$route.meta.backTo = 'DJSHomePage'
+          break
+        case 'HYCUserCenter':
+          vm.$route.meta.backTo = 'HYCHomePage'
+          break
+      }
+    })
   }
 }
 </script>

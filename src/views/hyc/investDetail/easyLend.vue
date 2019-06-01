@@ -211,7 +211,8 @@ export default {
         title: '恭喜您，出借成功',
         msg: '还有很多优质产品，总还有一款适合您',
         confirmText: '查看更多'
-      }
+      },
+      isInitCoupon: true // 是否渲染默认的加息券（首次进入加载，从选择红包加息券页跳转回来就不加载）
     }
   },
   computed: {
@@ -331,6 +332,11 @@ export default {
         Indicator.close()
         const data = res.data.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+
+        if (this.isInitCoupon && data.availableCouponCount === 1) {
+          this.initCoupon(data.optimalCoupon)
+        }
+        if (!this.isInitCoupon) this.clearCoupon()
       })
     },
     invest() {
@@ -435,7 +441,9 @@ export default {
       }
     },
     ...mapMutations({
-      cleanData: 'CLEAN_HYC_LEND_DATA'
+      cleanData: 'CLEAN_HYC_LEND_DATA',
+      initCoupon: 'CHOOSE_HYC_COUPON',
+      clearCoupon: 'CLEAN_HYC_COUPON'
     })
   },
   created() {
@@ -484,6 +492,15 @@ export default {
       })
       await $this.getCouponPackage($this.amount)
     })()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (['HYCLendChooseCoupon', 'HYCLendChooseRedPacket'].includes(from.name)) {
+        if (!vm.checkedCoupon) {
+          vm.isInitCoupon = false
+        }
+      }
+    })
   }
 }
 </script>

@@ -60,16 +60,17 @@ export default {
   watch: {},
   methods: {
     chooseItem(item, index) {
-      // alert(1)
       this.curIndex = index
       this.chooseCoupon(item)
       this.$router.go(-1)
     },
     back() {
+      this.clearCoupon()
       this.$router.go(-1)
     },
     ...mapMutations({
-      chooseCoupon: 'CHOOSE_DJS_COUPON'
+      chooseCoupon: 'CHOOSE_DJS_COUPON',
+      clearCoupon: 'CLEAN_DJS_COUPON'
     })
   },
   created() {

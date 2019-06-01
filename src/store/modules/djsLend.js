@@ -14,6 +14,10 @@ const djsLend = {
       state.djsLendRedPacket = redPacket
       Cookies.set('djsLendRedPacket', redPacket)
     },
+    CLEAN_DJS_COUPON: state => {
+      state.djsLendCoupon = null
+      Cookies.remove('djsLendCoupon')
+    },
     CLEAN_DJS_LEND_DATA: state => {
       state.djsLendAmount = null
       state.djsLendCoupon = null

@@ -192,7 +192,8 @@ export default {
         msg: '',
         title: '',
         confirmText: '重新评测'
-      }
+      },
+      isInitCoupon: true // 是否渲染默认的加息券（首次进入加载，从选择红包加息券页跳转回来就不加载）
     }
   },
   computed: {
@@ -292,6 +293,11 @@ export default {
         Indicator.close()
         const data = res.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+
+        if (this.isInitCoupon && data.availableCouponCount === 1) {
+          this.initCoupon(data.optimalCoupon)
+        }
+        if (!this.isInitCoupon) this.clearCoupon()
       })
     },
     invest() {
@@ -400,7 +406,9 @@ export default {
       }
     },
     ...mapMutations({
-      cleanData: 'CLEAN_DJS_LEND_DATA'
+      cleanData: 'CLEAN_DJS_LEND_DATA',
+      initCoupon: 'CHOOSE_DJS_COUPON',
+      clearCoupon: 'CLEAN_DJS_COUPON'
     })
   },
   created() {
@@ -445,6 +453,15 @@ export default {
       })
       await $this.getCouponPackage()
     })()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (['DJSLendChooseCoupon', 'DJSLendChooseRedPacket'].includes(from.name)) {
+        if (!vm.checkedCoupon) {
+          vm.isInitCoupon = false
+        }
+      }
+    })
   }
 }
 </script>

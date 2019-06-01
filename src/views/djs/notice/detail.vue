@@ -3,9 +3,9 @@
     <div class="notice" ref="container">
       <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
         <div class="wrapper">
-          <h2>{{ data.title }}</h2>
-          <div>{{ data.createTime }}</div>
-          <article id="content" v-html="data.content"></article>
+          <h2>{{ detail.title }}</h2>
+          <div>{{ detail.createTime }}</div>
+          <article id="content" v-html="detail.content"></article>
         </div>
       </b-scroll>
     </div>
@@ -27,11 +27,7 @@ export default {
       text: '公告详情',
       mobile: this.$route.query.mobile,
       id: this.$route.params.id,
-      data: {
-        title: '',
-        createTime: '',
-        content: ''
-      }
+      detail: {}
     }
   },
   methods: {
@@ -41,9 +37,7 @@ export default {
         Indicator.close()
         let data = res.data
         if (data.resultCode === CODE_OK) {
-          this.data.title = data.title
-          this.data.createTime = data.createTime
-          this.data.content = data.content
+          this.detail = data
         } else {
           Toast(data.resultMsg)
         }

@@ -22,7 +22,7 @@
           </li>
           <li @click="showTabs('HYCActivityCenter')">
             <img src="./hdtj.png" alt="" />
-            <button>hot</button>
+            <div>hot</div>
             <span>活动推荐</span>
           </li>
         </ul>
@@ -317,17 +317,18 @@ export default {
       img {
         @include square(0.38rem);
       }
-      button {
+      div {
         position: absolute;
-        left: 50%;
-        top: 0;
-        transform: translateY(-95%);
-        font-size: 0.13rem;
-        color: #fff;
         @include cube(0.3rem, 0.2rem);
+        left: 50%;
+        top: -33%;
+        color: #fff;
         background: #ec5e52;
         box-shadow: 0 0.02rem 0.04rem 0 rgba(236, 94, 82, 0.3);
         border-radius: 0.1rem 0.1rem 0.1rem 0;
+        font-size: 0.12rem;
+        text-align: center;
+        line-height: 0.2rem;
       }
       span {
         margin-top: 0.04rem;

@@ -50,6 +50,7 @@ export default {
       agree: true,
       idType: '01',
       isOpenAccount: false,
+      isSetPassword: false,
       idNo: '',
       name: '',
       nameDisabled: false, // 姓名是否可编辑
@@ -127,7 +128,8 @@ export default {
               retUrl: this.retUrl,
               gender: gender
             })
-          } else {
+          }
+          if (!this.isSetPassword) {
             // 开户未设置交易密码
             JumpJX('escrow/passwordReset', {
               retUrl: this.retUrl
@@ -156,11 +158,13 @@ export default {
         if (res.data.resultCode === '1') {
           const data = res.data.data
           $this.isOpenAccount = data.isOpenAccount
+          $this.isSetPassword = data.isSetPassword
           if (!data.isOpenAccount) {
             // 未开户
             $this.mobile = res.data.data.mobile
             $this.mobileDisable = res.data.data.isMobileEdit === '0'
-          } else {
+          }
+          if (!data.isSetPassword) {
             // 已开户未设置交易密码
             $this.name = data.name
             $this.nameDisabled = true
@@ -168,6 +172,9 @@ export default {
             $this.IDCardDisabled = true
             $this.mobile = res.data.data.mobile
             $this.mobileDisable = res.data.data.isMobileEdit === '0'
+          }
+          if (data.isOpenAccount && data.isSetPassword) {
+            $this.$router.push({ name: 'signAgreement' })
           }
         }
       })

@@ -737,33 +737,5 @@ export default {
       }
     }
   }
-  .auto-lend-dialog {
-    /deep/ .mint-cell-wrapper {
-      background-image: none;
-    }
-    /deep/ .mint-cell {
-      background-image: none;
-      min-height: 0.5rem;
-    }
-    .agre {
-      font-size: 0.13rem;
-      color: #666;
-      text-align: center;
-    }
-  }
-  .auto-lend-sxs-dialog {
-    /deep/ .inner {
-      padding-top: 1rem;
-    }
-    img {
-      position: absolute;
-      @include square(1.3rem);
-      left: 0;
-      right: 0;
-      top: 0;
-      margin: 0 auto;
-      transform: translateY(-50%);
-    }
-  }
 }
 </style>

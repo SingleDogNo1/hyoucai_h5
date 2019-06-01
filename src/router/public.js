@@ -106,7 +106,7 @@ const router = [
         name: 'AboutUs',
         component: () => import(/* webpackChunkName: "AboutUs" */ '@/views/common/AboutUs/AboutUs'),
         meta: {
-          title: '关于汇有财'
+          title: '信息披露'
         }
       },
       {
@@ -194,7 +194,7 @@ const router = [
         name: 'InfoDisclose',
         component: () => import(/* webpackChunkName: "InfoDisclose" */ '@/views/common/InfoDisclose'),
         meta: {
-          title: '信息披露'
+          title: '运营数据'
         }
       },
       {

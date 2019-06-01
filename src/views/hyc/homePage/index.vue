@@ -433,21 +433,18 @@ export default {
       color: #ec5e52;
       text-align: center;
       span {
+        font-weight: 600;
         &:first-child {
           font-size: 0.37rem;
           line-height: 0.52rem;
         }
         &.extra {
+          font-size: 0.15rem;
           display: inline-block;
           vertical-align: bottom;
-          width: 0.55rem;
-          height: 0.28rem;
           line-height: 0.23rem;
-          font-size: $font-size-small-s;
-          color: #fff;
+          color: #ec5e52;
           text-align: center;
-          background-image: url('./activeIcon.png');
-          background-size: contain;
         }
       }
     }
@@ -564,21 +561,18 @@ export default {
               line-height: 0.24rem;
             }
             span {
+              font-weight: 600;
               font-size: 0.16rem;
               &:first-child {
                 font-size: 0.26rem;
               }
               &.extra {
+                font-size: 0.15rem;
                 display: inline-block;
                 vertical-align: bottom;
-                width: 0.55rem;
-                height: 0.28rem;
                 line-height: 0.23rem;
-                font-size: $font-size-small-s;
-                color: #fff;
+                color: #ec5e52;
                 text-align: center;
-                background-image: url('./activeIcon.png');
-                background-size: contain;
               }
             }
           }

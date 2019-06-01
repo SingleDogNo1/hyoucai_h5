@@ -1,7 +1,7 @@
 import axios from '@/assets/js/requestHYC'
 import qs from 'qs'
 
-function getEvaInvLimitApi(data, headers) {
+function getEvaInvLimitApi(data, headers = {}) {
   return axios({
     url: 'evaluate/getEvaInvLimit',
     method: 'post',
@@ -10,7 +10,7 @@ function getEvaInvLimitApi(data, headers) {
   })
 }
 
-function saveEvaluatingResultApi(data, headers) {
+function saveEvaluatingResultApi(data, headers = {}) {
   return axios({
     url: 'user/saveEvaluatingResult',
     method: 'post',
@@ -19,7 +19,7 @@ function saveEvaluatingResultApi(data, headers) {
   })
 }
 
-function userBasicInfo(data, headers) {
+function userBasicInfo(data, headers = {}) {
   return axios({
     url: 'UserBasicInfo',
     method: 'post',

@@ -87,7 +87,8 @@
     </div>
 
     <!-- 复投弹窗 -->
-    <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest">
+    <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest" :onClose="closeAutoInvest">
+      <p>设置自动出借，加{{investDetail.doubleBonuCouponEntity.dbCouponRate}}%年化，到期复投生效</p>
       <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
       <p class="agre" @click="$router.push({ name: 'DJSagreement', query: {agreementType: 'zdtz'} })">自动出借服务条款></p>
     </Dialog>
@@ -383,6 +384,23 @@ export default {
           this.investErrDialogOptions.msg = data.resultMsg
         }
       })
+    },
+    closeAutoInvest() {
+      switch (this.investType) {
+        case 'GENERAL':
+          // 普通标
+          this.autoLendSuccessDialogOptions.msg = '还有很多优质产品，总还有一款适合您'
+          this.autoLendSuccessType = 0
+          this.autoLendSuccessDialogOptions.confirmText = '查看更多'
+          break
+        case 'SJLHD':
+          // 手机乐活动
+          this.autoLendSuccessDialogOptions.msg = this.generalMsg
+          this.autoLendSuccessType = 1
+          this.autoLendSuccessDialogOptions.confirmText = '去设置'
+          break
+      }
+      this.autoLendSuccessDialogOptions.show = true
     },
     confirmAutoLendSXS() {
       switch (this.autoLendSuccessType) {
@@ -699,12 +717,19 @@ export default {
     }
   }
   .auto-lend-dialog {
+    p {
+      font-size: 0.13rem;
+      font-weight: 500;
+      color: #666;
+      line-height: 0.18rem;
+      margin-bottom: 0.36rem;
+    }
     /deep/ .mint-cell-wrapper {
       background-image: none;
     }
     /deep/ .mint-cell {
       background-image: none;
-      min-height: 0.5rem;
+      min-height: 0.4rem;
     }
     .agre {
       font-size: 0.13rem;
@@ -715,6 +740,9 @@ export default {
   .auto-lend-sxs-dialog {
     /deep/ .inner {
       padding-top: 1rem;
+      header {
+        margin-bottom: 0.23rem;
+      }
     }
     img {
       position: absolute;

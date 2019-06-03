@@ -88,7 +88,7 @@
 
     <!-- 复投弹窗 -->
     <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest" :onClose="closeAutoInvest">
-      <p>设置自动出借，加{{investDetail.doubleBonuCouponEntity.dbCouponRate}}%年化，到期复投生效</p>
+      <p v-if="investDetail.doubleBonuCouponEntity">设置自动出借，加{{investDetail.doubleBonuCouponEntity.dbCouponRate}}%年化，到期复投生效</p>
       <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
       <p class="agre" @click="$router.push({ name: 'DJSagreement', query: {agreementType: 'zdtz'} })">自动出借服务条款></p>
     </Dialog>
@@ -206,8 +206,11 @@ export default {
   },
   watch: {
     amount(value) {
+      if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
+        this.amount = ((value * 100) / 100).toFixed(2)
+      }
       // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
-      Cookie.set('djsLendAmount', value)
+      Cookie.set('djsLendAmount', this.amount)
 
       // 项目剩余可投和账户余额取小，得到可投资的极限金额
       const maxLendAmount =

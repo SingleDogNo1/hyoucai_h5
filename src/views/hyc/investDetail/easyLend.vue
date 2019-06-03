@@ -224,8 +224,12 @@ export default {
   },
   watch: {
     amount(value) {
+      if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
+        this.amount = ((value * 100) / 100).toFixed(2)
+      }
       // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
-      Cookie.set('hycEasyAmount', value)
+      Cookie.set('hycEasyAmount', this.amount)
+
       // 项目剩余可投和账户余额取小，得到可投资的极限金额
       const maxLendAmount =
         parseFloat(this.amountInfo.banlance) <= parseFloat(this.projectInfo.surplusAmt) ? this.amountInfo.banlance : this.projectInfo.surplusAmt

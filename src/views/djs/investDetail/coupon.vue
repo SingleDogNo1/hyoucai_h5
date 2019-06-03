@@ -56,8 +56,6 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
-  props: {},
-  watch: {},
   methods: {
     chooseItem(item, index) {
       this.curIndex = index
@@ -90,9 +88,7 @@ export default {
         }
       })
     })
-  },
-  mounted() {},
-  destroyed() {}
+  }
 }
 </script>
 

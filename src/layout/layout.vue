@@ -43,11 +43,13 @@ export default {
 .layout {
   @include positionCenter();
   @include cube();
-  height: 100vh;
   display: flex;
   flex-direction: column;
   .container {
-    flex: 1;
+    position: fixed;
+    top: 0.44rem;
+    bottom: 0;
+    width: 100%;
     overflow: hidden;
     background: #fff;
   }

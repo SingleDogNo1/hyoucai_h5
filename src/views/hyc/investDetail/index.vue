@@ -106,7 +106,7 @@
           <NoData v-else></NoData>
         </section>
         <section class="manage-info">
-          <p class="tip">服务介绍</p>
+          <p class="tip">监督措施</p>
           <div class="manage">
             <ul @click="linkTo('complianceManagement')">
               <li><img src="./images/icon_03.png" alt="" /></li>
@@ -132,7 +132,7 @@
         </section>
         <section class="company_info">
           <p>由江西汇通金融信息服务有限公司提供网络借贷信息中介服务</p>
-          <span>网贷有风险，借贷需谨慎</span>
+          <span>网贷有风险，出借需谨慎</span>
         </section>
       </div>
     </BScroll>

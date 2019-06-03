@@ -74,6 +74,7 @@
             </section>
           </div>
         </div>
+        <p class="state">本人已清楚了解投标规则及项目风险，并谨此授权依据该投标规则进行投标。</p>
       </section>
     </BScroll>
 
@@ -298,7 +299,7 @@ export default {
         const data = res.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
-        if (this.isInitCoupon && data.availableCouponCount === 1) {
+        if (this.isInitCoupon && data.availableCouponCount === 1 && !this.checkedCoupon) {
           this.initCoupon(data.optimalCoupon)
         }
         if (!this.isInitCoupon) this.clearCoupon()
@@ -429,7 +430,8 @@ export default {
     ...mapMutations({
       cleanData: 'CLEAN_DJS_LEND_DATA',
       initCoupon: 'CHOOSE_DJS_COUPON',
-      clearCoupon: 'CLEAN_DJS_COUPON'
+      clearCoupon: 'CLEAN_DJS_COUPON',
+      clearRedPacket: 'CLEAN_DJS_REDPACKET'
     })
   },
   created() {
@@ -472,17 +474,26 @@ export default {
           $this.getExpectedIncome()
         }
       })
-      await $this.getCouponPackage()
+      await $this.getCouponPackage($this.amount)
     })()
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
+      // 跳转到红包 / 加息券页，如果没有选择卡券，跳转回来之后阻止请求红包加息券
       if (['DJSLendChooseCoupon', 'DJSLendChooseRedPacket'].includes(from.name)) {
         if (!vm.checkedCoupon) {
           vm.isInitCoupon = false
         }
       }
     })
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clearCoupon()
+    this.clearRedPacket()
+    // 如果不是跳转到选择卡券页面，重置投资金额
+    if (!['DJSLendChooseCoupon', 'DJSLendChooseRedPacket'].includes(to.name)) Cookie.remove('djsLendAmount')
+
+    next()
   }
 }
 </script>
@@ -656,7 +667,7 @@ export default {
       }
     }
     .agree {
-      margin: 0.16rem auto;
+      margin: 0.16rem auto 0.08rem;
       padding: 0 0.15rem 0 0.37rem;
       font-size: $font-size-small-s;
       line-height: 0.18rem;
@@ -689,6 +700,15 @@ export default {
       .agreement {
         color: $color-button;
       }
+    }
+    .state {
+      box-sizing: border-box;
+      width: 3.2rem;
+      margin: 0 auto;
+      padding-left: 0.1rem;
+      font-size: 0.13rem;
+      color: #999;
+      line-height: 0.18rem;
     }
   }
   .invest-btn {

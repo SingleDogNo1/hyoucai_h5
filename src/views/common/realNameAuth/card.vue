@@ -72,7 +72,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user', 'platform'])
   },
   watch: {
     amount(value) {
@@ -155,7 +155,11 @@ export default {
         validCode: this.smsCode
       }).then(res => {
         if (res.data.resultCode === '1') {
-          Toast('绑定成功')
+          if (this.platform === 'djs') {
+            this.$router.push({ name: 'DJSHomePage' })
+          } else {
+            this.$router.push({ name: 'HYCHomePage' })
+          }
         } else {
           Toast(res.data.resultMsg)
         }

@@ -18,6 +18,10 @@ const djsLend = {
       state.djsLendCoupon = null
       Cookies.remove('djsLendCoupon')
     },
+    CLEAN_DJS_REDPACKET: state => {
+      state.djsLendRedPacket = null
+      Cookies.remove('djsLendRedPacket')
+    },
     CLEAN_DJS_LEND_DATA: state => {
       state.djsLendAmount = null
       state.djsLendCoupon = null

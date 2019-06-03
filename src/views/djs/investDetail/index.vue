@@ -99,7 +99,7 @@
           <NoData v-else></NoData>
         </section>
         <section class="manage-info">
-          <p class="tip">服务介绍</p>
+          <p class="tip">监督措施</p>
           <div class="manage">
             <ul @click="linkTo('complianceManagement')">
               <li><img src="./images/icon_03.png" alt="" /></li>
@@ -125,7 +125,7 @@
         </section>
         <section class="company_info">
           <p>由江西汇通金融信息服务有限公司提供网络借贷信息中介服务</p>
-          <span>网贷有风险，借贷需谨慎</span>
+          <span>网贷有风险，出借需谨慎</span>
         </section>
       </div>
     </BScroll>
@@ -260,11 +260,12 @@ export default {
 .invest-detail {
   background: #eeeeee;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
   .inner {
-    flex: 1;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0.56rem;
     overflow: hidden;
     .pro-info {
       height: 2.45rem;
@@ -668,9 +669,11 @@ export default {
 
   .to-lend {
     width: 100%;
+    bottom: 0;
     padding: 0.06rem 0;
     background: #ffffff;
     @include border-top-1px(#eee);
+    position: fixed;
     .lend_btns {
       @include cube(3.45rem, 0.44rem);
       margin: 0 auto;

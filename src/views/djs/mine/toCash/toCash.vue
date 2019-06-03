@@ -591,6 +591,10 @@ export default {
 <style lang="scss" scoped>
 @import '../../../../assets/css/theme.scss';
 @import '../../../../assets/css/mixins.scss';
+input::placeholder {
+  color: #c6c6cb;
+}
+
 .pageContainer {
   height: 100%;
   top: 0.44rem;
@@ -640,22 +644,6 @@ export default {
           float: left;
           input {
             font-size: 0.28rem;
-          }
-          input::-webkit-input-placeholder {
-            /* WebKit browsers */
-            color: #c6c6cb;
-          }
-          input:-moz-placeholder {
-            /* Mozilla Firefox 4 to 18 */
-            color: #c6c6cb;
-          }
-          input::-moz-placeholder {
-            /* Mozilla Firefox 19+ */
-            color: #c6c6cb;
-          }
-          input:-ms-input-placeholder {
-            /* Internet Explorer 10+ */
-            color: #c6c6cb;
           }
           &:first-child {
             width: 0.15rem;
@@ -757,7 +745,7 @@ export default {
               text-align: right;
             }
             &:disabled {
-              color: $color-text-s;
+              color: #666;
             }
           }
           em {

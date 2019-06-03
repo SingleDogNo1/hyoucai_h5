@@ -35,7 +35,7 @@
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
           <!-- 现金红包右半边 -->
-          <div class="coupon_right" v-if="item.voucherType === 'VT02' && item.secondType === 2">
+          <div class="coupon_right money" v-if="item.voucherType === 'VT02' && item.secondType === 2">
             <p class="right_p2">领取后直接计入账户余额</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
@@ -64,10 +64,21 @@
             <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
             <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
           </div>
-          <div class="coupon_right">
-            <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
-            <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <!-- 加息券右半边 -->
+          <div class="coupon_right" v-if="item.voucherType === 'VT01'">
+            <p class="right_p1">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
             <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
+          <!-- 投资红包右半边 -->
+          <div class="coupon_right" v-if="item.voucherType === 'VT02' && item.secondType === 1">
+            <p class="right_p1">起投金额：{{ item.amountMin }}元</p>
+            <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
+          <!-- 现金红包右半边 -->
+          <div class="coupon_right money" v-if="item.voucherType === 'VT02' && item.secondType === 2">
+            <p class="right_p2">领取后直接计入账户余额</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
         </div>
@@ -246,6 +257,11 @@ export default {
         padding-right: 0.14rem;
         color: #333;
         width: 2.55rem;
+        &.money {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
         .right_p1 {
           margin-top: 0.1rem;
           font-size: 0.13rem;

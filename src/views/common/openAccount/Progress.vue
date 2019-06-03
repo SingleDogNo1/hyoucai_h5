@@ -52,7 +52,7 @@ export default {
         height: 0.2rem;
         margin-top: -0.1rem;
         &.active {
-          border: 0.07rem solid #f4c700;
+          border: 0.07rem solid #ec5e52;
         }
       }
     }
@@ -69,7 +69,7 @@ export default {
         text-align: center;
         font-size: $font-size-small-ss;
         &.active {
-          background: #f4c700;
+          background: #ec5e52;
         }
       }
     }

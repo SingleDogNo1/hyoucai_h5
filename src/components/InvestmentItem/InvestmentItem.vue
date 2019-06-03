@@ -14,9 +14,9 @@
       <div class="item_info">
         <dl>
           <dt>
-            <i>{{ parseFloat(itemData.basicsInvestRate).toFixed(2) }}</i>
+            <i>{{ itemData.basicsInvestRate }}</i>
             <span>%</span>
-            <em v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">+{{ itemData.activityInvestRate }}%</em>
+            <span class="extra" v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">+{{ itemData.activityInvestRate }}%</span>
           </dt>
           <dd>历史平均年化收益率</dd>
         </dl>
@@ -217,18 +217,13 @@ export default {
               display: inline-block;
               vertical-align: bottom;
               font-size: 0.2rem;
-            }
-            em {
-              display: inline-block;
-              vertical-align: bottom;
-              width: 0.55rem;
-              height: 0.28rem;
-              line-height: 0.23rem;
-              font-size: $font-size-small-s;
-              color: #fff;
-              text-align: center;
-              background-image: url('./image/activeIcon.png');
-              background-size: contain;
+              font-weight: 600;
+              &.extra {
+                font-size: 0.15rem;
+                line-height: 0.23rem;
+                text-align: center;
+                color: $color-button;
+              }
             }
           }
         }

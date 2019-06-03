@@ -61,11 +61,11 @@ export default {
   methods: {
     chooseItem(item, index) {
       this.curIndex = index
-      this.djsLendRedPacket(item)
+      this.chooseRedPacket(item)
       this.$router.go(-1)
     },
     ...mapMutations({
-      djsLendRedPacket: 'CHOOSE_DJS_REDPACKET'
+      chooseRedPacket: 'CHOOSE_DJS_REDPACKET'
     })
   },
   created() {

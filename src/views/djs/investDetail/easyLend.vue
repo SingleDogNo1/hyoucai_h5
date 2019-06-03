@@ -299,7 +299,7 @@ export default {
         const data = res.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
-        if (this.isInitCoupon && data.availableCouponCount === 1 && !this.checkedCoupon) {
+        if (this.isInitCoupon && data.availableCouponCount === 1) {
           this.initCoupon(data.optimalCoupon)
         }
         if (!this.isInitCoupon) this.clearCoupon()
@@ -477,6 +477,7 @@ export default {
       await $this.getCouponPackage($this.amount)
     })()
   },
+  // TODO 默认同时显示红包加息券？？
   beforeRouteEnter(to, from, next) {
     next(vm => {
       // 跳转到红包 / 加息券页，如果没有选择卡券，跳转回来之后阻止请求红包加息券

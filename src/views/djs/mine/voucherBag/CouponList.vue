@@ -22,10 +22,21 @@
             <p class="coupon_left_txt" v-if="item.voucherType !== 'VT01'">{{ item.commonUse }}与加息券一起使用</p>
             <p class="coupon_left_txt" v-else>{{ item.commonUse }}与红包一起使用</p>
           </div>
-          <div class="coupon_right">
-            <p class="right_p1" v-if="item.voucherType !== 'VT01'">起投金额：{{ item.amountMin }}元</p>
-            <p class="right_p1" v-else>出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
+          <!-- 加息券右半边 -->
+          <div class="coupon_right" v-if="item.voucherType === 'VT01'">
+            <p class="right_p1">出借范围：{{ item.amountMin }}-{{ item.amountMax }}元</p>
             <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
+          <!-- 投资红包右半边 -->
+          <div class="coupon_right" v-if="item.voucherType === 'VT02' && item.secondType === 1">
+            <p class="right_p1">起投金额：{{ item.amountMin }}元</p>
+            <p class="right_p2">适用范围：{{ item.msg }}</p>
+            <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
+          </div>
+          <!-- 现金红包右半边 -->
+          <div class="coupon_right" v-if="item.voucherType === 'VT02' && item.secondType === 2">
+            <p class="right_p2">领取后直接计入账户余额</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
           <div class="coupon_right_btn" @click="receiveIt(item)">
@@ -261,7 +272,7 @@ export default {
         background-image: url(./images/dikou.png);
       }
       &.receive2_1 {
-        background-image: url(./images/touzi.png);
+        background-image: url(./images/xianjin.png);
       }
     }
     .coupon_right_btn {

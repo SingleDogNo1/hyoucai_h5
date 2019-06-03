@@ -164,7 +164,7 @@ export default {
             $this.mobile = res.data.data.mobile
             $this.mobileDisable = res.data.data.isMobileEdit === '0'
           }
-          if (!data.isSetPassword) {
+          if (data.isOpenAccount && !data.isSetPassword) {
             // 已开户未设置交易密码
             $this.name = data.name
             $this.nameDisabled = true

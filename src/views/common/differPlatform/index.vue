@@ -26,16 +26,16 @@ export default {
       const data = res.data
       if (res.data.resultCode === '1') {
         this.setPlatform(data.data.platformFlag === '1' ? 'djs' : 'hyc')
-        // switch (data.data.platformFlag) {
-        //   case '1':
-        //     // 点金石
-        //     this.$router.push({ name: 'DJSHomePage' })
-        //     break
-        //   case '2':
-        //     // 汇有财
-        //     this.$router.push({ name: 'HYCHomePage' })
-        //     break
-        // }
+        switch (data.data.platformFlag) {
+          case '1':
+            // 点金石
+            this.$router.push({ name: 'DJSHomePage' })
+            break
+          case '2':
+            // 汇有财
+            this.$router.push({ name: 'HYCHomePage' })
+            break
+        }
       }
     })
   }

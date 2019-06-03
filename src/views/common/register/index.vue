@@ -44,6 +44,7 @@ import SMSBtn from '@/components/smsBtn'
 import { isMobCode, isPassword } from '@/assets/js/regular'
 import { mapGetters, mapMutations } from 'vuex'
 import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/api/common/register'
+import { getUserCompleteInfoApi } from '@/api/common/mine'
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
 import { userLogin } from '@/api/common/login'
@@ -182,8 +183,21 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              this.$router.push({
-                name: 'realNameAuthCheckName'
+              getUserCompleteInfoApi().then(res => {
+                if (res.data.resultCode === '1') {
+                  const data = res.data.data
+                  debugger
+                  switch (data.status) {
+                    case 'OPEN_ACCOUNT':
+                      this.$router.push({ name: 'remindOpenAccount' })
+                      break
+                    case 'REAL_NAME':
+                      this.$router.push({ name: 'realNameAuthCheckName' })
+                      break
+                  }
+                } else {
+                  Toast(res.data.resultMsg)
+                }
               })
             } else {
               Toast(res.data.resultMsg)

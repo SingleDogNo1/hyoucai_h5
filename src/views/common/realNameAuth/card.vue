@@ -88,11 +88,38 @@ export default {
       this.captchaIns && this.captchaIns.popUp()
     },
     getSmsCode() {
+      if (!this.amount) {
+        Toast('请输入充值金额')
+        return
+      }
+      if (!isBankCard(this.bankCard)) {
+        Toast('请输入正确的银行卡号')
+        return
+      }
+      if (!isMobile(this.mobile)) {
+        Toast('请输入正确的手机号')
+        return
+      }
+
       this.$refs.smsBtn.countDown()
       queryCardInfo({
         bankCardNum: this.bankCard
       }).then(res => {
         this.bankCode = res.data.bankCode
+        rechargeApiDirectPayServer({
+          amount: this.amount,
+          userName: this.user.userName,
+          bankCardNum: this.bankCard,
+          bankCode: this.bankCode,
+          mobileNo: this.mobile,
+          rechargeType: 'KQAP',
+          whichSetp: 'send',
+          validCode: this.smsCode
+        }).then(res => {
+          if (res.data.resultCode === '1') {
+            Toast('验证码发送成功')
+          }
+        })
       })
     },
     toSupportBank() {

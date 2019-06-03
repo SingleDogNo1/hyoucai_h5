@@ -38,7 +38,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/css/mixins';
+
 .layout {
+  @include positionCenter();
+  @include cube();
   height: 100vh;
   display: flex;
   flex-direction: column;

@@ -15,7 +15,10 @@ export function getQRCode(data) {
   return request({
     url: '/QRCodeShare',
     method: 'post',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
+    headers: {
+      version: '2.0'
+    }
   })
 }
 

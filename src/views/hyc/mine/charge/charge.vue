@@ -35,7 +35,7 @@
           </ul>
           <mt-cell title="转账充值" is-link @click.native="toChargeTip"></mt-cell>
           <div class="tip">
-            <button @click="checkAmount">提交</button>
+            <button @click="checkAmount">确认充值</button>
           </div>
         </div>
       </b-scroll>

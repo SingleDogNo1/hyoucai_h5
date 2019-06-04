@@ -23,14 +23,14 @@
           <li>
             <div class="border-bottom-1px" @click="showProvince">
               <span>开户地区</span>
-              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" disabled @focus="focusScroll" type="text" v-model="areaName" />
+              <input placeholder="请选择开户地区" ref="cardBankCnapsInput" readonly @focus="focusScroll" type="text" v-model="areaName" />
               <em></em>
             </div>
           </li>
           <li>
             <div class="border-bottom-1px" @click="showBank">
               <span>开户网点</span>
-              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" disabled @focus="focusScroll" type="text" v-model="bankName" />
+              <input placeholder="请选择开户网点" ref="cardBankCnapsInput" readonly @focus="focusScroll" type="text" v-model="bankName" />
               <em></em>
             </div>
           </li>
@@ -741,11 +741,9 @@ input::placeholder {
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            color: #666;
             &.phone-input {
               text-align: right;
-            }
-            &:disabled {
-              color: #666;
             }
           }
           em {

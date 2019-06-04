@@ -29,6 +29,11 @@ export default {
       }
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    next(() => {
+      console.log(to, from)
+    })
+  },
   methods: {
     getMore() {
       alert(1111)

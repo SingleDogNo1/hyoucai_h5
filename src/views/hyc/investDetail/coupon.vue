@@ -34,7 +34,7 @@ import CouponItem from '@/components/coupon/coupon'
 
 import { availableCouponApi } from '@/api/hyc/investDetail'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'coupon',
@@ -54,21 +54,31 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.hycLend.hycLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.hycLend.hycLendRedPacket, // 已选择的红包
+      hycChooseCouponFlag: state => state.hycLend.hycChooseCouponFlag, // 是否操作过加息券列表
+      hycChooseRedPacketFlag: state => state.hycLend.hycChooseRedPacketFlag // 是否操作过红包列表
+    })
   },
   methods: {
     chooseItem(item, index) {
+      this.setCouponFlag(false)
       this.curIndex = index
       this.chooseCoupon(item)
       this.$router.go(-1)
     },
     back() {
+      this.setCouponFlag(false)
       this.cleanCoupon()
       this.$router.go(-1)
     },
     ...mapMutations({
       chooseCoupon: 'CHOOSE_HYC_COUPON',
-      cleanCoupon: 'CLEAN_HYC_COUPON'
+      cleanCoupon: 'CLEAN_HYC_COUPON',
+      setCouponFlag: 'SET_HYC_CHOOSE_COUPON_FLAG',
+      setRedPacketFlag: 'SET_HYC_CHOOSE_REDPACKET_FLAG'
     })
   },
   created() {
@@ -88,6 +98,17 @@ export default {
         }
       })
     })
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!JSON.parse(this.hycChooseRedPacketFlag)) {
+      this.setRedPacketFlag(false)
+    } else {
+      this.setRedPacketFlag(!this.checkedCoupon)
+    }
+
+    if (this.checkedCoupon) this.chooseCoupon(this.checkedCoupon)
+
+    next()
   }
 }
 </script>

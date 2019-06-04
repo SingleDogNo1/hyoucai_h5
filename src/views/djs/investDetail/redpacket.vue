@@ -11,7 +11,7 @@
             @choose="chooseItem(item, index)"
           ></CouponItem>
         </template>
-        <button @click="$router.go(-1)">本次不使用红包</button>
+        <button @click="back">本次不使用红包</button>
       </header>
       <footer v-if="unusableRedPacket.length > 0">
         <h6>本交易您不可以使用以下红包</h6>
@@ -34,7 +34,7 @@ import CouponItem from '@/components/coupon/redpacket'
 
 import { availableRedPacketApi } from '@/api/djs/investDetail'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'coupon',
@@ -54,18 +54,33 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.djsLend.djsLendRedPacket, // 已选择的红包
+      djsChooseCouponFlag: state => state.djsLend.djsChooseCouponFlag, // 是否操作过加息券列表
+      djsChooseRedPacketFlag: state => state.djsLend.djsChooseRedPacketFlag // 是否操作过红包列表
+    })
   },
   props: {},
   watch: {},
   methods: {
     chooseItem(item, index) {
+      this.setRedPacketFlag(false)
       this.curIndex = index
       this.chooseRedPacket(item)
       this.$router.go(-1)
     },
+    back() {
+      this.setRedPacketFlag(false)
+      this.clearRedPacket()
+      this.$router.go(-1)
+    },
     ...mapMutations({
-      chooseRedPacket: 'CHOOSE_DJS_REDPACKET'
+      chooseRedPacket: 'CHOOSE_DJS_REDPACKET',
+      clearRedPacket: 'CLEAN_DJS_REDPACKET',
+      setCouponFlag: 'SET_DJS_CHOOSE_COUPON_FLAG',
+      setRedPacketFlag: 'SET_DJS_CHOOSE_REDPACKET_FLAG'
     })
   },
   created() {
@@ -86,8 +101,17 @@ export default {
       })
     })
   },
-  mounted() {},
-  destroyed() {}
+  beforeRouteLeave(to, from, next) {
+    if (!JSON.parse(this.djsChooseCouponFlag)) {
+      this.setCouponFlag(false)
+    } else {
+      this.setCouponFlag(!this.checkedCoupon)
+    }
+
+    if (this.checkedRedPacket) this.chooseRedPacket(this.checkedRedPacket)
+
+    next()
+  }
 }
 </script>
 

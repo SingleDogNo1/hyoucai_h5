@@ -4,7 +4,9 @@ const hycLend = {
     hycEasyAmount: Cookies.get('hycEasyAmount') || '',
     hycOptionAmount: Cookies.get('hycOptionAmount') || '',
     hycLendCoupon: Cookies.getJSON('hycLendCoupon') || null,
-    hycLendRedPacket: Cookies.getJSON('hycLendRedPacket') || null
+    hycLendRedPacket: Cookies.getJSON('hycLendRedPacket') || null,
+    hycChooseCouponFlag: Cookies.get('hycCouponFlag') || true,
+    hycChooseRedPacketFlag: Cookies.get('hycRedPacketFlag') || true
   },
   mutations: {
     CHOOSE_HYC_COUPON: (state, coupon) => {
@@ -22,6 +24,14 @@ const hycLend = {
     CLEAN_HYC_REDPACKET: state => {
       state.hycLendRedPacket = null
       Cookies.remove('hycLendRedPacket')
+    },
+    SET_HYC_CHOOSE_COUPON_FLAG: (state, value) => {
+      state.hycChooseCouponFlag = value
+      Cookies.set('hycCouponFlag', value)
+    },
+    SET_HYC_CHOOSE_REDPACKET_FLAG: (state, value) => {
+      state.hycChooseRedPacketFlag = value
+      Cookies.set('hycRedPacketFlag', value)
     },
     CLEAN_HYC_LEND_DATA: state => {
       state.hycEasyAmount = null

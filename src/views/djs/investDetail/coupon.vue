@@ -34,7 +34,7 @@ import CouponItem from '@/components/coupon/coupon'
 
 import { availableCouponApi } from '@/api/djs/investDetail'
 
-import { mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'coupon',
@@ -54,21 +54,31 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.djsLend.djsLendRedPacket, // 已选择的红包
+      djsChooseCouponFlag: state => state.djsLend.djsChooseCouponFlag, // 是否操作过加息券列表
+      djsChooseRedPacketFlag: state => state.djsLend.djsChooseRedPacketFlag // 是否操作过红包列表
+    })
   },
   methods: {
     chooseItem(item, index) {
+      this.setCouponFlag(false)
       this.curIndex = index
       this.chooseCoupon(item)
       this.$router.go(-1)
     },
     back() {
+      this.setCouponFlag(false)
       this.clearCoupon()
       this.$router.go(-1)
     },
     ...mapMutations({
       chooseCoupon: 'CHOOSE_DJS_COUPON',
-      clearCoupon: 'CLEAN_DJS_COUPON'
+      clearCoupon: 'CLEAN_DJS_COUPON',
+      setCouponFlag: 'SET_DJS_CHOOSE_COUPON_FLAG',
+      setRedPacketFlag: 'SET_DJS_CHOOSE_REDPACKET_FLAG'
     })
   },
   created() {
@@ -88,6 +98,17 @@ export default {
         }
       })
     })
+  },
+  beforeRouteLeave(to, from, next) {
+    if (!JSON.parse(this.djsChooseRedPacketFlag)) {
+      this.setRedPacketFlag(false)
+    } else {
+      this.setRedPacketFlag(!this.checkedCoupon)
+    }
+
+    if (this.checkedCoupon) this.chooseCoupon(this.checkedCoupon)
+
+    next()
   }
 }
 </script>

@@ -306,9 +306,9 @@ export default {
               case 'evaluate':
                 // 用户信息已经完善，该标识设置为true
                 this.userCompleteIsOver = true
-                this.userCompleteDialogOptions.msg = data.message
-                this.userCompleteDialogOptions.confirmText = '我知道了'
-                this.userStatus = 'evaluate'
+                // this.userCompleteDialogOptions.msg = data.message
+                // this.userCompleteDialogOptions.confirmText = '我知道了'
+                // this.userStatus = 'evaluate'
                 break
             }
           }
@@ -325,9 +325,9 @@ export default {
           this.userCompleteDialogOptions.msg = data.message
           switch (data.status) {
             case 'OPEN_ACCOUNT':
-              this.userCompleteDialogOptions.confirmText = '开通存管账户'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'remindOpenAccount'
+              // this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'remindOpenAccount'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'
@@ -335,9 +335,9 @@ export default {
               this.routerName = 'remindOpenAccount'
               break
             case 'REAL_NAME':
-              this.userCompleteDialogOptions.confirmText = '开通存管账户'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'realNameAuthCheckName'
+              // this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'realNameAuthCheckName'
               break
             case 'BANK_CARD':
               this.userCompleteDialogOptions.confirmText = '绑定银行卡'
@@ -350,9 +350,9 @@ export default {
               this.routerName = 'signAgreement'
               break
             case 'EVALUATE':
-              this.userCompleteDialogOptions.confirmText = '风险评测'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'riskTest'
+              // this.userCompleteDialogOptions.confirmText = '风险评测'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'riskTest'
               break
             default:
               if (this.platform === 'djs' && !Cookie.get(key)) {
@@ -372,7 +372,6 @@ export default {
                   } else {
                     Toast(res.data.resultMsg)
                   }
-                  console.log()
                 })
               } else {
                 // 汇有财逻辑

@@ -70,6 +70,7 @@ export default {
         font-size: $font-size-small-ss;
         &.active {
           background: #ec5e52;
+          color: #fff;
         }
       }
     }

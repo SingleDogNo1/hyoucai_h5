@@ -129,7 +129,7 @@ export default {
               gender: gender
             })
           }
-          if (!this.isSetPassword) {
+          if (this.isOpenAccount && !this.isSetPassword) {
             // 开户未设置交易密码
             JumpJX('escrow/passwordReset', {
               retUrl: this.retUrl

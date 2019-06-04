@@ -87,7 +87,8 @@
                 </ul>
               </div>
               <div class="right">
-                <button v-if="item.status === '1'" @click="handleInvest(item.projectNo)">授权出借</button>
+                <button v-if="parseInt(item.status) === 1" @click="handleInvest(item.projectNo)">授权出借</button>
+                <button v-else-if="parseInt(item.status) === 2" class="disabled">已满标</button>
                 <button class="disabled" v-else>暂未开启</button>
               </div>
             </div>

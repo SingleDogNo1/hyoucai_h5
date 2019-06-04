@@ -230,9 +230,9 @@ export default {
           this.userCompleteDialogOptions.msg = data.message
           switch (data.status) {
             case 'OPEN_ACCOUNT':
-              this.userCompleteDialogOptions.confirmText = '开通存管账户'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'remindOpenAccount'
+              // this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'remindOpenAccount'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'

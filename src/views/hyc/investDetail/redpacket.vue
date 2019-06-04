@@ -109,7 +109,7 @@ export default {
       this.setCouponFlag(!this.checkedCoupon)
     }
 
-    if (this.checkedRedPacket) this.chooseRedPacket(this.checkedRedPacket)
+    if (this.checkedRedPacket) this.hycLendRedPacket(this.checkedRedPacket)
 
     next()
   }

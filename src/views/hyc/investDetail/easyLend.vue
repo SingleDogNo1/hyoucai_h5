@@ -250,10 +250,10 @@ export default {
       Cookie.set('hycEasyAmount', this.amount)
 
       // 项目剩余可投
-      const surplusAmount = this.investDetail.surplusAmount
+      const surplusAmount = this.projectInfo.surplusAmt
 
       // 判断全投状态
-      this.lendAllFlag = value === surplusAmount || value === this.amountInfo.banlance
+      this.lendAllFlag = parseFloat(value) - parseFloat(surplusAmount) === 0 || parseFloat(value) - parseFloat(this.amountInfo.banlance) === 0
 
       // 对比输入金额和可用金额case
       if (value !== '' && value - 0 < this.projectInfo.minInvAmount - 0) {
@@ -421,7 +421,8 @@ export default {
                     userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
                     investSource: 'h5',
                     forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
-                    retUrl: window.location.href
+                    retUrl: window.location.href,
+                    projectType: this.projectType
                   }).then(res => {
                     const data = res.data.data
                     switch (res.data.resultCode) {

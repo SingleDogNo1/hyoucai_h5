@@ -235,7 +235,7 @@ export default {
       const surplusAmount = this.investDetail.surplusAmount
 
       // 判断全投状态
-      this.lendAllFlag = value === surplusAmount || value === this.amountInfo.banlance
+      this.lendAllFlag = parseFloat(value) - parseFloat(surplusAmount) === 0 || parseFloat(value) - parseFloat(this.amountInfo.banlance) === 0
 
       // 对比输入金额和可用金额case
       if (value !== '' && value - 0 < this.investDetail.minInvAmt - 0) {

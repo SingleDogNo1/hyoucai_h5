@@ -510,7 +510,7 @@ export default new Router({
               name: 'DJSNoticeList',
               component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/list'),
               meta: {
-                title: '网站公告'
+                title: '公告'
               }
             },
             {

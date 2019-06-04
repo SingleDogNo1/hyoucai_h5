@@ -133,7 +133,7 @@ const router = [
             name: 'DJSNoticeList',
             component: () => import(/* webpackChunkName: "DJSNoticeList" */ '@/views/djs/notice/list'),
             meta: {
-              title: '网站公告'
+              title: '公告'
             }
           },
           {
@@ -377,7 +377,7 @@ const router = [
             name: 'HYCNoticeList',
             component: () => import(/* webpackChunkName: "HYCNoticeList" */ '@/views/hyc/notice/list'),
             meta: {
-              title: '网站公告'
+              title: '公告'
             }
           },
           {

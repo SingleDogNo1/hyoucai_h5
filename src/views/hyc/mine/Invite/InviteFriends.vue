@@ -74,8 +74,10 @@ export default {
       getQRCode({
         userName: this.user.userName
       }).then(res => {
-        // console.log(res.data.data)
-        this.QRCode = res.data.data.qrPicUrl
+        let data = res.data
+        if (data.data.qrPicUrl) {
+          this.QRCode = data.data.qrPicUrl //二维码图片地址
+        }
         this.dialogOption.show = true
       })
     },
@@ -88,8 +90,8 @@ export default {
     userInviteCode({ userName: this.user.userName }).then(res => {
       let data = res.data.data
       // console.log(res.data.data)
-      this.myRecommendCode = data.myRecommendCode
-      this.recommend = data.recommendPersonCount
+      this.myRecommendCode = data.myInviteCode
+      this.recommend = data.invitePersonCount
     })
   }
 }

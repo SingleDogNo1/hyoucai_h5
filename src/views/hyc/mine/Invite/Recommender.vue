@@ -109,8 +109,10 @@ export default {
         userName: this.user.userName
       }).then(res => {
         Indicator.close()
-        // console.log(res.data)
-        this.QRCode = res.data.qrPicUrl //二维码图片地址
+        let data = res.data
+        if (data.data.qrPicUrl) {
+          this.QRCode = data.data.qrPicUrl //二维码图片地址
+        }
         this.dialogOption.show = true
       })
     },

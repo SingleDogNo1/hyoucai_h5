@@ -21,11 +21,6 @@ export default {
       handle: this.$route.meta.handle ? this.$route.meta.handle : ''
     }
   },
-  beforeRouteEnter(to, from, next) {
-    next(() => {
-      console.log(to, from)
-    })
-  },
   methods: {
     goBack() {
       if (window.DjsJsBridge) {
@@ -48,6 +43,7 @@ export default {
   },
   watch: {
     $route(to) {
+      console.log(to)
       this.title = to.meta.title
       this.isAppTitle = to.query.mobile
     }

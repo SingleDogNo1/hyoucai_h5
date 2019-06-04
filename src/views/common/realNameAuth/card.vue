@@ -6,7 +6,7 @@
           <h6>充值金额</h6>
           <div class="amount">
             <span>¥</span>
-            <input type="text" placeholder="请输入充值金额（100元起）" v-model="amount" />
+            <input type="text" placeholder="请输入充值金额（100元起）" @input="amountInput" />
           </div>
           <p class="amount-err">{{ amountErrMsg }}</p>
         </div>
@@ -17,16 +17,16 @@
           </div>
           <div class="block">
             <span>银行卡号</span>
-            <input type="text" maxlength="20" v-model="bankCard" placeholder="请输入银行卡号" />
+            <input type="text" maxlength="20" @input="numberInput($event, 'bankCard')" placeholder="请输入银行卡号" />
             <img src="./tips.png" alt="" @click="toSupportBank" />
           </div>
           <div class="block">
             <span>手机号</span>
-            <input type="tel" maxlength="11" v-model="mobile" placeholder="请输入手机号" />
+            <input type="tel" maxlength="11" @input="numberInput($event, 'mobile')" placeholder="请输入手机号" />
           </div>
           <div class="block">
             <span>验证码</span>
-            <input type="tel" maxlength="6" v-model="smsCode" placeholder="请输入短信验证码" />
+            <input type="tel" maxlength="6" @input="numberInput($event, 'smsCode')" v-model="smsCode" placeholder="请输入短信验证码" />
             <SMSBtn text="获取验证码" class="sms-btn" ref="smsBtn" @getSMSCode="sendSMSCode" />
           </div>
         </div>
@@ -90,6 +90,10 @@ export default {
     getSmsCode() {
       if (!this.amount) {
         Toast('请输入充值金额')
+        return
+      }
+      if (!this.amount < 100) {
+        Toast('充值金额100元起')
         return
       }
       if (!isBankCard(this.bankCard)) {
@@ -164,6 +168,31 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
+    },
+    amountInput(e) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace(/\.{2,}/g, '.')
+      e.target.value = e.target.value
+        .replace('.', '$#$')
+        .replace(/\./g, '')
+        .replace('$#$', '.')
+      e.target.value = e.target.value.replace(/^(-)*(\d+)\.(\d\d).*$/, '$1$2.$3')
+      this.amount = e.target.value
+    },
+    numberInput(e, type) {
+      e.target.value = e.target.value.replace(/[^\d.]/g, '')
+      e.target.value = e.target.value.replace('.', '$#$').replace(/\./g, '')
+      switch (type) {
+        case 'bankCard':
+          this.bankCard = e.target.value
+          break
+        case 'mobile':
+          this.mobile = e.target.value
+          break
+        case 'smsCode':
+          this.smsCode = e.target.value
+          break
+      }
     }
   },
   created() {

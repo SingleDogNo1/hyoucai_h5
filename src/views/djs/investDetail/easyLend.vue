@@ -336,6 +336,8 @@ export default {
         } else {
           this.initRedPacket(this.checkedRedPacket)
         }
+
+        this.getExpectedIncome()
       })
     },
     invest() {

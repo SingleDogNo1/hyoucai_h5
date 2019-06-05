@@ -23,12 +23,6 @@
                 <input placeholder="请输入充值金额（100元起）" type="text" @input="amountInput" />
               </div>
             </li>
-            <!--<li>
-              <div>
-                <span>可用余额</span>
-                <em>{{banlance}}元</em>
-              </div>
-            </li>-->
           </ul>
           <ul class="bottom">
             <li>
@@ -58,7 +52,6 @@
             <p>为了您的账户提现快速到账，请您绑定一类卡</p>
             <div><a href="https://mp.weixin.qq.com/s/AGl5G7v0Z8UvMfLtDGQaMg">点击了解何为一类卡></a></div>
           </div>
-          <!--<mt-cell title="转账充值" is-link @click.native="toChargeTip"></mt-cell>-->
           <div class="tip border-top-1px">
             <button @click="submitCharge">确认充值</button>
           </div>
@@ -73,7 +66,6 @@
 
 <script>
 import { Toast } from 'mint-ui'
-// import { Base64Utils } from '@/assets/js/utils'
 import BScroll from '@/components/BScroll/BScroll'
 import {
   queryCardInfo,
@@ -89,7 +81,7 @@ import { isMobile } from '@/assets/js/regular'
 import { AppToast } from '@/assets/js/Toast'
 import AppDialog from '@/components/Dialog/Alert'
 import { getUser } from '@/assets/js/cache'
-import { getAuth, getRetBaseURL, plusStar } from '@/assets/js/utils'
+import { getRetBaseURL, plusStar } from '@/assets/js/utils'
 
 const ERR_OK = '1'
 export default {
@@ -126,7 +118,6 @@ export default {
         banlance: ''
       },
       userName: getUser().userName,
-      authorization: getAuth(),
       bankCardNo: '',
       showCountDown: false,
       countDown: 60,
@@ -241,8 +232,7 @@ export default {
         bankCode: this.bankCardInfo.bank,
         mobileNo: this.bankCardInfo.mobile,
         rechargeType: 'KQAP',
-        whichSetp: 'send',
-        authorization: this.authorization
+        whichSetp: 'send'
       }
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
@@ -299,8 +289,7 @@ export default {
         mobileNo: this.bankCardInfo.mobile,
         rechargeType: 'KQAP',
         whichSetp: 'val',
-        validCode: this.smsCode,
-        authorization: this.authorization
+        validCode: this.smsCode
       }
       rechargeApiDirectPayServer(data).then(res => {
         let data = res.data
@@ -379,8 +368,7 @@ export default {
     },
     personalAccount() {
       let data = {
-        userName: this.userName,
-        authorization: this.authorization
+        userName: this.userName
       }
       personalAccount(data).then(res => {
         let data = res.data
@@ -396,7 +384,6 @@ export default {
     getBasicInfo() {
       let params = {
         userName: this.userName,
-        authorization: this.authorization,
         bankCardNum: this.bankCardInfo.cardNo
       }
       queryCardInfo(params).then(res => {
@@ -410,8 +397,7 @@ export default {
     },
     getBankCardNo() {
       let data = {
-        userName: this.userName,
-        authorization: this.authorization
+        userName: this.userName
       }
       userBankCardList(data).then(res => {
         let data = res.data
@@ -426,12 +412,6 @@ export default {
     },
     confirmCharged() {
       this.retUrl ? (window.location.href = getRetBaseURL() + this.retUrl) : this.$router.push({ name: 'DJSUserCenter' })
-      // if (this.retUrl) {
-      //   window.location.href = getRetBaseURL() + this.retUrl
-      // } else {
-      //   this.$router.push({ name: 'DJSUserCenter' })
-      // }
-      // this.$router.go(-1)
     }
   },
   created() {
@@ -440,7 +420,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      if (from.name === 'easyLend') {
+      if (from.name.toLowerCase().includes('easylend')) {
         vm.retUrl = from.fullPath
       }
     })

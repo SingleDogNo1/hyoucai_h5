@@ -48,7 +48,6 @@
 
 <script>
 import { Toast } from 'mint-ui'
-import { Base64Utils } from '@/assets/js/utils'
 import BScroll from '@/components/BScroll/BScroll'
 import api from '@/api/hyc/mine/charge'
 import { isMobile } from '@/assets/js/regular'
@@ -96,7 +95,6 @@ export default {
       return data.replace(/[^0-9-]+/, '')
     }
   },
-  props: ['entrance'],
   methods: {
     amountInput(e) {
       e.target.value = e.target.value.replace(/[^\d.]/g, '')
@@ -156,18 +154,12 @@ export default {
       })
     },
     reCharge() {
-      let path
-      if (this.entrance) {
-        path = Base64Utils.base64ToObject(this.entrance).fullPath
-      } else {
-        path = '/mine'
-      }
-      let forgetUrl = Hyoucai.getRetBaseURL() + '/mine'
+      let path = Hyoucai.getRetBaseURL() + '/h/mine'
       let data = {
         userName: this.user,
         txAmount: this.amount,
-        retUrl: Hyoucai.getRetBaseURL() + path,
-        forgotPwdUrl: forgetUrl,
+        retUrl: path,
+        forgotPwdUrl: path,
         mobile: this.mobile,
         platform: 'h5'
       }

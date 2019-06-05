@@ -93,22 +93,22 @@
         <ul>
           <li>
             <span>可用余额(元) </span>
-            <span v-if="showAmount">{{amountInfo.banlance}}</span>
+            <span v-if="showAmount">{{ amountInfo.banlance }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>在投本金(元) </span>
-            <span v-if="showAmount">{{amountInfo.waitBackPrincipal}}</span>
+            <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>待收利息(元) </span>
-            <span v-if="showAmount">{{amountInfo.waitBackInterest}}</span>
+            <span v-if="showAmount">{{ amountInfo.waitBackInterest }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>冻结金额(元) </span>
-            <span v-if="showAmount">{{amountInfo.freezeAmount}}</span>
+            <span v-if="showAmount">{{ amountInfo.freezeAmount }}</span>
             <span v-else>****</span>
           </li>
         </ul>
@@ -230,9 +230,9 @@ export default {
           this.userCompleteDialogOptions.msg = data.message
           switch (data.status) {
             case 'OPEN_ACCOUNT':
-              this.userCompleteDialogOptions.confirmText = '开通存管账户'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'remindOpenAccount'
+              // this.userCompleteDialogOptions.confirmText = '开通存管账户'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'remindOpenAccount'
               break
             case 'SET_PASSWORD':
               this.userCompleteDialogOptions.confirmText = '设置交易密码'

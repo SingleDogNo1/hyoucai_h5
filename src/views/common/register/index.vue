@@ -186,7 +186,6 @@ export default {
               getUserCompleteInfoApi().then(res => {
                 if (res.data.resultCode === '1') {
                   const data = res.data.data
-                  debugger
                   switch (data.status) {
                     case 'OPEN_ACCOUNT':
                       this.$router.push({ name: 'remindOpenAccount' })

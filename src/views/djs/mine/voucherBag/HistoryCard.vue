@@ -1,6 +1,6 @@
 <template>
   <div class="history">
-    <BScroll  v-if="haveCard" class="box">
+    <BScroll v-if="haveCard" class="box">
       <section>
         <div class="coupon" v-for="(item, index) in usedList" :key="index + 'a'">
           <div class="coupon_left">

@@ -8,7 +8,9 @@
               <span>{{ projectInfo.basicsInvestRate }}</span>
               <span class="pre">%</span>
               <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>
-              <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}</em>
+              <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{
+                projectInfo.activityInvestRate
+              }}</em>
               <span class="pre" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">%</span>
             </li>
             <li>
@@ -18,7 +20,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{(projectInfo.showSurplusAmt / 10000).toFixed(2) }}万</span>
+            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{ (projectInfo.showSurplusAmt / 10000).toFixed(2) }}万</span>
             <span v-else>{{ projectInfo.surplusAmt }}元</span>
           </p>
         </div>
@@ -55,7 +57,7 @@
           <li @click="chooseRedPacket">
             <span>红包</span>
             <div>
-              <p v-if="!(checkedRedPacket && checkedRedPacket.id)">{{ redPacketNum }}张</p>
+              <p v-if="!(checkedRedPacket && checkedRedPacket.userRedPacketId)">{{ redPacketNum }}张</p>
               <label v-else>{{ checkedRedPacket.redPacketAmount }}元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
@@ -133,12 +135,18 @@
         <p>{{ riskTestDialogOptions.msg }}</p>
       </div>
     </Dialog>
+
+    <!-- 充值弹窗 -->
+    <Confirm :show.sync="chargeDialogOption.show" :confirmText="chargeDialogOption.confirmText" :onConfirm="confirmCharge">
+      <p>账户余额不足，请充值！</p>
+    </Confirm>
   </div>
 </template>
 
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
+import Confirm from '@/components/Dialog/Confirm'
 
 import { Toast, Indicator } from 'mint-ui'
 import { getRetBaseURL, JumpJX } from '@/assets/js/utils'
@@ -162,7 +170,8 @@ export default {
   name: 'invest',
   components: {
     BScroll,
-    Dialog
+    Dialog,
+    Confirm
   },
   data() {
     return {
@@ -213,38 +222,42 @@ export default {
         msg: '还有很多优质产品，总还有一款适合您',
         confirmText: '查看更多'
       },
-      isInitCoupon: true // 是否渲染默认的加息券（首次进入加载，从选择红包加息券页跳转回来就不加载）
+      chargeDialogOption: {
+        show: false,
+        confirmText: '去充值'
+      }
     }
   },
   computed: {
     ...mapGetters(['user']),
     ...mapState({
       checkedCoupon: state => state.hycLend.hycLendCoupon, // 已选择的加息券
-      checkedRedPacket: state => state.hycLend.hycLendRedPacket // 已选择的红包
+      checkedRedPacket: state => state.hycLend.hycLendRedPacket, // 已选择的红包
+      hycChooseCouponFlag: state => state.hycLend.hycChooseCouponFlag, // 是否操作过加息券列表
+      hycChooseRedPacketFlag: state => state.hycLend.hycChooseRedPacketFlag // 是否操作过红包列表
     })
   },
   watch: {
     amount(value) {
+      // 输入的金额保留两位小数
       if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
         this.amount = ((value * 100) / 100).toFixed(2)
       }
+
       // cookie保存投资金额，保证红包 && 加息券页路由会跳时不会丢失数据
       Cookie.set('hycEasyAmount', this.amount)
 
-      // 项目剩余可投和账户余额取小，得到可投资的极限金额
-      const maxLendAmount =
-        parseFloat(this.amountInfo.banlance) <= parseFloat(this.projectInfo.surplusAmt) ? this.amountInfo.banlance : this.projectInfo.surplusAmt
+      // 项目剩余可投
+      const surplusAmount = this.projectInfo.surplusAmt
 
       // 判断全投状态
-      this.lendAllFlag = value === maxLendAmount
+      this.lendAllFlag = parseFloat(value) - parseFloat(surplusAmount) === 0 || parseFloat(value) - parseFloat(this.amountInfo.banlance) === 0
 
       // 对比输入金额和可用金额case
       if (value !== '' && value - 0 < this.projectInfo.minInvAmount - 0) {
         this.errMsg = '申购金额需' + this.projectInfo.minInvAmount + '元起'
-      } else if (value - 0 === maxLendAmount) {
-        this.errMsg = '已经到极限了'
-      } else if (value - 0 > maxLendAmount) {
-        this.amount = maxLendAmount
+      } else if (parseFloat(value) - parseFloat(surplusAmount) > 0) {
+        this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
         this.errMsg = ''
       }
@@ -253,10 +266,11 @@ export default {
       this.getCouponPackage(value)
 
       // 计算预期收益
-      this.getExpectedIncome()
+      // this.getExpectedIncome()
 
       // 判断投资按钮的可点击状态
-      this.canILend = value - 0 >= this.projectInfo.minInvAmount - 0
+      this.canILend =
+        parseFloat(value) - parseFloat(this.projectInfo.minInvAmount) >= 0 && parseFloat(value) <= parseFloat(this.projectInfo.surplusAmt)
     }
   },
   filters: {
@@ -338,55 +352,80 @@ export default {
         const data = res.data.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
-        if (this.isInitCoupon && data.availableCouponCount === 1) {
-          this.initCoupon(data.optimalCoupon)
+        if (JSON.parse(this.hycChooseCouponFlag)) {
+          if (data.availableCouponCount > 0) {
+            this.initCoupon(data.optimalCoupon)
+          } else {
+            this.clearCoupon()
+          }
+        } else {
+          this.initCoupon(this.checkedCoupon)
         }
-        if (!this.isInitCoupon) this.clearCoupon()
+
+        if (JSON.parse(this.hycChooseRedPacketFlag)) {
+          if (data.availableRedPacketCount > 0) {
+            this.initRedPacket(data.optimalRedpacket)
+          } else {
+            this.clearRedPacket()
+          }
+        } else {
+          this.initRedPacket(this.checkedRedPacket)
+        }
+
+        this.getExpectedIncome()
       })
     },
     invest() {
-      if (this.canILend) {
-        userInfoCompleteNoticeApi().then(completeNotice => {
-          const status = completeNotice.data.data.status
-          if (status === 'OPEN_ACCOUNT' || status === 'SET_PASSWORD') {
-            Toast('未开户，请先开户')
-            this.$router.push({
-              name: 'openAccountProgress'
-            })
-          } else {
-            systemMaintenance().then(res => {
-              if (res.data.resultCode === '60056') {
-                // 此时段为系统维护
-                this.investErrDialogOptions.show = true
-                this.investErrDialogOptions.msg = res.data.resultMsg
-              } else {
-                if (!this.agree) {
-                  Toast('请确认并同意《风险告知书》')
-                  return
-                }
-                switch (status) {
-                  case 'SIGN_PROTOCOL': // 未签约
-                    this.signAndRiskDialogOptions.show = true
-                    this.signAndRiskDialogOptions.msg = '你没签约'
-                    this.signAndRiskDialogOptions.confirmText = '去签约'
-                    break
-                  case 'EVALUATE':
-                    this.signAndRiskDialogOptions.show = true
-                    this.signAndRiskDialogOptions.msg = completeNotice.data.data.message
-                    this.signAndRiskDialogOptions.confirmText = '去评测'
-                    break
-                  case 'COMPLETE':
-                    investApi({
-                      projectNo: this.itemId ? this.itemId : null,
-                      invAmount: this.amount,
-                      userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-                      userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
-                      investSource: 'h5',
-                      forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
-                      retUrl: window.location.href
-                    }).then(res => {
-                      const data = res.data.data
-                      if (res.data.resultCode === '1') {
+      if (!this.canILend) return
+
+      if (this.amount - 0 > this.amountInfo.banlance - 0) {
+        this.chargeDialogOption.show = true
+        return
+      }
+
+      userInfoCompleteNoticeApi().then(completeNotice => {
+        const status = completeNotice.data.data.status
+        if (status === 'OPEN_ACCOUNT' || status === 'SET_PASSWORD') {
+          Toast('未开户，请先开户')
+          this.$router.push({
+            name: 'openAccountProgress'
+          })
+        } else {
+          systemMaintenance().then(res => {
+            if (res.data.resultCode === '60056') {
+              // 此时段为系统维护
+              this.investErrDialogOptions.show = true
+              this.investErrDialogOptions.msg = res.data.resultMsg
+            } else {
+              if (!this.agree) {
+                Toast('请确认并同意《风险告知书》')
+                return
+              }
+              switch (status) {
+                case 'SIGN_PROTOCOL': // 未签约
+                  this.signAndRiskDialogOptions.show = true
+                  this.signAndRiskDialogOptions.msg = '你没签约'
+                  this.signAndRiskDialogOptions.confirmText = '去签约'
+                  break
+                case 'EVALUATE':
+                  this.signAndRiskDialogOptions.show = true
+                  this.signAndRiskDialogOptions.msg = completeNotice.data.data.message
+                  this.signAndRiskDialogOptions.confirmText = '去评测'
+                  break
+                case 'COMPLETE':
+                  investApi({
+                    projectNo: this.itemId ? this.itemId : null,
+                    invAmount: this.amount,
+                    userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
+                    userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+                    investSource: 'h5',
+                    forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
+                    retUrl: window.location.href,
+                    projectType: this.projectType
+                  }).then(res => {
+                    const data = res.data.data
+                    switch (res.data.resultCode) {
+                      case '1':
                         if (data.type === '1') {
                           JumpJX(data.redirectUrl, data.paramReq)
                         } else {
@@ -401,7 +440,8 @@ export default {
                               break
                           }
                         }
-                      } else if (res.data.resultCode === '90021') {
+                        break
+                      case '90021':
                         // 风险测评出借额度不够
                         this.riskTestDialogOptions.show = true
                         this.riskTestDialogOptions.title = '风险测评等级不符'
@@ -411,7 +451,8 @@ export default {
                           this.riskTestDialogOptions.confirmText = '我知道了'
                           this.riskTestIsMax = true
                         }
-                      } else if (res.data.resultCode === '90022') {
+                        break
+                      case '90022':
                         // 出借期限不够
                         this.riskTestDialogOptions.show = true
                         this.riskTestDialogOptions.title = '风险测评出借期限不够'
@@ -421,22 +462,21 @@ export default {
                           this.riskTestDialogOptions.confirmText = '我知道了'
                           this.riskTestIsMax = true
                         }
-                      } else {
-                        /*
-                         * 90034：授权已过期
-                         * 90035：授权金额超限
-                         */
+                        break
+                      default:
                         this.investErrDialogOptions.show = true
                         this.investErrDialogOptions.msg = res.data.resultMsg
-                      }
-                    })
-                    break
-                }
+                    }
+                  })
+                  break
               }
-            })
-          }
-        })
-      }
+            }
+          })
+        }
+      })
+    },
+    confirmCharge() {
+      this.$router.push({ name: 'HYCCharge' })
     },
     confirmRiskText() {
       if (!this.riskTestIsMax) {
@@ -449,7 +489,10 @@ export default {
       cleanData: 'CLEAN_HYC_LEND_DATA',
       initCoupon: 'CHOOSE_HYC_COUPON',
       clearCoupon: 'CLEAN_HYC_COUPON',
-      clearRedPacket: 'CLEAN_HYC_REDPACKET'
+      clearRedPacket: 'CLEAN_HYC_REDPACKET',
+      initRedPacket: 'CHOOSE_HYC_REDPACKET',
+      setCouponFlag: 'SET_HYC_CHOOSE_COUPON_FLAG',
+      setRedPacketFlag: 'SET_HYC_CHOOSE_REDPACKET_FLAG'
     })
   },
   created() {
@@ -499,21 +542,15 @@ export default {
       await $this.getCouponPackage($this.amount)
     })()
   },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      // 跳转到红包 / 加息券页，如果没有选择卡券，跳转回来之后阻止请求红包加息券
-      if (['HYCLendChooseCoupon', 'HYCLendChooseRedPacket'].includes(from.name)) {
-        if (!vm.checkedCoupon) {
-          vm.isInitCoupon = false
-        }
-      }
-    })
-  },
   beforeRouteLeave(to, from, next) {
-    this.clearCoupon()
-    this.clearRedPacket()
     // 如果不是跳转到选择卡券页面，重置投资金额
-    if (!['HYCLendChooseCoupon', 'HYCLendChooseRedPacket'].includes(to.name)) Cookie.remove('hycEasyAmount')
+    if (!['HYCLendChooseCoupon', 'HYCLendChooseRedPacket'].includes(to.name)) {
+      Cookie.remove('hycEasyAmount')
+      this.clearCoupon()
+      this.clearRedPacket()
+      this.setCouponFlag(true)
+      this.setRedPacketFlag(true)
+    }
 
     next()
   }

@@ -1,9 +1,8 @@
 /*
-* vue-router meta对象值
-* meta.title: 每个路由对应的标题
-* meta.handle: 导航栏右侧的副标题
-* meta.cancel: 返回键显示的文字
-* meta.backTo: 点击返回按钮返回到哪里（对应的router_name）*/
+ * vue-router meta对象值
+ * meta.title: 每个路由对应的标题
+ * meta.cancel: 返回键显示的文字
+ * meta.backTo: 点击返回按钮返回到哪里（对应的router_name）*/
 
 import Vue from 'vue'
 import Router from 'vue-router'

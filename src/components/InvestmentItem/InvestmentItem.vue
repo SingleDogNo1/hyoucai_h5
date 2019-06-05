@@ -6,17 +6,24 @@
     </div>
     <div class="item_wrapper" :class="matchClass(itemData)">
       <div class="item_title">
-        <span>{{ itemData.projectName }}</span>
-        <em v-if="itemData.tags && itemData.tags.length">
-          <i v-for="(el, i) in itemData.tags" :key="i"> {{ el.tagName }} </i>
-        </em>
+        <p>{{ itemData.projectName }}</p>
+        <div v-if="itemData.tags && itemData.tags.length">
+          <template v-for="(el, i) in itemData.tags">
+            <!-- 显示图标 -->
+            <img :key="i" v-if="el.tagType === 1" :src="el.icon" alt="" />
+            <!-- 显示文字 -->
+            <p :key="i" v-else-if="el.tagType === 0">{{ el.tagName }}</p>
+          </template>
+        </div>
       </div>
       <div class="item_info">
         <dl>
           <dt>
             <i>{{ itemData.basicsInvestRate }}</i>
             <span>%</span>
-            <span class="extra" v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">+{{ itemData.activityInvestRate }}%</span>
+            <span class="extra" v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">
+              +{{ itemData.activityInvestRate }}%
+            </span>
           </dt>
           <dd>历史平均年化收益率</dd>
         </dl>
@@ -169,26 +176,30 @@ export default {
   .item_wrapper {
     background-color: #fff;
     .item_title {
+      display: flex;
       text-align: left;
       padding-top: 0.16rem;
       margin: 0 0 0.08rem 0.15rem;
-      span {
-        vertical-align: top;
-        line-height: 1.1;
+      p {
+        margin-right: 0.07rem;
         font-size: $font-size-small;
         color: $color-text-b;
       }
-      i {
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 0.1rem;
-        padding: 3px 0.05rem;
+      div {
+        display: flex;
+        align-self: center;
         font-size: 0.11rem;
-        color: #b27c50;
-        border-radius: 0.01rem;
-        letter-spacing: 0;
-        text-align: center;
-        background-color: #efefef;
+        img {
+          height: 0.16rem;
+          margin-right: 0.07rem;
+        }
+        span {
+          font-size: 0.11rem;
+          color: #b27c50;
+          padding: 0.02rem 0.05rem;
+          background: #efefef;
+          border-radius: 0.01rem;
+        }
       }
     }
     .item_info {
@@ -285,7 +296,11 @@ export default {
         dl {
           dt {
             color: #ccc;
+            span.extra {
+              color: #999;
+            }
           }
+
           dd {
             color: #ccc;
           }

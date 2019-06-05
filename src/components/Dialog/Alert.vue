@@ -7,6 +7,9 @@
         <slot></slot>
       </section>
       <button @click="confirmItem">{{ confirmText }}</button>
+      <footer>
+        <slot name="footer"></slot>
+      </footer>
     </div>
   </div>
 </template>
@@ -125,6 +128,9 @@ export default {
       font-size: 0.16rem;
       color: #ffffff;
       background: #ec5e52;
+    }
+    footer {
+      margin-top: 0.17rem;
     }
   }
 }

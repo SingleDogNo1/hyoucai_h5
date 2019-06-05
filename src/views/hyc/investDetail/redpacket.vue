@@ -11,7 +11,7 @@
             @choose="chooseItem(item, index)"
           ></CouponItem>
         </template>
-        <button @click="$router.go(-1)">本次不使用红包</button>
+        <button @click="back">本次不使用红包</button>
       </header>
       <footer v-if="unusableRedPacket.length > 0">
         <h6>本交易您不可以使用以下红包</h6>
@@ -34,7 +34,7 @@ import CouponItem from '@/components/coupon/redpacket'
 
 import { availableRedPacketApi } from '@/api/hyc/investDetail'
 
-import { mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: 'coupon',
@@ -54,16 +54,34 @@ export default {
       unusableRedPacket: [] // 不可用加息券
     }
   },
+  computed: {
+    ...mapGetters(['user']),
+    ...mapState({
+      checkedCoupon: state => state.hycLend.hycLendCoupon, // 已选择的加息券
+      checkedRedPacket: state => state.hycLend.hycLendRedPacket, // 已选择的红包
+      hycChooseCouponFlag: state => state.hycLend.hycChooseCouponFlag, // 是否操作过加息券列表
+      hycChooseRedPacketFlag: state => state.hycLend.hycChooseRedPacketFlag // 是否操作过红包列表
+    })
+  },
   props: {},
   watch: {},
   methods: {
     chooseItem(item, index) {
+      this.setRedPacketFlag(false)
       this.curIndex = index
       this.hycLendRedPacket(item)
       this.$router.go(-1)
     },
+    back() {
+      this.setRedPacketFlag(false)
+      this.clearRedPacket()
+      this.$router.go(-1)
+    },
     ...mapMutations({
-      hycLendRedPacket: 'CHOOSE_HYC_REDPACKET'
+      hycLendRedPacket: 'CHOOSE_HYC_REDPACKET',
+      clearRedPacket: 'CLEAN_HYC_REDPACKET',
+      setCouponFlag: 'SET_HYC_CHOOSE_COUPON_FLAG',
+      setRedPacketFlag: 'SET_HYC_CHOOSE_REDPACKET_FLAG'
     })
   },
   created() {
@@ -84,8 +102,17 @@ export default {
       })
     })
   },
-  mounted() {},
-  destroyed() {}
+  beforeRouteLeave(to, from, next) {
+    if (!JSON.parse(this.hycChooseCouponFlag)) {
+      this.setCouponFlag(false)
+    } else {
+      this.setCouponFlag(!this.checkedCoupon)
+    }
+
+    if (this.checkedRedPacket) this.hycLendRedPacket(this.checkedRedPacket)
+
+    next()
+  }
 }
 </script>
 

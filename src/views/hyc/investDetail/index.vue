@@ -17,7 +17,9 @@
             <em class="common">{{ projectInfo.basicsInvestRate }}</em>
             <span class="per">%</span>
             <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>
-            <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}</em>
+            <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{
+              projectInfo.activityInvestRate
+            }}</em>
             <span class="per" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">%</span>
             <p>
               <i>{{ projectInfo.recentShow }}</i>
@@ -58,7 +60,7 @@
           </div>
           <div class="activity">
             <span class="title">募集倒计时</span>
-            <span class="time">{{investEndTimestamp | timeFormatDet}}</span>
+            <span class="time">{{ investEndTimestamp | timeFormatDet }}</span>
           </div>
           <div class="activity" v-if="activity.activityInfo">
             <span class="title">活动</span>

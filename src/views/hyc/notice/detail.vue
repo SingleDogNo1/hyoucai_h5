@@ -1,6 +1,7 @@
 <template>
   <transition name="slide">
     <div class="notice">
+      <span @click="$router.push({ name: 'HYCHomePage' })"></span>
       <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
         <div class="wrapper">
           <h2>{{ detail.title }}</h2>
@@ -56,10 +57,25 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/css/theme.scss';
+@import '../../../assets/css/mixins.scss';
 
 .notice {
   height: 100%;
   overflow: hidden;
+  position: relative;
+  > span {
+    $size: 0.22rem; // 背景图尺寸
+    $padding: 0.05rem; // 点击扩展区域尺寸
+    position: fixed;
+    @include square($size);
+    padding: 0.05rem;
+    background-image: url('./homepage.png');
+    background-size: $size;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: (0.44rem - $size -$padding * 2) / 2;
+    right: 4%;
+  }
   .notice_scroll {
     height: 100%;
     .wrapper {

@@ -3,9 +3,6 @@
     <mt-button icon="back" slot="left" @click="goBack">
       <span v-if="cancel">{{ cancel }}</span>
     </mt-button>
-    <mt-button slot="right" @click="getMore">
-      <slot></slot>
-    </mt-button>
   </mt-header>
 </template>
 
@@ -16,9 +13,7 @@ export default {
       title: this.$route.meta.title,
       cancel: this.$route.meta.cancel,
       // 首页不显示标题（首页当做是和app一样处理）
-      isAppTitle: this.$route.query.mobile,
-      // 标题右边的可操作的按钮标题
-      handle: this.$route.meta.handle ? this.$route.meta.handle : ''
+      isAppTitle: this.$route.query.mobile
     }
   },
   methods: {
@@ -36,9 +31,6 @@ export default {
     },
     setTitle() {
       this.$emit('setTitle')
-    },
-    getMore() {
-      this.$emit('getMore')
     }
   },
   watch: {
@@ -51,5 +43,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -16,7 +16,9 @@
           <dt>
             <i>{{ itemData.basicsInvestRate }}</i>
             <span>%</span>
-            <span class="extra" v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0">+{{ itemData.activityInvestRate }}%</span>
+            <span class="extra" v-if="itemData.activityInvestRate && parseFloat(itemData.activityInvestRate) !== 0"
+              >+{{ itemData.activityInvestRate }}%</span
+            >
           </dt>
           <dd>历史平均年化收益率</dd>
         </dl>

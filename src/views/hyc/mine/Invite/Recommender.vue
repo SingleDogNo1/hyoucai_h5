@@ -58,15 +58,13 @@ export default {
   methods: {
     // 补录推荐码
     saveInviteCode() {
-      // Indicator.open()
       if (!this.newRecommendCode) {
         this.msgDialog = '请输入推荐码'
         this.showDialog = true
       } else {
         Indicator.open('加载中')
-        saveInviteCode({ recommendCode: this.newRecommendCode }).then(res => {
+        saveInviteCode({ inviteCode: this.newRecommendCode }).then(res => {
           Indicator.close()
-          // console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
             this.newReferrer = data.data.refereeName

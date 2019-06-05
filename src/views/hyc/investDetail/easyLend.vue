@@ -8,7 +8,9 @@
               <span>{{ projectInfo.basicsInvestRate }}</span>
               <span class="pre">%</span>
               <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>
-              <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{ projectInfo.activityInvestRate }}</em>
+              <em class="act" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">{{
+                projectInfo.activityInvestRate
+              }}</em>
               <span class="pre" v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">%</span>
             </li>
             <li>
@@ -18,7 +20,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{(projectInfo.showSurplusAmt / 10000).toFixed(2) }}万</span>
+            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{ (projectInfo.showSurplusAmt / 10000).toFixed(2) }}万</span>
             <span v-else>{{ projectInfo.surplusAmt }}元</span>
           </p>
         </div>
@@ -135,11 +137,7 @@
     </Dialog>
 
     <!-- 充值弹窗 -->
-    <Confirm
-      :show.sync="chargeDialogOption.show"
-      :confirmText="chargeDialogOption.confirmText"
-      :onConfirm="confirmCharge"
-    >
+    <Confirm :show.sync="chargeDialogOption.show" :confirmText="chargeDialogOption.confirmText" :onConfirm="confirmCharge">
       <p>账户余额不足，请充值！</p>
     </Confirm>
   </div>
@@ -258,10 +256,8 @@ export default {
       // 对比输入金额和可用金额case
       if (value !== '' && value - 0 < this.projectInfo.minInvAmount - 0) {
         this.errMsg = '申购金额需' + this.projectInfo.minInvAmount + '元起'
-      } else if (value === surplusAmount) {
-        this.errMsg = '剩余可投为' + surplusAmount + '元'
-      } else if (value - 0 > surplusAmount) {
-        this.amount = surplusAmount
+      } else if (parseFloat(value) - parseFloat(surplusAmount) > 0) {
+        this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
         this.errMsg = ''
       }
@@ -273,7 +269,8 @@ export default {
       this.getExpectedIncome()
 
       // 判断投资按钮的可点击状态
-      this.canILend = value - 0 >= this.projectInfo.minInvAmount - 0
+      this.canILend =
+        parseFloat(value) - parseFloat(this.projectInfo.minInvAmount) >= 0 && parseFloat(value) <= parseFloat(this.projectInfo.surplusAmt)
     }
   },
   filters: {

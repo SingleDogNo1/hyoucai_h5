@@ -2,18 +2,14 @@
   <div class="ruler" v-if="show">
     <div class="title" @click="changeSlide">欲出借金额(元)</div>
     <div class="amount">
-      <input
-        type="tel"
-        ref="input"
-        v-model="amount"
-      >
+      <input type="tel" ref="input" v-model="amount" />
     </div>
     <div class="swiper-container">
       <div class="swiper-wrapper"></div>
     </div>
     <div class="title">预期收益(元)</div>
     <div class="amount">
-      <span>{{expectedIncome}}</span>
+      <span>{{ expectedIncome }}</span>
     </div>
   </div>
 </template>

@@ -9,7 +9,7 @@
             </div>
             <div class="item-r" v-if="parseInt(investDetail.isSurplusShow) == 1">
               <span class="overplus">剩余可投</span><br />
-              <span class="over_amount">{{(Math.round(investDetail.surplusAmount)/10000).toFixed(2) }}万</span>
+              <span class="over_amount">{{ (Math.round(investDetail.surplusAmount) / 10000).toFixed(2) }}万</span>
             </div>
           </div>
           <div class="pro-info-middle">
@@ -17,7 +17,9 @@
             <em class="common">{{ investDetail.basicsInvestRate }}</em>
             <span class="per">%</span>
             <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>
-            <em class="act" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{ investDetail.activityInvestRate }}</em>
+            <em class="act" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{
+              investDetail.activityInvestRate
+            }}</em>
             <span class="per" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">%</span>
             <p>
               <i>{{ investDetail.recentShow }}</i>
@@ -44,7 +46,10 @@
               <span>{{ investDetail.breathDate }}</span
               ><i>起息</i>
             </li>
-            <li><span>{{ investDetail.endData }}</span><i>锁定期结束</i></li>
+            <li>
+              <span>{{ investDetail.endData }}</span
+              ><i>锁定期结束</i>
+            </li>
           </ul>
           <div class="serve-info" v-if="investDetail.projectServiceEntity && investDetail.projectServiceEntity.length > 0">
             <span>服务</span>
@@ -143,8 +148,8 @@
     <section class="to-lend">
       <div class="lend_btns" @click="invest">
         <p>授权出借</p>
-        <span v-if="investDetail.isSurplusShow == 1 ">剩余可投{{(Math.round(investDetail.surplusAmount)/10000).toFixed(2) }}万</span>
-       <!-- <span v-if="investDetail.isSurplusShow == 1 && parseFloat(investDetail.surplusAmount) <10000">剩余可投{{investDetail.surplusAmount }}元</span>-->
+        <span v-if="investDetail.isSurplusShow == 1">剩余可投{{ (Math.round(investDetail.surplusAmount) / 10000).toFixed(2) }}万</span>
+        <!-- <span v-if="investDetail.isSurplusShow == 1 && parseFloat(investDetail.surplusAmount) <10000">剩余可投{{investDetail.surplusAmount }}元</span>-->
       </div>
     </section>
   </div>

@@ -8,10 +8,10 @@
           v-for="(item, index) in unclaimed"
           :key="index + 'a'"
           :class="[
-          { receive1: item.voucherType === 'VT01' }, //加息券
-          { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
-          { receive2_1: parseInt(item.secondType) === 2 } //投资红包
-        ]"
+            { receive1: item.voucherType === 'VT01' }, //加息券
+            { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
+            { receive2_1: parseInt(item.secondType) === 2 } //投资红包
+          ]"
         >
           <div class="coupon_left">
             <p class="coupon_left_p">
@@ -50,10 +50,10 @@
           :key="index + 'b'"
           @click="touse()"
           :class="[
-          { receive1: item.voucherType === 'VT01' }, //加息券
-          { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
-          { receive2_1: parseInt(item.secondType) === 2 } //投资红包
-        ]"
+            { receive1: item.voucherType === 'VT01' }, //加息券
+            { receive2: parseInt(item.secondType) === 1 }, //抵扣红包
+            { receive2_1: parseInt(item.secondType) === 2 } //投资红包
+          ]"
         >
           <div class="coupon_left">
             <p class="coupon_left_p">

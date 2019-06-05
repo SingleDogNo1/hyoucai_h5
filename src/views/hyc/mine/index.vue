@@ -93,22 +93,22 @@
         <ul>
           <li>
             <span>可用余额(元) </span>
-            <span v-if="showAmount">{{amountInfo.banlance}}</span>
+            <span v-if="showAmount">{{ amountInfo.banlance }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>在投本金(元) </span>
-            <span v-if="showAmount">{{amountInfo.waitBackPrincipal}}</span>
+            <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>待收利息(元) </span>
-            <span v-if="showAmount">{{amountInfo.waitBackInterest}}</span>
+            <span v-if="showAmount">{{ amountInfo.waitBackInterest }}</span>
             <span v-else>****</span>
           </li>
           <li>
             <span>冻结金额(元) </span>
-            <span v-if="showAmount">{{amountInfo.freezeAmount}}</span>
+            <span v-if="showAmount">{{ amountInfo.freezeAmount }}</span>
             <span v-else>****</span>
           </li>
         </ul>

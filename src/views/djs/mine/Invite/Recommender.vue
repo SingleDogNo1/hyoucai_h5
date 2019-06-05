@@ -58,7 +58,6 @@ export default {
   },
   methods: {
     saveInviteCode() {
-      // Indicator.open()
       if (!this.newRecommendCode) {
         this.msgDialog = '请输入推荐码'
         this.showDialog = true
@@ -66,7 +65,6 @@ export default {
         Indicator.open('加载中')
         saveInviteCode({ inviteCode: this.newRecommendCode }).then(res => {
           Indicator.close()
-          // console.log(res)
           const data = res.data
           if (data.resultCode === '1') {
             this.userInviteInfo()

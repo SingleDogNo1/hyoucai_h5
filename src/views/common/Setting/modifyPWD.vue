@@ -2,7 +2,7 @@
   <div class="pwd-container">
     <div class="form">
       <div class="row">
-        <input type="password" v-model="oldPWD" placeholder="原密码"/>
+        <input type="password" v-model="oldPWD" placeholder="原密码" />
       </div>
       <div class="row">
         <input type="password" v-model="newPWD" placeholder="新密码" />

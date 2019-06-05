@@ -8,8 +8,10 @@
               <span>{{ investDetail.basicsInvestRate }}</span>
               <span class="pre">%</span>
               <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>
-              <em class="act"  v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{ investDetail.activityInvestRate }}</em>
-              <span class="pre"  v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">%</span>
+              <em class="act" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">{{
+                investDetail.activityInvestRate
+              }}</em>
+              <span class="pre" v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">%</span>
             </li>
             <li>
               <h5>{{ investDetail.projectName }}</h5>
@@ -18,7 +20,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span v-if="investDetail.surplusAmount / 10000 > 1">{{(investDetail.surplusAmount / 10000).toFixed(2) }}万</span>
+            <span v-if="investDetail.surplusAmount / 10000 > 1">{{ (investDetail.surplusAmount / 10000).toFixed(2) }}万</span>
             <span v-else>{{ investDetail.surplusAmount }}元</span>
           </p>
         </div>
@@ -69,7 +71,7 @@
               <p v-for="(item, index2) in agreement.list" :key="index2">
                 <span>{{ item.description1 }}</span>
                 <a :href="item.showUrl | urlToh5" class="agreement">{{ item.name }}</a>
-              <span>{{ item.description2 }}</span>
+                <span>{{ item.description2 }}</span>
               </p>
             </section>
           </div>
@@ -88,10 +90,16 @@
     </div>
 
     <!-- 复投弹窗 -->
-    <Dialog class="auto-lend-dialog" :show.sync="autoInvestDialogOptions.show" :title="autoInvestDialogOptions.title" :onConfirm="confirmAutoInvest" :onClose="closeAutoInvest">
-      <p v-if="investDetail.doubleBonuCouponEntity">设置自动出借，加{{investDetail.doubleBonuCouponEntity.dbCouponRate}}%年化，到期复投生效</p>
+    <Dialog
+      class="auto-lend-dialog"
+      :show.sync="autoInvestDialogOptions.show"
+      :title="autoInvestDialogOptions.title"
+      :onConfirm="confirmAutoInvest"
+      :onClose="closeAutoInvest"
+    >
+      <p v-if="investDetail.doubleBonuCouponEntity">设置自动出借，加{{ investDetail.doubleBonuCouponEntity.dbCouponRate }}%年化，到期复投生效</p>
       <mt-radio align="right" v-model="autoLendType" :options="autoLendTypeRadio"> </mt-radio>
-      <p class="agre" @click="$router.push({ name: 'DJSagreement', query: {agreementType: 'zdtz'} })">自动出借服务条款></p>
+      <p class="agre" @click="$router.push({ name: 'DJSagreement', query: { agreementType: 'zdtz' } })">自动出借服务条款></p>
     </Dialog>
 
     <!-- 自动出借设置成功弹窗 -->
@@ -121,11 +129,7 @@
     </Dialog>
 
     <!-- 充值弹窗 -->
-    <Confirm
-      :show.sync="chargeDialogOption.show"
-      :confirmText="chargeDialogOption.confirmText"
-      :onConfirm="confirmCharge"
-    >
+    <Confirm :show.sync="chargeDialogOption.show" :confirmText="chargeDialogOption.confirmText" :onConfirm="confirmCharge">
       <p>账户余额不足，请充值！</p>
     </Confirm>
   </div>
@@ -240,10 +244,8 @@ export default {
       // 对比输入金额和可用金额case
       if (value !== '' && value - 0 < this.investDetail.minInvAmt - 0) {
         this.errMsg = '申购金额需' + this.investDetail.minInvAmt + '元起'
-      } else if (value === surplusAmount) {
-        this.errMsg = '剩余可投为' + surplusAmount + '元'
-      } else if (value - 0 > surplusAmount) {
-        this.amount = surplusAmount
+      } else if (parseFloat(value) - parseFloat(surplusAmount) > 0) {
+        this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
         this.errMsg = ''
       }
@@ -255,7 +257,8 @@ export default {
       this.getExpectedIncome()
 
       // 判断投资按钮的可点击状态
-      this.canILend = value - 0 >= this.investDetail.minInvAmt - 0
+      this.canILend =
+        parseFloat(value) - parseFloat(this.investDetail.minInvAmt) >= 0 && parseFloat(value) <= parseFloat(this.investDetail.surplusAmount)
     }
   },
   filters: {

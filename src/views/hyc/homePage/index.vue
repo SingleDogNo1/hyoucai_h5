@@ -39,11 +39,11 @@
         </div>
         <div class="newbie" v-for="(item, index) in noviceProjectList" :key="index">
           <h6>新手专享</h6>
-          <button>新手专享</button>
+          <section>新手专享</section>
           <div class="rate">
             <span>{{ item.basicsInvestRate }}</span>
             <span>%</span>
-            <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+            <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{ item.activityInvestRate }}%</span>
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
@@ -77,7 +77,7 @@
                   <li>
                     <span>{{ item.basicsInvestRate }}</span>
                     <span>%</span>
-                    <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{item.activityInvestRate}}%</span>
+                    <span class="extra" v-if="parseFloat(item.activityInvestRate) !== 0">+{{ item.activityInvestRate }}%</span>
                   </li>
                   <li><p>历史年化收益率</p></li>
                 </ul>
@@ -88,7 +88,7 @@
               </div>
               <div class="right">
                 <button v-if="parseInt(item.status) === 1" @click="handleInvest(item.projectNo)">授权出借</button>
-                <button v-else-if="parseInt(item.status) === 2"  class="disabled">已满标</button>
+                <button v-else-if="parseInt(item.status) === 2" class="disabled">已满标</button>
                 <button class="disabled" v-else>暂未开启</button>
               </div>
             </div>
@@ -110,7 +110,7 @@
       </div>
     </BScroll>
     <div class="dialog" v-if="openScreenDialog && !closeOpenScreen">
-      <img :src="openScreenData.picUrl" @click="locationTo(openScreenData.jumpUrl)" alt="">
+      <img :src="openScreenData.picUrl" @click="locationTo(openScreenData.jumpUrl)" alt="" />
       <div class="iconfont icon-guanbi" @click="closeOpenScreenDialog"></div>
     </div>
   </div>
@@ -393,7 +393,7 @@ export default {
     box-shadow: 0 0.02rem 0.16rem 0 rgba(204, 204, 204, 0.4);
     border-radius: 0.04rem;
     padding-top: 0.16rem;
-    button {
+    section {
       position: absolute;
       @include cube(0.7rem, 0.22rem);
       background: #f76b1c;
@@ -402,6 +402,7 @@ export default {
       top: 0;
       right: 0;
       font-size: 0.13rem;
+      text-align: center;
       line-height: 0.22rem;
       color: #fff;
     }

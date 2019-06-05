@@ -6,8 +6,8 @@
     <div class="information">
       <div class="information_top">
         <!--<p class="information_p">-->
-          <!--<span class="information_txt">感谢金</span>-->
-          <!--<span class="information_number">2400元</span>-->
+        <!--<span class="information_txt">感谢金</span>-->
+        <!--<span class="information_number">2400元</span>-->
         <!--</p>-->
         <p class="information_p">
           <span class="information_txt">我推荐的人</span>

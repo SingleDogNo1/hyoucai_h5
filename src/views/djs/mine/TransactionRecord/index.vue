@@ -32,21 +32,20 @@
           @scroll="scroll"
           @scrollToEnd="scrollToEnd1"
           @pulldownTouchend="pulldownTouchend"
-
         >
           <div>
-          <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
-          <div class="body-box" v-for="(item, index) in allData" :key="index">
-            <div class="body-left">
-              <span class="body-txt">{{ item.tranTypeName }}</span>
-              <span class="body-date">{{ item.createTime }}</span>
+            <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
+            <div class="body-box" v-for="(item, index) in allData" :key="index">
+              <div class="body-left">
+                <span class="body-txt">{{ item.tranTypeName }}</span>
+                <span class="body-date">{{ item.createTime }}</span>
+              </div>
+              <div class="body-right">
+                <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
+              </div>
             </div>
-            <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
-            </div>
-          </div>
-          <loading v-show="hasMore1"></loading>
-          <no-data v-if="!allData.length"></no-data>
+            <loading v-show="hasMore1"></loading>
+            <no-data v-if="!allData.length"></no-data>
           </div>
         </b-scroll>
       </div>
@@ -65,18 +64,18 @@
           @pulldownTouchend="pulldownTouchend"
         >
           <div>
-          <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
-          <div class="body-box" v-for="(item, index) in chargeData" :key="index">
-            <div class="body-left">
-              <span class="body-txt">{{ item.tranTypeName }}</span>
-              <span class="body-date">{{ item.createTime }}</span>
+            <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
+            <div class="body-box" v-for="(item, index) in chargeData" :key="index">
+              <div class="body-left">
+                <span class="body-txt">{{ item.tranTypeName }}</span>
+                <span class="body-date">{{ item.createTime }}</span>
+              </div>
+              <div class="body-right">
+                <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter }}元</span>
+              </div>
             </div>
-            <div class="body-right">
-              <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter}}元</span>
-            </div>
-          </div>
-          <loading v-show="hasMore2"></loading>
-          <no-data v-if="!chargeData.length"></no-data>
+            <loading v-show="hasMore2"></loading>
+            <no-data v-if="!chargeData.length"></no-data>
           </div>
         </b-scroll>
       </div>
@@ -95,18 +94,18 @@
           @pulldownTouchend="pulldownTouchend"
         >
           <div>
-          <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
-          <div class="body-box" v-for="(item, index) in toCashData" :key="index">
-            <div class="body-left">
-              <span class="body-txt">{{ item.tranTypeName }}</span>
-              <span class="body-date">{{ item.createTime }}</span>
+            <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
+            <div class="body-box" v-for="(item, index) in toCashData" :key="index">
+              <div class="body-left">
+                <span class="body-txt">{{ item.tranTypeName }}</span>
+                <span class="body-date">{{ item.createTime }}</span>
+              </div>
+              <div class="body-right">
+                <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter }}元</span>
+              </div>
             </div>
-            <div class="body-right">
-              <span class="body-money" :class="{ actives: item.tranAmount < 0 }">{{ item.tranAmount | plusFilter}}元</span>
-            </div>
-          </div>
-          <loading v-show="hasMore3"></loading>
-          <no-data v-if="!toCashData.length"></no-data>
+            <loading v-show="hasMore3"></loading>
+            <no-data v-if="!toCashData.length"></no-data>
           </div>
         </b-scroll>
       </div>
@@ -125,18 +124,18 @@
           @pulldownTouchend="pulldownTouchend"
         >
           <div>
-          <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
-          <div class="body-box" v-for="(item, index) in otherData" :key="index">
-            <div class="body-left">
-              <span class="body-txt">{{ item.tranTypeName }}</span>
-              <span class="body-date">{{ item.createTime }}</span>
+            <loading v-show="pulldownFresh" :title="pulldownFreshText"></loading>
+            <div class="body-box" v-for="(item, index) in otherData" :key="index">
+              <div class="body-left">
+                <span class="body-txt">{{ item.tranTypeName }}</span>
+                <span class="body-date">{{ item.createTime }}</span>
+              </div>
+              <div class="body-right">
+                <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter }}元</span>
+              </div>
             </div>
-            <div class="body-right">
-              <span class="body-money" :class="{ actives: item.amount < 0 }">{{ item.amount | plusFilter}}元</span>
-            </div>
-          </div>
-          <loading v-show="hasMore4"></loading>
-          <no-data v-if="!otherData.length"></no-data>
+            <loading v-show="hasMore4"></loading>
+            <no-data v-if="!otherData.length"></no-data>
           </div>
         </b-scroll>
       </div>

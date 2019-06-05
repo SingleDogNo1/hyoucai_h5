@@ -34,17 +34,37 @@ export default {
         }
       }
     },
-    setTitle() {
-      this.$emit('setTitle')
-    },
     getMore() {
       this.$emit('getMore')
+    },
+    judgeAgreementTitle(type) {
+      switch (type) {
+        case 'fxts':
+          this.title = '风险告知书'
+          break
+        case 'ywsq':
+          this.title = '汇有财授权签约协议'
+          break
+        case 'zqzr':
+          this.title = '债权转让协议'
+          break
+        case 'zcxy':
+          this.title = '汇有财注册协议'
+          break
+        case 'zdtz':
+          this.title = '自动出借服务条款'
+          break
+        default:
+          this.title = '协议'
+      }
     }
   },
   watch: {
     $route(to) {
-      console.log(to)
       this.title = to.meta.title
+      if (to.name.indexOf('agreement') > -1) {
+        this.judgeAgreementTitle(to.query.agreementType)
+      }
       this.isAppTitle = to.query.mobile
     }
   }

@@ -266,7 +266,7 @@ export default {
       this.getCouponPackage(value)
 
       // 计算预期收益
-      this.getExpectedIncome()
+      // this.getExpectedIncome()
 
       // 判断投资按钮的可点击状态
       this.canILend =
@@ -371,6 +371,8 @@ export default {
         } else {
           this.initRedPacket(this.checkedRedPacket)
         }
+
+        this.getExpectedIncome()
       })
     },
     invest() {

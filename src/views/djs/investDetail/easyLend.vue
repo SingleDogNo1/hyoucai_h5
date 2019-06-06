@@ -65,7 +65,7 @@
         </ul>
         <div class="agree">
           <div v-for="(agreement, index) in protocolData" :key="index">
-            <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.checkBox" />
+            <input type="checkbox" id="isCheck" :class="{ active: agree }" :checked="agree" v-if="agreement.checkBox" />
             <label for="isCheck" @click="changeStatus" v-if="agreement.isChecked"></label>
             <section>
               <p v-for="(item, index2) in agreement.list" :key="index2">
@@ -81,7 +81,7 @@
     </BScroll>
 
     <div class="invest-btn">
-      <section :class="{ active: canILend }" @click="invest">
+      <section :class="{ active: canILend && agree }" @click="invest">
         <h6>{{ lendBtnMsg }}</h6>
         <p v-if="parseFloat(investDetail.minInvAmt) > parseFloat(amountInfo.banlance)">
           还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}
@@ -144,6 +144,7 @@ import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
 import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi, expireRepeatApi } from '@/api/djs/investDetail'
+import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -226,7 +227,7 @@ export default {
     })
   },
   watch: {
-    amount(value) {
+    amount: debounce(function(value) {
       // 输入的金额保留两位小数
       if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
         this.amount = ((value * 100) / 100).toFixed(2)
@@ -253,13 +254,10 @@ export default {
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
 
-      // 计算预期收益
-      this.getExpectedIncome()
-
       // 判断投资按钮的可点击状态
       this.canILend =
         parseFloat(value) - parseFloat(this.investDetail.minInvAmt) >= 0 && parseFloat(value) <= parseFloat(this.investDetail.surplusAmount)
-    }
+    })
   },
   filters: {
     urlToh5(value) {
@@ -337,23 +335,47 @@ export default {
           this.initRedPacket(this.checkedRedPacket)
         }
 
+        // 根据最优券包计算预期收益
         this.getExpectedIncome()
       })
     },
     invest() {
       if (!this.canILend) return
 
+      if (!this.agree) return
+
       if (this.amount - 0 > this.amountInfo.banlance - 0) {
         this.chargeDialogOption.show = true
         return
+      }
+
+      let checkedCoupon, checkedRedPacket
+      if (this.checkedCoupon) {
+        if (this.checkedCoupon.userCouponId) {
+          checkedCoupon = this.checkedCoupon.userCouponId
+        } else {
+          checkedCoupon = this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if (this.checkedRedPacket) {
+        if (this.checkedRedPacket.userCouponId) {
+          checkedRedPacket = this.checkedRedPacket.userRedPacketId
+        } else {
+          checkedRedPacket = this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
       }
 
       investApi({
         userName: this.user.userName,
         projectNo: this.projectNo,
         invAmount: this.amount,
-        userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-        userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+        userCouponId: checkedCoupon,
+        userRedPacketId: checkedRedPacket,
         investSource: 'h5'
       }).then(res => {
         const data = res.data
@@ -517,7 +539,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (data.banlance < $this.investDetail.minInvAmt) {
+          if (parseFloat(data.banlance) < parseFloat($this.investDetail.minInvAmt)) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }
@@ -734,7 +756,7 @@ export default {
           vertical-align: middle;
         }
       }
-      input:checked + label:before {
+      input.active + label:before {
         border: 0.05rem solid $color-button;
       }
       section {

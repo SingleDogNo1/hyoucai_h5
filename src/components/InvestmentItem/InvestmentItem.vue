@@ -7,14 +7,25 @@
     <div class="item_wrapper" :class="matchClass(itemData)">
       <div class="item_title">
         <p>{{ itemData.projectName }}</p>
-        <div v-if="itemData.tags && itemData.tags.length">
+        <ul v-if="itemData.tags && itemData.tags.length">
           <template v-for="(el, i) in itemData.tags">
             <!-- 显示图标 -->
-            <img :key="i" v-if="el.tagType === 1" :src="el.icon" alt="" />
+            <li :key="i" v-if="parseInt(el.tagType) === 1">
+              <img :src="el.icon" alt="" />
+            </li>
             <!-- 显示文字 -->
-            <p :key="i" v-else-if="el.tagType === 0">{{ el.tagName }}</p>
+            <li
+              :key="i"
+              v-else-if="parseInt(el.tagType) === 2"
+              :style="{
+                background: el.tagColor ? el.tagColor : '#efefef',
+                color: el.tagColor ? '#fff' : '#b27c50'
+              }"
+            >
+              {{ el.tagName }}
+            </li>
           </template>
-        </div>
+        </ul>
       </div>
       <div class="item_info">
         <dl>
@@ -34,11 +45,14 @@
         </dl>
         <!--hyoucai 优质计划-->
         <div v-if="itemData.projectType && itemData.projectType === 2">
-          <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
-            <button disabled>还款中</button>
+          <template v-if="itemData.status === 1">
+            <button>暂未开启</button>
           </template>
           <template v-else-if="itemData.status === 2">
             <button>授权出借</button>
+          </template>
+          <template v-else-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
+            <button disabled>还款中</button>
           </template>
           <template v-else>
             <button disabled>
@@ -185,20 +199,17 @@ export default {
         font-size: $font-size-small;
         color: $color-text-b;
       }
-      div {
+      ul {
         display: flex;
         align-self: center;
-        font-size: 0.11rem;
-        img {
-          height: 0.16rem;
-          margin-right: 0.07rem;
-        }
-        span {
+        font-size: 0.1rem;
+        li {
           font-size: 0.11rem;
-          color: #b27c50;
           padding: 0.02rem 0.05rem;
-          background: #efefef;
-          border-radius: 0.01rem;
+          img {
+            height: 0.16rem;
+            margin-right: 0.07rem;
+          }
         }
       }
     }

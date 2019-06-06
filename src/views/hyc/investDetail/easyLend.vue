@@ -65,7 +65,7 @@
         </ul>
         <div class="agree">
           <div v-for="(agreement, index) in protocolData" :key="index">
-            <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.isChecked" />
+            <input type="checkbox" id="isCheck" :checked="agree" :class="{ active: agree }" v-if="agreement.isChecked" />
             <label for="isCheck" @click="changeStatus" v-if="agreement.isChecked"></label>
             <span v-for="(item, index2) in agreement.list" :key="index2">
               <span>
@@ -81,7 +81,7 @@
     </BScroll>
 
     <div class="invest-btn">
-      <section :class="{ active: canILend }" @click="invest">
+      <section :class="{ active: canILend && agree }" @click="invest">
         <h6>{{ lendBtnMsg }}</h6>
         <p v-if="parseFloat(projectInfo.minInvAmount) > parseFloat(amountInfo.banlance)">
           还需余额{{ parseFloat(projectInfo.minInvAmount) - parseFloat(amountInfo.banlance) }}
@@ -162,6 +162,7 @@ import {
 } from '@/api/hyc/investDetail'
 // 查询用户信息完善接口
 import { userInfoCompleteNoticeApi } from '@/api/common/user'
+import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -238,7 +239,7 @@ export default {
     })
   },
   watch: {
-    amount(value) {
+    amount: debounce(function(value) {
       // 输入的金额保留两位小数
       if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
         this.amount = ((value * 100) / 100).toFixed(2)
@@ -265,13 +266,10 @@ export default {
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
 
-      // 计算预期收益
-      // this.getExpectedIncome()
-
       // 判断投资按钮的可点击状态
       this.canILend =
         parseFloat(value) - parseFloat(this.projectInfo.minInvAmount) >= 0 && parseFloat(value) <= parseFloat(this.projectInfo.surplusAmt)
-    }
+    })
   },
   filters: {
     urlToh5(value) {
@@ -372,11 +370,14 @@ export default {
           this.initRedPacket(this.checkedRedPacket)
         }
 
+        // 根据最优券包计算预期收益
         this.getExpectedIncome()
       })
     },
     invest() {
       if (!this.canILend) return
+
+      if (!this.agree) return
 
       if (this.amount - 0 > this.amountInfo.banlance - 0) {
         this.chargeDialogOption.show = true
@@ -401,6 +402,7 @@ export default {
                 Toast('请确认并同意《风险告知书》')
                 return
               }
+              let checkedCoupon, checkedRedPacket
               switch (status) {
                 case 'SIGN_PROTOCOL': // 未签约
                   this.signAndRiskDialogOptions.show = true
@@ -413,11 +415,31 @@ export default {
                   this.signAndRiskDialogOptions.confirmText = '去评测'
                   break
                 case 'COMPLETE':
+                  if (this.checkedCoupon) {
+                    if (this.checkedCoupon.userCouponId) {
+                      checkedCoupon = this.checkedCoupon.userCouponId
+                    } else {
+                      checkedCoupon = this.checkedCoupon.id
+                    }
+                  } else {
+                    checkedCoupon = null
+                  }
+
+                  if (this.checkedRedPacket) {
+                    if (this.checkedRedPacket.userCouponId) {
+                      checkedRedPacket = this.checkedRedPacket.userRedPacketId
+                    } else {
+                      checkedRedPacket = this.checkedRedPacket.id
+                    }
+                  } else {
+                    checkedRedPacket = null
+                  }
+
                   investApi({
                     projectNo: this.itemId ? this.itemId : null,
                     invAmount: this.amount,
-                    userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-                    userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+                    userCouponId: checkedCoupon,
+                    userRedPacketId: checkedRedPacket,
                     investSource: 'h5',
                     forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
                     retUrl: window.location.href,
@@ -532,7 +554,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (parseFloat(data.banlance) < parseFloat($this.projectInfo.minInvAmount - 0)) {
+          if (parseFloat(data.banlance) < parseFloat($this.projectInfo.minInvAmount)) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }
@@ -750,7 +772,7 @@ export default {
           vertical-align: middle;
         }
       }
-      input:checked + label:before {
+      input.active + label:before {
         border: 0.05rem solid $color-button;
       }
       section {

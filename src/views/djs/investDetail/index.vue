@@ -146,9 +146,9 @@
       </div>
     </Dialog>
     <section class="to-lend">
-      <div class="lend_btns" @click="invest">
+      <div :class="['lend_btns', { active: parseInt(investDetail.status) === 1 }]" @click="invest">
         <p>授权出借</p>
-        <span v-if="investDetail.isSurplusShow == 1">剩余可投{{ (Math.round(investDetail.surplusAmount) / 10000).toFixed(2) }}万</span>
+        <span v-if="parseInt(investDetail.isSurplusShow) === 1">剩余可投{{ (Math.round(investDetail.surplusAmount) / 10000).toFixed(2) }}万</span>
         <!-- <span v-if="investDetail.isSurplusShow == 1 && parseFloat(investDetail.surplusAmount) <10000">剩余可投{{investDetail.surplusAmount }}元</span>-->
       </div>
     </section>
@@ -206,9 +206,9 @@ export default {
       this.showQuest = true
     },
     invest() {
-      this.getUserCompleteInfo()
-    },
-    getUserCompleteInfo() {
+      // status === 1 可以授权出借
+      if (this.investDetail.status !== 1) return
+
       getUserCompleteInfoApi().then(res => {
         const data = res.data.data
         if (res.data.resultCode === '1') {
@@ -682,7 +682,7 @@ export default {
     .lend_btns {
       @include cube(3.45rem, 0.44rem);
       margin: 0 auto;
-      background: #ec5e52;
+      background: #ccc;
       border-radius: 0.03rem;
       text-align: center;
       display: flex;
@@ -695,6 +695,9 @@ export default {
       span {
         font-size: 0.11rem;
         color: rgba(255, 255, 255, 0.6);
+      }
+      &.active {
+        background: #ec5e52;
       }
     }
   }

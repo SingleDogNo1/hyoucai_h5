@@ -271,9 +271,11 @@ export default {
         if (res.data.resultCode === '1') {
           const data = res.data.data
           if (data.haveAlert) {
-            this.userCompleteDialogOptions.show = true
+            // 有几个状态的弹窗不需要弹窗，把这行去掉加到对应的case中（如果后期弹窗全要的话再把这段放开，case中的删掉）
+            // this.userCompleteDialogOptions.show = true
             switch (data.type) {
               case 'redPacket':
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个红包'
                 this.userCompleteDialogOptions.msg = data.count + '个红包已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的红包'
@@ -281,6 +283,7 @@ export default {
                 this.routerName = 'DJSCouponList'
                 break
               case 'coupon':
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.title = '您收到' + data.count + '个加息券'
                 this.userCompleteDialogOptions.msg = data.count + '个加息券已存入您的账户'
                 this.userCompleteDialogOptions.confirmText = '查看我的加息券'
@@ -288,12 +291,14 @@ export default {
                 this.routerName = 'DJSCouponList'
                 break
               case 'redCoupon':
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.msg = '您当前有未使用红包/加息券！'
                 this.userCompleteDialogOptions.confirmText = '立即查看'
                 this.userStatus = 'redCoupon'
                 this.routerName = 'DJSCouponList'
                 break
               case 'refund':
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.msg = `银行系统原因，您有${data.count}笔出借退款项未匹配成功，已退回`
                 this.userCompleteDialogOptions.confirmText = '去查看'
                 this.userStatus = 'refund'
@@ -302,6 +307,7 @@ export default {
                 // this.routerName = 'DJSCouponList'
                 break
               case 'refundBeforeDueDate':
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.title = '提前还款通知'
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'

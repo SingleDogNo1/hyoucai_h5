@@ -14,10 +14,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="inviteCode && inviteCode !== ''" v-model="inviteCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="disableInviteCode" v-model="inviteCode" placeholder="输入推荐码(选填)" />
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="recommendCode && recommendCode !== ''" v-model="recommendCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="disableInviteCode" v-model="recommendCode" placeholder="输入推荐码(选填)" />
       </div>
       <input
         :class="[
@@ -76,7 +76,8 @@ export default {
       countDownText: '获取验证码',
       hasCountDown: false,
       errorMsg: '',
-      isFormComplete: false
+      isFormComplete: false,
+      disableInviteCode: Cookie.get('app-invite-code')
     }
   },
   computed: {

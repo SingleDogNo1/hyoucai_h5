@@ -162,6 +162,7 @@ import {
 } from '@/api/hyc/investDetail'
 // 查询用户信息完善接口
 import { userInfoCompleteNoticeApi } from '@/api/common/user'
+import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -238,7 +239,7 @@ export default {
     })
   },
   watch: {
-    amount(value) {
+    amount: debounce(function(value) {
       // 输入的金额保留两位小数
       if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
         this.amount = ((value * 100) / 100).toFixed(2)
@@ -265,13 +266,10 @@ export default {
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
 
-      // 计算预期收益
-      // this.getExpectedIncome()
-
       // 判断投资按钮的可点击状态
       this.canILend =
         parseFloat(value) - parseFloat(this.projectInfo.minInvAmount) >= 0 && parseFloat(value) <= parseFloat(this.projectInfo.surplusAmt)
-    }
+    })
   },
   filters: {
     urlToh5(value) {
@@ -372,6 +370,7 @@ export default {
           this.initRedPacket(this.checkedRedPacket)
         }
 
+        // 根据最优券包计算预期收益
         this.getExpectedIncome()
       })
     },
@@ -532,7 +531,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (parseFloat(data.banlance) < parseFloat($this.projectInfo.minInvAmount - 0)) {
+          if (parseFloat(data.banlance) < parseFloat($this.projectInfo.minInvAmount)) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }

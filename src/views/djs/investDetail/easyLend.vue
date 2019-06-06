@@ -144,6 +144,7 @@ import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
 import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi, expireRepeatApi } from '@/api/djs/investDetail'
+import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
@@ -226,7 +227,7 @@ export default {
     })
   },
   watch: {
-    amount(value) {
+    amount: debounce(function(value) {
       // 输入的金额保留两位小数
       if (value.toString().indexOf('.') > 0 && value.toString().length - (value.toString().indexOf('.') + 1) > 2) {
         this.amount = ((value * 100) / 100).toFixed(2)
@@ -253,13 +254,10 @@ export default {
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
 
-      // 计算预期收益
-      this.getExpectedIncome()
-
       // 判断投资按钮的可点击状态
       this.canILend =
         parseFloat(value) - parseFloat(this.investDetail.minInvAmt) >= 0 && parseFloat(value) <= parseFloat(this.investDetail.surplusAmount)
-    }
+    })
   },
   filters: {
     urlToh5(value) {
@@ -337,6 +335,7 @@ export default {
           this.initRedPacket(this.checkedRedPacket)
         }
 
+        // 根据最优券包计算预期收益
         this.getExpectedIncome()
       })
     },
@@ -517,7 +516,7 @@ export default {
           if (data.banlance - 0 === $this.amount - 0) {
             $this.lendAllFlag = true
           }
-          if (data.banlance < $this.investDetail.minInvAmt) {
+          if (parseFloat(data.banlance) < parseFloat($this.investDetail.minInvAmt)) {
             $this.lendBtnMsg = '账户余额不足'
             $this.canILend = false
           }

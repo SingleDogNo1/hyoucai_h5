@@ -8,12 +8,23 @@
       <div class="item_title">
         <p>{{ itemData.projectName }}</p>
         <ul v-if="itemData.tags && itemData.tags.length">
-          <li v-for="(el, i) in itemData.tags" :key="i">
+          <template v-for="(el, i) in itemData.tags">
             <!-- 显示图标 -->
-            <img :key="i" v-if="parseInt(el.tagType) === 1" :src="el.icon" alt="" />
+            <li :key="i" v-if="parseInt(el.tagType) === 1">
+              <img :src="el.icon" alt="" />
+            </li>
             <!-- 显示文字 -->
-            <p :key="i" v-else-if="parseInt(el.tagType) === 2">{{ el.tagName }}</p>
-          </li>
+            <li
+              :key="i"
+              v-else-if="parseInt(el.tagType) === 2"
+              :style="{
+                background: el.tagColor ? el.tagColor : '#efefef',
+                color: el.tagColor ? '#fff' : '#b27c50'
+              }"
+            >
+              {{ el.tagName }}
+            </li>
+          </template>
         </ul>
       </div>
       <div class="item_info">
@@ -191,18 +202,13 @@ export default {
       ul {
         display: flex;
         align-self: center;
-        font-size: 0.11rem;
+        font-size: 0.1rem;
         li {
+          font-size: 0.11rem;
+          padding: 0.02rem 0.05rem;
           img {
             height: 0.16rem;
             margin-right: 0.07rem;
-          }
-          p {
-            font-size: 0.11rem;
-            color: #b27c50;
-            padding: 0.02rem 0.05rem;
-            background: #efefef;
-            border-radius: 0.01rem;
           }
         }
       }

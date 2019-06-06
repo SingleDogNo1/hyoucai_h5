@@ -967,16 +967,6 @@ export default {
       }
     }
   },
-  watch: {
-    text(newVal) {
-      this.$route.meta.title = newVal // 动态修改title
-    }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(() => {
-      console.log(to.meta.title)
-    })
-  },
   created() {
     this.$nextTick(() => {
       switch (this.type) {

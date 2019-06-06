@@ -7,14 +7,14 @@
     <div class="item_wrapper" :class="matchClass(itemData)">
       <div class="item_title">
         <p>{{ itemData.projectName }}</p>
-        <div v-if="itemData.tags && itemData.tags.length">
-          <template v-for="(el, i) in itemData.tags">
+        <ul v-if="itemData.tags && itemData.tags.length">
+          <li v-for="(el, i) in itemData.tags" :key="i">
             <!-- 显示图标 -->
-            <img :key="i" v-if="el.tagType === 1" :src="el.icon" alt="" />
+            <img :key="i" v-if="parseInt(el.tagType) === 1" :src="el.icon" alt="" />
             <!-- 显示文字 -->
-            <p :key="i" v-else-if="el.tagType === 0">{{ el.tagName }}</p>
-          </template>
-        </div>
+            <p :key="i" v-else-if="parseInt(el.tagType) === 2">{{ el.tagName }}</p>
+          </li>
+        </ul>
       </div>
       <div class="item_info">
         <dl>
@@ -188,20 +188,22 @@ export default {
         font-size: $font-size-small;
         color: $color-text-b;
       }
-      div {
+      ul {
         display: flex;
         align-self: center;
         font-size: 0.11rem;
-        img {
-          height: 0.16rem;
-          margin-right: 0.07rem;
-        }
-        span {
-          font-size: 0.11rem;
-          color: #b27c50;
-          padding: 0.02rem 0.05rem;
-          background: #efefef;
-          border-radius: 0.01rem;
+        li {
+          img {
+            height: 0.16rem;
+            margin-right: 0.07rem;
+          }
+          p {
+            font-size: 0.11rem;
+            color: #b27c50;
+            padding: 0.02rem 0.05rem;
+            background: #efefef;
+            border-radius: 0.01rem;
+          }
         }
       }
     }

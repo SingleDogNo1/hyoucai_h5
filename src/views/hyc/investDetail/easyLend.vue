@@ -65,7 +65,7 @@
         </ul>
         <div class="agree">
           <div v-for="(agreement, index) in protocolData" :key="index">
-            <input type="checkbox" id="isCheck" :checked="agree" :data-check="agree" v-if="agreement.isChecked" />
+            <input type="checkbox" id="isCheck" :checked="agree" :class="{ active: agree }" v-if="agreement.isChecked" />
             <label for="isCheck" @click="changeStatus" v-if="agreement.isChecked"></label>
             <span v-for="(item, index2) in agreement.list" :key="index2">
               <span>
@@ -81,7 +81,7 @@
     </BScroll>
 
     <div class="invest-btn">
-      <section :class="{ active: canILend }" @click="invest">
+      <section :class="{ active: canILend && agree }" @click="invest">
         <h6>{{ lendBtnMsg }}</h6>
         <p v-if="parseFloat(projectInfo.minInvAmount) > parseFloat(amountInfo.banlance)">
           还需余额{{ parseFloat(projectInfo.minInvAmount) - parseFloat(amountInfo.banlance) }}
@@ -376,6 +376,8 @@ export default {
     },
     invest() {
       if (!this.canILend) return
+
+      if (!this.agree) return
 
       if (this.amount - 0 > this.amountInfo.banlance - 0) {
         this.chargeDialogOption.show = true
@@ -770,7 +772,7 @@ export default {
           vertical-align: middle;
         }
       }
-      input:checked + label:before {
+      input.active + label:before {
         border: 0.05rem solid $color-button;
       }
       section {

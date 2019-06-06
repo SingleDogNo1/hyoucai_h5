@@ -28,10 +28,9 @@ const Hyoucai = {
     }
   },
   removeAll: function() {
+    _clearAllCookie()
     if (window.Storage && window.localStorage && window.localStorage instanceof Storage) {
       localStorage.clear()
-    } else {
-      _clearAllCookie()
     }
   },
   getRetBaseURL: function() {

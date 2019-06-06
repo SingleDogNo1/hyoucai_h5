@@ -400,6 +400,7 @@ export default {
                 Toast('请确认并同意《风险告知书》')
                 return
               }
+              let checkedCoupon, checkedRedPacket
               switch (status) {
                 case 'SIGN_PROTOCOL': // 未签约
                   this.signAndRiskDialogOptions.show = true
@@ -412,11 +413,31 @@ export default {
                   this.signAndRiskDialogOptions.confirmText = '去评测'
                   break
                 case 'COMPLETE':
+                  if (this.checkedCoupon) {
+                    if (this.checkedCoupon.userCouponId) {
+                      checkedCoupon = this.checkedCoupon.userCouponId
+                    } else {
+                      checkedCoupon = this.checkedCoupon.id
+                    }
+                  } else {
+                    checkedCoupon = null
+                  }
+
+                  if (this.checkedRedPacket) {
+                    if (this.checkedRedPacket.userCouponId) {
+                      checkedRedPacket = this.checkedRedPacket.userRedPacketId
+                    } else {
+                      checkedRedPacket = this.checkedRedPacket.id
+                    }
+                  } else {
+                    checkedRedPacket = null
+                  }
+
                   investApi({
                     projectNo: this.itemId ? this.itemId : null,
                     invAmount: this.amount,
-                    userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-                    userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+                    userCouponId: checkedCoupon,
+                    userRedPacketId: checkedRedPacket,
                     investSource: 'h5',
                     forgotPwdUrl: getRetBaseURL() + '/forgetpwd',
                     retUrl: window.location.href,

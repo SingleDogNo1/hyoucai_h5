@@ -347,12 +347,33 @@ export default {
         return
       }
 
+      let checkedCoupon, checkedRedPacket
+      if (this.checkedCoupon) {
+        if (this.checkedCoupon.userCouponId) {
+          checkedCoupon = this.checkedCoupon.userCouponId
+        } else {
+          checkedCoupon = this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if (this.checkedRedPacket) {
+        if (this.checkedRedPacket.userCouponId) {
+          checkedRedPacket = this.checkedRedPacket.userRedPacketId
+        } else {
+          checkedRedPacket = this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
+      }
+
       investApi({
         userName: this.user.userName,
         projectNo: this.projectNo,
         invAmount: this.amount,
-        userCouponId: this.checkedCoupon ? this.checkedCoupon.id : null,
-        userRedPacketId: this.checkedRedPacket ? this.checkedRedPacket.id : null,
+        userCouponId: checkedCoupon,
+        userRedPacketId: checkedRedPacket,
         investSource: 'h5'
       }).then(res => {
         const data = res.data

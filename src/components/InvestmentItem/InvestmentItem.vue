@@ -34,11 +34,14 @@
         </dl>
         <!--hyoucai 优质计划-->
         <div v-if="itemData.projectType && itemData.projectType === 2">
-          <template v-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
-            <button disabled>还款中</button>
+          <template v-if="itemData.status === 1">
+            <button>暂未开启</button>
           </template>
           <template v-else-if="itemData.status === 2">
             <button>授权出借</button>
+          </template>
+          <template v-else-if="itemData.investPercent >= 100 || itemData.investEndTimestamp <= 0 || itemData.status === 3">
+            <button disabled>还款中</button>
           </template>
           <template v-else>
             <button disabled>

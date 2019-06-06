@@ -150,7 +150,7 @@
       </div>
     </Dialog>
     <section class="to-lend">
-      <div class="lend_btns" @click="invest">
+      <div :class="['lend_btns', { active: parseInt(projectInfo.status) === 2 }]" @click="invest">
         <p>授权出借</p>
         <span v-if="parseInt(projectInfo.isShowEnableAmt) === 1">剩余可投{{ projectInfo.showSurplusAmt }}</span>
       </div>
@@ -240,9 +240,9 @@ export default {
       this.showQuest = true
     },
     invest() {
-      this.getUserCompleteInfo()
-    },
-    getUserCompleteInfo() {
+      // status === 2 可以授权出借
+      if (this.projectInfo.status !== 2) return
+
       getUserCompleteInfoApi().then(res => {
         const data = res.data.data
         if (res.data.resultCode === '1') {
@@ -746,7 +746,7 @@ export default {
     .lend_btns {
       @include cube(3.45rem, 0.44rem);
       margin: 0 auto;
-      background: #ec5e52;
+      background: #ccc;
       border-radius: 0.03rem;
       text-align: center;
       display: flex;
@@ -759,6 +759,9 @@ export default {
       span {
         font-size: 0.11rem;
         color: rgba(255, 255, 255, 0.6);
+      }
+      &.active {
+        background: #ec5e52;
       }
     }
   }

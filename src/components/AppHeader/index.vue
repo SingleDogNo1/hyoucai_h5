@@ -40,11 +40,20 @@ export default {
         case 'ywsq':
           this.title = '汇有财授权签约协议'
           break
+        case 'jkxy':
+          this.title = '三方协议'
+          break
         case 'zqzr':
           this.title = '债权转让协议'
           break
         case 'zcxy':
           this.title = '汇有财注册协议'
+          break
+        case 'sqxy':
+          this.title = '用户授权协议'
+          break
+        case 'jxsf':
+          this.title = '江西银行网络交易资金账户服务三方协议'
           break
         case 'zdtz':
           this.title = '自动出借服务条款'

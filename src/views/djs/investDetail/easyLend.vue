@@ -158,6 +158,7 @@ export default {
   },
   data() {
     return {
+      comeFrom: '', // 路由是从哪里来的
       projectNo: this.$route.query.projectNo, // 标的号
       protocolData: [], // 协议数据
       lendBtnMsg: '提交', // 投资按钮的内容
@@ -305,13 +306,11 @@ export default {
       })
     },
     getCouponPackage(amount) {
-      Indicator.open()
       couponPackageApi({
         userName: this.user.userName,
         projectNo: this.projectNo,
         amount: amount
       }).then(res => {
-        Indicator.close()
         const data = res.data
         ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
@@ -496,6 +495,25 @@ export default {
         })
       }
     },
+    getAccount() {
+      getPersonalAccount({
+        userName: this.user.userName,
+        projectNo: this.projectNo
+      }).then(res => {
+        const data = res.data
+        this.amountInfo = data
+        if (this.amount !== '') {
+          if (data.banlance - 0 === this.amount - 0) {
+            this.lendAllFlag = true
+          }
+          if (parseFloat(data.banlance) < parseFloat(this.investDetail.minInvAmt)) {
+            this.lendBtnMsg = '账户余额不足'
+            this.canILend = false
+          }
+          this.getExpectedIncome()
+        }
+      })
+    },
     ...mapMutations({
       cleanData: 'CLEAN_DJS_LEND_DATA',
       initCoupon: 'CHOOSE_DJS_COUPON',
@@ -507,6 +525,10 @@ export default {
     })
   },
   created() {
+    // 如果不是从充值来的才使用Indicator
+    if (this.comeFrom !== 'DJSCharge') {
+      Indicator.open()
+    }
     const $this = this
     ;(async function initData() {
       await getInvestDetail({
@@ -529,25 +551,33 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
-      await getPersonalAccount({
-        userName: $this.user.userName,
-        projectNo: $this.projectNo
-      }).then(res => {
-        const data = res.data
-        $this.amountInfo = data
-        if ($this.amount !== '') {
-          if (data.banlance - 0 === $this.amount - 0) {
-            $this.lendAllFlag = true
-          }
-          if (parseFloat(data.banlance) < parseFloat($this.investDetail.minInvAmt)) {
-            $this.lendBtnMsg = '账户余额不足'
-            $this.canILend = false
-          }
-          $this.getExpectedIncome()
-        }
-      })
+
       await $this.getCouponPackage($this.amount)
+
+      // 如果不是从充值来的调用获取账户信息，否则执行beforeRouteEnter逻辑
+      if ($this.comeFrom !== 'DJSCharge') {
+        await $this.getAccount()
+      }
+
+      if ($this.comeFrom !== 'DJSCharge') {
+        await Indicator.close()
+      }
     })()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      const [comeFrom, during] = ['DJSCharge', 3000]
+      // 如果是从充值页跳转来的，loading 3s 在刷新金额
+      if (from.name === comeFrom) {
+        vm.comeFrom = comeFrom
+        Indicator.open()
+
+        setTimeout(() => {
+          Indicator.close()
+          vm.getAccount()
+        }, during)
+      }
+    })
   },
   beforeRouteLeave(to, from, next) {
     // 如果不是跳转到选择卡券页面，重置投资金额

@@ -159,8 +159,10 @@
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
+import { Toast } from 'mint-ui'
 import { getInvestDetail } from '@/api/djs/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
+
 export default {
   name: 'index',
   components: {

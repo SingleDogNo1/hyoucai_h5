@@ -163,9 +163,11 @@ import BScroll from '@/components/BScroll/BScroll'
 import { mapGetters } from 'vuex'
 import Dialog from '@/components/Dialog/Serve'
 import NoData from '@/components/NoData/NoData'
+import { Toast } from 'mint-ui'
 import { getInvestDetail, getClaimList } from '@/api/hyc/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
 import { timeFormatDet } from '@/assets/js/utils'
+
 export default {
   name: 'index',
   components: {

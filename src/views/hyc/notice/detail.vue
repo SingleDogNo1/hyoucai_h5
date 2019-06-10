@@ -67,6 +67,7 @@ export default {
     $size: 0.22rem; // 背景图尺寸
     $padding: 0.05rem; // 点击扩展区域尺寸
     position: fixed;
+    z-index: 99;
     @include square($size);
     padding: 0.05rem;
     background-image: url('./homepage.png');

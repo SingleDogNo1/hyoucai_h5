@@ -70,9 +70,6 @@ export default {
 
 .activity {
   height: 100%;
-}
-.my-scroll {
-  height: 100%;
   overflow: hidden;
 }
 

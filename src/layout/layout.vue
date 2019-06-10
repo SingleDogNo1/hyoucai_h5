@@ -31,7 +31,7 @@ export default {
     top: 0.44rem;
     bottom: 0;
     width: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
     background: #fff;
   }
 }

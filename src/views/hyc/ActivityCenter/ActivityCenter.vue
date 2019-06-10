@@ -64,6 +64,7 @@ export default {
 
 .activity {
   height: 100%;
+  overflow: hidden;
   .activity-wrapper {
     background: #fff;
     padding: 0 0.16rem 0.16rem;

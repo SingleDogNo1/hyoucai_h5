@@ -61,7 +61,6 @@ export default {
 
 .notice {
   height: 100%;
-  overflow: hidden;
   position: relative;
   > span {
     $size: 0.22rem; // 背景图尺寸
@@ -79,6 +78,7 @@ export default {
   }
   .notice_scroll {
     height: 100%;
+    overflow: hidden;
     .wrapper {
       width: 100%;
       padding: 0.24rem 4% 0;

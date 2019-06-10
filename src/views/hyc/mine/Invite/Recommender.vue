@@ -70,7 +70,6 @@ export default {
           const data = res.data
           if (data.resultCode === '1') {
             this.newReferrer = data.data.refereeName
-            this.showDialog = true
           } else {
             Toast(data.resultMsg)
           }

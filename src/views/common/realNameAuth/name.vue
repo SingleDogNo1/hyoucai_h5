@@ -4,8 +4,8 @@
       <input
         type="text"
         v-model="name"
-        onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
         onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"
+        onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
         placeholder="请输入姓名"
       />
       <input type="tel" maxlength="20" v-model="idCard" placeholder="请输入身份证号" />

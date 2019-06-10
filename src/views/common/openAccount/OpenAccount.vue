@@ -2,10 +2,10 @@
   <div class="open-account">
     <div class="form">
       <div class="row">
-        <input type="text" placeholder="请输入姓名" v-model="name" :disabled="nameDisabled" />
+        <input type="text" placeholder="请输入姓名" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" v-model="name" :disabled="nameDisabled" />
       </div>
       <div class="row">
-        <input type="text" placeholder="请输入身份证号" v-model="idCard" maxlength="18" :disabled="IDCardDisabled" />
+        <input type="text" placeholder="请输入身份证号" @input="idCardInput" maxlength="18" :disabled="IDCardDisabled" />
       </div>
       <div class="row">
         <input type="tel" placeholder="请输入银行预留手机号" maxlength="11" v-model="mobile" :disabled="mobileDisable" />
@@ -139,6 +139,15 @@ export default {
           Toast(res.data.data.coupon)
         }
       })
+    },
+    idCardInput(e) {
+      if (e.target.value && e.target.value.length <= 17) {
+        e.target.value = e.target.value.replace(/[^\d]/g, '')
+      }
+      if (e.target.value && e.target.value.length === 18) {
+        e.target.value = e.target.value.slice(0, 17) + e.target.value[17].replace(/[^(\d|X|x)]/g, '')
+      }
+      this.idCard = e.target.value
     }
   },
   created() {

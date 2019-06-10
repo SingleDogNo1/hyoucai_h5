@@ -241,7 +241,7 @@ export default {
     },
     invest() {
       // status === 2 可以授权出借
-      if (this.projectInfo.status !== 2) return
+      if (parseInt(this.projectInfo.status) !== 2) return
 
       getUserCompleteInfoApi().then(res => {
         const data = res.data.data

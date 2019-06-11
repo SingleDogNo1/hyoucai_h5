@@ -183,7 +183,7 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              if (user.platform === '1') {
+              if (parseInt(user.platform) === 1) {
                 this.$router.push({ name: 'realNameAuthCheckName' })
               } else {
                 this.$router.push({ name: 'remindOpenAccount' })

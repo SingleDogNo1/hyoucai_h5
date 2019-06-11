@@ -49,6 +49,8 @@ import { Toast } from 'mint-ui'
 import { userLogin } from '@/api/common/login'
 import Cookie from 'js-cookie'
 
+import { userInfoCompleteNoticeApi } from '@/api/common/user'
+
 export default {
   name: 'register',
   mixins: [],
@@ -183,11 +185,23 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              if (parseInt(user.platformFlag) === 1) {
-                this.$router.push({ name: 'realNameAuthCheckName' })
-              } else {
-                this.$router.push({ name: 'remindOpenAccount' })
-              }
+              console.log(`user============${user}`)
+
+              userInfoCompleteNoticeApi().then(resp => {
+                const status = resp.data.data
+                console.log(`status=============${status}`)
+                if (status === 'OPEN_ACCOUNT') {
+                  this.$router.push({ name: 'remindOpenAccount' })
+                }
+                if (status === 'REAL_NAME') {
+                  this.$router.push({ name: 'realNameAuthCheckName' })
+                }
+              })
+              // if (parseInt(user.platformFlag) === 1) {
+              //   this.$router.push({ name: 'realNameAuthCheckName' })
+              // } else {
+              //   this.$router.push({ name: 'remindOpenAccount' })
+              // }
             } else {
               Toast(res.data.resultMsg)
             }

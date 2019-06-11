@@ -2,7 +2,7 @@ import axios from 'axios'
 import Router from '@/router/router'
 import Hyoucai from '@/assets/js/hyoucai'
 import { getAuth } from './utils'
-import { Toast } from 'mint-ui'
+// import { Toast } from 'mint-ui'
 
 const $axios = axios.create({
   baseURL: process.env.VUE_APP_BASE_HYC_API,
@@ -28,13 +28,18 @@ $axios.interceptors.request.use(
 $axios.interceptors.response.use(
   response => {
     if (response.constructor.method !== 'options' && (response.data.resultCode === '505' || response.data.resultCode === '506')) {
-      Toast(response.data.resultMsg)
-      setTimeout(() => {
-        Hyoucai.removeAll()
-        Router.push({
-          name: 'loginRegister'
-        })
-      }, 2000)
+      // Toast(response.data.resultMsg)
+      // setTimeout(() => {
+      //   Hyoucai.removeAll()
+      //   Router.push({
+      //     name: 'loginRegister'
+      //   })
+      // }, 2000)
+
+      Hyoucai.removeAll()
+      Router.push({
+        name: 'loginRegister'
+      })
     }
     return response
   },

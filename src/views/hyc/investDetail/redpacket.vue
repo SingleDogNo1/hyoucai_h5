@@ -121,6 +121,7 @@ export default {
 
 .coupon-wrapper {
   height: 100%;
+  overflow: hidden;
   background: #f9f9f9;
   > section {
     padding: 0.1rem 0;

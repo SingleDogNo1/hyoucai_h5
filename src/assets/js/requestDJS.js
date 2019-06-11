@@ -27,12 +27,17 @@ $axios.interceptors.request.use(
 $axios.interceptors.response.use(
   response => {
     if (response.constructor.method !== 'options' && (response.data.resultCode === '505' || response.data.resultCode === '506')) {
-      setTimeout(() => {
-        Hyoucai.removeAll()
-        Router.push({
-          name: 'loginRegister'
-        })
-      }, 2000)
+      // setTimeout(() => {
+      //   Hyoucai.removeAll()
+      //   Router.push({
+      //     name: 'loginRegister'
+      //   })
+      // }, 2000)
+
+      Hyoucai.removeAll()
+      Router.push({
+        name: 'loginRegister'
+      })
     }
     return response
   },

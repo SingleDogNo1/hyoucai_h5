@@ -286,22 +286,66 @@ export default {
       this.lendAllFlag = true
     },
     chooseCoupon() {
+      let [checkedCoupon, checkedRedPacket] = []
+      if (this.checkedCoupon) {
+        if (this.checkedCoupon.couponInfoId) {
+          checkedCoupon = this.checkedCoupon.couponInfoId
+        } else {
+          checkedCoupon = this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if (this.checkedRedPacket) {
+        if (this.checkedRedPacket.redPacketId) {
+          checkedRedPacket = this.checkedRedPacket.redPacketId
+        } else {
+          checkedRedPacket = this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
+      }
+
       this.$router.push({
         name: 'DJSLendChooseCoupon',
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          redPacketId: this.checkedRedPacket && this.checkedRedPacket.id
+          redPacketId: checkedRedPacket,
+          couponId: checkedCoupon
         }
       })
     },
     chooseRedPacket() {
+      let [checkedCoupon, checkedRedPacket] = []
+      if (this.checkedCoupon) {
+        if (this.checkedCoupon.couponInfoId) {
+          checkedCoupon = this.checkedCoupon.couponInfoId
+        } else {
+          checkedCoupon = this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if (this.checkedRedPacket) {
+        if (this.checkedRedPacket.redPacketId) {
+          checkedRedPacket = this.checkedRedPacket.redPacketId
+        } else {
+          checkedRedPacket = this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
+      }
+
       this.$router.push({
         name: 'DJSLendChooseRedPacket',
         params: {
           projectNo: this.projectNo,
           amount: this.amount,
-          couponId: this.checkedCoupon && this.checkedCoupon.id
+          couponId: checkedCoupon,
+          redPacketId: checkedRedPacket
         }
       })
     },

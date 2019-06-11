@@ -16,7 +16,7 @@
                 <span class="content">{{ productDetail.loanMent }}</span>
               </p>
               <p>
-                <span class="title">历史平均年化收益率</span>
+                <span class="title">历史年化收益率</span>
                 <span class="content">{{ productDetail.investRate }}</span>
               </p>
               <p>

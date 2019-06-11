@@ -13,7 +13,7 @@
             </div>
           </div>
           <div class="pro-info-middle">
-            <span>历史平均年化收益率</span><br />
+            <span>历史年化收益率</span><br />
             <em class="common">{{ projectInfo.basicsInvestRate }}</em>
             <span class="per">%</span>
             <label v-if="projectInfo.activityInvestRate && parseFloat(projectInfo.activityInvestRate) !== 0">+</label>

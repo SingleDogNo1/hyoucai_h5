@@ -24,6 +24,20 @@
             <span v-else>{{ investDetail.surplusAmount }}元</span>
           </p>
         </div>
+        <!-- type === '01' 新手标 && 项目可投金额 > 账户已投金额 -->
+        <div class="newbie" v-if="investDetail.type === '01' && investDetail.singleLimit - amountInfo.projectInvestAmount > 0">
+          <div class="title">新手<br />特权</div>
+          <div class="loading">
+            <section
+              :style="{ width: (1.7 * (investDetail.singleLimit - amountInfo.projectInvestAmount)) / investDetail.singleLimit + 'rem' }"
+            ></section>
+          </div>
+          <p>
+            <span>还可继续投资</span>
+            <br />
+            <span>{{ (investDetail.singleLimit - amountInfo.projectInvestAmount).toFixed(2) }}元</span>
+          </p>
+        </div>
         <div class="amount-block">
           <h6>投标金额</h6>
           <section>
@@ -697,6 +711,58 @@ export default {
         line-height: 0.32rem;
         span:last-child {
           margin-left: 0.16rem;
+        }
+      }
+    }
+    .newbie {
+      @include cube(3.45rem, 0.4rem);
+      margin: 0.05rem auto 0.15rem;
+      background: linear-gradient(270deg, #ff9736, #ff5e19);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .title {
+        position: relative;
+        width: 0.5rem;
+        font-size: 0.13rem;
+        color: #fff;
+        text-align: center;
+        line-height: 1.3;
+        &:after {
+          content: '';
+          position: absolute;
+          @include cube(0.02rem, 0.2rem);
+          background: #fff;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto 0;
+        }
+      }
+      .loading {
+        flex: 1;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 0.1rem;
+        section {
+          @include cube(1.7rem, 0.14rem);
+          background-image: url('./images/loading.png');
+          background-size: 1.7rem 0.14rem;
+          background-repeat: no-repeat;
+        }
+      }
+      p {
+        width: 1rem;
+        span {
+          color: #fff;
+          &:first-child {
+            font-size: 0.11rem;
+          }
+          &:last-child {
+            font-size: 0.13rem;
+          }
         }
       }
     }

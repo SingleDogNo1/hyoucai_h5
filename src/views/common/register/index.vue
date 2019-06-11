@@ -185,11 +185,9 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              console.log(`user============${user}`)
 
               userInfoCompleteNoticeApi().then(resp => {
                 const status = resp.data.data.status
-                console.log(`status=============${status}`)
                 if (status === 'OPEN_ACCOUNT') {
                   this.$router.push({ name: 'remindOpenAccount' })
                 }
@@ -197,11 +195,6 @@ export default {
                   this.$router.push({ name: 'realNameAuthCheckName' })
                 }
               })
-              // if (parseInt(user.platformFlag) === 1) {
-              //   this.$router.push({ name: 'realNameAuthCheckName' })
-              // } else {
-              //   this.$router.push({ name: 'remindOpenAccount' })
-              // }
             } else {
               Toast(res.data.resultMsg)
             }

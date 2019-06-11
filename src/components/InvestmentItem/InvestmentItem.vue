@@ -36,7 +36,7 @@
               +{{ itemData.activityInvestRate }}%
             </span>
           </dt>
-          <dd>历史平均年化收益率</dd>
+          <dd>历史年化收益率</dd>
         </dl>
         <dl>
           <dt v-if="itemData.investMent">{{ itemData.investMent }}天</dt>

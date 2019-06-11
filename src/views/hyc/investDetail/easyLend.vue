@@ -49,7 +49,7 @@
           <li @click="chooseCoupon">
             <span>加息券</span>
             <div>
-              <p v-if="!(checkedCoupon && checkedCoupon.id)">{{ couponNum }}张</p>
+              <p v-if="!checkedCoupon">{{ couponNum }}张</p>
               <label v-else>{{ checkedCoupon.validDays }}天{{ checkedCoupon.couponRate }}%加息券</label>
               <i class="iconfont icon-rightpage"></i>
             </div>
@@ -57,7 +57,7 @@
           <li @click="chooseRedPacket">
             <span>红包</span>
             <div>
-              <p v-if="!(checkedRedPacket && checkedRedPacket.userRedPacketId)">{{ redPacketNum }}张</p>
+              <p v-if="!checkedRedPacket">{{ redPacketNum }}张</p>
               <label v-else>{{ checkedRedPacket.redPacketAmount }}元红包</label>
               <i class="iconfont icon-rightpage"></i>
             </div>

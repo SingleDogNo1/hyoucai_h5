@@ -7,13 +7,13 @@
             <div class="item-l">
               <span>{{ investDetail.projectName }}</span>
             </div>
-            <div class="item-r" v-if="parseInt(investDetail.isSurplusShow) == 1">
+            <div class="item-r" v-if="parseInt(investDetail.isSurplusShow) === 1">
               <span class="overplus">剩余可投</span><br />
               <span class="over_amount">{{ (Math.round(investDetail.surplusAmount) / 10000).toFixed(2) }}万</span>
             </div>
           </div>
           <div class="pro-info-middle">
-            <span>历史平均年化收益率</span><br />
+            <span>历史年化收益率</span><br />
             <em class="common">{{ investDetail.basicsInvestRate }}</em>
             <span class="per">%</span>
             <label v-if="investDetail.activityInvestRate && parseFloat(investDetail.activityInvestRate) !== 0">+</label>

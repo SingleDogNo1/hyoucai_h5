@@ -70,7 +70,7 @@
             <span v-for="(item, index2) in agreement.list" :key="index2">
               <span>
                 <span>{{ item.description1 }}</span>
-                <a :href="item.showUrl | urlToh5" class="agreement">{{ item.name }}</a>
+                <span @click="showAgre(item.showUrl)" class="agreement">{{ item.name }}</span>
                 <span>{{ item.description2 }}</span>
               </span>
             </span>
@@ -166,6 +166,7 @@ import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
+import { getQueryParameter } from '@/assets/js/utils'
 
 export default {
   name: 'invest',
@@ -271,15 +272,17 @@ export default {
         parseFloat(value) - parseFloat(this.projectInfo.minInvAmount) >= 0 && parseFloat(value) <= parseFloat(this.projectInfo.surplusAmt)
     })
   },
-  filters: {
-    urlToh5(value) {
-      return value.replace(/(\?mobile=1|&mobile=1)/, '')
-    }
-  },
   methods: {
     toSign() {
       this.$router.push({
         name: 'openAccountProgress'
+      })
+    },
+    showAgre(url) {
+      const agreementType = getQueryParameter(url, 'agreementType')
+      this.$router.push({
+        name: 'HYCAgreement',
+        query: { agreementType }
       })
     },
     toAddress() {

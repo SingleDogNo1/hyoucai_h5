@@ -6,8 +6,8 @@
         <div class="agreement" v-for="(agree, index) in agreements" :key="index">
           <div class="title">{{ agree.description1 }}</div>
           <div class="name">
-            <a v-if="agree.signStatus" href="javascript:;" @click="showAgre(agree)">{{ agree.name }}</a>
-            <a v-else :href="agree.showUrl | urlToh5">{{ agree.name }}</a>
+            <a v-if="agree.signStatus" href="javascript:void(0);" @click="showAgre(agree)">{{ agree.name }}</a>
+            <a v-else href="javascript:void(0);" @click="toAgreement(agree.showUrl)">{{ agree.name }}</a>
           </div>
           <div class="remark">{{ agree.description2 }}</div>
           <div class="btn">
@@ -29,7 +29,7 @@ import { mapGetters } from 'vuex'
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
-import { getRetBaseURL, JumpJX } from '@/assets/js/utils'
+import { getRetBaseURL, JumpJX, getQueryParameter } from '@/assets/js/utils'
 
 import { queryKHAgreementList, getProtocolPdf } from '@/api/common/user'
 
@@ -48,11 +48,6 @@ export default {
   },
   computed: {
     ...mapGetters(['user', 'platform'])
-  },
-  filters: {
-    urlToh5(value) {
-      return value.replace(/(\?mobile=1|&mobile=1)/, '')
-    }
   },
   methods: {
     sign(url) {
@@ -83,6 +78,13 @@ export default {
         } else {
           Toast(res.data.resultMsg)
         }
+      })
+    },
+    toAgreement(url) {
+      const agreementType = getQueryParameter(url, 'agreementType')
+      this.$router.push({
+        name: 'HYCAgreement',
+        query: { agreementType }
       })
     },
     confirmSignOver() {

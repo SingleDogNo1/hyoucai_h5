@@ -170,3 +170,11 @@ export function timeFormatDet(t) {
   result += s < 10 ? '0' + s : s
   return result
 }
+
+export function getQueryParameter(url, name) {
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+  let params = url.substr(url.indexOf('?') + 1)
+  let r = params.match(reg)
+  if (r != null) return decodeURIComponent(r[2])
+  return ''
+}

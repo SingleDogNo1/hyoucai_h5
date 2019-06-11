@@ -278,6 +278,11 @@ export default {
       }
       &.receive1 {
         background-image: url(./images/jiaxi.png);
+        .coupon_left {
+          .coupon_left_p {
+            color: #fec810;
+          }
+        }
       }
       &.receive2 {
         background-image: url(./images/dikou.png);

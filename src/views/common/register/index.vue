@@ -188,7 +188,7 @@ export default {
               console.log(`user============${user}`)
 
               userInfoCompleteNoticeApi().then(resp => {
-                const status = resp.data.data
+                const status = resp.data.data.status
                 console.log(`status=============${status}`)
                 if (status === 'OPEN_ACCOUNT') {
                   this.$router.push({ name: 'remindOpenAccount' })

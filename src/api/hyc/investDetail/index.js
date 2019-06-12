@@ -152,3 +152,21 @@ export function expectedIncome(data) {
     data: Qs.stringify(data)
   })
 }
+
+// 获取用户可用加息券总数
+export function getCouponNumApi(data) {
+  return axios({
+    url: 'redPacketAndCoupon/getAvailableCouponCount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 获取用户可用紅包总数
+export function getRedPacketNumApi(data) {
+  return axios({
+    url: 'redPacketAndCoupon/getAvailableRedPacketCount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

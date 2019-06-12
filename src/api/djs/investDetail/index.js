@@ -114,3 +114,21 @@ export function expireRepeatApi(data) {
     data: Qs.stringify(data)
   })
 }
+
+// 可用红包数量
+export function getRedPacketNumApi(data) {
+  return axios({
+    url: 'AvailableRedPacketCount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}
+
+// 可用加息券数量
+export function getCouponNumApi(data) {
+  return axios({
+    url: 'AvailableCouponCount',
+    method: 'post',
+    data: Qs.stringify(data)
+  })
+}

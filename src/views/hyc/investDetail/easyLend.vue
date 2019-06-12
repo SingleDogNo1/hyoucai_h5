@@ -20,7 +20,7 @@
           </ul>
           <p>
             <span>剩余可投</span>
-            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{ (projectInfo.showSurplusAmt / 10000).toFixed(2) }}万</span>
+            <span v-if="projectInfo.surplusAmt / 10000 > 1">{{ (projectInfo.surplusAmt / 10000).toFixed(2) }}万</span>
             <span v-else>{{ projectInfo.surplusAmt }}元</span>
           </p>
         </div>
@@ -28,7 +28,12 @@
           <h6>投标金额</h6>
           <section>
             <div>¥</div>
-            <input type="number" :placeholder="projectInfo.minInvAmount + '元起投，单笔限额' + projectInfo.maxInvAmount + '元'" v-model="amount" />
+            <input
+              type="number"
+              :placeholder="projectInfo.minInvAmount + '元起投，单笔限额' + projectInfo.maxInvAmount + '元'"
+              v-model="amount"
+              :disabled="disableAmount"
+            />
           </section>
           <p class="err-msg">{{ errMsg }}</p>
           <div class="ctrl">
@@ -129,7 +134,6 @@
       :onConfirm="confirmRiskText"
     >
       <div>
-        <h6>{{ riskTestDialogOptions.title }}</h6>
         <p>{{ riskTestDialogOptions.msg }}</p>
       </div>
     </Dialog>
@@ -176,6 +180,8 @@ import {
   getPersonalAccount, // 获取账户信息
   expectedIncome, // 计算预期收益
   couponPackageApi, // 查询可用红包加息券
+  getCouponNumApi,
+  getRedPacketNumApi,
   investApi, // 投资接口
   systemMaintenance // 查询系统是否维护
 } from '@/api/hyc/investDetail'
@@ -201,6 +207,7 @@ export default {
       itemId: this.$route.query.itemId,
       projectType: this.$route.query.projectType, // 0-散标 1-债转 2-集合标
       protocolData: [], // 协议数据
+      disableAmount: false, // 是否尾标（金额不可更改）
       lendBtnMsg: '提交', // 投资按钮的内容
       lendBtnDetail: '', // 投资按钮的具体描述
       canILend: false, // 投资按钮是否可点击
@@ -292,16 +299,20 @@ export default {
       } else if (parseFloat(value) - parseFloat(surplusAmount) > 0) {
         this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
-        this.errMsg = ''
+        if (value - this.projectInfo.maxInvAmount > 0) {
+          this.errMsg = '超出单笔限额' + (value - this.projectInfo.maxInvAmount) + '元'
+        } else {
+          this.errMsg = ''
+        }
       }
 
-      if (value - this.amountInfo.banlance > 0) {
-        this.lendBtnMsg = '账户余额不足，请充值'
-        this.lendBtnDetail = `还需余额${value - this.amountInfo.banlance}元`
-      } else {
-        this.lendBtnMsg = '提交'
-        this.lendBtnDetail = ''
-      }
+      // if (value - this.amountInfo.banlance > 0) {
+      //   this.lendBtnMsg = '账户余额不足，请充值'
+      //   this.lendBtnDetail = `还需余额${value - this.amountInfo.banlance}元`
+      // } else {
+      //   this.lendBtnMsg = '提交'
+      //   this.lendBtnDetail = ''
+      // }
 
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
@@ -436,7 +447,7 @@ export default {
         investAmount: amount
       }).then(res => {
         const data = res.data.data
-        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+        // ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
         if (JSON.parse(this.hycChooseCouponFlag)) {
           if (data.availableCouponCount > 0) {
@@ -514,7 +525,7 @@ export default {
                   }
 
                   if (this.checkedRedPacket) {
-                    if (this.checkedRedPacket.userCouponId) {
+                    if (this.checkedRedPacket.userRedPacketId) {
                       checkedRedPacket = this.checkedRedPacket.userRedPacketId
                     } else {
                       checkedRedPacket = this.checkedRedPacket.id
@@ -655,8 +666,14 @@ export default {
       }).then(res => {
         const data = res.data.data
         $this.projectInfo = data.projectInfo
-        if ($this.amount - 0 >= data.projectInfo.minInvAmount - 0) {
-          $this.canILend = true
+        // 尾标
+        if (parseFloat(data.projectInfo.surplusAmt) < parseFloat(data.projectInfo.minInvAmount * 2)) {
+          $this.amount = data.projectInfo.surplusAmt
+          $this.disableAmount = true
+        } else {
+          if ($this.amount - 0 >= data.projectInfo.minInvAmount - 0) {
+            $this.canILend = true
+          }
         }
       })
 
@@ -672,7 +689,64 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
+
       await $this.getCouponPackage($this.amount)
+
+      let [checkedCoupon, checkedRedPacket] = []
+      if ($this.checkedCoupon) {
+        if ($this.checkedCoupon.couponInfoId) {
+          checkedCoupon = $this.checkedCoupon.couponInfoId
+        } else {
+          checkedCoupon = $this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if ($this.checkedRedPacket) {
+        if ($this.checkedRedPacket.redPacketId) {
+          checkedRedPacket = $this.checkedRedPacket.redPacketId
+        } else {
+          checkedRedPacket = $this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
+      }
+
+      await getCouponNumApi({
+        investAmount: $this.amount,
+        productId: $this.productId,
+        redPacketId: checkedRedPacket
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          $this.couponNum = data.count
+          // 默认展示推荐的券包组合
+          // if (data.count === 0) {
+          //   $this.clearCoupon()
+          // }
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+
+      await getRedPacketNumApi({
+        investAmount: $this.amount,
+        productId: $this.productId,
+        couponId: checkedCoupon
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data.data
+          $this.redPacketNum = data.count
+          // 默认展示推荐的券包组合
+          // if (data.count === 0) {
+          //   $this.clearRedPacket()
+          // }
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+
       // 如果不是从充值来的调用获取账户信息，否则执行beforeRouteEnter逻辑
       if ($this.comeFrom !== 'HYCCharge') {
         await $this.getAccount()

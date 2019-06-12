@@ -42,7 +42,12 @@
           <h6>投标金额</h6>
           <section>
             <div>¥</div>
-            <input type="number" :placeholder="investDetail.minInvAmt + '元起投，单笔限额' + investDetail.singleLimit + '元'" v-model="amount" />
+            <input
+              type="number"
+              :placeholder="investDetail.minInvAmt + '元起投，单笔限额' + investDetail.singleLimit + '元'"
+              v-model="amount"
+              :disabled="disableAmount"
+            />
           </section>
           <p class="err-msg">{{ errMsg }}</p>
           <div class="ctrl">
@@ -136,7 +141,6 @@
       :onConfirm="confirmRiskText"
     >
       <div>
-        <h6>{{ riskTestDialogOptions.title }}</h6>
         <p>{{ riskTestDialogOptions.msg }}</p>
       </div>
     </Dialog>
@@ -177,7 +181,16 @@ import Confirm from '@/components/Dialog/Confirm'
 import { Toast, Indicator } from 'mint-ui'
 
 import { getProtocaol } from '@/api/djs/invite'
-import { getInvestDetail, getPersonalAccount, expectedIncome, couponPackageApi, investApi, expireRepeatApi } from '@/api/djs/investDetail'
+import {
+  getInvestDetail,
+  getPersonalAccount,
+  expectedIncome,
+  couponPackageApi,
+  investApi,
+  expireRepeatApi,
+  getRedPacketNumApi,
+  getCouponNumApi
+} from '@/api/djs/investDetail'
 import debounce from '@/assets/js/debounce'
 
 import { mapGetters, mapState, mapMutations } from 'vuex'
@@ -197,6 +210,7 @@ export default {
       comeFrom: '', // 路由是从哪里来的
       projectNo: this.$route.query.projectNo, // 标的号
       protocolData: [], // 协议数据
+      disableAmount: false, // 是否尾标（金额不可更改）
       lendBtnMsg: '提交', // 投资按钮的内容
       lendBtnDetail: '', // 投资按钮的具体描述
       canILend: false, // 投资按钮是否可点击
@@ -296,16 +310,20 @@ export default {
       } else if (parseFloat(value) - parseFloat(surplusAmount) > 0) {
         this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
-        this.errMsg = ''
+        if (value - this.investDetail.singleLimit > 0) {
+          this.errMsg = '超出单笔限额' + (value - this.investDetail.singleLimit) + '元'
+        } else {
+          this.errMsg = ''
+        }
       }
 
-      if (value - this.amountInfo.banlance > 0) {
-        this.lendBtnMsg = '账户余额不足，请充值'
-        this.lendBtnDetail = `还需余额${value - this.amountInfo.banlance}元`
-      } else {
-        this.lendBtnMsg = '提交'
-        this.lendBtnDetail = ''
-      }
+      // if (value - this.amountInfo.banlance > 0) {
+      //   this.lendBtnMsg = '账户余额不足，请充值'
+      //   this.lendBtnDetail = `还需余额${value - this.amountInfo.banlance}元`
+      // } else {
+      //   this.lendBtnMsg = '提交'
+      //   this.lendBtnDetail = ''
+      // }
 
       // 根据投资金额获取可用的红包 && 加息券
       this.getCouponPackage(value)
@@ -419,7 +437,7 @@ export default {
         amount: amount
       }).then(res => {
         const data = res.data
-        ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+        // ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
 
         if (JSON.parse(this.djsChooseCouponFlag)) {
           if (data.availableCouponCount > 0) {
@@ -467,7 +485,7 @@ export default {
       }
 
       if (this.checkedRedPacket) {
-        if (this.checkedRedPacket.userCouponId) {
+        if (this.checkedRedPacket.userRedPacketId) {
           checkedRedPacket = this.checkedRedPacket.userRedPacketId
         } else {
           checkedRedPacket = this.checkedRedPacket.id
@@ -660,10 +678,17 @@ export default {
       }).then(res => {
         const data = res.data
         $this.investDetail = data
-        if ($this.amount >= data.minInvAmt) {
-          $this.canILend = true
+        // 尾标
+        if (parseFloat(data.surplusAmount) < parseFloat(data.minInvAmt * 2)) {
+          $this.amount = data.surplusAmount
+          $this.disableAmount = true
+        } else {
+          if ($this.amount - 0 >= data.minInvAmount - 0) {
+            $this.canILend = true
+          }
         }
       })
+
       await getProtocaol({
         type: 'TZJE'
       }).then(res => {
@@ -677,6 +702,63 @@ export default {
       })
 
       await $this.getCouponPackage($this.amount)
+
+      let [checkedCoupon, checkedRedPacket] = []
+      if ($this.checkedCoupon) {
+        if ($this.checkedCoupon.couponInfoId) {
+          checkedCoupon = $this.checkedCoupon.couponInfoId
+        } else {
+          checkedCoupon = $this.checkedCoupon.id
+        }
+      } else {
+        checkedCoupon = null
+      }
+
+      if ($this.checkedRedPacket) {
+        if ($this.checkedRedPacket.userRedPacketId) {
+          checkedRedPacket = $this.checkedRedPacket.userRedPacketId
+        } else {
+          checkedRedPacket = $this.checkedRedPacket.id
+        }
+      } else {
+        checkedRedPacket = null
+      }
+
+      await getCouponNumApi({
+        userName: $this.user.userName,
+        projectNo: $this.projectNo,
+        amount: $this.amount,
+        redPacketId: checkedRedPacket
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data
+          $this.couponNum = data.count
+          // 默认展示推荐的券包组合
+          // if (data.count === 0) {
+          //   $this.clearCoupon()
+          // }
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
+
+      await getRedPacketNumApi({
+        userName: $this.user.userName,
+        projectNo: $this.projectNo,
+        amount: $this.amount,
+        couponId: checkedCoupon
+      }).then(res => {
+        if (res.data.resultCode === '1') {
+          const data = res.data
+          $this.redPacketNum = data.count
+          // 默认展示推荐的券包组合
+          // if (data.count === 0) {
+          //   $this.clearRedPacket()
+          // }
+        } else {
+          Toast(res.data.resultMsg)
+        }
+      })
 
       // 如果不是从充值来的调用获取账户信息，否则执行beforeRouteEnter逻辑
       if ($this.comeFrom !== 'DJSCharge') {

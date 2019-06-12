@@ -101,6 +101,7 @@ export default {
   background: #fff;
   padding-left: 0.15rem;
   height: 100%;
+  overflow: hidden;
   .box {
     height: 0.75rem;
     @include border-bottom-1px(#e8e8e8);

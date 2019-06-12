@@ -98,8 +98,9 @@
       <section :class="{ active: canILend && agree }" @click="invest">
         <h6>{{ lendBtnMsg }}</h6>
         <p v-if="parseFloat(investDetail.minInvAmt) > parseFloat(amountInfo.banlance)">
-          还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}
+          还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}元
         </p>
+        <p></p>
       </section>
     </div>
 
@@ -266,6 +267,11 @@ export default {
         this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
         this.errMsg = ''
+      }
+
+      if (value > this.amountInfo.banlance) {
+        console.log(1)
+        this.lendBtnMsg = '账户余额不足，请充值'
       }
 
       // 根据投资金额获取可用的红包 && 加息券
@@ -564,13 +570,13 @@ export default {
       }).then(res => {
         const data = res.data
         this.amountInfo = data
+        if (parseFloat(data.banlance) < parseFloat(this.investDetail.minInvAmt)) {
+          this.lendBtnMsg = '账户余额不足，去充值'
+          this.canILend = false
+        }
         if (this.amount !== '') {
           if (data.banlance - 0 === this.amount - 0) {
             this.lendAllFlag = true
-          }
-          if (parseFloat(data.banlance) < parseFloat(this.investDetail.minInvAmt)) {
-            this.lendBtnMsg = '账户余额不足'
-            this.canILend = false
           }
           this.getExpectedIncome()
         }
@@ -836,6 +842,7 @@ export default {
           line-height: 0.26rem;
           background: #ffffff;
           border: 0.01rem solid #333;
+          padding: 0;
           &.active {
             border: 0.01rem solid #ec5e52;
             color: #ec5e52;

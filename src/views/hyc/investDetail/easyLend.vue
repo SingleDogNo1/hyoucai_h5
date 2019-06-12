@@ -753,6 +753,7 @@ export default {
           line-height: 0.26rem;
           background: #ffffff;
           border: 0.01rem solid #333;
+          padding: 0;
           &.active {
             border: 0.01rem solid #ec5e52;
             color: #ec5e52;

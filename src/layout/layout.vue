@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <AppHeader v-if="$route.meta.title"> </AppHeader>
-    <div class="container">
+    <div class="container" :style="{ top: $route.query.mobile ? '0' : '0.44rem' }">
       <router-view></router-view>
     </div>
   </div>
@@ -28,7 +28,6 @@ export default {
   flex-direction: column;
   .container {
     position: fixed;
-    top: 0.44rem;
     bottom: 0;
     width: 100%;
     /*overflow: hidden;*/

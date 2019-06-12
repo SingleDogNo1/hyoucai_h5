@@ -110,7 +110,8 @@ export default {
         }
       })
       if (signStatus) {
-        this.isSignOver = !this.status
+        // 因为投资三级页会跳会这一页来操作，所以把这个弹窗关掉了
+        // this.isSignOver = !this.status
       }
     })
   }

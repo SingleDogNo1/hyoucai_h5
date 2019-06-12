@@ -97,9 +97,7 @@
     <div class="invest-btn">
       <section :class="{ active: canILend && agree }" @click="invest">
         <h6>{{ lendBtnMsg }}</h6>
-        <p v-if="parseFloat(investDetail.minInvAmt) > parseFloat(amountInfo.banlance)">
-          还需余额{{ parseFloat(investDetail.minInvAmt) - parseFloat(amountInfo.banlance) }}元
-        </p>
+        <p>{{ lendBtnDetail }}</p>
         <p></p>
       </section>
     </div>
@@ -147,6 +145,27 @@
     <Confirm :show.sync="chargeDialogOption.show" :confirmText="chargeDialogOption.confirmText" :onConfirm="confirmCharge">
       <p>账户余额不足，请充值！</p>
     </Confirm>
+
+    <!-- 风险测评已过期 -->
+    <Dialog :show.sync="riskPastDueDialogOptions.show" confirmText="重新评测" :onConfirm="confirmRiskPastDue">
+      <div>
+        <p>{{ riskPastDueDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
+
+    <!-- 授权已过期 -->
+    <Dialog :show.sync="authPastDueDialogOptions.show" :onConfirm="confirmAuthPastDue">
+      <div>
+        <p>{{ authPastDueDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
+
+    <!-- 其他错误弹窗 -->
+    <Dialog :show.sync="investErrDialogOptions.show">
+      <div>
+        <p>{{ investErrDialogOptions.msg }}</p>
+      </div>
+    </Dialog>
   </div>
 </template>
 
@@ -179,6 +198,7 @@ export default {
       projectNo: this.$route.query.projectNo, // 标的号
       protocolData: [], // 协议数据
       lendBtnMsg: '提交', // 投资按钮的内容
+      lendBtnDetail: '', // 投资按钮的具体描述
       canILend: false, // 投资按钮是否可点击
       agree: false, // 协议是否选中
       amount: Cookie.get('djsLendAmount') ? Cookie.get('djsLendAmount') : '', // 投资金额
@@ -191,6 +211,16 @@ export default {
       couponNum: 0, // 可用加息券数量
       investErrDialogOptions: {
         // 出借错误弹窗（resultCode !== '1'）
+        show: false,
+        msg: ''
+      },
+      riskPastDueDialogOptions: {
+        // 风险测评过期
+        show: false,
+        msg: ''
+      },
+      authPastDueDialogOptions: {
+        // 授权过期
         show: false,
         msg: ''
       },
@@ -269,9 +299,12 @@ export default {
         this.errMsg = ''
       }
 
-      if (value > this.amountInfo.banlance) {
-        console.log(1)
+      if (value - this.amountInfo.banlance > 0) {
         this.lendBtnMsg = '账户余额不足，请充值'
+        this.lendBtnDetail = `还需余额${value - this.amountInfo.banlance}元`
+      } else {
+        this.lendBtnMsg = '提交'
+        this.lendBtnDetail = ''
       }
 
       // 根据投资金额获取可用的红包 && 加息券
@@ -292,6 +325,12 @@ export default {
         name: 'DJSagreement',
         query: { agreementType }
       })
+    },
+    confirmRiskPastDue() {
+      this.$router.push({ name: 'riskTest' })
+    },
+    confirmAuthPastDue() {
+      this.$router.push({ name: 'signAgreement' })
     },
     getExpectedIncome() {
       expectedIncome({
@@ -488,8 +527,24 @@ export default {
             this.riskTestDialogOptions.msg = res.data.resultMsg
             this.riskTestIsMax = false
             break
+          case '90034':
+            // 授权过期
+            this.authPastDueDialogOptions.show = true
+            this.authPastDueDialogOptions.msg = data.resultMsg
+            break
+          case '90035':
+            // 授权金额超限
+            this.authPastDueDialogOptions.show = true
+            this.authPastDueDialogOptions.msg = data.resultMsg
+            break
+          case '0':
+            // 风险测评过期
+            this.riskPastDueDialogOptions.show = true
+            this.riskPastDueDialogOptions.msg = data.resultMsg
+            break
           default:
-            Toast(data.resultMsg)
+            this.investErrDialogOptions.show = true
+            this.investErrDialogOptions.msg = data.resultMsg
         }
       })
     },
@@ -572,6 +627,7 @@ export default {
         this.amountInfo = data
         if (parseFloat(data.banlance) < parseFloat(this.investDetail.minInvAmt)) {
           this.lendBtnMsg = '账户余额不足，去充值'
+          this.lendBtnDetail = `还需余额${investDetail.minInvAmt - amountInfo.banlance}元`
           this.canILend = false
         }
         if (this.amount !== '') {

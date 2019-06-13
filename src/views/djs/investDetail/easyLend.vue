@@ -280,6 +280,9 @@ export default {
     }
   },
   computed: {
+    isWeiBiao() {
+      return parseFloat(this.investDetail.surplusAmount) < parseFloat(this.investDetail.minInvAmt * 2)
+    },
     ...mapGetters(['user']),
     ...mapState({
       checkedCoupon: state => state.djsLend.djsLendCoupon, // 已选择的加息券
@@ -368,8 +371,10 @@ export default {
       })
     },
     lendAll() {
-      this.amount = this.amountInfo.banlance
-      this.lendAllFlag = true
+      if (!this.isWeiBiao) {
+        this.amount = this.amountInfo.banlance
+        this.lendAllFlag = true
+      }
     },
     chooseCoupon() {
       let [checkedCoupon, checkedRedPacket] = []

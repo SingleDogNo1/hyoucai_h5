@@ -62,9 +62,10 @@ export default {
     }
   },
   computed: {
-    baseUrl() {
+    retUrl() {
       const index = window.location.href.indexOf('#')
-      return window.location.href.substr(0, index + 1) + '/open-account' // http://localhost:8080/#/open-account
+      const baseURL = window.location.href.substr(0, index + 1)
+      return baseURL + '/open-account/open'
     },
     continueFlag() {
       return this.name && this.mobile && this.idCard && this.agree
@@ -121,21 +122,17 @@ export default {
         if (res.data.data.isSuccess === '1') {
           if (!this.isOpenAccount) {
             // 未开户
-            const retUrl = this.baseUrl + '/open'
-
             JumpJX('escrow/accountOpenEncryptPage', {
               name: this.name,
               mobile: this.mobile,
-              retUrl: retUrl,
+              retUrl: this.retUrl,
               gender: gender
             })
           }
           if (this.isOpenAccount && !this.isSetPassword) {
             // 开户未设置交易密码
-            const retUrl = this.baseUrl + '/sign'
-
             JumpJX('escrow/passwordReset', {
-              retUrl: retUrl
+              retUrl: this.retUrl
             })
           }
         } else {

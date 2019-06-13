@@ -52,7 +52,7 @@ export default {
   methods: {
     sign(url) {
       let params = {
-        retUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`,
+        retUrl: `${getRetBaseURL()}/open-account/sign`,
         forgotPwdUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`
       }
 
@@ -109,9 +109,17 @@ export default {
           signStatus = false
         }
       })
-      if (signStatus) {
-        // 因为投资三级页会跳会这一页来操作，所以把这个弹窗关掉了
-        // this.isSignOver = !this.status
+      if (signStatus && this.comeFrom !== 'lend') {
+        // 如果不是从投资三级页来的，弹出来这个弹窗引导投资（投资三级页会跳转到这一页来重新签约，这个情况下不能弹出窗口）
+        this.isSignOver = !this.status
+      }
+    })
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      // 从投资三级页来的
+      if (from.name.toLowerCase().includes('easylend') || from.name.toLowerCase().includes('optionallend')) {
+        vm.comeFrom = 'lend'
       }
     })
   }

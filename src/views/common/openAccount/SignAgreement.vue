@@ -52,7 +52,7 @@ export default {
   methods: {
     sign(url) {
       let params = {
-        retUrl: `${getRetBaseURL()}/open-account/sign`,
+        retUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`,
         forgotPwdUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`
       }
 

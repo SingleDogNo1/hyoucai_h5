@@ -556,16 +556,13 @@ export default {
           }
         }
         input[type='button'] {
+          $color: #ec5e52;
           width: 0.58rem;
           height: 0.28rem;
           margin-left: 0.1rem;
-          border: 0.01rem solid #999;
+          border: 0.01rem solid $color;
           border-radius: 0.04rem;
-          color: #999;
-          &:nth-of-type(2) {
-            color: #ec5e52;
-            border-color: #ec5e52;
-          }
+          color: $color;
         }
       }
       .links {

@@ -50,8 +50,7 @@ export default {
       hasRecommender: true, // 是否有推荐人
       showDialog: false, // 提示弹窗
       msgDialog: '请输入推荐码', // 提示弹窗内容
-      newRecommendCode: '', // 输入推荐吗
-      newReferrer: '' // 新添加推荐码对应的姓名
+      newRecommendCode: '' // 输入推荐吗
     }
   },
   computed: {
@@ -70,7 +69,7 @@ export default {
           const data = res.data
           if (data.resultCode === '1') {
             this.hasRecommender = true
-            this.newReferrer = data.data.refereeName
+            this.refereeName = data.data.refereeName
           } else {
             Toast(data.resultMsg)
           }

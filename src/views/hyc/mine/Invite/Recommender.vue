@@ -69,6 +69,7 @@ export default {
           Indicator.close()
           const data = res.data
           if (data.resultCode === '1') {
+            this.hasRecommender = true
             this.newReferrer = data.data.refereeName
           } else {
             Toast(data.resultMsg)

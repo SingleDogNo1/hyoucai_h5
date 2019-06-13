@@ -314,7 +314,7 @@ export default {
         this.errMsg = '已超过限额' + surplusAmount + '元'
       } else {
         if (value - this.investDetail.singleLimit > 0) {
-          this.errMsg = '超出单笔限额' + (value - this.investDetail.singleLimit) + '元'
+          this.errMsg = '超出单笔限额' + this.investDetail.singleLimit + '元'
         } else {
           this.errMsg = ''
         }
@@ -659,8 +659,9 @@ export default {
         const data = res.data
         this.amountInfo = data
         if (parseFloat(data.banlance) < parseFloat(this.investDetail.minInvAmt)) {
-          this.lendBtnMsg = '账户余额不足，去充值'
-          this.lendBtnDetail = `还需余额${investDetail.minInvAmt - amountInfo.banlance}元`
+          this.lendBtnMsg = '提交'
+          // this.lendBtnMsg = '账户余额不足，去充值'
+          // this.lendBtnDetail = `还需余额${investDetail.minInvAmt - amountInfo.banlance}元`
           this.canILend = false
         }
         if (this.amount !== '') {

@@ -314,9 +314,9 @@ export default {
                 this.userStatus = 'refundBeforeDueDate'
                 break
               case 'evaluate':
-                debugger
                 // 用户信息已经完善，该标识设置为true
                 this.userCompleteIsOver = true
+                this.userCompleteDialogOptions.show = true
                 this.userCompleteDialogOptions.msg = data.message
                 this.userCompleteDialogOptions.confirmText = '我知道了'
                 this.userStatus = 'evaluate'

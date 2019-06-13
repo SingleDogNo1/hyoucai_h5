@@ -469,6 +469,7 @@ export default {
           padding-right: 0.15rem;
           span:first-child {
             font-size: 0.15rem;
+            font-weight: 500;
           }
           span:last-child {
             font-size: 0.13rem;

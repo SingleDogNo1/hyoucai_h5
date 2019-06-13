@@ -118,9 +118,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import Swiper from 'swiper'
-import { getList, getQualityList } from '@/api/djs/homepage'
+import { getList, getQualityList, getUnreadMsgApi } from '@/api/djs/homepage'
 import { Toast } from 'mint-ui'
-import { reportTelephoneApi, getUnreadMsgApi, openScreenMsgApi } from '@/api/common/common'
+import { reportTelephoneApi, openScreenMsgApi } from '@/api/common/common'
 import BScroll from '@/components/BScroll/BScroll'
 
 export default {
@@ -243,9 +243,11 @@ export default {
   },
   mounted() {
     if (this.user && this.user.userName) {
-      getUnreadMsgApi().then(res => {
-        const data = res.data.data
-        this.newNotice = data.haveUnreadMessage
+      getUnreadMsgApi({
+        userName: this.user.userName
+      }).then(res => {
+        const data = res.data
+        this.newNotice = data.messageNum - 0 > 0
       })
     }
     openScreenMsgApi().then(res => {

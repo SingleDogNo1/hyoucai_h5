@@ -21,3 +21,12 @@ export function getQualityList(data) {
     }
   })
 }
+
+// 未读消息查询接口
+export function getUnreadMsgApi(data) {
+  return request({
+    url: 'MessageCenter',
+    method: 'post',
+    data: qs.stringify(data)
+  })
+}

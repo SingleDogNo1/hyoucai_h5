@@ -348,7 +348,12 @@ export default {
       this.$router.push({ name: 'riskTest' })
     },
     confirmAuthPastDue() {
-      this.$router.push({ name: 'signAgreement' })
+      this.$router.push({
+        name: 'signAgreement',
+        query: {
+          status: 0 // 签署自动投标功能
+        }
+      })
     },
     getExpectedIncome() {
       expectedIncome({
@@ -517,7 +522,7 @@ export default {
               if (data.investType === 'SJLHD') {
                 // 手机乐活动
                 this.autoLendSuccessDialogOptions.msg = this.generalMsg
-                this.autoLendSuccessDialogOptions.confirmText = '去设置'
+                this.autoLendSuccessDialogOptions.confirmText = '查看更多'
                 this.autoLendSuccessType = 1
               } else {
                 // 普通产品
@@ -585,7 +590,7 @@ export default {
               // 手机乐活动
               this.autoLendSuccessDialogOptions.msg = this.generalMsg
               this.autoLendSuccessType = 1
-              this.autoLendSuccessDialogOptions.confirmText = '去设置'
+              this.autoLendSuccessDialogOptions.confirmText = '查看更多'
               break
           }
           this.autoLendSuccessDialogOptions.show = true
@@ -610,13 +615,18 @@ export default {
           // 手机乐活动
           this.autoLendSuccessDialogOptions.msg = this.generalMsg
           this.autoLendSuccessType = 1
-          this.autoLendSuccessDialogOptions.confirmText = '去设置'
+          this.autoLendSuccessDialogOptions.confirmText = '查看更多'
           break
       }
       this.autoLendSuccessDialogOptions.show = true
     },
     confirmAutoLendSXS() {
-      switch (this.autoLendSuccessType) {
+      this.$router.push({
+        name: 'DJSInvestment'
+      })
+
+      // 其实这个才是正常的逻辑，但产品似乎并不希望跳转到设置地址，只好都去投资列表
+      /*switch (this.autoLendSuccessType) {
         case 0:
           this.$router.push({
             name: 'DJSInvestment'
@@ -627,7 +637,7 @@ export default {
             name: 'receiveAddress'
           })
           break
-      }
+      }*/
     },
     confirmRiskText() {
       if (!this.riskTestIsMax) {

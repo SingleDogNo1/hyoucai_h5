@@ -63,9 +63,6 @@ export function realNameApi(data) {
   return request({
     url: 'RealNameCertification',
     method: 'post',
-    data: qs.stringify(data),
-    headers: {
-      version: '2.0'
-    }
+    data: qs.stringify(data)
   })
 }

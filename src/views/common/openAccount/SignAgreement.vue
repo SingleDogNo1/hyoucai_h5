@@ -42,7 +42,7 @@ export default {
   data() {
     return {
       isSignOver: false,
-      status: this.$route.query.status ? this.$route.query.status : null, // 债转标为1 散标集合标为0 默认为空
+      status: this.$route.query.status ? this.$route.query.status : null, // 自动债转为1 自动投标为0 默认为空
       agreements: []
     }
   },

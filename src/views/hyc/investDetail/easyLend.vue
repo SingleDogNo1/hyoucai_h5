@@ -269,6 +269,9 @@ export default {
     }
   },
   computed: {
+    isWeiBiao() {
+      return parseFloat(this.projectInfo.surplusAmt) < parseFloat(this.projectInfo.minInvAmount * 2)
+    },
     ...mapGetters(['user']),
     ...mapState({
       checkedCoupon: state => state.hycLend.hycLendCoupon, // 已选择的加息券
@@ -349,7 +352,12 @@ export default {
       this.$router.push({ name: 'riskTest' })
     },
     confirmAuthPastDue() {
-      this.$router.push({ name: 'signAgreement' })
+      this.$router.push({
+        name: 'signAgreement',
+        query: {
+          status: 0 // 签署自动投标功能
+        }
+      })
     },
     changeStatus() {
       this.agree = !this.agree
@@ -373,8 +381,10 @@ export default {
       })
     },
     lendAll() {
-      this.amount = this.amountInfo.banlance
-      this.lendAllFlag = true
+      if (!this.isWeiBiao) {
+        this.amount = this.amountInfo.banlance
+        this.lendAllFlag = true
+      }
     },
     chooseCoupon() {
       let [checkedCoupon, checkedRedPacket] = []

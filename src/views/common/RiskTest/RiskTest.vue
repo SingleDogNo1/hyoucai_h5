@@ -346,30 +346,43 @@ export default {
       }
 
       userBasicInfo(data, headers).then(res => {
-        let resp = res.data
-        if (resp.resultCode === '1') {
-          // Hyoucai.setItem('userBasicInfo', res.data.data)
+        let data = res.data.data
+        if (res.data.resultCode === '1') {
           if (!this.reTestFlag && this.preventCircle) {
             // 首次进入才会触发，与重新评测无关，重新评测还走getLimit、saveResult逻辑
-            this.getResult()
+            if (data.evaluatingResult) {
+              this.evaluatingCode = data.evaluatingResult.evaluatingCode
+              if (this.evaluatingCode) {
+                this.showResult = true
+                this.title = '风险评测结果'
+                this.getLimit()
+              }
+            }
           }
         } else {
-          Toast(resp.resultMsg)
+          Toast(res.data.resultMsg)
         }
       })
     },
     getResult() {
-      userBasicInfo({ userName: this.user.userName }).then(res => {
-        const data = res.data.data
+      userBasicInfo({
+        userName: this.user.userName
+      }).then(res => {
+        let data = res.data.data
         if (res.data.resultCode === '1') {
-          if (data.evaluatingResult) {
-            this.evaluatingCode = data.evaluatingResult.evaluatingCode
-            if (this.evaluatingCode) {
-              this.showResult = true
-              this.title = '风险评测结果'
-              this.getLimit()
+          if (!this.reTestFlag && this.preventCircle) {
+            // 首次进入才会触发，与重新评测无关，重新评测还走getLimit、saveResult逻辑
+            if (data.evaluatingResult) {
+              this.evaluatingCode = data.evaluatingResult.evaluatingCode
+              if (this.evaluatingCode) {
+                this.showResult = true
+                this.title = '风险评测结果'
+                this.getLimit()
+              }
             }
           }
+        } else {
+          Toast(res.data.resultMsg)
         }
       })
     },

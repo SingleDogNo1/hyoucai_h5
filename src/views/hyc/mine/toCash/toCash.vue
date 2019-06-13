@@ -245,8 +245,8 @@ export default {
         AppToast.empty('unionBankNo')
         return
       }
-      let url = Hyoucai.getRetBaseURL() + '/mine'
-      let forgetUrl = Hyoucai.getRetBaseURL() + '/mine'
+      let url = Hyoucai.getRetBaseURL() + '/h/mine'
+      let forgetUrl = Hyoucai.getRetBaseURL() + '/h/mine'
       let data = {
         txAmount: this.amount,
         routeCode: this.type,

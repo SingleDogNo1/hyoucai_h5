@@ -65,9 +65,10 @@ export default {
   },
   watch: {
     $route(to) {
-      this.title = to.meta.title
-      if (to.name.indexOf('agreement') > -1) {
+      if (to.name.toLowerCase().includes('agreement')) {
         this.judgeAgreementTitle(to.query.agreementType)
+      } else {
+        this.title = to.meta.title
       }
       this.isAppTitle = to.query.mobile
     }

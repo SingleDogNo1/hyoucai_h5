@@ -110,7 +110,7 @@ export default new Router({
               name: 'openAccount',
               component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
               meta: {
-                title: '开通存管账户'
+                title: '开通汇有财账户'
               }
             },
             {

@@ -49,7 +49,7 @@ const router = [
             name: 'openAccount',
             component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
             meta: {
-              title: '开通存管账户'
+              title: '开通汇有财账户'
             }
           },
           {
@@ -72,7 +72,7 @@ const router = [
             name: 'realNameAuthCheckName',
             component: () => import(/* webpackChunkName: "realNameAuthCheckName" */ '@/views/common/realNameAuth/name'),
             meta: {
-              title: '开通存管账户'
+              title: '开通汇有财账户'
             }
           },
           {
@@ -80,7 +80,7 @@ const router = [
             name: 'realNameAuthBindCard',
             component: () => import(/* webpackChunkName: "realNameAuthBindCard" */ '@/views/common/realNameAuth/card'),
             meta: {
-              title: '开通存管账户'
+              title: '开通汇有财账户'
             }
           }
         ]

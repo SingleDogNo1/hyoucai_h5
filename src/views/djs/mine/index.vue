@@ -316,9 +316,9 @@ export default {
               case 'evaluate':
                 // 用户信息已经完善，该标识设置为true
                 this.userCompleteIsOver = true
-                // this.userCompleteDialogOptions.msg = data.message
-                // this.userCompleteDialogOptions.confirmText = '我知道了'
-                // this.userStatus = 'evaluate'
+                this.userCompleteDialogOptions.msg = data.message
+                this.userCompleteDialogOptions.confirmText = '我知道了'
+                this.userStatus = 'evaluate'
                 break
             }
           }

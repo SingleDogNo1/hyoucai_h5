@@ -13,7 +13,7 @@
         <div class="form">
           <div class="block">
             <span>姓名</span>
-            <input type="text" :value="`${user.realName.substr(0, 1)}**`" placeholder="请输入姓名" disabled />
+            <input type="text" :value="`${realName.substr(0, 1)}**`" placeholder="请输入姓名" disabled />
           </div>
           <div class="block">
             <span>银行卡号</span>
@@ -50,6 +50,7 @@ import { captchaId } from '@/assets/js/const'
 
 import { isMobile, isBankCard, isMobCode } from '@/assets/js/regular'
 import { rechargeApiDirectPayServer, queryCardInfo } from '@/api/djs/mine/charge'
+import { userBasicInfo } from '@/api/common/login'
 import { Toast } from 'mint-ui'
 
 export default {
@@ -64,6 +65,7 @@ export default {
       validate: '', // 滑块验证码二次验证信息
       amount: '',
       name: '***',
+      realName: '',
       bankCard: '',
       mobile: '',
       smsCode: '',
@@ -92,7 +94,7 @@ export default {
         Toast('请输入充值金额')
         return
       }
-      if (!this.amount < 100) {
+      if (!parseFloat(this.amount) < 100) {
         Toast('充值金额100元起')
         return
       }
@@ -215,6 +217,15 @@ export default {
         this.captchaIns = instance
       }
     )
+
+    userBasicInfo({
+      userName: this.user.userName
+    }).then(res => {
+      const data = res.data.data
+      if (res.data.resultCode === '1') {
+        this.realName = data.realName
+      }
+    })
   }
 }
 </script>

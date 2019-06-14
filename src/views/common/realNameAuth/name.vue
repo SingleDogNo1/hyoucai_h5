@@ -24,7 +24,6 @@
 <script>
 import { Toast } from 'mint-ui'
 import { isChName, isIdcard } from '@/assets/js/regular'
-import { mapGetters, mapMutations } from 'vuex'
 
 import { realNameApi } from '@/api/common/user'
 
@@ -36,11 +35,6 @@ export default {
       idCard: ''
     }
   },
-  computed: {
-    ...mapGetters(['user'])
-  },
-  props: {},
-  watch: {},
   methods: {
     nextStep() {
       if (!this.name || !isChName(this.name)) {
@@ -57,12 +51,6 @@ export default {
         identityType: 1
       }).then(res => {
         if (res.data.resultCode === '1') {
-          const realName = res.data.realName
-          let user = this.user
-          user.realName = realName
-
-          this.setUser(user)
-
           this.$router.push({
             name: 'realNameAuthBindCard'
           })
@@ -70,10 +58,7 @@ export default {
           Toast(res.data.resultMsg)
         }
       })
-    },
-    ...mapMutations({
-      setUser: 'SET_USER'
-    })
+    }
   }
 }
 </script>

@@ -457,7 +457,30 @@ export default {
         investAmount: amount
       }).then(res => {
         const data = res.data.data
-        // ;[this.redPacketNum, this.couponNum] = [data.availableRedPacketCount, data.availableCouponCount]
+
+        if (data.availableCouponCount > 0) {
+          this.initCoupon(data.optimalCoupon)
+        } else {
+          this.clearCoupon()
+        }
+
+        if (data.availableRedPacketCount > 0) {
+          this.initRedPacket(data.optimalRedpacket)
+        } else {
+          this.clearRedPacket()
+        }
+
+        // 根据最优券包计算预期收益
+        this.getExpectedIncome()
+      })
+    },
+    initCouponPackage(amount) {
+      couponPackageApi({
+        userName: this.user.userName,
+        productId: this.productId,
+        investAmount: amount
+      }).then(res => {
+        const data = res.data.data
 
         if (JSON.parse(this.hycChooseCouponFlag)) {
           if (data.availableCouponCount > 0) {
@@ -701,7 +724,7 @@ export default {
         }
       })
 
-      await $this.getCouponPackage($this.amount)
+      await $this.initCouponPackage($this.amount)
 
       let [checkedCoupon, checkedRedPacket] = []
       if ($this.checkedCoupon) {

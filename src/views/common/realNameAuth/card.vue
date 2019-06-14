@@ -94,7 +94,7 @@ export default {
         Toast('请输入充值金额')
         return
       }
-      if (!parseFloat(this.amount) < 100) {
+      if (parseFloat(this.amount) < 100) {
         Toast('充值金额100元起')
         return
       }

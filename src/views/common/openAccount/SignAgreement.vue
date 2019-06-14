@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     sign(url) {
+      debugger
       let params = {
         retUrl: `${getRetBaseURL()}/open-account/sign`,
         forgotPwdUrl: `${getRetBaseURL()}/${this.platform === 'djs' ? 'd' : 'h'}/mine`

@@ -133,11 +133,12 @@ export default {
         line-height: 0.3rem;
         .number {
           font-size: 0.24rem;
+          font-weight: bold;
           color: #999999;
         }
         .txt {
           font-size: 0.11rem;
-          color: #3f3f3f;
+          color: #999;
         }
       }
       .coupon_left_txt {

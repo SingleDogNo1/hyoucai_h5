@@ -51,7 +51,7 @@
               {{ tagItem.tagName }}
             </li>
           </ul>
-          <input type="button" :value="user ? '立即赚钱' : '注册 / 登录'" @click="handleInvest(item.projectNo)" />
+          <input type="button" :value="user ? '授权出借' : '注册 / 登录'" @click="handleInvest(item.projectNo)" />
           <div class="tips">{{ item.projectTips }}</div>
         </div>
         <div class="hot-wrapper" v-if="popularProjectList">

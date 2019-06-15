@@ -101,7 +101,7 @@
             </tr>
           </table>
 
-          <NoData v-else></NoData>
+          <!--<NoData v-else></NoData>-->
         </section>
         <section class="manage-info">
           <p class="tip">监督措施</p>
@@ -158,7 +158,7 @@
 <script>
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
-import NoData from '@/components/NoData/NoData'
+// import NoData from '@/components/NoData/NoData'
 import { Toast } from 'mint-ui'
 import { getInvestDetail } from '@/api/djs/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
@@ -167,8 +167,8 @@ export default {
   name: 'index',
   components: {
     BScroll,
-    Dialog,
-    NoData
+    Dialog
+    // NoData
   },
   data() {
     return {
@@ -549,7 +549,6 @@ export default {
     }
     .claims {
       margin-bottom: 0.08rem;
-      padding-bottom: 0.16rem;
       background: #fff;
       .claims_list {
         height: 0.53rem;

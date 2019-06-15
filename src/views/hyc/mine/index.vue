@@ -132,7 +132,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
 import { amountInfo } from '@/api/hyc/mine/mine'
-import { mapMutations, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import { Indicator, Toast } from 'mint-ui'
 import { getAlertInfoApi, getUserCompleteInfoApi, alertInfoAcceptApi } from '@/api/common/mine'
 
@@ -145,7 +145,6 @@ export default {
   data() {
     return {
       showModel: false,
-      showAmount: true,
       showDownload: true,
       amountInfo: null,
       routerName: undefined,
@@ -161,9 +160,15 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      showAmount: state => state.user.showAmount
+    }),
+    ...mapGetters(['user', 'platform'])
+  },
   methods: {
     showAmountFn() {
-      this.showAmount = !this.showAmount
+      this.setAmountFlag(!JSON.parse(this.showAmount))
     },
     getAmountInfo() {
       amountInfo().then(res => {
@@ -313,11 +318,9 @@ export default {
       })
     },
     ...mapMutations({
-      setPlatform: 'SET_PLATFORM'
+      setPlatform: 'SET_PLATFORM',
+      setAmountFlag: 'SET_SHOW_AMOUNT_FLAG'
     })
-  },
-  computed: {
-    ...mapGetters(['user'])
   },
   created() {
     Indicator.open()

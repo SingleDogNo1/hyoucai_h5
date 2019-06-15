@@ -147,7 +147,7 @@ import Cookie from 'js-cookie'
 import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Alert'
 
-import { mapMutations, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import { Indicator, Toast } from 'mint-ui'
 
 import { amountInfo } from '@/api/djs/mine/mine'
@@ -163,7 +163,6 @@ export default {
   data() {
     return {
       showModel: false,
-      showAmount: true,
       showDownload: true,
       amountInfo: null,
       routerName: undefined,
@@ -205,9 +204,15 @@ export default {
   },
   props: {},
   watch: {},
+  computed: {
+    ...mapState({
+      showAmount: state => state.user.showAmount
+    }),
+    ...mapGetters(['user', 'platform'])
+  },
   methods: {
     showAmountFn() {
-      this.showAmount = !this.showAmount
+      this.setAmountFlag(!JSON.parse(this.showAmount))
     },
     getAmountInfo() {
       amountInfo().then(res => {
@@ -416,11 +421,9 @@ export default {
       Cookie.set(key, 'down', { expires: 1 })
     },
     ...mapMutations({
-      setPlatform: 'SET_PLATFORM'
+      setPlatform: 'SET_PLATFORM',
+      setAmountFlag: 'SET_SHOW_AMOUNT_FLAG'
     })
-  },
-  computed: {
-    ...mapGetters(['user', 'platform'])
   },
   created() {
     const $this = this

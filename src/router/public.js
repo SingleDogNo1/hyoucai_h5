@@ -251,8 +251,17 @@ const router = [
             path: 'spellTeam',
             name: 'spellTeam',
             component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
+          },
+          {
+            path: 'king', // 6月王者加息券
+            name: 'DJSKingJune',
+            component: () => import(/* webpackChunkName: "DJSKingJune" */ '@/views/common/activities/king')
           }
         ]
+      },
+      {
+        path: 'calculator',
+        component: () => import(/* webpackChunkName: "calculator" */ '@/views/hyc/calculator')
       }
     ]
   }

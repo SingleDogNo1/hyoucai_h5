@@ -720,7 +720,7 @@ export default {
           $this.amount = data.surplusAmount
           $this.disableAmount = true
         } else {
-          if ($this.amount - 0 >= data.minInvAmount - 0) {
+          if ($this.amount - 0 >= data.minInvAmt - 0) {
             $this.canILend = true
           }
         }

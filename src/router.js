@@ -77,6 +77,10 @@ export default new Router({
           }
         },
         {
+          path: 'calculator',
+          component: () => import(/* webpackChunkName: "calculator" */ '@/views/hyc/calculator')
+        },
+        {
           path: 'login',
           name: 'userLogin',
           component: () => import(/* webpackChunkName: "login" */ '@/views/common/login'),
@@ -285,6 +289,11 @@ export default new Router({
             {
               path: 'spellTeam',
               component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
+            },
+            {
+              path: 'king', // 6月王者加息券
+              name: 'DJSKingJune',
+              component: () => import(/* webpackChunkName: "DJSKingJune" */ '@/views/common/activities/king')
             }
           ]
         }

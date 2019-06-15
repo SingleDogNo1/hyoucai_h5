@@ -7,28 +7,27 @@
           <i class="iconfont icon-guanbi"></i>
         </div>
       </div>
-      <section>
-        <div class="content_01 content">
-          <a href="javascript:;">利息分配计划</a>
-          <p>投资当日开始生息，次日入账，投资当日开始生息，次日入账</p>
-        </div>
-        <div class="content_02 content">
-          <a href="javascript:;">费用说明</a>
-          <p>无费用</p>
-        </div>
-        <div class="content_03 content">
-          <a href="javascript:;">退出机制</a>
-          <p>每月结息</p>
-        </div>
-      </section>
+      <BScroll class="serveice">
+        <section>
+          <div class="content_01 content" v-for="(item, index) in data" :key="index">
+            <a href="javascript:;">{{ item.serviceName }}</a>
+            <p>{{ item.serviceMessage }}</p>
+          </div>
+        </section>
+      </BScroll>
     </div>
   </div>
 </template>
 
 <script>
+import BScroll from '@/components/BScroll/BScroll'
+
 export default {
   name: 'Dialog',
   mixins: [],
+  components: {
+    BScroll
+  },
   props: {
     // 是否显示弹框
     show: {
@@ -51,6 +50,9 @@ export default {
     preventClose: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Object
     }
   },
   methods: {
@@ -75,12 +77,12 @@ export default {
   background-color: rgba(0, 0, 0, 0.7);
   .inner {
     position: absolute;
-    bottom: -40%;
-    left: 50%;
-    width: 101%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     height: 3.8rem;
+    overflow: hidden;
     padding: 0 0.1rem;
-    transform: translate(-50%, -50%);
     background-color: #fff;
     .dlg {
       position: relative;
@@ -104,12 +106,15 @@ export default {
         padding: 0.05rem;
       }
     }
+    .serveice {
+      height: calc(3.8rem - 53px);
+      overflow: hidden;
+    }
 
     section {
       margin-bottom: 0.46rem;
       font-size: 0.13rem;
       .content {
-        height: 77px;
         border-bottom: 1px solid #eeeeee;
         a {
           font-size: 11px;
@@ -117,7 +122,6 @@ export default {
           letter-spacing: 0.13px;
           border: 1px solid #ec5e52;
           border-radius: 2px;
-          max-width: 75px;
           height: 17px;
           display: inline-block;
           margin-bottom: 8px;
@@ -130,9 +134,6 @@ export default {
           letter-spacing: 0.18px;
           width: 344px;
         }
-      }
-      .content_01 {
-        height: 98px;
       }
     }
   }

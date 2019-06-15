@@ -73,8 +73,8 @@
           </div>
         </section>
         <section class="serve-detail">
-          <p class="tip">服务介绍</p>
-          <p class="content">{{ investDetail.appDesc }}</p>
+          <!--<p class="tip">服务介绍</p>-->
+          <!--<p class="content">{{ investDetail.appDesc }}</p>-->
           <ul v-for="(item, index) in investDetail.projectServiceEntity" :key="index">
             <li v-if="item.isShowPic === '1'">
               <img src="./images/icon_01.png" alt="" />
@@ -140,7 +140,7 @@
         <span>{{ investDetail.recentTips }}</span>
       </div>
     </div>
-    <Dialog class="serve-dialog" :show.sync="serveDialog.show">
+    <Dialog class="serve-dialog" :data="investDetail.projectServiceEntity" :show.sync="serveDialog.show">
       <div>
         <p>aaaa</p>
       </div>

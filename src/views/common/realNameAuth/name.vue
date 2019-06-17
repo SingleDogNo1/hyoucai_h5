@@ -1,13 +1,9 @@
 <template>
   <div class="name">
     <div class="form">
-      <input
-        type="text"
-        v-model="name"
-        onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"
-        onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"
-        placeholder="请输入姓名"
-      />
+      <input type="text" v-model="name" placeholder="请输入姓名" />
+      <!--onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\u4E00-\u9FA5]/g,''))"-->
+      <!--onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"-->
       <input type="tel" maxlength="20" v-model="idCard" placeholder="请输入身份证号" />
     </div>
     <div class="tip">

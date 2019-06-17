@@ -245,9 +245,9 @@ export default {
               this.routerName = 'remindOpenAccount'
               break
             case 'SIGN_PROTOCOL':
-              this.userCompleteDialogOptions.confirmText = '签约'
-              this.userCompleteDialogOptions.show = true
-              this.routerName = 'signAgreement'
+              // this.userCompleteDialogOptions.confirmText = '签约'
+              // this.userCompleteDialogOptions.show = true
+              // this.routerName = 'signAgreement'
               break
             case 'EVALUATE':
               this.userCompleteDialogOptions.confirmText = '风险评测'

@@ -15,7 +15,7 @@ import {
 
 const user = {
   state: {
-    user: getUser(),
+    user: getUser() || null,
     userBasicInfo: getUserBasicInfo(),
     personalAccount: getPersonalAccount(),
     showAmount: Cookies.get('amountFlag') || false

@@ -2,6 +2,7 @@ import axios from 'axios'
 import Router from '@/router/router'
 import Hyoucai from '@/assets/js/hyoucai'
 import { getAuth } from './utils'
+import store from '@/store'
 // import { Toast } from 'mint-ui'
 
 const $axios = axios.create({
@@ -37,6 +38,9 @@ $axios.interceptors.response.use(
       // }, 2000)
 
       Hyoucai.removeAll()
+
+      store.commit('user', null)
+
       Router.push({
         name: 'loginRegister'
       })

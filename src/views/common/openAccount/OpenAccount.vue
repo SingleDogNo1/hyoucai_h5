@@ -2,7 +2,8 @@
   <div class="open-account">
     <div class="form">
       <div class="row">
-        <input type="text" placeholder="请输入姓名" onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')" v-model="name" :disabled="nameDisabled" />
+        <input type="text" placeholder="请输入姓名" v-model="name" :disabled="nameDisabled" />
+        <!--onkeyup="value=value.replace(/[^\u4E00-\u9FA5]/g,'')"-->
       </div>
       <div class="row">
         <input type="text" placeholder="请输入身份证号" @input="idCardInput" maxlength="18" :disabled="IDCardDisabled" />

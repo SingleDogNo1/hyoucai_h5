@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <AppHeader v-if="$route.meta.title"> </AppHeader>
-    <div class="container" :style="{ top: $route.query.mobile ? '0' : '0.44rem' }">
+    <div class="container" :style="{ top: showHeaderFlag ? '0' : '0.44rem' }">
       <router-view></router-view>
     </div>
   </div>
@@ -14,6 +14,12 @@ export default {
   name: 'layout',
   components: {
     AppHeader
+  },
+  computed: {
+    showHeaderFlag() {
+      // app打开网页 || 本身是下载页， 不计算tabBar高度（0.44rem）
+      return this.$route.query.mobile || this.$route.name === 'AppDownload'
+    }
   }
 }
 </script>

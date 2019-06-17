@@ -16,7 +16,8 @@
             <span>华为P30 <br />8+64GB</span>
           </div>
           <div :class="{ active: current % 8 === 1 }" class="item prize">
-            <span>谢谢参与</span>
+            <img src="./priceDraw/xiaojiadian.png" alt="" style="height:0.45rem;" />
+            <span>小家电</span>
           </div>
           <div :class="{ active: current % 8 === 2 }" class="item prize">
             <img src="./priceDraw/XS.png" alt="" style="height:0.45rem;" />
@@ -82,6 +83,10 @@
               <img src="./priceDraw/HuaWeiP30.png" alt="" />
               <p>华为P30 8+64GB</p>
             </div>
+            <div v-if="reward.key === 1">
+              <img src="./priceDraw/xiaojiadian.png" alt="" />
+              <p>小家电</p>
+            </div>
             <div v-if="reward.key === 2">
               <img src="./priceDraw/XS.png" alt="" />
               <p>iPhone Xs Max 256G 金色</p>
@@ -137,7 +142,7 @@ export default {
     return {
       rewards: [
         { key: 0, name: '华为P30 8+64GB' },
-        { key: 1, name: '谢谢参与' },
+        { key: 1, name: '小家电' },
         { key: 2, name: 'iPhone Xs Max 256G 金色' },
         { key: 3, name: '谢谢参与' },
         { key: 4, name: '200元京东E卡' },

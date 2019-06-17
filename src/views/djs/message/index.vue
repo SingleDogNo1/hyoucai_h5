@@ -37,8 +37,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'index',
-  mixins: [],
-  components: {},
   data() {
     return {
       couponShow: false, //判断加息券消息红点
@@ -47,8 +45,6 @@ export default {
       repeatShow: false //判断复投消息红点
     }
   },
-  props: {},
-  watch: {},
   methods: {
     linkTo(routerName) {
       this.$router.push({ name: routerName })
@@ -63,29 +59,52 @@ export default {
       platform: 'h5',
       readStatus: '0'
     }
-    api.getUnReadMessage(data).then(res => {
-      let data = res.data.message
-      let tasteGoldMessageUnRead = data.tasteGoldMessageUnRead
-      let couponMessageUnRead = data.couponMessageUnRead
-      let repeatMsgUnRead = data.repeatMsgUnRead
-      let redPacketMessageUnRead = data.redPacketMessageUnRead
 
-      if (tasteGoldMessageUnRead == '1') {
-        this.tasteShow = true
-      }
-      if (couponMessageUnRead == '1') {
+    api.getCouponMessage(data).then(res => {
+      let data = res.data.message
+      if (data.length > 0) {
+        data.map(value => {
+          if (parseInt(value.readStatus) === 0) {
+            this.readStatus = true
+          }
+        })
         this.couponShow = true
       }
-      if (repeatMsgUnRead == '1') {
-        this.repeatShow = true
-      }
-      if (redPacketMessageUnRead == '1') {
-        this.redShow = true
+    })
+
+    api.getRedPacketMessage(data).then(res => {
+      let data = res.data.message
+      if (data.length > 0) {
+        data.map(value => {
+          if (parseInt(value.readStatus) === 0) {
+            this.redShow = true
+          }
+        })
       }
     })
-  },
-  mounted() {},
-  destroyed() {}
+
+    api.getTasteGoldMsg(data).then(res => {
+      let data = res.data.message
+      if (data.length > 0) {
+        data.map(value => {
+          if (parseInt(value.readStatus) === 0) {
+            this.tasteShow = true
+          }
+        })
+      }
+    })
+
+    api.getRepeatMsg(data).then(res => {
+      let data = res.data.message
+      if (data.length > 0) {
+        data.map(value => {
+          if (parseInt(value.readStatus) === 0) {
+            this.repeatShow = true
+          }
+        })
+      }
+    })
+  }
 }
 </script>
 

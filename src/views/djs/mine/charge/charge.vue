@@ -41,7 +41,7 @@
             <li>
               <label for="smsCode">验证码</label>
               <input type="text" id="smsCode" placeholder="请输入短信验证码" v-model="smsCode" />
-              <sms-btn class="sms-btn" ref="smsBtn" :totalTime="60" @getSMSCode="getSmsCode"></sms-btn>
+              <sms-btn class="sms-btn" ref="smsBtn" @getSMSCode="getSmsCode"></sms-btn>
             </li>
           </ul>
           <dl class="download-wrapper">

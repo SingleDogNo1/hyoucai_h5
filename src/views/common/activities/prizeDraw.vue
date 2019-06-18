@@ -275,7 +275,7 @@ export default {
     this.getInfo()
     let t = window.setInterval(() => {
       if (this.remainingSecond > 0) {
-        this.remainingSecond&#45;&#45;
+        this.remainingSecond--
       } else {
         window.clearInterval(t)
       }

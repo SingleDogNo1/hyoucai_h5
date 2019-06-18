@@ -1,7 +1,7 @@
 <template>
   <BScroll ref="spellGroup" class="scroll">
     <section class="king">
-      <img src="./king-June.png" alt="王者优惠券活动">
+      <img src="./king-June.png" alt="王者优惠券活动" />
     </section>
   </BScroll>
 </template>

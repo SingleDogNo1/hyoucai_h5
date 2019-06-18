@@ -1,7 +1,7 @@
 <template>
-    <section class="may-recommender">
-      <img src="./may-recommender.png" alt="五月推新活动">
-    </section>
+  <section class="may-recommender">
+    <img src="./may-recommender.png" alt="五月推新活动" />
+  </section>
 </template>
 
 <script>
@@ -102,5 +102,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

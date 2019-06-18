@@ -16,7 +16,8 @@
             <span>华为P30 <br />8+64GB</span>
           </div>
           <div :class="{ active: current % 8 === 1 }" class="item prize">
-            <span>谢谢参与</span>
+            <img src="./priceDraw/xiaojiadian.png" alt="" style="height:0.45rem;" />
+            <span>小家电</span>
           </div>
           <div :class="{ active: current % 8 === 2 }" class="item prize">
             <img src="./priceDraw/XS.png" alt="" style="height:0.45rem;" />
@@ -82,6 +83,10 @@
               <img src="./priceDraw/HuaWeiP30.png" alt="" />
               <p>华为P30 8+64GB</p>
             </div>
+            <div v-if="reward.key === 1">
+              <img src="./priceDraw/xiaojiadian.png" alt="" />
+              <p>小家电</p>
+            </div>
             <div v-if="reward.key === 2">
               <img src="./priceDraw/XS.png" alt="" />
               <p>iPhone Xs Max 256G 金色</p>
@@ -137,7 +142,7 @@ export default {
     return {
       rewards: [
         { key: 0, name: '华为P30 8+64GB' },
-        { key: 1, name: '谢谢参与' },
+        { key: 1, name: '小家电' },
         { key: 2, name: 'iPhone Xs Max 256G 金色' },
         { key: 3, name: '谢谢参与' },
         { key: 4, name: '200元京东E卡' },
@@ -167,7 +172,7 @@ export default {
       return !this.onGoing && this.remainingNumber > 0 && this.remainingSecond === 0
     },
     isGetReward() {
-      return ![1, 3, 5].includes(this.reward.key)
+      return ![3, 5].includes(this.reward.key)
     },
     remainingTime() {
       let minute = Math.floor(this.remainingSecond / 60)
@@ -201,6 +206,9 @@ export default {
               break
             case '5':
               this.reward = this.rewards[4]
+              break
+            case '6':
+              this.reward = this.rewards[1]
               break
             default:
               this.reward = this.rewards[Math.floor(Math.random() * 3) * 2 + 1]
@@ -511,9 +519,13 @@ export default {
           margin: -0.4rem auto 0;
           background: url(./priceDraw/light.png);
           background-size: 100% 100%;
+          div {
+            height: 100%;
+          }
           img {
             margin-top: 0.6rem;
             margin-bottom: 0.19rem;
+            max-height: 43%;
           }
         }
         .no-reward {

@@ -36,10 +36,9 @@ $axios.interceptors.response.use(
       //     name: 'loginRegister'
       //   })
       // }, 2000)
-
       Hyoucai.removeAll()
 
-      store.commit('user', null)
+      store.commit('SET_USER', null)
 
       Router.push({
         name: 'loginRegister'

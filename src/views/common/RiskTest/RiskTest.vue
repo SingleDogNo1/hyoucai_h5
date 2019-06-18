@@ -58,8 +58,8 @@
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
 import Hyoucai from '@/assets/js/hyoucai'
-import { getEvaInvLimitApi, saveEvaluatingResultApi, userBasicInfo } from '@/api/common/riskTest/riskTest'
-import { Base64Utils } from '@/assets/js/utils'
+import { getEvaInvLimitApi, saveEvaluatingResultApi, userBasicInfo } from '@/api/common/riskTest'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -71,7 +71,6 @@ export default {
       probeType: 3,
       listenScroll: true,
       mobile: this.$route.query.mobile,
-      authorization: Hyoucai.getItem('authorization'),
       num: 0,
       sum: 0,
       score: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -334,70 +333,65 @@ export default {
       preventCircle: true // 防止首次进入循环调用结果接口
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
-    goback() {
-      this.$router.push({
-        path: Base64Utils.base64ToObject(this.$route.query.entrance).fullPath
-      })
-    },
     getBasicInfo() {
-      let data = {
-        userName: this.$route.query.u
-      }
-      if (this.$route.query.u) {
-        data.userName = this.$route.query.u
-      } else {
-        data.userName = Hyoucai.getItem('userInfo').userName
+      let [data, headers] = [{}, {}]
+
+      data.userName = this.$route.query.u ? this.$route.query.u : this.user.userName
+      if (this.authorization) {
+        headers.authorization = this.authorization
       }
 
-      let headers = {
-        authorization: this.authorization
-      }
       userBasicInfo(data, headers).then(res => {
-        let resp = res.data
-        if (resp.resultCode === '1') {
-          Hyoucai.setItem('userBasicInfo', res.data.data)
+        let data = res.data.data
+        if (res.data.resultCode === '1') {
           if (!this.reTestFlag && this.preventCircle) {
             // 首次进入才会触发，与重新评测无关，重新评测还走getLimit、saveResult逻辑
-            this.getResult()
+            if (data.evaluatingResult) {
+              this.evaluatingCode = data.evaluatingResult.evaluatingCode
+              if (this.evaluatingCode) {
+                this.showResult = true
+                this.title = '风险评测结果'
+                this.getLimit()
+              }
+            }
           }
         } else {
-          Toast(resp.resultMsg)
+          Toast(res.data.resultMsg)
         }
       })
     },
     getResult() {
-      let userBasicInfo = Hyoucai.getItem('userBasicInfo')
-      let evaluatingResult = null
-      if (userBasicInfo) {
-        evaluatingResult = userBasicInfo.evaluatingResult
-        if (evaluatingResult) {
-          this.evaluatingCode = evaluatingResult.evaluatingCode
-          if (this.evaluatingCode) {
-            this.showResult = true
-            this.title = '风险评测结果'
-            this.getLimit()
-            // this.$nextTick(() => {
-            //   this.$refs.head_gradient.style.opacity = 1
-            // })
-          } else {
-            return false
+      userBasicInfo({
+        userName: this.user.userName
+      }).then(res => {
+        let data = res.data.data
+        if (res.data.resultCode === '1') {
+          if (!this.reTestFlag && this.preventCircle) {
+            // 首次进入才会触发，与重新评测无关，重新评测还走getLimit、saveResult逻辑
+            if (data.evaluatingResult) {
+              this.evaluatingCode = data.evaluatingResult.evaluatingCode
+              if (this.evaluatingCode) {
+                this.showResult = true
+                this.title = '风险评测结果'
+                this.getLimit()
+              }
+            }
           }
+        } else {
+          Toast(res.data.resultMsg)
         }
-      }
+      })
     },
     getLimit() {
-      let data = {
-        userName: this.$route.query.u
-      }
-      if (this.$route.query.u) {
-        data.userName = this.$route.query.u
-      } else {
-        data.userName = Hyoucai.getItem('userInfo').userName
-      }
+      let [data, headers] = [{}, {}]
 
-      let headers = {
-        authorization: this.authorization
+      data.userName = this.$route.query.u ? this.$route.query.u : this.user.userName
+      if (this.authorization) {
+        headers.authorization = this.authorization
       }
 
       getEvaInvLimitApi(data, headers).then(res => {
@@ -539,8 +533,9 @@ export default {
         // 为app使用，检测‘finishEvaluationAction’
         window.location.href = 'https://m.hyoucai.com/finishEvaluationAction.html'
       } else {
+        // 从哪来回哪去
         this.$router.push({
-          path: Base64Utils.base64ToObject(this.$route.query.entrance).fullPath
+          path: this.enterPath
         })
       }
     },
@@ -847,11 +842,9 @@ export default {
   },
   created() {
     if (this.$route.query.t) {
-      Hyoucai.removeItem('authorization')
+      this.authorization = decodeURIComponent(this.$route.query.t)
       this.reTestFlag = false
       this.preventCircle = true
-      this.authorization = decodeURIComponent(this.$route.query.t)
-      Hyoucai.setItem('authorization', this.authorization)
       setTimeout(() => {
         this.getBasicInfo()
       }, 100)
@@ -859,10 +852,12 @@ export default {
       this.getResult()
     }
     this.$nextTick(() => {
-      // if (this.mobile) {
-      //   this.$refs.result.style.paddingTop = 0
-      // }
       this.refresh()
+    })
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      vm.enterPath = from.fullPath
     })
   },
   destroyed() {

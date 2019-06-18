@@ -14,10 +14,11 @@ export default {
     return {}
   },
   props: {
-    // 传入的数据
     data: {
       type: Array,
-      default: null
+      default: function() {
+        return []
+      }
     },
     probeType: {
       type: Number,
@@ -64,7 +65,7 @@ export default {
     preventDefaultException: {
       type: Object,
       default: function() {
-        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT)$/ }
+        return { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|SPAN|LABEL|DIV)$/ }
       }
     },
     eventPassthrough: 'horizontal'

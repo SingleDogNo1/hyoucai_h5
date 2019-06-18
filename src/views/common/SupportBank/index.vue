@@ -32,7 +32,7 @@
 <script>
 import { Toast } from 'mint-ui'
 import BScroll from '@/components/BScroll/BScroll'
-import { supportBankListApi } from '@/api/common/support_bank'
+import { supportBankListApi } from '@/api/common/supportBank'
 
 const CODE_OK = '1'
 export default {

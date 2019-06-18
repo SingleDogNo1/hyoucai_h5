@@ -14,10 +14,10 @@
       </div>
 
       <div class="block invite-code" v-if="cpm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="inviteCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="disableInviteCode" v-model="inviteCode" placeholder="输入推荐码(选填)" />
       </div>
       <div class="form-item" v-if="tjm">
-        <input type="text" :disabled="$route.query.mediasource" v-model="recommendCode" placeholder="输入推荐码(选填)" />
+        <input type="text" :disabled="disableInviteCode" v-model="recommendCode" placeholder="输入推荐码(选填)" />
       </div>
       <input
         :class="[
@@ -47,6 +47,9 @@ import { cpmOrTjm, getSmsCode, userRegister, validateCPM, validateTJM } from '@/
 import { captchaId } from '@/assets/js/const'
 import { Toast } from 'mint-ui'
 import { userLogin } from '@/api/common/login'
+import Cookie from 'js-cookie'
+
+import { userInfoCompleteNoticeApi } from '@/api/common/user'
 
 export default {
   name: 'register',
@@ -63,7 +66,7 @@ export default {
         identifyCode: '',
         passWord: '',
         repeatPassword: '',
-        registerFrom: 'H5'
+        registerFrom: 'h5'
       },
       inviteCode: undefined,
       recommendCode: undefined,
@@ -74,7 +77,8 @@ export default {
       countDownText: '获取验证码',
       hasCountDown: false,
       errorMsg: '',
-      isFormComplete: false
+      isFormComplete: false,
+      disableInviteCode: Cookie.get('app-invite-code')
     }
   },
   computed: {
@@ -181,18 +185,15 @@ export default {
             if (res.data.resultCode === '1') {
               let user = res.data.data
               this.setUser(user)
-              // switch (this.user.platformFlag) {
-              //   case '1':
-              //     window.location.href = '/djs/#/bankAccount/openAccount'
-              //     break
-              //   case '2':
-              //     window.location.href = '/hyc/#/bankAccount/openAccount'
-              //     break
-              //   default:
-              //     this.$router.push({ name: 'account' })
-              // }
-              this.$router.push({
-                name: 'AppDownload'
+
+              userInfoCompleteNoticeApi().then(resp => {
+                const status = resp.data.data.status
+                if (status === 'OPEN_ACCOUNT') {
+                  this.$router.push({ name: 'remindOpenAccount' })
+                }
+                if (status === 'REAL_NAME') {
+                  this.$router.push({ name: 'realNameAuthCheckName' })
+                }
               })
             } else {
               Toast(res.data.resultMsg)
@@ -202,7 +203,7 @@ export default {
     },
     toAgreement() {
       this.$router.push({
-        name: 'HYCagreement',
+        name: 'HYCAgreement',
         query: {
           agreementType: 'zcxy'
         }
@@ -218,10 +219,10 @@ export default {
         this.cpm = res.data.data.cpm === 'true'
         this.tjm = res.data.data.tjm === 'true'
         if (this.cpm) {
-          this.inviteCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+          this.inviteCode = Cookie.get('app-invite-code') ? Cookie.get('app-invite-code') : undefined
         }
         if (this.tjm) {
-          this.recommendCode = this.$route.query.mediasource ? this.$route.query.mediasource : undefined
+          this.recommendCode = Cookie.get('app-invite-code') ? Cookie.get('app-invite-code') : undefined
         }
       }
     })
@@ -350,14 +351,14 @@ input {
         background: $color-main;
       }
     }
-    .agre {
-      width: 3.45rem;
-      margin: 0.2rem auto 0;
-      font-size: 0.13rem;
-      color: #666;
-      span {
-        color: $color-main;
-      }
+  }
+  .agre {
+    width: 3.45rem;
+    margin: 0.2rem auto 0;
+    font-size: 0.13rem;
+    color: #666;
+    span {
+      color: $color-main;
     }
   }
 }

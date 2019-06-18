@@ -1,26 +1,79 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/common/HomePage'
 import Activity from './layout/activity.vue'
 import Layout from './layout/layout.vue'
 import Empty from './layout/empty.vue'
+import TabBar from './layout/tabBar.vue'
 
 Vue.use(Router)
 
 export default new Router({
   base: process.env.BASE_URL,
   routes: [
+    {
+      path: '/',
+      component: Empty,
+      children: [
+        {
+          path: '',
+          name: 'differPlatform',
+          component: () => import(/* webpackChunkName: "differPlatform" */ '@/views/common/differPlatform')
+        }
+      ]
+    },
+    {
+      path: '/d',
+      component: TabBar,
+      children: [
+        {
+          path: '',
+          name: 'DJSHomePage',
+          component: () => import(/* webpackChunkName: "DJSHomePage" */ '@/views/djs/homePage')
+        },
+        {
+          path: 'invest',
+          name: 'DJSInvestment',
+          component: () => import(/* webpackChunkName: "DJSInvestment" */ '@/views/djs/investment')
+        },
+        {
+          path: 'mine',
+          name: 'DJSUserCenter',
+          component: () => import(/* webpackChunkName: "DJSUserCenter" */ '@/views/djs/mine')
+        }
+      ]
+    },
+    {
+      path: '/h',
+      component: TabBar,
+      children: [
+        {
+          path: '',
+          name: 'HYCHomePage',
+          component: () => import(/* webpackChunkName: "HYCHomePage" */ '@/views/hyc/homePage')
+        },
+        {
+          path: 'invest',
+          name: 'HYCInvestment',
+          component: () => import(/* webpackChunkName: "HYCInvestment" */ '@/views/hyc/investment')
+        },
+        {
+          path: 'mine',
+          name: 'HYCUserCenter',
+          component: () => import(/* webpackChunkName: "HYCUserCenter" */ '@/views/hyc/mine')
+        }
+      ]
+    },
     // 公用
     {
       path: '/',
       component: Layout,
       children: [
         {
-          path: '',
-          name: 'home',
-          component: Home,
+          path: 'login-register',
+          name: 'loginRegister',
+          component: () => import(/* webpackChunkName: "login" */ '@/views/common/loginRegister'),
           meta: {
-            title: '首页'
+            title: '登录'
           }
         },
         {
@@ -42,6 +95,37 @@ export default new Router({
           meta: {
             title: '汇有财注册'
           }
+        },
+        {
+          path: 'remind-open-account',
+          name: 'remindOpenAccount',
+          component: () => import(/* webpackChunkName: "remindOpenAccount" */ '@/views/common/openAccount/RemindOpenAccount'),
+          meta: {
+            title: '提醒开户'
+          }
+        },
+        {
+          path: 'open-account',
+          name: 'openAccountProgress',
+          component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/Progress'),
+          children: [
+            {
+              path: 'open',
+              name: 'openAccount',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/OpenAccount'),
+              meta: {
+                title: '开通汇有财账户'
+              }
+            },
+            {
+              path: 'sign',
+              name: 'signAgreement',
+              component: () => import(/* webpackChunkName: "openAccount" */ '@/views/common/openAccount/SignAgreement'),
+              meta: {
+                title: '业务授权'
+              }
+            }
+          ]
         },
         {
           path: 'forgetpwd',
@@ -171,6 +255,30 @@ export default new Router({
           }
         },
         {
+          path: 'setting',
+          name: 'Setting',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting'),
+          meta: {
+            title: '设置'
+          }
+        },
+        {
+          path: 'setting/loginPassword',
+          name: 'loginPassword',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/modifyPWD.vue'),
+          meta: {
+            title: '修改登录密码'
+          }
+        },
+        {
+          path: 'setting/receiveAddress',
+          name: 'receiveAddress',
+          component: () => import(/* webpackChunkName: "Setting" */ '@/views/common/Setting/receiveAddress'),
+          meta: {
+            title: '地址管理'
+          }
+        },
+        {
           path: 'activity',
           component: Empty,
           children: [
@@ -297,7 +405,61 @@ export default new Router({
           name: 'DJSInvestDetail',
           component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail'),
           meta: {
-            title: '出借'
+            title: '产品详情'
+          }
+        },
+        {
+          path: 'easyLend',
+          component: Empty,
+          children: [
+            {
+              path: '',
+              name: 'DJSEasyLend',
+              component: () => import(/* webpackChunkName: "DJSInvestDetail" */ '@/views/djs/investDetail/easyLend'),
+              meta: {
+                title: '授权出借'
+              }
+            },
+            {
+              path: 'coupon',
+              name: 'DJSLendChooseCoupon',
+              component: () => import('@/views/djs/investDetail/coupon'),
+              meta: {
+                title: '选择加息券'
+              }
+            },
+            {
+              path: 'redpacket',
+              name: 'DJSLendChooseRedPacket',
+              component: () => import('@/views/djs/investDetail/redpacket'),
+              meta: {
+                title: '选择红包'
+              }
+            }
+          ]
+        },
+        {
+          path: 'claimlist',
+          name: 'DJSClaimList',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'DJSClaimDetail',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/claim/claimDetail'),
+          meta: {
+            title: '债权列表详情'
+          }
+        },
+        {
+          path: 'lendRecord',
+          name: 'DJSLendRecord',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/djs/lendRecord'),
+          meta: {
+            title: '出借记录'
           }
         },
         {
@@ -325,6 +487,22 @@ export default new Router({
           }
         },
         {
+          path: 'inviteFriends',
+          name: 'DJSInviteFriends',
+          component: () => import(/* webpackChunkName: "DJSinviteFriends" */ '@/views/djs/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'DJSRecommender',
+          component: () => import(/* webpackChunkName: "DJSRecommender" */ '@/views/djs/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
+          }
+        },
+        {
           path: 'transfer_charge',
           name: 'DJSTransferCharge',
           component: () => import(/* webpackChunkName: "DJSTransferCharge" */ '@/views/djs/TransferCharge'),
@@ -337,9 +515,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'DJSNoticeList',
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/list'),
+              meta: {
+                title: '公告'
+              }
+            },
+            {
               path: ':id',
               name: 'DJSNoticeDetail',
-              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice'),
+              component: () => import(/* webpackChunkName: "DJSNoticeDetail" */ '@/views/djs/notice/detail'),
               meta: {
                 title: '公告详情'
               }
@@ -360,6 +546,135 @@ export default new Router({
           component: () => import(/* webpackChunkName: "DJSNewerDirection" */ '@/views/djs/NewerDirection'),
           meta: {
             title: '新手指引'
+          }
+        },
+        {
+          path: 'historyCard',
+          name: 'DJSHistoryCard',
+          component: () => import(/* webpackChunkName: "DJShistoryCard" */ '@/views/djs/mine/voucherBag/HistoryCard'),
+          meta: {
+            title: '历史卡券'
+          }
+        },
+        {
+          path: 'couponList',
+          name: 'DJSCouponList',
+          component: () => import(/* webpackChunkName: "DJScouponList" */ '@/views/djs/mine/voucherBag/CouponList'),
+          meta: {
+            title: '券包'
+          }
+        },
+        {
+          path: 'experienceGold',
+          name: 'DJSExperienceGold',
+          component: () => import(/* webpackChunkName: "DJSExperienceGold" */ '@/views/djs/mine/voucherBag/ExperienceGold'),
+          meta: {
+            title: '体验金'
+          }
+        },
+        {
+          path: 'transactionRecord',
+          name: 'DJSTransactionRecord',
+          component: () => import(/* webpackChunkName: "DJSTransactionRecord" */ '@/views/djs/mine/TransactionRecord'),
+          meta: {
+            title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'DJSSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/message'),
+          meta: {
+            title: '消息'
+          }
+        },
+        {
+          path: 'couponMsg',
+          name: 'DJSCouponMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsg'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'couponMsgDetail',
+          name: 'DJSCouponMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/couponMsgDetail'),
+          meta: {
+            title: '加息券消息'
+          }
+        },
+        {
+          path: 'redMsg',
+          name: 'DJSRedMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsg'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'redMsgDetail',
+          name: 'DJSRedMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/redMsgDetail'),
+          meta: {
+            title: '红包消息'
+          }
+        },
+        {
+          path: 'repeatMsg',
+          name: 'DJSRepeatMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsg'),
+          meta: {
+            title: '复投提醒消息'
+          }
+        },
+        {
+          path: 'repeatMsgDetail',
+          name: 'DJSRepeatMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/repeatMsgDetail'),
+          meta: {
+            title: '复投消息'
+          }
+        },
+        {
+          path: 'experienceMsg',
+          name: 'DJSExperienceMsg',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsg'),
+          meta: {
+            title: '体验金消息'
+          }
+        },
+        {
+          path: 'experienceMsgDetail',
+          name: 'DJSExperienceMsgDetail',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/djs/messages/experienceMsgDetail'),
+          meta: {
+            title: '体验金消息'
+          }
+        },
+        {
+          path: 'charge',
+          name: 'DJSCharge',
+          component: () => import(/* webpackChunkName: "DJSCharge" */ '@/views/djs/mine/charge/charge'),
+          meta: {
+            title: '充值',
+            cancel: '取消'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'DJSBankCard',
+          component: () => import(/* webpackChunkName: "DJSBankCard" */ '@/views/djs/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'DJSToCash',
+          component: () => import(/* webpackChunkName: "DJSToCash" */ '@/views/djs/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
           }
         }
       ]
@@ -428,7 +743,7 @@ export default new Router({
         // 协议
         {
           path: 'agreement',
-          name: 'HYCagreement',
+          name: 'HYCAgreement',
           component: () => import(/* webpackChunkName: "HYCagreement" */ '@/views/hyc/Agreements'),
           meta: {
             title: '协议'
@@ -440,6 +755,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCGratitudeMoney" */ '@/views/hyc/GratitudeMoney'),
           meta: {
             title: '我推荐的人'
+          }
+        },
+        {
+          path: 'inviteFriends',
+          name: 'HYCInviteFriends',
+          component: () => import(/* webpackChunkName: "HYCInviteFriends" */ '@/views/hyc/mine/Invite/InviteFriends'),
+          meta: {
+            title: '邀请好友'
+          }
+        },
+        {
+          path: 'recommender',
+          name: 'HYCRecommender',
+          component: () => import(/* webpackChunkName: "HYCRecommender" */ '@/views/hyc/mine/Invite/Recommender'),
+          meta: {
+            title: '我的推荐人'
           }
         },
         {
@@ -455,9 +786,17 @@ export default new Router({
           component: Empty,
           children: [
             {
+              path: '',
+              name: 'HYCNoticeList',
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/list'),
+              meta: {
+                title: '公告'
+              }
+            },
+            {
               path: ':id',
               name: 'HYCNoticeDetail',
-              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice'),
+              component: () => import(/* webpackChunkName: "HYCNoticeDetail" */ '@/views/hyc/notice/detail'),
               meta: {
                 title: '公告'
               }
@@ -478,6 +817,78 @@ export default new Router({
           component: () => import(/* webpackChunkName: "HYCNewerDirection" */ '@/views/hyc/NewerDirection'),
           meta: {
             title: '新手指引'
+          }
+        },
+        {
+          path: 'transactionRecord',
+          name: 'HYCTransactionRecord',
+          component: () => import(/* webpackChunkName: "HYCTransactionRecord" */ '@/views/hyc/mine/TransactionRecord'),
+          meta: {
+            title: '交易记录'
+          }
+        },
+        {
+          path: 'message',
+          name: 'HYCSiteMessage',
+          component: () => import(/* webpackChunkName: "HYCSiteMessage" */ '@/views/hyc/message'),
+          meta: {
+            title: '消息'
+          }
+        },
+        {
+          path: 'charge',
+          name: 'HYCCharge',
+          component: () => import(/* webpackChunkName: "HYCCharge" */ '@/views/hyc/mine/charge/charge'),
+          meta: {
+            title: '充值'
+          }
+        },
+        {
+          path: 'bank-card',
+          name: 'HYCBankCard',
+          component: () => import(/* webpackChunkName: "HYCBankCard" */ '@/views/hyc/mine/bankCard/bankCard'),
+          meta: {
+            title: '银行卡'
+          }
+        },
+        {
+          path: 'to-cash',
+          name: 'HYCToCash',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/mine/toCash/toCash'),
+          meta: {
+            title: '提现'
+          }
+        },
+        {
+          path: 'investDetail',
+          name: 'HYCInvestDetail',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/investDetail'),
+          meta: {
+            title: '产品详情'
+          }
+        },
+        {
+          path: 'claimList',
+          name: 'HYCClaimList',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimList'),
+          meta: {
+            title: '债权列表'
+          }
+        },
+        {
+          path: 'claimDetail',
+          name: 'HYCClaimDetail',
+          component: () => import(/* webpackChunkName: "HYCToCash" */ '@/views/hyc/claim/claimDetail'),
+          meta: {
+            title: '债权详情'
+          }
+        },
+        {
+          path: 'lendRecord',
+          name: 'HYCLendRecord',
+          component: () => import(/* webpackChunkName: "DJSClaimList" */ '@/views/hyc/lendRecord'),
+          meta: {
+            title: '出借记录'
           }
         }
       ]

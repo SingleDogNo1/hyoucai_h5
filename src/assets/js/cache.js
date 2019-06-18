@@ -56,6 +56,14 @@ export function setPlatform(platform) {
   Cookies.set('platform', platform)
 }
 
+export function getAmountFlag() {
+  return Cookies.get('amountFlag')
+}
+
+export function setAmountFlag(amountFlag) {
+  Cookies.set('amountFlag', amountFlag)
+}
+
 export function setLoginUsername(username) {
   Cookies.set('loginUsername', username)
 }

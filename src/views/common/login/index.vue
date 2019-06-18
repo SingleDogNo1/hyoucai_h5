@@ -57,7 +57,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['registerMobile', 'errorNum'])
+    ...mapGetters(['registerMobile', 'errorNum', 'platform'])
   },
   filters: {
     splitTelNum: function(value) {
@@ -109,12 +109,27 @@ export default {
         passWord: btoa(this.password)
       }).then(res => {
         if (res.data.resultCode === '1') {
-          console.log(res.data)
           let user = res.data.data
           this.setUser(user)
-          setLoginUsername(this.userName)
+          setLoginUsername(this.registerMobile)
           this.setErrorNum(0)
-          this.loginSuccess()
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              this.loginSuccess('DJSUserCenter')
+              break
+            case '2':
+              this.setPlatform('hyc')
+              this.loginSuccess('HYCUserCenter')
+              break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
+              break
+          }
         } else {
           Toast(res.data.resultMsg)
           this.setErrorNum(this.errorNum + 1)
@@ -122,17 +137,32 @@ export default {
       })
     },
     loginWithSMSCode() {
-      let postData = {
+      userLoginVcode({
         userName: this.registerMobile,
         smsCode: this.smsCode
-      }
-      userLoginVcode(postData).then(res => {
+      }).then(res => {
         if (res.data.resultCode === '1') {
           let user = res.data.data
           this.setUser(user)
           setLoginUsername(this.userName)
           this.setErrorNum(0)
-          this.loginSuccess()
+          switch (user.platformFlag) {
+            case '1':
+              this.setPlatform('djs')
+              this.loginSuccess('DJSUserCenter')
+              break
+            case '2':
+              this.setPlatform('hyc')
+              this.loginSuccess('HYCUserCenter')
+              break
+            case '3':
+              if (this.platform === 'djs') {
+                this.loginSuccess('DJSUserCenter')
+              } else {
+                this.loginSuccess('HYCUserCenter')
+              }
+              break
+          }
         } else {
           Toast(res.data.resultMsg)
         }
@@ -158,9 +188,9 @@ export default {
         }
       )
     },
-    loginSuccess() {
+    loginSuccess(routerName) {
       this.$router.push({
-        name: 'AppDownload'
+        name: routerName
       })
     },
     sendSMSCode() {
@@ -177,7 +207,8 @@ export default {
     },
     ...mapMutations({
       setUser: 'SET_USER',
-      setErrorNum: 'SET_ERROR_NUM'
+      setErrorNum: 'SET_ERROR_NUM',
+      setPlatform: 'SET_PLATFORM'
     })
   },
   created() {}

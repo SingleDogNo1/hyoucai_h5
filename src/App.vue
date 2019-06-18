@@ -5,53 +5,28 @@
 </template>
 
 <script>
-import { showFlag } from '@/api/common/common'
-import { mapMutations } from 'vuex'
-
 export default {
-  name: 'app',
-  methods: {
-    ...mapMutations({
-      setPlatform: 'SET_PLATFORM'
-    })
-  },
   created() {
-    if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-      // mobile
-      if (window.location.href.indexOf(process.env.VUE_APP_PROJECT_ADDRESS_PC) > -1) {
-        //SIT
-        window.location.href = process.env.VUE_APP_PROJECT_ADDRESS_H5
-      }
-    } else {
-      // PC
-      if (window.location.href.indexOf(process.env.VUE_APP_PROJECT_ADDRESS_H5) > -1) {
-        //SIT
-        window.location.href = process.env.VUE_APP_PROJECT_ADDRESS_PC
-      }
-    }
-
-    showFlag().then(res => {
-      const data = res.data
-      if (res.data.resultCode === '1') {
-        this.setPlatform(data.data.platformFlag === '1' ? 'djs' : 'hyc')
-        // switch (data.data.platformFlag) {
-        //   case '1':
-        //     // 点金石
-        //     this.$router.push({
-        //       name: 'DJSHomePage'
-        //     })
-        //     break
-        //   case '2':
-        //     // 汇有财
-        //     this.$router.push({
-        //       name: 'HYCHomePage'
-        //     })
-        //     break
-        // }
-      }
-    })
+    // if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    //   // mobile
+    //   if (window.location.href.indexOf(process.env.VUE_APP_PROJECT_ADDRESS_PC) > -1) {
+    //     //SIT
+    //     window.location.href = process.env.VUE_APP_PROJECT_ADDRESS_H5
+    //   }
+    // } else {
+    //   // PC
+    //   if (window.location.href.indexOf(process.env.VUE_APP_PROJECT_ADDRESS_H5) > -1) {
+    //     //SIT
+    //     window.location.href = process.env.VUE_APP_PROJECT_ADDRESS_PC
+    //   }
+    // }
   }
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#app {
+  max-width: 540px;
+  margin: 0 auto;
+}
+</style>

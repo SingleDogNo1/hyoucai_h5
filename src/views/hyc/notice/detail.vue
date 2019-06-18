@@ -1,0 +1,117 @@
+<template>
+  <transition name="slide">
+    <div class="notice">
+      <span @click="$router.push({ name: 'HYCHomePage' })"></span>
+      <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
+        <div class="wrapper">
+          <h2>{{ detail.title }}</h2>
+          <div>{{ detail.createTime }}</div>
+          <article id="content" v-html="detail.content"></article>
+        </div>
+      </b-scroll>
+    </div>
+  </transition>
+</template>
+
+<script>
+import { Indicator, Toast } from 'mint-ui'
+import BScroll from '@/components/BScroll/BScroll'
+import { noticeDetailApi } from '@/api/hyc/notice'
+
+const CODE_OK = '1'
+export default {
+  components: {
+    BScroll
+  },
+  data() {
+    return {
+      id: this.$route.params.id,
+      detail: {}
+    }
+  },
+  methods: {
+    getDetail() {
+      Indicator.open('正在加载')
+      noticeDetailApi({ id: this.id }).then(res => {
+        Indicator.close()
+        let data = res.data
+        if (data.resultCode === CODE_OK) {
+          this.detail = data
+        } else {
+          Toast(data.resultMsg)
+        }
+      })
+    },
+    refresh() {
+      this.$refs.scrollRefND.refresh()
+    },
+    beforeScroll() {
+      this.refresh()
+    }
+  },
+  created() {
+    this.getDetail()
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+@import '../../../assets/css/theme.scss';
+@import '../../../assets/css/mixins.scss';
+
+.notice {
+  height: 100%;
+  position: relative;
+  > span {
+    $size: 0.22rem; // 背景图尺寸
+    $padding: 0.05rem; // 点击扩展区域尺寸
+    position: fixed;
+    z-index: 99;
+    @include square($size);
+    padding: 0.05rem;
+    background-image: url('./homepage.png');
+    background-size: $size;
+    background-position: center;
+    background-repeat: no-repeat;
+    top: (0.44rem - $size -$padding * 2) / 2;
+    right: 4%;
+  }
+  .notice_scroll {
+    height: 100%;
+    overflow: hidden;
+    .wrapper {
+      width: 100%;
+      padding: 0.24rem 4% 0;
+      h2 {
+        font-size: $font-size-medium-x;
+        color: $color-text-b;
+        word-break: break-all;
+      }
+      div {
+        margin: 0.08rem auto 0.27rem;
+        font-size: $font-size-small-s;
+        color: $color-text-s;
+      }
+      /deep/ article {
+        p {
+          margin-bottom: 0.16rem;
+          line-height: 0.24rem;
+          text-align: left;
+          font-size: $font-size-small !important;
+          color: $color-text-b;
+        }
+      }
+    }
+  }
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter,
+.slide-leave-to {
+  transform: translate3d(100%, 0, 0);
+}
+</style>

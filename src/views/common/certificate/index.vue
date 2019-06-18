@@ -4,8 +4,8 @@
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
       <!--<li></li>-->
+      <li></li>
     </ul>
   </BScroll>
 </template>
@@ -44,12 +44,12 @@ export default {
       &:nth-child(3) {
         @include bg-image('3');
       }
-      /*  &:nth-child(4) {
-        @include bg-image('4');
-      }*/
       &:nth-child(4) {
         @include bg-image('5');
       }
+      /* &:nth-child(5) {
+        @include bg-image('5');
+      }*/
       &:nth-child(odd) {
         margin-right: 0.2rem;
       }

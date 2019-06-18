@@ -1,6 +1,9 @@
+import Cookies from 'js-cookie'
+
 import {
   getUser,
   setUser,
+  setAmountFlag,
   removeUser,
   getUserBasicInfo,
   setUserBasicInfo,
@@ -12,9 +15,10 @@ import {
 
 const user = {
   state: {
-    user: getUser(),
+    user: getUser() || null,
     userBasicInfo: getUserBasicInfo(),
-    personalAccount: getPersonalAccount()
+    personalAccount: getPersonalAccount(),
+    showAmount: Cookies.get('amountFlag') || false
   },
 
   mutations: {
@@ -29,6 +33,10 @@ const user = {
     SET_PERSONALACCOUNT: (state, personalAccount) => {
       state.personalAccount = personalAccount
       setPersonalAccount(personalAccount)
+    },
+    SET_SHOW_AMOUNT_FLAG: (state, status) => {
+      state.showAmount = status
+      setAmountFlag(status)
     }
   },
 

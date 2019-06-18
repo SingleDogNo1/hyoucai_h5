@@ -4,7 +4,7 @@
       <div>
         <div class="item" v-for="(item, index) in commonQuestions" :key="index">
           <div class="inn border-bottom-1px">
-            <div class="question" @click="toggleItems(commonQuestions, index)">
+            <section class="question" @click="toggleItems(commonQuestions, index)">
               <em>{{ item.question }}</em>
               <transition name="rotate-min">
                 <i v-if="item.flag_min"></i>
@@ -12,7 +12,7 @@
               <transition name="rotate-plus">
                 <b v-if="item.flag_plus"></b>
               </transition>
-            </div>
+            </section>
             <div class="answer" v-if="item.flag_min">
               <dl><dd v-html="item.answer"></dd></dl>
             </div>

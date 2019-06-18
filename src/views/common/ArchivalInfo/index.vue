@@ -1,6 +1,6 @@
 <template>
   <div class="archival" ref="container">
-    <b-scroll class="scroll" ref="scrollRef">
+    <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="scroll" ref="scrollRef">
       <div>
         <div class="risk_manage" id="risk">
           <div class="title"></div>
@@ -181,6 +181,9 @@ export default {
     autoScroll() {
       let target = document.getElementById(this.type)
       this.$refs.scrollRef.scrollToElement(target, 300)
+    },
+    beforeScroll() {
+      this.refresh()
     },
     refresh() {
       this.$refs.scrollRef.refresh()

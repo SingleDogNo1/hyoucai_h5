@@ -36,7 +36,8 @@
           </div>
           <!-- 现金红包右半边 -->
           <div class="coupon_right money" v-if="item.voucherType === 'VT02' && item.secondType === 2">
-            <p class="right_p2">领取后直接计入账户余额</p>
+            <p class="right_p2" v-if="item.intoAccount === 0">适用范围：{{ item.msg }}</p>
+            <p class="right_p2" v-else-if="item.intoAccount === 1">领取后直接计入账户余额</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
           <div class="coupon_right_btn" @click="receiveIt(item)">
@@ -78,7 +79,8 @@
           </div>
           <!-- 现金红包右半边 -->
           <div class="coupon_right money" v-if="item.voucherType === 'VT02' && item.secondType === 2">
-            <p class="right_p2">领取后直接计入账户余额</p>
+            <p class="right_p2" v-if="item.intoAccount === 0">适用范围：{{ item.msg }}</p>
+            <p class="right_p2" v-else-if="item.intoAccount === 1">领取后直接计入账户余额</p>
             <p class="right_p2 right_p3">有效期至：{{ item.validUseEndTime }}</p>
           </div>
         </div>

@@ -189,6 +189,7 @@ export default {
     },*/
     getReward() {
       this.onGoing = true
+
       draw({ userName: this.userName }).then(res => {
         if (res && res.data && res.data.resultCode === '1') {
           switch (res.data.prizeKey) {

@@ -52,7 +52,7 @@ export default {
       default: false
     },
     data: {
-      type: Object
+      type: Array
     }
   },
   methods: {

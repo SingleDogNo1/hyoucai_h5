@@ -20,7 +20,7 @@
           <tr v-for="(item, index) in claimListData" :key="index">
             <td>{{ item.ownBondName }}</td>
             <td>{{ item.totalBondAmt }}</td>
-            <td @click="linkTo('DJSClaimDetail', { appNo: item.appNo })">详情</td>
+            <td @click="linkTo(item)">详情</td>
           </tr>
         </tbody>
       </table>
@@ -54,10 +54,12 @@ export default {
     }
   },
   methods: {
-    linkTo(routerName, routerQuery = {}) {
+    linkTo(data) {
       this.$router.push({
-        name: routerName,
-        query: routerQuery
+        name: 'DJSClaimDetail',
+        params: {
+          data
+        }
       })
     },
     getData() {

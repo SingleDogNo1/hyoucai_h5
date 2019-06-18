@@ -97,7 +97,7 @@
             <tr v-for="(item, index) in creditListData" :key="index">
               <td>{{ item.name }}</td>
               <td>{{ item.amount }}</td>
-              <td @click="linkTo('DJSClaimDetail', { appNo: item.appNo })">详情</td>
+              <td @click="toDetail(index)">详情</td>
             </tr>
           </table>
 
@@ -160,7 +160,7 @@ import BScroll from '@/components/BScroll/BScroll'
 import Dialog from '@/components/Dialog/Serve'
 // import NoData from '@/components/NoData/NoData'
 import { Toast } from 'mint-ui'
-import { getInvestDetail } from '@/api/djs/investDetail'
+import { getInvestDetail, getClaimList } from '@/api/djs/investDetail'
 import { getUserCompleteInfoApi } from '@/api/common/mine'
 
 export default {
@@ -183,7 +183,8 @@ export default {
         investMent: '', //锁定期
         minInvAmt: '' //起投
       }, // 出借详情
-      creditListData: [], // 债权列表
+      creditListData: [], // 债权列表（简略）
+      claimList: [], // 债权列表（详细）
       investEndTimestamp: 0, // 募集倒计时
       serveDialog: {
         show: false
@@ -197,6 +198,15 @@ export default {
       this.$router.push({
         name: routerName,
         query: routerQuery
+      })
+    },
+    toDetail(index) {
+      const data = this.claimList[index]
+      this.$router.push({
+        name: 'DJSClaimDetail',
+        params: {
+          data
+        }
       })
     },
     judge() {
@@ -255,6 +265,13 @@ export default {
       this.investDetail = res.data
       this.creditListData = res.data.creditList
       this.activity = res.data.activity
+    })
+
+    getClaimList({
+      projectNo: this.projectNo,
+      curPage: 1
+    }).then(res => {
+      this.claimList = res.data.list
     })
   }
 }

@@ -82,29 +82,13 @@
 </template>
 
 <script>
-import { getClaimDetail } from '@/api/djs/investDetail'
 export default {
   name: 'index',
   components: {},
   data() {
     return {
-      appNo: this.$route.query.appNo,
-      claimDetail: ''
+      claimDetail: this.$route.params.data
     }
-  },
-
-  methods: {
-    getClaimDetail() {
-      getClaimDetail({
-        appNo: this.appNo,
-        platform: 'h5'
-      }).then(res => {
-        this.claimDetail = res.data.list[0]
-      })
-    }
-  },
-  created() {
-    this.getClaimDetail()
   }
 }
 </script>

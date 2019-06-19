@@ -142,14 +142,13 @@ export default {
         border-radius: 0.04rem;
         font-size: 0.16rem;
         &.cancel {
+          color: #ffffff;
+          background: #ec5e52;
+        }
+        &.ok {
           border: 1px solid #d9d9d9;
           color: #222222;
           background: transparent;
-        }
-        &.ok {
-          color: #ffffff;
-          background: #ec5e52;
-          /*background: linear-gradient(90deg, #FF5E19, #EC5E52);*/
         }
       }
     }

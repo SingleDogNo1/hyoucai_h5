@@ -15,7 +15,7 @@
             <div>
               <p class="title">在投本金（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.totalInvAmount }}</span>
+                <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
                 <span v-else>****</span>
               </p>
             </div>

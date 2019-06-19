@@ -192,27 +192,34 @@ export default {
 
       draw({ userName: this.userName }).then(res => {
         if (res && res.data && res.data.resultCode === '1') {
-          switch (res.data.prizeKey) {
-            case '1':
-              this.reward = this.rewards[2]
-              break
-            case '2':
-              this.reward = this.rewards[0]
-              break
-            case '3':
-              this.reward = this.rewards[7]
-              break
-            case '4':
-              this.reward = this.rewards[6]
-              break
-            case '5':
-              this.reward = this.rewards[4]
-              break
-            case '6':
-              this.reward = this.rewards[1]
-              break
-            default:
-              this.reward = this.rewards[Math.floor(Math.random() * 3) * 2 + 1]
+          if (res.data.drawResult) {
+            let noPrizeIndex
+            switch (res.data.prizeKey) {
+              case '1':
+                this.reward = this.rewards[2]
+                break
+              case '2':
+                this.reward = this.rewards[0]
+                break
+              case '3':
+                this.reward = this.rewards[7]
+                break
+              case '4':
+                this.reward = this.rewards[6]
+                break
+              case '5':
+                this.reward = this.rewards[4]
+                break
+              case '6':
+                this.reward = this.rewards[1]
+                break
+              default:
+                noPrizeIndex = [3, 5]
+                this.reward = this.rewards[noPrizeIndex[Math.floor(Math.random() * noPrizeIndex.length)]]
+            }
+          } else {
+            let noPrizeIndex = [3, 5]
+            this.reward = this.rewards[noPrizeIndex[Math.floor(Math.random() * noPrizeIndex.length)]]
           }
           this.remainingNumber = res.data.remainingNumber
           this.current = 0

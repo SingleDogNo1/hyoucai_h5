@@ -238,27 +238,7 @@ const router = [
           title: '地址管理'
         }
       },
-      {
-        path: 'activity',
-        component: Empty,
-        children: [
-          {
-            path: 'prizeDraw',
-            name: 'prizeDraw',
-            component: () => import(/* webpackChunkName: "prizeDraw" */ '@/views/common/activities/prizeDraw')
-          },
-          {
-            path: 'spellTeam',
-            name: 'spellTeam',
-            component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
-          },
-          {
-            path: 'king', // 6月王者加息券
-            name: 'DJSKingJune',
-            component: () => import(/* webpackChunkName: "DJSKingJune" */ '@/views/common/activities/king')
-          }
-        ]
-      },
+
       {
         path: 'calculator',
         component: () => import(/* webpackChunkName: "calculator" */ '@/views/hyc/calculator')

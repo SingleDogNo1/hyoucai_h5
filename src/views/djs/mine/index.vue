@@ -15,7 +15,7 @@
             <div>
               <p class="title">在投本金（元）</p>
               <p class="content">
-                <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
+                <span v-if="showAmount">{{ amountInfo.principalAmount }}</span>
                 <span v-else>****</span>
               </p>
             </div>
@@ -98,7 +98,7 @@
           </li>
           <li>
             <span>在投本金(元) </span>
-            <span v-if="showAmount">{{ amountInfo.waitBackPrincipal }}</span>
+            <span v-if="showAmount">{{ amountInfo.principalAmount }}</span>
             <span v-else>****</span>
           </li>
           <li>
@@ -108,7 +108,7 @@
           </li>
           <li>
             <span>冻结金额(元) </span>
-            <span v-if="showAmount">{{ amountInfo.freezeAmount }}</span>
+            <span v-if="showAmount">{{ amountInfo.tocashFreeAmount }}</span>
             <span v-else>****</span>
           </li>
         </ul>

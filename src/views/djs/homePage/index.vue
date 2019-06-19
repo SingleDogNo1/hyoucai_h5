@@ -20,7 +20,7 @@
             <img src="./yysj.png" alt="" />
             <span>运营数据</span>
           </li>
-          <li @click="showTabs('DJSActivityCenter')">
+          <li @click="linkTo('DJSActivityCenter')">
             <img src="./hdtj.png" alt="" />
             <div>hot</div>
             <span>活动推荐</span>
@@ -47,9 +47,14 @@
           </div>
           <p>历史年化收益率</p>
           <ul class="tags" v-if="item.tags">
-            <li v-for="(tagItem, tagIndex) in item.tags" :key="tagIndex" :style="{ background: tagItem.tagColor ? tagItem.tagColor : '#fff' }">
-              {{ tagItem.tagName }}
-            </li>
+            <template v-for="(tagItem, tagIndex) in item.tags">
+              <li :key="tagIndex" v-if="parseInt(tagItem.tagType) === 1">
+                <img :src="tagItem.icon" alt="" />
+              </li>
+              <li :key="tagIndex" v-if="parseInt(tagItem.tagType) === 0" :style="{ background: tagItem.tagColor }">
+                {{ tagItem.tagName }}
+              </li>
+            </template>
           </ul>
           <input type="button" :value="user ? '授权出借' : '注册 / 登录'" @click="handleInvest(item.projectNo)" />
           <div class="tips">{{ item.projectTips }}</div>
@@ -165,6 +170,17 @@ export default {
       this.$router.push({
         name: router_name
       })
+    },
+    linkTo(router_name) {
+      if (!this.user) {
+        this.$router.push({
+          name: 'loginRegister'
+        })
+      } else {
+        this.$router.push({
+          name: router_name
+        })
+      }
     },
     toNoticeDetail(notice_id) {
       if (!this.user) {

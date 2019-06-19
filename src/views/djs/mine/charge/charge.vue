@@ -444,7 +444,6 @@ export default {
 
 .pageContainer {
   height: 100%;
-  top: 0.44rem;
   font-size: $font-size-small-s;
   background-color: #f9f9f9;
   .scroll {

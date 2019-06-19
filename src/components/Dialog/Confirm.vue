@@ -7,8 +7,8 @@
         <slot></slot>
       </section>
       <footer>
-        <button class="cancel" @click="cancelItem">{{ cancelText }}</button>
         <button class="ok" @click="confirmItem">{{ confirmText }}</button>
+        <button class="cancel" @click="cancelItem">{{ cancelText }}</button>
       </footer>
     </div>
   </div>

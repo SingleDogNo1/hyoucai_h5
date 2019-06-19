@@ -6,22 +6,12 @@
 
 <script>
 export default {
-  name: 'activity',
-  mixins: [],
-  components: {},
-  data() {
-    return {
-      msg: 'activity'
-    }
-  },
-  props: {},
-  watch: {},
-  methods: {},
-  computed: {},
-  created() {},
-  mounted() {},
-  destroyed() {}
+  name: 'activity'
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.activity {
+  height: 100vh;
+}
+</style>

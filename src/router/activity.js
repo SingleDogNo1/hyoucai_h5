@@ -2,6 +2,29 @@ import Activity from '@/layout/activity.vue'
 import Empty from '@/layout/empty.vue'
 
 const router = [
+  // 两端通用活动
+  {
+    path: '/activity',
+    component: Activity,
+    children: [
+      {
+        path: 'prizeDraw',
+        name: 'prizeDraw',
+        component: () => import(/* webpackChunkName: "prizeDraw" */ '@/views/common/activities/prizeDraw')
+      },
+      {
+        path: 'spellTeam',
+        name: 'spellTeam',
+        component: () => import(/* webpackChunkName: "spellTeam" */ '@/views/common/activities/spellTeam')
+      },
+      {
+        path: 'king', // 6月王者加息券
+        name: 'DJSKingJune',
+        component: () => import(/* webpackChunkName: "DJSKingJune" */ '@/views/common/activities/king')
+      }
+    ]
+  },
+  // 点金石活动
   {
     path: '/d',
     component: Activity,
@@ -74,6 +97,7 @@ const router = [
       }
     ]
   },
+  //汇有财活动
   {
     path: '/h',
     component: Activity,

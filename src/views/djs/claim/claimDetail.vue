@@ -49,7 +49,7 @@
         <tr>
           <td><span>还款方式</span></td>
           <td>
-            <i>{{ claimDetail.repayTypeName }}</i>
+            <i>{{ claimDetail.repayType }}</i>
           </td>
         </tr>
         <tr>

@@ -21,6 +21,11 @@ const router = [
         path: 'king', // 6月王者加息券
         name: 'DJSKingJune',
         component: () => import(/* webpackChunkName: "DJSKingJune" */ '@/views/common/activities/king')
+      },
+      {
+        path: 'sign-in', // 6月王者加息券
+        name: 'DJSSignIn',
+        component: () => import(/* webpackChunkName: "DJSSignIn" */ '@/views/common/activities/signIn')
       }
     ]
   },

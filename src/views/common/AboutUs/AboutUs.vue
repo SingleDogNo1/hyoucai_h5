@@ -27,16 +27,16 @@
               </p>
             </div>
           </div>
-          <div class="wrapper">
-            <div class="content">
-              <h2>傅伟菱</h2>
-              <div class="position">首席运营官 COO</div>
-              <p class="text">
-                拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。
-              </p>
-            </div>
-            <div class="icon"></div>
-          </div>
+          <!--<div class="wrapper">-->
+          <!--<div class="content">-->
+          <!--<h2>傅伟菱</h2>-->
+          <!--<div class="position">首席运营官 COO</div>-->
+          <!--<p class="text">-->
+          <!--拥有超过20年的风险管理经验，也是台湾最早一批加入信用卡风控领域的管理者，经历了台湾信用卡的成长及卡债风暴，积累丰富的行业经验，并且长期领导信贷风险团队取得骄人的成绩。曾任台湾汇丰银行个人零售部风险管理副理及资产管理公司法务催收资深协理。-->
+          <!--</p>-->
+          <!--</div>-->
+          <!--<div class="icon"></div>-->
+          <!--</div>-->
           <!--<div class="wrapper">-->
           <!--<div class="icon"></div>-->
           <!--<div class="content">-->
@@ -58,6 +58,7 @@
             </div>
           </div>
           <div class="wrapper">
+            <div class="icon"></div>
             <div class="content">
               <h2>王东东</h2>
               <div class="position">首席财务官 CFO</div>
@@ -65,7 +66,6 @@
                 拥有20年以上知名企业财务会计及审计工作经验，熟悉企业内部控制和税收筹划，毕业于江西财经大学会计专业，曾任江西省诚信税务师事务所副总经理，分管金融机构审计咨询服务。
               </p>
             </div>
-            <div class="icon"></div>
           </div>
         </div>
         <!-- 股东组成 -->
@@ -565,7 +565,7 @@ export default {
       }
     }
     .manager {
-      @include cube(100%, 10.63rem);
+      width: 100%;
       .title {
         width: 0.8rem;
         height: 0.28rem;
@@ -576,6 +576,9 @@ export default {
       .wrapper {
         display: flex;
         margin-bottom: 0.4rem;
+        &:nth-child(2n + 1) {
+          flex-direction: row-reverse;
+        }
         .icon {
           width: 1.45rem;
           height: 1.83rem;
@@ -598,7 +601,7 @@ export default {
             line-height: 0.2rem;
           }
         }
-        $leaders: wangdongdong, linkezheng, fuweiling, chenyuewen;
+        $leaders: wangdongdong, linkezheng, chenyuewen;
         @each $leader in $leaders {
           $i: index($leaders, $leader);
           &:nth-last-of-type(#{$i}) {

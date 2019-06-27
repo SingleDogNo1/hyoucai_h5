@@ -279,6 +279,15 @@
           <div class="title"></div>
           <ul>
             <li>
+              <div class="left">2018年</div>
+              <div class="right">
+                <div class="top">2018年财务审计报告（1-12月份）</div>
+                <div class="btm" @click="showPDF('auditReport2018')">
+                  <img src="./finance-2018.png" alt="" />
+                </div>
+              </div>
+            </li>
+            <li>
               <div class="left">2017年</div>
               <div class="right">
                 <div class="top">2017年财务审计报告（1-12月份）</div>
@@ -1253,7 +1262,6 @@ table {
 .review-info {
   padding-bottom: 0.16rem;
   padding-top: 0.32rem;
-  height: 448px;
   background: #fff;
   .title {
     width: 0.9rem;
@@ -1284,6 +1292,10 @@ table {
         }
         .btm {
           margin-bottom: 0.08rem;
+          img {
+            width: 2.4rem;
+            height: 1.3rem;
+          }
         }
         &:after {
           content: '';

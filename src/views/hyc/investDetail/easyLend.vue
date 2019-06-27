@@ -538,7 +538,7 @@ export default {
               switch (status) {
                 case 'SIGN_PROTOCOL': // 未签约
                   this.signAndRiskDialogOptions.show = true
-                  this.signAndRiskDialogOptions.msg = '你没签约'
+                  this.signAndRiskDialogOptions.msg = '您还没有完成签约'
                   this.signAndRiskDialogOptions.confirmText = '去签约'
                   break
                 case 'EVALUATE':
@@ -704,10 +704,9 @@ export default {
         if (parseFloat(data.projectInfo.surplusAmt) < parseFloat(data.projectInfo.minInvAmount * 2)) {
           $this.amount = data.projectInfo.surplusAmt
           $this.disableAmount = true
-        } else {
-          if ($this.amount - 0 >= data.projectInfo.minInvAmount - 0) {
-            $this.canILend = true
-          }
+        }
+        if ($this.amount - 0 >= data.projectInfo.minInvAmount - 0) {
+          $this.canILend = true
         }
       })
 

@@ -1,5 +1,5 @@
 <template>
-  <BScroll ref="spellGroup" class="scroll">
+  <BScroll :beforeScroll="true" @beforeScroll="beforeScroll" ref="JulyAct" class="scroll">
     <section class="king">
       <img src="./July-act.png" alt="七月活动加息券" />
     </section>
@@ -14,6 +14,11 @@ export default {
   name: 'KingJune',
   components: {
     BScroll
+  },
+  methods: {
+    beforeScroll() {
+      this.$refs.JulyAct.refresh()
+    }
   },
   created() {
     // const [shareTitle, shareDesc, shareLink, shareImgUrl] = [

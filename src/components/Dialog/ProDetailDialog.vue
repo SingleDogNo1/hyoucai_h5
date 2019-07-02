@@ -39,8 +39,8 @@ export default {
 //@import '../../assets/css/mixin.scss';
 
 #pro-detail {
-  position: fixed;
-  z-index: 999;
+  position: absolute;
+  z-index: 999999;
   top: 0;
   right: 0;
   bottom: 0;

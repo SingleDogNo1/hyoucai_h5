@@ -96,7 +96,7 @@ export default {
 @import '../../assets/css/mixins';
 
 .Dialog {
-  position: fixed;
+  position: absolute;
   z-index: 9999999;
   top: 0;
   left: 0;

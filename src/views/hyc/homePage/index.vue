@@ -92,11 +92,6 @@
                 </ul>
               </div>
               <div class="right">
-                <!--<button v-if="parseInt(item.status) === 0" class="disabled">预售中</button>
-                <button v-if="parseInt(item.status) === 1" @click="handleInvest(item.projectNo)">授权出借</button>
-                <button v-else-if="parseInt(item.status) === 2" class="disabled">已满标</button>
-                <button v-else-if="parseInt(item.status) === 3" class="disabled">已完结</button>-->
-
                 <button v-if="parseInt(item.status) === 1" class="disabled">未开启</button>
                 <button v-if="parseInt(item.status) === 2" @click="handleInvest(item)">授权出借</button>
                 <button v-else-if="parseInt(item.status) === 3" class="disabled">已满标</button>
@@ -135,6 +130,7 @@ import { mapGetters } from 'vuex'
 import { Toast } from 'mint-ui'
 
 import { getList, getQualityList } from '@/api/hyc/homepage'
+import { getInvestDetail } from '@/api/hyc/investDetail'
 import { reportTelephoneApi, getUnreadMsgApi, openScreenMsgApi } from '@/api/common/common'
 
 export default {
@@ -208,11 +204,21 @@ export default {
     handleInvest(item) {
       if (this.user && this.user.userName) {
         // 已登录
-        this.$router.push({
-          name: 'HYCInvestDetail',
-          query: {
-            productId: item.productId,
-            itemId: item.itemId
+        getInvestDetail({
+          itemId: item.itemId,
+          productId: item.productId
+        }).then(res => {
+          const { resultCode, resultMsg } = res.data
+          if (resultCode === '1') {
+            this.$router.push({
+              name: 'HYCInvestDetail',
+              query: {
+                productId: item.productId,
+                itemId: item.itemId
+              }
+            })
+          } else {
+            Toast(resultMsg)
           }
         })
       } else {

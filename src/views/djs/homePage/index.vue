@@ -124,6 +124,7 @@
 import { mapGetters } from 'vuex'
 import Swiper from 'swiper'
 import { getList, getQualityList, getUnreadMsgApi } from '@/api/djs/homepage'
+import { getInvestDetail } from '@/api/djs/investDetail'
 import { Toast } from 'mint-ui'
 import { reportTelephoneApi, openScreenMsgApi } from '@/api/common/common'
 import BScroll from '@/components/BScroll/BScroll'
@@ -197,10 +198,15 @@ export default {
     handleInvest(projectNo) {
       if (this.user && this.user.userName) {
         // 已登录
-        this.$router.push({
-          name: 'DJSInvestDetail',
-          query: {
-            projectNo: projectNo
+        getInvestDetail({ projectNo }).then(res => {
+          const { resultCode, resultMsg } = res.data
+          if (resultCode === '1') {
+            this.$router.push({
+              name: 'DJSInvestDetail',
+              query: { projectNo }
+            })
+          } else {
+            Toast(resultMsg)
           }
         })
       } else {

@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div class="notice" ref="container">
-      <span v-if="mobile" @click="$router.push({ name: 'DJSHomePage' })"></span>
+      <span v-if="!mobile" @click="$router.push({ name: 'DJSHomePage' })"></span>
       <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
         <div class="wrapper">
           <h2>{{ detail.title }}</h2>

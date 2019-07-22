@@ -1,7 +1,7 @@
 <template>
   <transition name="slide">
     <div class="notice">
-      <span @click="$router.push({ name: 'HYCHomePage' })"></span>
+      <span v-if="mobile" @click="$router.push({ name: 'HYCHomePage' })"></span>
       <b-scroll :beforeScroll="true" @beforeScroll="beforeScroll" class="notice_scroll" ref="scrollRefND">
         <div class="wrapper">
           <h2>{{ detail.title }}</h2>
@@ -25,6 +25,7 @@ export default {
   },
   data() {
     return {
+      mobile: this.$route.query.mobile,
       id: this.$route.params.id,
       detail: {}
     }
